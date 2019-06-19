@@ -88,7 +88,7 @@
 
     // Load external data and boot
     d3.queue()
-      .defer(d3.json, "https://raw.githubusercontent.com/saurabhp75/Lok-Sabha-2019/master/merged_pc_map.json")
+      .defer(d3.json, "https://raw.githubusercontent.com/saurabhp75/Lok-Sabha-2019/master/merged_pc_map_trim.json")
       .await(ready);
 
     function ready(error, topo) {
