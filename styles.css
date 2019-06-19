@@ -1,28 +1,25 @@
-body {
-  margin: 0px;
-  overflow: hidden;
-}
+/* body {
+      background-color: #a1d99b;
+    } */
+    .country {
+      /* fill: lightgreen; */
+      stroke: black;
+      stroke-width: 0.2px;
+    }
 
-.sphere {
-  fill: #4242e4;
-}
+    .country:hover {
+      fill: yellow;
+    }
 
-.country {
-  stroke: black;
-  stroke-width: 0.05px;
-}
+    .column {
+      float: left;
+    }
 
-.country:hover {
-  fill: red;
-}
+    .column h4 {
+      color: #111;
+      margin: 24px 0 -12px 20px;
+    }
 
-.tick text {
-  font-size: 1em;
-  fill: black;
-  font-family: sans-serif;
-}
-
-.tick circle {
-  stroke: black;
-  stroke-opacity: 0.5;
-}
+    .legend {
+      font-size: 12px;
+    }
