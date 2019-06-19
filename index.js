@@ -35,17 +35,15 @@ var borderPath = svg.append("rect")
   .style("fill", "none")
   .style("stroke-width", 1);
 
-// Add zooming and panning to map
+// Add zooming and panning
 // svg.call(d3.zoom().on('zoom', () => {
 //   g.attr('transform', d3.event.transform);
 // }));
 
 
 // Load external data and boot
-Promise.all([
-      json('https://raw.githubusercontent.com/ytechlabs/ytechlabs.github.io/master/data/merged_pc_map_trim.json')
-    ])
-    .then(([topo]) => {
+json('https://raw.githubusercontent.com/saurabhp75/saurabhp75.github.io/master/data/merged_pc_map_trim.json')
+.then(([topo]) => {
 
     const feature_array = topo.features;
     const color_domain = [10000000, 100000000, 1000000000, 2000000000, 5000000000];
