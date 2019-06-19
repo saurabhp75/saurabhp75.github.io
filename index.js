@@ -1,0 +1,102 @@
+import {
+  select,
+  geoPath,
+  geoMercator,
+  scaleThreshold,
+  json,
+  format,
+} from 'd3';
+
+// Create the svg element
+var svg = select("svg"),
+  width = +svg.attr("width"),
+  height = +svg.attr("height");
+
+// svg.attr("border", 1);
+
+// Map and projection
+var projection = geoMercator()
+  .scale(1200)
+  .center([82.5, 23])
+  .translate([width / 2, height / 2]);
+
+var path = geoPath(projection);
+
+// svg.append()
+
+const g = svg.append('g');
+
+var borderPath = svg.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("height", height)
+  .attr("width", width)
+  .style("stroke", 'black')
+  .style("fill", "none")
+  .style("stroke-width", 1);
+
+// Add zooming and panning to map
+// svg.call(d3.zoom().on('zoom', () => {
+//   g.attr('transform', d3.event.transform);
+// }));
+
+
+// Load external data and boot
+Promise.all([
+      json('https://raw.githubusercontent.com/ytechlabs/ytechlabs.github.io/master/data/merged_pc_map_trim.json')
+    ])
+    .then(([topo]) => {
+
+    const feature_array = topo.features;
+    const color_domain = [10000000, 100000000, 1000000000, 2000000000, 5000000000];
+    const color_range = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#31a354', '#006d2c'];
+    const legend_labels = ["< 1 Crore", "1 - 10 Crore", "10 - 100 Crore", "100 - 200 Crore", "200 - 500 Crore", "> 500 Crore"];
+
+    var colorScale = scaleThreshold()
+      .domain(color_domain)
+      .range(color_range);
+
+    // Draw the map
+    g.selectAll("path")
+      .data(topo.features)
+      .enter()
+      .append("path")
+      .attr('class', 'country')
+      // draw each country
+      .attr("d", geoPath().projection(projection))
+      // set the color of each country
+      .attr("fill", d => {
+        // d.total = data.get(d.properties.Assets_num) || 0;
+        if (!d.properties.Assets_num) { return "black" }
+        return colorScale(d.properties.Assets_num);
+      })
+      .append('title')
+      .text(d => {
+        if (d.properties.Assets_num) {
+          return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + d.properties.Candidate + '\n' + 'Assets(Rs.): ' + format(",.2r")(d.properties.Assets_num))
+        }
+        else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
+      });
+
+    //  Draw the legend bar
+    var legend = g.selectAll("g.legend")
+      .data(color_range)
+      .enter().append("g")
+      .attr("class", "legend");
+
+    var ls_w = 20, ls_h = 20;
+
+    legend.append("rect")
+      .attr("x", 20)
+      .attr("y", function (d, i) { return height - (i * ls_h) - 2 * ls_h; })
+      .attr("width", ls_w)
+      .attr("height", ls_h)
+      .style("fill", function (d, i) { return color_range[i]; })
+      .style("opacity", 0.8);
+
+    legend.append("text")
+      .attr("x", 50)
+      .attr("y", function (d, i) { return height - (i * ls_h) - ls_h - 4; })
+      .text(function (d, i) { return legend_labels[i]; });
+
+  });

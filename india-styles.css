@@ -1,0 +1,25 @@
+/* body {
+      background-color: #a1d99b;
+    } */
+    .country {
+      /* fill: lightgreen; */
+      stroke: black;
+      stroke-width: 0.2px;
+    }
+
+    .country:hover {
+      fill: yellow;
+    }
+
+    .column {
+      float: left;
+    }
+
+    .column h4 {
+      color: #111;
+      margin: 24px 0 -12px 20px;
+    }
+
+    .legend {
+      font-size: 12px;
+    }
