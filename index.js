@@ -1,36 +1,37 @@
 import {
   select,
-  geoPath,
-  geoMercator,
   scaleThreshold,
   json,
-  format,
+  format
 } from 'd3';
 
-// Create the svg element
-var svg = select("svg"),
-  width = +svg.attr("width"),
-  height = +svg.attr("height");
+import { loadAndProcessData } from './loadAndProcessData.js';
+import { colorLegend } from './colorLegend';
+import { choroplethMap } from './choroplethMap';
+import { getSvgDimensions, getSvg } from './miscUtils';
 
-// svg.attr("border", 1);
+// Select the root svg element
+// const svg = select("svg");
+const mainCanvas = getSvg();
+const mainCanvasDimensions = getSvgDimensions();
 
-// Map and projection
-var projection = geoMercator()
-  .scale(1200)
-  .center([82.5, 23])
-  .translate([width / 2, height / 2]);
+// Constituency group
+const constituencyG = mainCanvas.append('g');
 
-var path = geoPath(projection);
+// Legend group and placed in lower left of svg
+// This will appear over constituencyG group
+const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,540)`);
 
-// svg.append()
+// Get height of root svg element
+// const width = +svg.attr("width");
+// const height = +svg.attr("height");
 
-const g = svg.append('g');
-
-var borderPath = svg.append("rect")
+// Add border to root svg
+var borderPath = mainCanvas.append("rect")
   .attr("x", 0)
   .attr("y", 0)
-  .attr("height", height)
-  .attr("width", width)
+  .attr("height", mainCanvasDimensions.height)
+  .attr("width", mainCanvasDimensions.width)
   .style("stroke", 'black')
   .style("fill", "none")
   .style("stroke-width", 1);
@@ -40,61 +41,74 @@ var borderPath = svg.append("rect")
 //   g.attr('transform', d3.event.transform);
 // }));
 
+// Define colorscale for constituencies
+const colorScale = scaleThreshold();
+
+
+let selectedColorValue;
+let features;
+
+const onClick = d => {
+  // console.log(d); 
+  selectedColorValue = d;
+  // console.log('onclick called');
+  // console.log({selectedColorValue}); 
+  render();
+};
 
 // Load external data and boot
-json('https://raw.githubusercontent.com/saurabhp75/saurabhp75.github.io/master/data/merged_pc_map_trim.json')
-.then(([topo]) => {
+loadAndProcessData().then((feature_array) => {
+  features = feature_array;
+  render();
+});
 
-    const feature_array = topo.features;
-    const color_domain = [10000000, 100000000, 1000000000, 2000000000, 5000000000];
-    const color_range = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#31a354', '#006d2c'];
-    const legend_labels = ["< 1 Crore", "1 - 10 Crore", "10 - 100 Crore", "100 - 200 Crore", "200 - 500 Crore", "> 500 Crore"];
+const render = () => {
 
-    var colorScale = scaleThreshold()
-      .domain(color_domain)
-      .range(color_range);
+  // const keyArray = feature_array.map(d => {
+  //   return d.properties.ST_PC;
+  // });
 
-    // Draw the map
-    g.selectAll("path")
-      .data(topo.features)
-      .enter()
-      .append("path")
-      .attr('class', 'country')
-      // draw each country
-      .attr("d", geoPath().projection(projection))
-      // set the color of each country
-      .attr("fill", d => {
-        // d.total = data.get(d.properties.Assets_num) || 0;
-        if (!d.properties.Assets_num) { return "black" }
-        return colorScale(d.properties.Assets_num);
-      })
-      .append('title')
-      .text(d => {
-        if (d.properties.Assets_num) {
-          return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + d.properties.Candidate + '\n' + 'Assets(Rs.): ' + format(",.2r")(d.properties.Assets_num))
-        }
-        else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
-      });
+  // console.log('render called')
 
-    //  Draw the legend bar
-    var legend = g.selectAll("g.legend")
-      .data(color_range)
-      .enter().append("g")
-      .attr("class", "legend");
+  const colorDomain = [10000000, 100000000, 1000000000, 2000000000, 5000000000];
+  const colorRange = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#31a354', '#006d2c'];
+  const legendLabels = ["< 1 Crore", "1 - 10 Crore", "10 - 100 Crore", "100 - 200 Crore", "200 - 500 Crore", "> 500 Crore"];
 
-    var ls_w = 20, ls_h = 20;
+  // Set set domain and range of colorscale for constiruencies
+  colorScale.domain(colorDomain).range(colorRange);
 
-    legend.append("rect")
-      .attr("x", 20)
-      .attr("y", function (d, i) { return height - (i * ls_h) - 2 * ls_h; })
-      .attr("width", ls_w)
-      .attr("height", ls_h)
-      .style("fill", function (d, i) { return color_range[i]; })
-      .style("opacity", 0.8);
+  // Draw the map
+  // constituencyG.selectAll("path")
+  //   .data(features)
+  //   .enter()
+  //   .append("path")
+  //   .attr('class', 'constituency')
+  //   // draw each constituencies
+  //   .attr("d", pathGenerator)
+  //   // set color of each constituency
+  //   .attr("fill", constituencyColor)
+  //   .append('title')
+  //   .text(hoverText);
 
-    legend.append("text")
-      .attr("x", 50)
-      .attr("y", function (d, i) { return height - (i * ls_h) - ls_h - 4; })
-      .text(function (d, i) { return legend_labels[i]; });
+  // Draw map
+  constituencyG
+    .call(choroplethMap, {
+      features,
+      colorScale
+    });
 
-  });
+  // Draw legend bar
+  colorLegendG
+    .call(colorLegend, {
+      colorRange,
+      legendLabels,
+      rectSize: 20,
+      spacing: 20,
+      textOffset: 30,
+      onClick,
+      selectedColorValue
+    });
+
+} // End of render()
+
+

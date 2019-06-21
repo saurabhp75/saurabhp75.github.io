@@ -1,13 +1,11 @@
-/* body {
-      background-color: #a1d99b;
-    } */
-    .country {
+
+    .constituency {
       /* fill: lightgreen; */
       stroke: black;
       stroke-width: 0.2px;
     }
 
-    .country:hover {
+    .constituency:hover {
       fill: yellow;
     }
 
@@ -20,6 +18,16 @@
       margin: 24px 0 -12px 20px;
     }
 
-    .legend {
+    /* .legend {
       font-size: 12px;
+    } */
+
+    .tick text {
+      font-size: 0.75em;
+      fill: black;
+      font-family: sans-serif;
+    }
+
+    .tick {
+      cursor: pointer;
     }
