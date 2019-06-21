@@ -2,6 +2,7 @@ import {
   select,
   geoPath,
   geoMercator,
+  format
 } from 'd3';
 
 import { getSvgDimensions } from './miscUtils';
@@ -40,31 +41,35 @@ const constituencyColor = (d, colorScale) => {
 }
 
 
-
 // Draw the map from constituencyG passed as 'selection'
 export const choroplethMap = (selection, props) => {
   // console.log('choroplethMap called');
 
   const { 
     features,
-    colorScale
+    colorScale,
+    selectedColorValue
   } = props;
 
 // update selection
-  const g = selection.selectAll('g').data([null]);
+  // const g = selection.selectAll('g').data([null]);
 // enter selection
-  const gEnter = g.enter().append('g');
+  // const gEnter = g.enter().append('g');
 
 
-const constituencyPaths = selection.selectAll("path").data(features);
+const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
 constituencyPaths
   .enter().append("path")
     .attr('class', 'constituency')
-  .merge(constituencyPaths)
     // draw each constituencies
     .attr("d", pathGenerator)
-  // set color of each constituency
-  .attr("fill", d => constituencyColor(d, colorScale));
+    // set color of each constituency
+    .attr("fill", d => constituencyColor(d, colorScale))
+    .append('title')
+    .text(hoverText)
+  .merge(constituencyPaths);
+    // .attr('opacity', (d) => constOpacity(d, selectedColorValue));
+    
   // .append('title')
   // .text(hoverText);
 

@@ -15,8 +15,8 @@
 
     // console.log('colorLegend called');
 
-    const { colorRange, // Array of colors
-      legendLabels, //Tile labels array
+    const { colorValues, // Array of colors
+      colorLabels, //Tile labels array
       rectSize, // Size of color tile
       spacing, // spacing between color tiles
       textOffset, // spacing between color tiles
@@ -24,57 +24,59 @@
       selectedColorValue
     } = props;
 
+    console.log(`colorValues: ${colorValues}`);
+    console.log(`colorLabels: ${colorLabels}`);
 
-    // Get background rectangale dimensions
-    const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
 
-      // Find longest label
-      var longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
+    // // Get background rectangale dimensions
+    // const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
 
-      const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
+    //   // Find longest label
+    //   var longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
 
-      const backgroundRectHeight = spacing * (colorRange.length + 2);
+    //   const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
 
-      return { width: backgroundRectWidth, height: backgroundRectHeight };
-    };
+    //   const backgroundRectHeight = spacing * (colorRange.length + 2);
 
-    const backgroundRectDimensions = getBgRectangleDimensions(colorRange,
-      legendLabels,
-      rectSize,
-      textOffset);
+    //   return { width: backgroundRectWidth, height: backgroundRectHeight };
+    // }
 
-    // Background of legend bar, single item, special case
-    const backgroundRect = selection.selectAll('rect').data([null]);
+    // const backgroundRectDimensions = getBgRectangleDimensions(colorRange,
+    //   legendLabels,
+    //   rectSize,
+    //   textOffset);
 
-    // Background of legend
-    backgroundRect.enter().append('rect')
-      .merge(backgroundRect)
-      .attr('x', -rectSize)
-      .attr('y', -rectSize)
-      .attr('width', backgroundRectDimensions.width)
-      .attr('height', backgroundRectDimensions.height)
-      .attr('fill', 'black')
-      .attr('rx', rectSize)
-      .attr('opacity', 0);
+    // // Background of legend bar, single item, special case
+    // const backgroundRect = selection.selectAll('rect').data([null]);
+
+    // // Background of legend
+    // backgroundRect.enter().append('rect')
+    //   .merge(backgroundRect)
+    //   .attr('x', -rectSize)
+    //   .attr('y', -rectSize)
+    //   .attr('width', backgroundRectDimensions.width)
+    //   .attr('height', backgroundRectDimensions.height)
+    //   .attr('fill', 'green')
+    //   .attr('rx', rectSize)
+    //   .attr('opacity', 0.2);
 
     // Invert legend bar
-    const colorRangeReverse = colorRange.reverse();
-    const legendLabelsReverse = legendLabels.reverse();
-    const n = colorRangeReverse.length;
+    // const colorRangeReverse = colorRange.reverse();
+    // const legendLabelsReverse = legendLabels.reverse();
+    // const n = colorRange.length;
 
     // Append two groups to legend group, one for title (legendTitleG)
     // and other for body of legend bar (legendBodyG). The title 
 
     const legendTitleG = selection.selectAll('.legendTitle').data([null]);
-
     legendTitleG.enter()
       .append('g')
       .attr("class", "legendTitle")
       .append('text')
       .text("Assets in Rs.");
 
+    
     const legendBodyG = selection.selectAll('.legendBody').data([null]);
-
     const legendBodyGSelection = legendBodyG.enter()
       .append('g')
       .attr('transform', `translate(0, ${spacing / 2})`)
@@ -84,13 +86,12 @@
 
     // const groups = selection.selectAll('.tick')
     // Add elements in legend body
-    const groups = legendBodyGSelection.selectAll('.tick')
-      .data(colorRangeReverse); //Invert color legend
+    const groups = legendBodyGSelection.selectAll('.tick').data(colorValues); 
 
     // Create one group for each color
     const groupsEnter = groups.enter().append('g').attr('class', 'tick');
 
-    // console.log('Selected Value: ' + selectedColorValue)
+    console.log('Selected Value: ' + selectedColorValue);
 
     // Append/Update the label/color groups
     groupsEnter
@@ -113,14 +114,14 @@
     // Add the tiles
     groupsEnter.append('rect')
       .merge(groups.select('rect'))
-      .attr('fill', (d, i) => colorRangeReverse[i])
+      .attr('fill', (d, i) => colorValues[i])
       .attr('width', rectSize)
       .attr('height', rectSize);
 
     // Add the text
     groupsEnter.append('text')
       .merge(groups.select('text'))
-      .text((d, i) => legendLabelsReverse[i])
+      .text((d, i) => colorLabels[i])
       .attr('dy', '1.2em')
       .attr('x', textOffset);
   };
@@ -155,12 +156,25 @@
 
   const pathGenerator = d3.geoPath().projection(projection);
 
+  // Select the root svg element
+  // const svg = select("svg");
+  // Get height of root svg element
+  // const width = +svg.attr("width");
+  // const height = +svg.attr("height");
+
+  // function returning hover text
+  const hoverText = (d) => {
+    if (d.properties.Assets_num) {
+      return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + d.properties.Candidate + '\n' + 'Assets(Rs.): ' + d3.format(",.2r")(d.properties.Assets_num))
+    }
+    else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
+  };
+
   // function returning constituency color
   const constituencyColor = (d, colorScale) => {
     if (!d.properties.Assets_num) { return "black" }
     return colorScale(d.properties.Assets_num);
   };
-
 
 
   // Draw the map from constituencyG passed as 'selection'
@@ -169,24 +183,29 @@
 
     const { 
       features,
-      colorScale
+      colorScale,
+      selectedColorValue
     } = props;
 
   // update selection
-    const g = selection.selectAll('g').data([null]);
+    // const g = selection.selectAll('g').data([null]);
   // enter selection
-    const gEnter = g.enter().append('g');
+    // const gEnter = g.enter().append('g');
 
 
-  const constituencyPaths = selection.selectAll("path").data(features);
+  const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
   constituencyPaths
     .enter().append("path")
       .attr('class', 'constituency')
-    .merge(constituencyPaths)
       // draw each constituencies
       .attr("d", pathGenerator)
-    // set color of each constituency
-    .attr("fill", d => constituencyColor(d, colorScale));
+      // set color of each constituency
+      .attr("fill", d => constituencyColor(d, colorScale))
+      .append('title')
+      .text(hoverText)
+    .merge(constituencyPaths);
+      // .attr('opacity', (d) => constOpacity(d, selectedColorValue));
+      
     // .append('title')
     // .text(hoverText);
 
@@ -206,22 +225,17 @@
   };
 
   // Select the root svg element
-  // const svg = select("svg");
   const mainCanvas = getSvg();
   const mainCanvasDimensions = getSvgDimensions();
 
   // Constituency group
   const constituencyG = mainCanvas.append('g');
 
-  // Legend group and placed in lower left of svg
+  // Legend group and placed in lower left of svg. 
   // This will appear over constituencyG group
   const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,540)`);
 
-  // Get height of root svg element
-  // const width = +svg.attr("width");
-  // const height = +svg.attr("height");
-
-  // Add border to root svg
+  // Add border to the main canvas
   var borderPath = mainCanvas.append("rect")
     .attr("x", 0)
     .attr("y", 0)
@@ -239,14 +253,44 @@
   // Define colorscale for constituencies
   const colorScale = d3.scaleThreshold();
 
+  const colorDomain = [10000000, 
+                       100000000, 
+                       1000000000, 
+                       2000000000, 
+                       5000000000];
 
+  const colorValues = ['#edf8e9', 
+                      '#c7e9c0', 
+                      '#a1d99b', 
+                      '#74c476', 
+                      '#31a354', 
+                      '#006d2c'];
+
+  const colorLabels = ["< 1 Crore", 
+                        "1 - 10 Crore", 
+                        "10 - 100 Crore", 
+                        "100 - 200 Crore", 
+                        "200 - 500 Crore", 
+                        "> 500 Crore"];
+
+  // Set set domain and range of colorscale for constituencies
+  colorScale.domain(colorDomain).range(colorValues);
+
+  // Invert the legend bar
+  colorValues.reverse();
+  colorLabels.reverse();
+
+  // Keep track of the selected color in legend bar
   let selectedColorValue;
+
+  // Globally (in the file) accessible feature array
   let features;
 
+  // Update the 
   const onClick = d => {
-    // console.log(d); 
+    console.log(d); 
     selectedColorValue = d;
-    // console.log('onclick called');
+    console.log('onclick called');
     // console.log({selectedColorValue}); 
     render();
   };
@@ -257,20 +301,10 @@
     render();
   });
 
+
   const render = () => {
 
-    // const keyArray = feature_array.map(d => {
-    //   return d.properties.ST_PC;
-    // });
-
     // console.log('render called')
-
-    const colorDomain = [10000000, 100000000, 1000000000, 2000000000, 5000000000];
-    const colorRange = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#31a354', '#006d2c'];
-    const legendLabels = ["< 1 Crore", "1 - 10 Crore", "10 - 100 Crore", "100 - 200 Crore", "200 - 500 Crore", "> 500 Crore"];
-
-    // Set set domain and range of colorscale for constiruencies
-    colorScale.domain(colorDomain).range(colorRange);
 
     // Draw the map
     // constituencyG.selectAll("path")
@@ -289,14 +323,15 @@
     constituencyG
       .call(choroplethMap, {
         features,
-        colorScale
+        colorScale,
+        selectedColorValue
       });
 
     // Draw legend bar
     colorLegendG
       .call(colorLegend, {
-        colorRange,
-        legendLabels,
+        colorValues,
+        colorLabels,
         rectSize: 20,
         spacing: 20,
         textOffset: 30,
