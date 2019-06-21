@@ -79,7 +79,7 @@ export const colorLegend = (selection, props) => {
   // Create one group for each color
   const groupsEnter = groups.enter().append('g').attr('class', 'tick');
 
-  console.log('Selected Value: ' + selectedColorValue);
+  // console.log('Selected Value: ' + selectedColorValue);
 
   // Append/Update the label/color groups
   groupsEnter

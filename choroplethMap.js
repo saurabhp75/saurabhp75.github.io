@@ -67,8 +67,19 @@ constituencyPaths
     .attr("fill", d => constituencyColor(d, colorScale))
     .append('title')
     .text(hoverText)
-  .merge(constituencyPaths);
-    // .attr('opacity', (d) => constOpacity(d, selectedColorValue));
+  .merge(constituencyPaths)
+    .attr('opacity', d =>
+      (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
+      ? 1
+      : 0.1
+      // const extent = colorScale.invertExtent(selectedColorValue);
+      // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
+    )
+    .classed('highlighted', d =>
+    (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
+    // const extent = colorScale.invertExtent(selectedColorValue);
+    // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
+  ); //(d) => constOpacity(d, selectedColorValue));
     
   // .append('title')
   // .text(hoverText);

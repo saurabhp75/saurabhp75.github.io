@@ -5,6 +5,10 @@
       stroke-width: 0.2px;
     }
 
+    .constituency.highlighted {
+      stroke-width: 1px;
+    }
+
     .constituency:hover {
       fill: yellow;
     }

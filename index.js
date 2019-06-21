@@ -73,9 +73,9 @@ let features;
 
 // Update the 
 const onClick = d => {
-  console.log(d); 
+  // console.log(d); 
   selectedColorValue = d;
-  console.log('onclick called');
+  // console.log('onclick called');
   // console.log({selectedColorValue}); 
   render();
 };

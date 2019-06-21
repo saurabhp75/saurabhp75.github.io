@@ -1,0 +1,6 @@
+rollup.config.js
+
+*.map
+*.json
+
+node_modules/

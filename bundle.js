@@ -24,8 +24,8 @@
       selectedColorValue
     } = props;
 
-    console.log(`colorValues: ${colorValues}`);
-    console.log(`colorLabels: ${colorLabels}`);
+    // console.log(`colorValues: ${colorValues}`);
+    // console.log(`colorLabels: ${colorLabels}`)
 
 
     // // Get background rectangale dimensions
@@ -91,7 +91,7 @@
     // Create one group for each color
     const groupsEnter = groups.enter().append('g').attr('class', 'tick');
 
-    console.log('Selected Value: ' + selectedColorValue);
+    // console.log('Selected Value: ' + selectedColorValue);
 
     // Append/Update the label/color groups
     groupsEnter
@@ -203,8 +203,19 @@
       .attr("fill", d => constituencyColor(d, colorScale))
       .append('title')
       .text(hoverText)
-    .merge(constituencyPaths);
-      // .attr('opacity', (d) => constOpacity(d, selectedColorValue));
+    .merge(constituencyPaths)
+      .attr('opacity', d =>
+        (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
+        ? 1
+        : 0.1
+        // const extent = colorScale.invertExtent(selectedColorValue);
+        // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
+      )
+      .classed('highlighted', d =>
+      (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
+      // const extent = colorScale.invertExtent(selectedColorValue);
+      // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
+    ); //(d) => constOpacity(d, selectedColorValue));
       
     // .append('title')
     // .text(hoverText);
@@ -288,9 +299,9 @@
 
   // Update the 
   const onClick = d => {
-    console.log(d); 
+    // console.log(d); 
     selectedColorValue = d;
-    console.log('onclick called');
+    // console.log('onclick called');
     // console.log({selectedColorValue}); 
     render();
   };
