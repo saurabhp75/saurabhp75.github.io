@@ -244,7 +244,7 @@
 
   // Legend group and placed in lower left of svg. 
   // This will appear over constituencyG group
-  const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,540)`);
+  const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
 
   // Add border to the main canvas
   var borderPath = mainCanvas.append("rect")
@@ -343,9 +343,9 @@
       .call(colorLegend, {
         colorValues,
         colorLabels,
-        rectSize: 20,
-        spacing: 20,
-        textOffset: 30,
+        rectSize: 30,
+        spacing: 30,
+        textOffset: 40,
         onClick,
         selectedColorValue
       });
