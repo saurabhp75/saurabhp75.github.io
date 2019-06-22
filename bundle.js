@@ -207,7 +207,7 @@
       .attr('opacity', d =>
         (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
         ? 1
-        : 0.1
+        : 0.2
         // const extent = colorScale.invertExtent(selectedColorValue);
         // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
       )
