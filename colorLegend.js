@@ -11,17 +11,12 @@ export const colorLegend = (selection, props) => {
     selectedColorValue //currently selected value of color
   } = props;
 
-
   // // Get background rectangale dimensions
   // const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
-
   //   // Find longest label
   //   const longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
-
   //   const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
-
   //   const backgroundRectHeight = spacing * (colorRange.length + 2);
-
   //   return { width: backgroundRectWidth, height: backgroundRectHeight };
   // }
 
@@ -54,7 +49,6 @@ export const colorLegend = (selection, props) => {
     .append('text')
     .text("Assets in Rs.");
 
-  
   const legendBodyG = selection.selectAll('.legendBody').data([null]);
   const legendBodyGSelection = legendBodyG.enter()
     .append('g')
@@ -63,7 +57,7 @@ export const colorLegend = (selection, props) => {
     .merge(legendBodyG);
 
   // Add elements in legend body
-  const groups = legendBodyGSelection.selectAll('.tick').data(colorValues); 
+  const groups = legendBodyGSelection.selectAll('.tick').data(colorValues);
 
   // Create one group for each color
   const groupsEnter = groups.enter().append('g').attr('class', 'tick');

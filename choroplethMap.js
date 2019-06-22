@@ -9,21 +9,21 @@ import { getSvgDimensions } from './miscUtils';
 
 //Set map and projection
 const projection = geoMercator().scale(1200)
-                    .center([82.5, 23])
-                    .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
+  .center([82.5, 23])
+  .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
 const pathGenerator = geoPath().projection(projection);
 
 // function returning hover text
 const hoverText = (d) => {
   if (d.properties.Assets_num) {
-    return ('Constituency: ' 
-             + d.properties.PC_NAME_x 
-             + '\n' 
-             + 'MP: ' 
-             + d.properties.Candidate 
-             + '\n' + 'Assets(Rs.): ' 
-             + format(",.2r")(d.properties.Assets_num));
+    return ('Constituency: '
+      + d.properties.PC_NAME_x
+      + '\n'
+      + 'MP: '
+      + d.properties.Candidate
+      + '\n' + 'Assets(Rs.): '
+      + format(",.2r")(d.properties.Assets_num));
   }
   else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
 }
@@ -38,16 +38,16 @@ const constituencyColor = (d, colorScale) => {
 export const choroplethMap = (selection, props) => {
   // console.log('choroplethMap called');
 
-  const { 
+  const {
     features,
     colorScale,
     selectedColorValue
   } = props;
 
 
-const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
-constituencyPaths
-  .enter().append("path")
+  const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
+  constituencyPaths
+    .enter().append("path")
     .attr('class', 'constituency')
     // draw each constituencies
     .attr("d", pathGenerator)
@@ -55,14 +55,14 @@ constituencyPaths
     .attr("fill", d => constituencyColor(d, colorScale))
     .append('title')
     .text(hoverText)
-  .merge(constituencyPaths)
+    .merge(constituencyPaths)
     .attr('opacity', d =>
       (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
-      ? 1
-      : 0.2
+        ? 1
+        : 0.2
     )
     .classed('highlighted', d =>
-    (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
-  );     
+      (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
+    );
 
 }

@@ -34,25 +34,25 @@ var borderPath = mainCanvas.append("rect")
 // Define colorscale for constituencies
 const colorScale = scaleThreshold();
 
-const colorDomain = [10000000, 
-                     100000000, 
-                     1000000000, 
-                     2000000000, 
-                     5000000000];
+const colorDomain = [10000000,
+  100000000,
+  1000000000,
+  2000000000,
+  5000000000];
 
-const colorValues = ['#edf8e9', 
-                    '#c7e9c0', 
-                    '#a1d99b', 
-                    '#74c476', 
-                    '#31a354', 
-                    '#006d2c'];
+const colorValues = ['#edf8e9',
+  '#c7e9c0',
+  '#a1d99b',
+  '#74c476',
+  '#31a354',
+  '#006d2c'];
 
-const colorLabels = ["< 1 Crore", 
-                      "1 - 10 Crore", 
-                      "10 - 100 Crore", 
-                      "100 - 200 Crore", 
-                      "200 - 500 Crore", 
-                      "> 500 Crore"];
+const colorLabels = ["< 1 Crore",
+  "1 - 10 Crore",
+  "10 - 100 Crore",
+  "100 - 200 Crore",
+  "200 - 500 Crore",
+  "> 500 Crore"];
 
 // Set set domain and range of colorscale for constituencies
 colorScale.domain(colorDomain).range(colorValues);
@@ -70,7 +70,7 @@ let features;
 // Update the 
 const onClick = d => {
   // console.log(d); 
-  selectedColorValue = d; 
+  selectedColorValue = d;
   render();
 };
 

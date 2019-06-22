@@ -1,41 +1,40 @@
+.constituency {
+  /* fill: lightgreen; */
+  stroke: black;
+  stroke-width: 0.2px;
+}
 
-    .constituency {
-      /* fill: lightgreen; */
-      stroke: black;
-      stroke-width: 0.2px;
-    }
+.constituency.highlighted {
+  stroke-width: 0.8px;
+}
 
-    .constituency.highlighted {
-      stroke-width: 0.8px;
-    }
+.constituency:hover {
+  fill: yellow;
+}
 
-    .constituency:hover {
-      fill: yellow;
-    }
+.column {
+  float: left;
+}
 
-    .column {
-      float: left;
-    }
+.column h4 {
+  color: #111;
+  margin: 24px 0 -12px 20px;
+}
 
-    .column h4 {
-      color: #111;
-      margin: 24px 0 -12px 20px;
-    }
+.legendTitle text {
+  font-weight: bold;
+}
 
-    .legendTitle text {
-      font-weight: bold;
-    }
-
-    /* .legend {
+/* .legend {
       font-size: 12px;
     } */
 
-    .tick text {
-      font-size: 0.9em;
-      fill: black;
-      font-family: sans-serif;
-    }
+.tick text {
+  font-size: 0.9em;
+  fill: black;
+  font-family: sans-serif;
+}
 
-    .tick {
-      cursor: pointer;
-    }
+.tick {
+  cursor: pointer;
+}

@@ -23,17 +23,12 @@
       selectedColorValue //currently selected value of color
     } = props;
 
-
     // // Get background rectangale dimensions
     // const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
-
     //   // Find longest label
     //   const longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
-
     //   const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
-
     //   const backgroundRectHeight = spacing * (colorRange.length + 2);
-
     //   return { width: backgroundRectWidth, height: backgroundRectHeight };
     // }
 
@@ -66,7 +61,6 @@
       .append('text')
       .text("Assets in Rs.");
 
-    
     const legendBodyG = selection.selectAll('.legendBody').data([null]);
     const legendBodyGSelection = legendBodyG.enter()
       .append('g')
@@ -75,7 +69,7 @@
       .merge(legendBodyG);
 
     // Add elements in legend body
-    const groups = legendBodyGSelection.selectAll('.tick').data(colorValues); 
+    const groups = legendBodyGSelection.selectAll('.tick').data(colorValues);
 
     // Create one group for each color
     const groupsEnter = groups.enter().append('g').attr('class', 'tick');
@@ -125,30 +119,30 @@
   const getSvgDimensions = () => {
     // Get height of root svg element
     const svg = getSvg();
-    
+
     const width = +svg.attr("width");
     const height = +svg.attr("height");
 
-    return { width: width, height: height };  
+    return { width: width, height: height };
   };
 
   //Set map and projection
   const projection = d3.geoMercator().scale(1200)
-                      .center([82.5, 23])
-                      .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
+    .center([82.5, 23])
+    .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
   const pathGenerator = d3.geoPath().projection(projection);
 
   // function returning hover text
   const hoverText = (d) => {
     if (d.properties.Assets_num) {
-      return ('Constituency: ' 
-               + d.properties.PC_NAME_x 
-               + '\n' 
-               + 'MP: ' 
-               + d.properties.Candidate 
-               + '\n' + 'Assets(Rs.): ' 
-               + d3.format(",.2r")(d.properties.Assets_num));
+      return ('Constituency: '
+        + d.properties.PC_NAME_x
+        + '\n'
+        + 'MP: '
+        + d.properties.Candidate
+        + '\n' + 'Assets(Rs.): '
+        + d3.format(",.2r")(d.properties.Assets_num));
     }
     else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
   };
@@ -163,16 +157,16 @@
   const choroplethMap = (selection, props) => {
     // console.log('choroplethMap called');
 
-    const { 
+    const {
       features,
       colorScale,
       selectedColorValue
     } = props;
 
 
-  const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
-  constituencyPaths
-    .enter().append("path")
+    const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
+    constituencyPaths
+      .enter().append("path")
       .attr('class', 'constituency')
       // draw each constituencies
       .attr("d", pathGenerator)
@@ -180,15 +174,15 @@
       .attr("fill", d => constituencyColor(d, colorScale))
       .append('title')
       .text(hoverText)
-    .merge(constituencyPaths)
+      .merge(constituencyPaths)
       .attr('opacity', d =>
         (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
-        ? 1
-        : 0.2
+          ? 1
+          : 0.2
       )
       .classed('highlighted', d =>
-      (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
-    );     
+        (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
+      );
 
   };
 
@@ -217,25 +211,25 @@
   // Define colorscale for constituencies
   const colorScale = d3.scaleThreshold();
 
-  const colorDomain = [10000000, 
-                       100000000, 
-                       1000000000, 
-                       2000000000, 
-                       5000000000];
+  const colorDomain = [10000000,
+    100000000,
+    1000000000,
+    2000000000,
+    5000000000];
 
-  const colorValues = ['#edf8e9', 
-                      '#c7e9c0', 
-                      '#a1d99b', 
-                      '#74c476', 
-                      '#31a354', 
-                      '#006d2c'];
+  const colorValues = ['#edf8e9',
+    '#c7e9c0',
+    '#a1d99b',
+    '#74c476',
+    '#31a354',
+    '#006d2c'];
 
-  const colorLabels = ["< 1 Crore", 
-                        "1 - 10 Crore", 
-                        "10 - 100 Crore", 
-                        "100 - 200 Crore", 
-                        "200 - 500 Crore", 
-                        "> 500 Crore"];
+  const colorLabels = ["< 1 Crore",
+    "1 - 10 Crore",
+    "10 - 100 Crore",
+    "100 - 200 Crore",
+    "200 - 500 Crore",
+    "> 500 Crore"];
 
   // Set set domain and range of colorscale for constituencies
   colorScale.domain(colorDomain).range(colorValues);
@@ -253,7 +247,7 @@
   // Update the 
   const onClick = d => {
     // console.log(d); 
-    selectedColorValue = d; 
+    selectedColorValue = d;
     render();
   };
 
