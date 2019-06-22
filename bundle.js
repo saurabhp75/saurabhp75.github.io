@@ -12,7 +12,6 @@
 
   const colorLegend = (selection, props) => {
 
-
     // console.log('colorLegend called');
 
     const { colorValues, // Array of colors
@@ -21,18 +20,15 @@
       spacing, // spacing between color tiles
       textOffset, // spacing between color tiles
       onClick,
-      selectedColorValue
+      selectedColorValue //currently selected value of color
     } = props;
-
-    // console.log(`colorValues: ${colorValues}`);
-    // console.log(`colorLabels: ${colorLabels}`)
 
 
     // // Get background rectangale dimensions
     // const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
 
     //   // Find longest label
-    //   var longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
+    //   const longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
 
     //   const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
 
@@ -60,11 +56,6 @@
     //   .attr('rx', rectSize)
     //   .attr('opacity', 0.2);
 
-    // Invert legend bar
-    // const colorRangeReverse = colorRange.reverse();
-    // const legendLabelsReverse = legendLabels.reverse();
-    // const n = colorRange.length;
-
     // Append two groups to legend group, one for title (legendTitleG)
     // and other for body of legend bar (legendBodyG). The title 
 
@@ -83,8 +74,6 @@
       .attr("class", "legendBody")
       .merge(legendBodyG);
 
-
-    // const groups = selection.selectAll('.tick')
     // Add elements in legend body
     const groups = legendBodyGSelection.selectAll('.tick').data(colorValues); 
 
@@ -143,12 +132,6 @@
     return { width: width, height: height };  
   };
 
-  // Select the root svg element
-  // const svg = select("svg");
-  // Get height of root svg element
-  // const width = +svg.attr("width");
-  // const height = +svg.attr("height");
-
   //Set map and projection
   const projection = d3.geoMercator().scale(1200)
                       .center([82.5, 23])
@@ -156,16 +139,16 @@
 
   const pathGenerator = d3.geoPath().projection(projection);
 
-  // Select the root svg element
-  // const svg = select("svg");
-  // Get height of root svg element
-  // const width = +svg.attr("width");
-  // const height = +svg.attr("height");
-
   // function returning hover text
   const hoverText = (d) => {
     if (d.properties.Assets_num) {
-      return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + d.properties.Candidate + '\n' + 'Assets(Rs.): ' + d3.format(",.2r")(d.properties.Assets_num))
+      return ('Constituency: ' 
+               + d.properties.PC_NAME_x 
+               + '\n' 
+               + 'MP: ' 
+               + d.properties.Candidate 
+               + '\n' + 'Assets(Rs.): ' 
+               + d3.format(",.2r")(d.properties.Assets_num));
     }
     else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
   };
@@ -176,7 +159,6 @@
     return colorScale(d.properties.Assets_num);
   };
 
-
   // Draw the map from constituencyG passed as 'selection'
   const choroplethMap = (selection, props) => {
     // console.log('choroplethMap called');
@@ -186,11 +168,6 @@
       colorScale,
       selectedColorValue
     } = props;
-
-  // update selection
-    // const g = selection.selectAll('g').data([null]);
-  // enter selection
-    // const gEnter = g.enter().append('g');
 
 
   const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
@@ -208,30 +185,10 @@
         (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
         ? 1
         : 0.2
-        // const extent = colorScale.invertExtent(selectedColorValue);
-        // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
       )
       .classed('highlighted', d =>
       (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
-      // const extent = colorScale.invertExtent(selectedColorValue);
-      // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
-    ); //(d) => constOpacity(d, selectedColorValue));
-      
-    // .append('title')
-    // .text(hoverText);
-
-
-  // constituencyG.selectAll("path")
-  // .data(features)
-  // .enter()
-  // .append("path")
-  // .attr('class', 'constituency')
-  // // draw each constituencies
-  // .attr("d", pathGenerator)
-  // // set color of each constituency
-  // .attr("fill", d = > constituencyColor(d, colorScale))
-  // .append('title')
-  // .text(hoverText);
+    );     
 
   };
 
@@ -256,10 +213,6 @@
     .style("fill", "none")
     .style("stroke-width", 1);
 
-  // Add zooming and panning
-  // svg.call(d3.zoom().on('zoom', () => {
-  //   g.attr('transform', d3.event.transform);
-  // }));
 
   // Define colorscale for constituencies
   const colorScale = d3.scaleThreshold();
@@ -300,9 +253,7 @@
   // Update the 
   const onClick = d => {
     // console.log(d); 
-    selectedColorValue = d;
-    // console.log('onclick called');
-    // console.log({selectedColorValue}); 
+    selectedColorValue = d; 
     render();
   };
 
@@ -314,21 +265,7 @@
 
 
   const render = () => {
-
     // console.log('render called')
-
-    // Draw the map
-    // constituencyG.selectAll("path")
-    //   .data(features)
-    //   .enter()
-    //   .append("path")
-    //   .attr('class', 'constituency')
-    //   // draw each constituencies
-    //   .attr("d", pathGenerator)
-    //   // set color of each constituency
-    //   .attr("fill", constituencyColor)
-    //   .append('title')
-    //   .text(hoverText);
 
     // Draw map
     constituencyG

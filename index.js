@@ -30,10 +30,6 @@ var borderPath = mainCanvas.append("rect")
   .style("fill", "none")
   .style("stroke-width", 1);
 
-// Add zooming and panning
-// svg.call(d3.zoom().on('zoom', () => {
-//   g.attr('transform', d3.event.transform);
-// }));
 
 // Define colorscale for constituencies
 const colorScale = scaleThreshold();
@@ -74,9 +70,7 @@ let features;
 // Update the 
 const onClick = d => {
   // console.log(d); 
-  selectedColorValue = d;
-  // console.log('onclick called');
-  // console.log({selectedColorValue}); 
+  selectedColorValue = d; 
   render();
 };
 
@@ -88,21 +82,7 @@ loadAndProcessData().then((feature_array) => {
 
 
 const render = () => {
-
   // console.log('render called')
-
-  // Draw the map
-  // constituencyG.selectAll("path")
-  //   .data(features)
-  //   .enter()
-  //   .append("path")
-  //   .attr('class', 'constituency')
-  //   // draw each constituencies
-  //   .attr("d", pathGenerator)
-  //   // set color of each constituency
-  //   .attr("fill", constituencyColor)
-  //   .append('title')
-  //   .text(hoverText);
 
   // Draw map
   constituencyG

@@ -1,6 +1,5 @@
 export const colorLegend = (selection, props) => {
 
-
   // console.log('colorLegend called');
 
   const { colorValues, // Array of colors
@@ -9,18 +8,15 @@ export const colorLegend = (selection, props) => {
     spacing, // spacing between color tiles
     textOffset, // spacing between color tiles
     onClick,
-    selectedColorValue
+    selectedColorValue //currently selected value of color
   } = props;
-
-  // console.log(`colorValues: ${colorValues}`);
-  // console.log(`colorLabels: ${colorLabels}`)
 
 
   // // Get background rectangale dimensions
   // const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
 
   //   // Find longest label
-  //   var longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
+  //   const longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
 
   //   const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
 
@@ -48,11 +44,6 @@ export const colorLegend = (selection, props) => {
   //   .attr('rx', rectSize)
   //   .attr('opacity', 0.2);
 
-  // Invert legend bar
-  // const colorRangeReverse = colorRange.reverse();
-  // const legendLabelsReverse = legendLabels.reverse();
-  // const n = colorRange.length;
-
   // Append two groups to legend group, one for title (legendTitleG)
   // and other for body of legend bar (legendBodyG). The title 
 
@@ -71,8 +62,6 @@ export const colorLegend = (selection, props) => {
     .attr("class", "legendBody")
     .merge(legendBodyG);
 
-
-  // const groups = selection.selectAll('.tick')
   // Add elements in legend body
   const groups = legendBodyGSelection.selectAll('.tick').data(colorValues); 
 

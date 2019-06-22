@@ -7,12 +7,6 @@ import {
 
 import { getSvgDimensions } from './miscUtils';
 
-// Select the root svg element
-// const svg = select("svg");
-// Get height of root svg element
-// const width = +svg.attr("width");
-// const height = +svg.attr("height");
-
 //Set map and projection
 const projection = geoMercator().scale(1200)
                     .center([82.5, 23])
@@ -20,16 +14,16 @@ const projection = geoMercator().scale(1200)
 
 const pathGenerator = geoPath().projection(projection);
 
-// Select the root svg element
-// const svg = select("svg");
-// Get height of root svg element
-// const width = +svg.attr("width");
-// const height = +svg.attr("height");
-
 // function returning hover text
 const hoverText = (d) => {
   if (d.properties.Assets_num) {
-    return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + d.properties.Candidate + '\n' + 'Assets(Rs.): ' + format(",.2r")(d.properties.Assets_num))
+    return ('Constituency: ' 
+             + d.properties.PC_NAME_x 
+             + '\n' 
+             + 'MP: ' 
+             + d.properties.Candidate 
+             + '\n' + 'Assets(Rs.): ' 
+             + format(",.2r")(d.properties.Assets_num));
   }
   else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
 }
@@ -40,7 +34,6 @@ const constituencyColor = (d, colorScale) => {
   return colorScale(d.properties.Assets_num);
 }
 
-
 // Draw the map from constituencyG passed as 'selection'
 export const choroplethMap = (selection, props) => {
   // console.log('choroplethMap called');
@@ -50,11 +43,6 @@ export const choroplethMap = (selection, props) => {
     colorScale,
     selectedColorValue
   } = props;
-
-// update selection
-  // const g = selection.selectAll('g').data([null]);
-// enter selection
-  // const gEnter = g.enter().append('g');
 
 
 const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
@@ -72,29 +60,9 @@ constituencyPaths
       (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
       ? 1
       : 0.2
-      // const extent = colorScale.invertExtent(selectedColorValue);
-      // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
     )
     .classed('highlighted', d =>
     (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
-    // const extent = colorScale.invertExtent(selectedColorValue);
-    // console.log(`selectedColorValue: ${selectedColorValue} @@@ extent: ${extent}`);
-  ); //(d) => constOpacity(d, selectedColorValue));
-    
-  // .append('title')
-  // .text(hoverText);
-
-
-// constituencyG.selectAll("path")
-// .data(features)
-// .enter()
-// .append("path")
-// .attr('class', 'constituency')
-// // draw each constituencies
-// .attr("d", pathGenerator)
-// // set color of each constituency
-// .attr("fill", d = > constituencyColor(d, colorScale))
-// .append('title')
-// .text(hoverText);
+  );     
 
 }
