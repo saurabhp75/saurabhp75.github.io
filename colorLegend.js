@@ -7,8 +7,9 @@ export const colorLegend = (selection, props) => {
     rectSize, // Size of color tile
     spacing, // spacing between color tiles
     textOffset, // spacing between color tiles
-    onClick,
-    selectedColorValue //currently selected value of color
+    onColorClick,
+    selectedColorValue, //currently selected value of color
+    selectedConstituency
   } = props;
 
   // // Get background rectangale dimensions
@@ -62,19 +63,17 @@ export const colorLegend = (selection, props) => {
   // Create one group for each color
   const groupsEnter = groups.enter().append('g').attr('class', 'tick');
 
-  // console.log('Selected Value: ' + selectedColorValue);
-
   // Append/Update the label/color groups
   groupsEnter
     .merge(groups)
     .attr('transform', (d, i) => `translate(0, ${i * spacing})`)
     .attr('opacity', d => {
-      // console.log(`d: ${d} v: ${selectedColorValue}`);
-      return (!selectedColorValue || d === selectedColorValue)
+      // console.log(`COLOR_LEGEND: selectedConstituency: ${selectedConstituency} selectedColorValue: ${selectedColorValue}`);
+      return ((!selectedColorValue || d === selectedColorValue) || selectedConstituency)
         ? 1
         : 0.2
     })
-    .on('click', d => onClick(
+    .on('click', d => onColorClick(
       d === selectedColorValue
         ? null
         : d

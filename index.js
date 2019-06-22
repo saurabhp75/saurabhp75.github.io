@@ -8,6 +8,7 @@ import { loadAndProcessData } from './loadAndProcessData.js';
 import { colorLegend } from './colorLegend';
 import { choroplethMap } from './choroplethMap';
 import { getSvgDimensions, getSvg } from './miscUtils';
+import { infoPanel } from './infoPanel'
 
 // Select the root svg element
 const mainCanvas = getSvg();
@@ -20,8 +21,11 @@ const constituencyG = mainCanvas.append('g');
 // This will appear over constituencyG group
 const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
 
+// Information panel
+const infoPanelG = mainCanvas.append('g').attr('transform', `translate(400,30)`);
+
 // Add border to the main canvas
-var borderPath = mainCanvas.append("rect")
+const borderPath = mainCanvas.append("rect")
   .attr("x", 0)
   .attr("y", 0)
   .attr("height", mainCanvasDimensions.height)
@@ -61,18 +65,58 @@ colorScale.domain(colorDomain).range(colorValues);
 colorValues.reverse();
 colorLabels.reverse();
 
-// Keep track of the selected color in legend bar
-let selectedColorValue;
+///////////////////////
+/////  App states /////
+///////////////////////
+// A) 
+// Color not selected, const not selected:
+// Clicking on any color filters map.->B
+// Clicking on any const also filters map.->C
 
-// Globally (in the file) accessible feature array
-let features;
+// B)
+// Color selected, const not selected:
+// Clicking on selected color->A
+// Clicking on other color->B
+// Clicking on filtered const.->A
+// Clicking on non filtered const.-->B
+
+// C)
+// Color not selected const. selected:
+// Clicking on any color ->B
+// Clicking on filtered const. ->C
+// Clicking on non-filtered const. A
+
+// D)Color selected, const. selected:
+// This state should not occur in code.
+
+let selectedColorValue; // tracks selected color in legend bar
+let features; // Globally (in the file) accessible feature array
+let selectedConstituency; // tracks selected constituency in map
 
 // Update the 
-const onClick = d => {
-  // console.log(d); 
-  selectedColorValue = d;
+const onColorClick = d => {
+  // console.log(d);
+  // If constituency is selected goto initial state
+  if (selectedConstituency) {
+    selectedColorValue = null;
+    selectedConstituency = null;
+  } else {
+    selectedColorValue = d;
+  }  
   render();
 };
+
+const onConstituencyClick = d => {
+  // console.log(`const clicked: ${d}`);
+  // // If color is selected goto initial state
+  if (selectedColorValue) {
+    selectedConstituency = null;
+    selectedColorValue = null;
+  } else{
+    selectedConstituency = d;
+  }
+  render();
+}
 
 // Load external data and boot
 loadAndProcessData().then((feature_array) => {
@@ -89,7 +133,9 @@ const render = () => {
     .call(choroplethMap, {
       features,
       colorScale,
-      selectedColorValue
+      selectedColorValue,
+      onConstituencyClick,
+      selectedConstituency
     });
 
   // Draw legend bar
@@ -100,9 +146,18 @@ const render = () => {
       rectSize: 30,
       spacing: 30,
       textOffset: 40,
-      onClick,
-      selectedColorValue
+      onColorClick,
+      selectedColorValue,
+      selectedConstituency
     });
+
+    // Draw info panel
+    infoPanelG
+      .call(infoPanel, {
+        selectedConstituency,
+        selectedColorValue,
+        features
+      });
 
 } // End of render()
 

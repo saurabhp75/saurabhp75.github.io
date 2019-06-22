@@ -2,6 +2,7 @@
   /* fill: lightgreen; */
   stroke: black;
   stroke-width: 0.2px;
+  cursor: pointer;
 }
 
 .constituency.highlighted {
@@ -9,7 +10,8 @@
 }
 
 .constituency:hover {
-  fill: yellow;
+  /* fill: yellow; */
+  stroke-width: 1px; 
 }
 
 .column {
@@ -25,10 +27,6 @@
   font-weight: bold;
 }
 
-/* .legend {
-      font-size: 12px;
-    } */
-
 .tick text {
   font-size: 0.9em;
   fill: black;
@@ -37,4 +35,11 @@
 
 .tick {
   cursor: pointer;
+  /* border-style: solid;
+  border-color: black; */
+}
+
+.tick rect:hover {
+  /* fill: yellow; */
+  stroke: black;
 }

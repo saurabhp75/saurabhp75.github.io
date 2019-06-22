@@ -19,8 +19,9 @@
       rectSize, // Size of color tile
       spacing, // spacing between color tiles
       textOffset, // spacing between color tiles
-      onClick,
-      selectedColorValue //currently selected value of color
+      onColorClick,
+      selectedColorValue, //currently selected value of color
+      selectedConstituency
     } = props;
 
     // // Get background rectangale dimensions
@@ -74,19 +75,17 @@
     // Create one group for each color
     const groupsEnter = groups.enter().append('g').attr('class', 'tick');
 
-    // console.log('Selected Value: ' + selectedColorValue);
-
     // Append/Update the label/color groups
     groupsEnter
       .merge(groups)
       .attr('transform', (d, i) => `translate(0, ${i * spacing})`)
       .attr('opacity', d => {
-        // console.log(`d: ${d} v: ${selectedColorValue}`);
-        return (!selectedColorValue || d === selectedColorValue)
+        // console.log(`COLOR_LEGEND: selectedConstituency: ${selectedConstituency} selectedColorValue: ${selectedColorValue}`);
+        return ((!selectedColorValue || d === selectedColorValue) || selectedConstituency)
           ? 1
           : 0.2
       })
-      .on('click', d => onClick(
+      .on('click', d => onColorClick(
         d === selectedColorValue
           ? null
           : d
@@ -144,47 +143,109 @@
         + '\n' + 'Assets(Rs.): '
         + d3.format(",.2r")(d.properties.Assets_num));
     }
-    else { return ('Constituency: ' + d.properties.PC_NAME_x + '\n' + 'MP: ' + 'No data' + '\n' + 'Assets(Rs.): ' + 'No data') }
+    else {
+      return ('Constituency: '
+        + d.properties.PC_NAME_x
+        + '\n' 
+        + 'MP: '
+        + 'No data'
+        + '\n'
+        + 'Assets(Rs.): '
+        + 'No data');
+    }
   };
 
   // function returning constituency color
   const constituencyColor = (d, colorScale) => {
+    // console.log('constituencyColor called')
     if (!d.properties.Assets_num) { return "black" }
     return colorScale(d.properties.Assets_num);
+  };
+
+  const constituencyOpacity = (d, selectedConstituency, selectedColorValue, colorScale) => {
+    // If a const. is selected, then make opacity 1
+    // else if color of const. is equal to selected color, then make opacity 1
+    // else make opacity 0.2
+    if (!selectedConstituency && !selectedColorValue) {// Initial state
+      return 1;
+    } else if (selectedConstituency && (selectedConstituency === d.properties.ST_PC)) {
+      return 1;
+    } else if (selectedColorValue && (selectedColorValue === colorScale(d.properties.Assets_num))){
+      return 1;
+    }
+    else return 0.2; 
   };
 
   // Draw the map from constituencyG passed as 'selection'
   const choroplethMap = (selection, props) => {
     // console.log('choroplethMap called');
-
     const {
       features,
       colorScale,
-      selectedColorValue
+      selectedColorValue,
+      onConstituencyClick,
+      selectedConstituency
     } = props;
 
-
     const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
-    constituencyPaths
-      .enter().append("path")
+
+    const constituencyPathsEnter = constituencyPaths.enter()
+      .append("path")
       .attr('class', 'constituency')
-      // draw each constituencies
       .attr("d", pathGenerator)
-      // set color of each constituency
-      .attr("fill", d => constituencyColor(d, colorScale))
-      .append('title')
-      .text(hoverText)
-      .merge(constituencyPaths)
-      .attr('opacity', d =>
-        (!selectedColorValue || selectedColorValue === colorScale(d.properties.Assets_num))
-          ? 1
-          : 0.2
-      )
+      .attr("fill", d => constituencyColor(d, colorScale));
+
+    constituencyPathsEnter.append('title').text(hoverText);
+
+    constituencyPathsEnter.merge(constituencyPaths)
+      .attr('opacity', d => constituencyOpacity(d, selectedConstituency, selectedColorValue, colorScale))
       .classed('highlighted', d =>
         (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
+      )
+      .on('click', d => 
+        onConstituencyClick(
+          d.properties.ST_PC === selectedConstituency
+            ? null
+            : d.properties.ST_PC
+        )
       );
-
   };
+
+  const infoPanelText = (selectedConstituency, selectedColorValue, features) => {
+    if (!selectedConstituency && !selectedColorValue) {
+      return 'Make a selection by clicking legend bar or constituency';
+    }
+    else if (selectedConstituency) {
+      return selectedConstituency.split(':')[1];
+    }
+    else if(selectedColorValue) {
+      return 'you clicked on the legend bar';
+    }
+    else return 'This should not be displayed';
+  };
+
+  const infoPanel = (selection, props) => {
+      console.log('infoPanel called');
+
+      const { 
+        selectedConstituency,
+        selectedColorValue,
+        features
+      } = props;
+
+      const selectionUpdate = selection.selectAll('g').data([null]);
+
+      // remove existing group
+      // selectionUpdate.remove();
+
+      // remove existing text
+      // selecti/onUpdate.remove();
+
+      selectionUpdate.enter().append('g')
+      .merge(selectionUpdate)
+      .text(d => infoPanelText(selectedConstituency, selectedColorValue));
+
+    };
 
   // Select the root svg element
   const mainCanvas = getSvg();
@@ -197,8 +258,11 @@
   // This will appear over constituencyG group
   const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
 
+  // Information panel
+  const infoPanelG = mainCanvas.append('g').attr('transform', `translate(400,30)`);
+
   // Add border to the main canvas
-  var borderPath = mainCanvas.append("rect")
+  const borderPath = mainCanvas.append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr("height", mainCanvasDimensions.height)
@@ -238,16 +302,56 @@
   colorValues.reverse();
   colorLabels.reverse();
 
-  // Keep track of the selected color in legend bar
-  let selectedColorValue;
+  ///////////////////////
+  /////  App states /////
+  ///////////////////////
+  // A) 
+  // Color not selected, const not selected:
+  // Clicking on any color filters map.->B
+  // Clicking on any const also filters map.->C
 
-  // Globally (in the file) accessible feature array
-  let features;
+  // B)
+  // Color selected, const not selected:
+  // Clicking on selected color->A
+  // Clicking on other color->B
+  // Clicking on filtered const.->A
+  // Clicking on non filtered const.-->B
+
+  // C)
+  // Color not selected const. selected:
+  // Clicking on any color ->B
+  // Clicking on filtered const. ->C
+  // Clicking on non-filtered const. A
+
+  // D)Color selected, const. selected:
+  // This state should not occur in code.
+
+  let selectedColorValue; // tracks selected color in legend bar
+  let features; // Globally (in the file) accessible feature array
+  let selectedConstituency; // tracks selected constituency in map
 
   // Update the 
-  const onClick = d => {
-    // console.log(d); 
-    selectedColorValue = d;
+  const onColorClick = d => {
+    // console.log(d);
+    // If constituency is selected goto initial state
+    if (selectedConstituency) {
+      selectedColorValue = null;
+      selectedConstituency = null;
+    } else {
+      selectedColorValue = d;
+    }  
+    render();
+  };
+
+  const onConstituencyClick = d => {
+    // console.log(`const clicked: ${d}`);
+    // // If color is selected goto initial state
+    if (selectedColorValue) {
+      selectedConstituency = null;
+      selectedColorValue = null;
+    } else{
+      selectedConstituency = d;
+    }
     render();
   };
 
@@ -266,7 +370,9 @@
       .call(choroplethMap, {
         features,
         colorScale,
-        selectedColorValue
+        selectedColorValue,
+        onConstituencyClick,
+        selectedConstituency
       });
 
     // Draw legend bar
@@ -277,9 +383,18 @@
         rectSize: 30,
         spacing: 30,
         textOffset: 40,
-        onClick,
-        selectedColorValue
+        onColorClick,
+        selectedColorValue,
+        selectedConstituency
       });
+
+      // Draw info panel
+      infoPanelG
+        .call(infoPanel, {
+          selectedConstituency,
+          selectedColorValue,
+          features
+        });
 
   }; // End of render()
 
