@@ -68,7 +68,6 @@ export const colorLegend = (selection, props) => {
     .merge(groups)
     .attr('transform', (d, i) => `translate(0, ${i * spacing})`)
     .attr('opacity', d => {
-      // console.log(`COLOR_LEGEND: selectedConstituency: ${selectedConstituency} selectedColorValue: ${selectedColorValue}`);
       return ((!selectedColorValue || d === selectedColorValue) || selectedConstituency)
         ? 1
         : 0.2

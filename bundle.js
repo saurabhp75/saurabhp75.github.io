@@ -80,7 +80,6 @@
       .merge(groups)
       .attr('transform', (d, i) => `translate(0, ${i * spacing})`)
       .attr('opacity', d => {
-        // console.log(`COLOR_LEGEND: selectedConstituency: ${selectedConstituency} selectedColorValue: ${selectedColorValue}`);
         return ((!selectedColorValue || d === selectedColorValue) || selectedConstituency)
           ? 1
           : 0.2
@@ -125,9 +124,12 @@
     return { width: width, height: height };
   };
 
+  console.log(`${getSvgDimensions()}`);
+
   //Set map and projection
   const projection = d3.geoMercator().scale(1200)
     .center([82.5, 23])
+    // .center([78, 20])
     .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
   const pathGenerator = d3.geoPath().projection(projection);
@@ -141,17 +143,20 @@
         + 'MP: '
         + d.properties.Candidate
         + '\n' + 'Assets(Rs.): '
-        + d3.format(",.2r")(d.properties.Assets_num));
+        + d3.format(",.2r")(d.properties.Assets_num)
+        + '\n'
+        + 'Party: '
+        + d.properties.Party);
     }
     else {
       return ('Constituency: '
         + d.properties.PC_NAME_x
         + '\n' 
-        + 'MP: '
-        + 'No data'
+        + 'MP: No data'
         + '\n'
-        + 'Assets(Rs.): '
-        + 'No data');
+        + 'Assets(Rs.): No data'
+        + '\n'
+        + 'Party: No Data');
     }
   };
 
@@ -211,45 +216,95 @@
       );
   };
 
-  const infoPanelText = (selectedConstituency, selectedColorValue, features) => {
+  // Create data rows for infoPanel
+  const getInfoPanelData = (selectedConstituency, selectedColorValue, features) => {
+
+    // console.log('getInfoPanelData called');
+
     if (!selectedConstituency && !selectedColorValue) {
-      return 'Make a selection by clicking legend bar or constituency';
+      return ['Click on legend bar or constituency'];
     }
     else if (selectedConstituency) {
-      return selectedConstituency.split(':')[1];
+
+      const arrItem = features.filter(d => d.properties.ST_PC === selectedConstituency);
+
+      const constituency = arrItem[0].properties.PC_NAME_x;
+      const candidate = arrItem[0].properties.Candidate;
+      const party = arrItem[0].properties.Party;
+      const assets = arrItem[0].properties.Assets_num;
+
+      return ([
+
+        'Constituency: ' + arrItem[0].properties.PC_NAME_x,
+
+        'MP: ' + arrItem[0].properties.Candidate,
+
+        'Assets(Rs.): ' + d3.format(",.2r")(arrItem[0].properties.Assets_num),
+
+        'Party: ' + arrItem[0].properties.Party
+      ])
     }
-    else if(selectedColorValue) {
-      return 'you clicked on the legend bar';
+    else if (selectedColorValue) {
+      return ['you clicked on the legend bar'];
     }
-    else return 'This should not be displayed';
+    else return ['This should not be displayed'];
+
   };
 
+  // Create infoPanel
   const infoPanel = (selection, props) => {
-      console.log('infoPanel called');
+    // console.log('infoPanel called');
+    const {
+      selectedConstituency,
+      selectedColorValue,
+      features
+    } = props;
 
-      const { 
-        selectedConstituency,
-        selectedColorValue,
-        features
-      } = props;
+    // console.log({selectedConstituency, selectedColorValue});
+    // const selectionUpdate = selection.selectAll('text').data([{selectedConstituency, selectedColorValue}]);
+    const selectionUpdate = selection.selectAll('text').data([null]);
 
-      const selectionUpdate = selection.selectAll('g').data([null]);
+    // remove previuos(old) text
+    // selectionUpdate.exit().remove();
 
-      // remove existing group
-      // selectionUpdate.remove();
+    // Add new text element
+    const selectionMerge = selectionUpdate.enter().append('text').merge(selectionUpdate);
+    
+    // Get the data to display on panel
+    const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features);
 
-      // remove existing text
-      // selecti/onUpdate.remove();
+    console.log({textData});
 
-      selectionUpdate.enter().append('g')
-      .merge(selectionUpdate)
-      .text(d => infoPanelText(selectedConstituency, selectedColorValue));
+    // Data join: tspan<=>textData
+    const textRows = selectionMerge.selectAll('tspan').data(textData);
 
-    };
+    // remove old text
+    textRows.exit().remove();
 
-  // Select the root svg element
-  const mainCanvas = getSvg();
-  const mainCanvasDimensions = getSvgDimensions();
+    textRows
+      .enter()
+      // .merge(textRows)
+      .append('tspan')
+      .attr('x', '0')
+      .attr('dy', '1.2rem')
+      // .attr('transform', (d, i) => `translate(0, ${i * 20})`)
+      .text((d) => d);  
+
+  };
+
+  // console.log(`Width: ${document.body.clientWidth}`);
+  // console.log(`Height: ${document.body.clientHeight}`);
+
+  // const height = document.body.clientHeight;
+  // const width = document.body.clientWidth;
+
+  // console.log({height, width});
+  // console.log({rem, em})
+
+  // Set domensions of root svg
+  const mainCanvas = d3.select("svg");
+  //   .attr('width', width)
+  //   .attr('height', height);
 
   // Constituency group
   const constituencyG = mainCanvas.append('g');
@@ -259,14 +314,14 @@
   const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
 
   // Information panel
-  const infoPanelG = mainCanvas.append('g').attr('transform', `translate(400,30)`);
+  const infoPanelG = mainCanvas.append('g').attr('transform', `translate(350,20)`);
 
   // Add border to the main canvas
   const borderPath = mainCanvas.append("rect")
     .attr("x", 0)
     .attr("y", 0)
-    .attr("height", mainCanvasDimensions.height)
-    .attr("width", mainCanvasDimensions.width)
+    .attr("height", getSvgDimensions().height)
+    .attr("width", getSvgDimensions().width)
     .style("stroke", 'black')
     .style("fill", "none")
     .style("stroke-width", 1);
@@ -324,7 +379,7 @@
   // Clicking on non-filtered const. A
 
   // D)Color selected, const. selected:
-  // This state should not occur in code.
+  // This state should not occur.
 
   let selectedColorValue; // tracks selected color in legend bar
   let features; // Globally (in the file) accessible feature array

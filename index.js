@@ -8,11 +8,21 @@ import { loadAndProcessData } from './loadAndProcessData.js';
 import { colorLegend } from './colorLegend';
 import { choroplethMap } from './choroplethMap';
 import { getSvgDimensions, getSvg } from './miscUtils';
-import { infoPanel } from './infoPanel'
+import { infoPanel } from './infoPanel';
 
-// Select the root svg element
-const mainCanvas = getSvg();
-const mainCanvasDimensions = getSvgDimensions();
+// console.log(`Width: ${document.body.clientWidth}`);
+// console.log(`Height: ${document.body.clientHeight}`);
+
+// const height = document.body.clientHeight;
+// const width = document.body.clientWidth;
+
+// console.log({height, width});
+// console.log({rem, em})
+
+// Set domensions of root svg
+const mainCanvas = select("svg");
+//   .attr('width', width)
+//   .attr('height', height);
 
 // Constituency group
 const constituencyG = mainCanvas.append('g');
@@ -22,14 +32,14 @@ const constituencyG = mainCanvas.append('g');
 const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
 
 // Information panel
-const infoPanelG = mainCanvas.append('g').attr('transform', `translate(400,30)`);
+const infoPanelG = mainCanvas.append('g').attr('transform', `translate(350,20)`);
 
 // Add border to the main canvas
 const borderPath = mainCanvas.append("rect")
   .attr("x", 0)
   .attr("y", 0)
-  .attr("height", mainCanvasDimensions.height)
-  .attr("width", mainCanvasDimensions.width)
+  .attr("height", getSvgDimensions().height)
+  .attr("width", getSvgDimensions().width)
   .style("stroke", 'black')
   .style("fill", "none")
   .style("stroke-width", 1);
@@ -87,7 +97,7 @@ colorLabels.reverse();
 // Clicking on non-filtered const. A
 
 // D)Color selected, const. selected:
-// This state should not occur in code.
+// This state should not occur.
 
 let selectedColorValue; // tracks selected color in legend bar
 let features; // Globally (in the file) accessible feature array

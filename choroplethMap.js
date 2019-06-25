@@ -6,9 +6,12 @@ import {
 } from 'd3';
 import { getSvgDimensions } from './miscUtils';
 
+console.log(`${getSvgDimensions()}`)
+
 //Set map and projection
 const projection = geoMercator().scale(1200)
   .center([82.5, 23])
+  // .center([78, 20])
   .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
 const pathGenerator = geoPath().projection(projection);
@@ -22,17 +25,20 @@ const hoverText = (d) => {
       + 'MP: '
       + d.properties.Candidate
       + '\n' + 'Assets(Rs.): '
-      + format(",.2r")(d.properties.Assets_num));
+      + format(",.2r")(d.properties.Assets_num)
+      + '\n'
+      + 'Party: '
+      + d.properties.Party);
   }
   else {
     return ('Constituency: '
       + d.properties.PC_NAME_x
       + '\n' 
-      + 'MP: '
-      + 'No data'
+      + 'MP: No data'
       + '\n'
-      + 'Assets(Rs.): '
-      + 'No data');
+      + 'Assets(Rs.): No data'
+      + '\n'
+      + 'Party: No Data');
   }
 }
 
