@@ -6,7 +6,7 @@ import {
 } from 'd3';
 import { getSvgDimensions } from './miscUtils';
 
-console.log(`${getSvgDimensions()}`)
+// console.log(`${getSvgDimensions()}`)
 
 //Set map and projection
 const projection = geoMercator().scale(1200)

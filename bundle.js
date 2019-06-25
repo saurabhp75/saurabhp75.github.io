@@ -124,7 +124,7 @@
     return { width: width, height: height };
   };
 
-  console.log(`${getSvgDimensions()}`);
+  // console.log(`${getSvgDimensions()}`)
 
   //Set map and projection
   const projection = d3.geoMercator().scale(1200)
@@ -245,7 +245,7 @@
       ])
     }
     else if (selectedColorValue) {
-      return ['you clicked on the legend bar'];
+      return [`you clicked on the legend bar ${selectedColorValue}`];
     }
     else return ['This should not be displayed'];
 
@@ -262,10 +262,9 @@
 
     // console.log({selectedConstituency, selectedColorValue});
     // const selectionUpdate = selection.selectAll('text').data([{selectedConstituency, selectedColorValue}]);
-    const selectionUpdate = selection.selectAll('text').data([null]);
 
-    // remove previuos(old) text
-    // selectionUpdate.exit().remove();
+    // Add one time text element
+    const selectionUpdate = selection.selectAll('text').data([null]);
 
     // Add new text element
     const selectionMerge = selectionUpdate.enter().append('text').merge(selectionUpdate);
@@ -273,13 +272,16 @@
     // Get the data to display on panel
     const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features);
 
-    console.log({textData});
+    // console.log({textData});
+    
+    // remove all existing rows
+    selectionMerge.selectAll('tspan').remove();
 
     // Data join: tspan<=>textData
     const textRows = selectionMerge.selectAll('tspan').data(textData);
 
     // remove old text
-    textRows.exit().remove();
+    // textRows.exit().remove();
 
     textRows
       .enter()
@@ -287,7 +289,6 @@
       .append('tspan')
       .attr('x', '0')
       .attr('dy', '1.2rem')
-      // .attr('transform', (d, i) => `translate(0, ${i * 20})`)
       .text((d) => d);  
 
   };
@@ -389,12 +390,10 @@
   const onColorClick = d => {
     // console.log(d);
     // If constituency is selected goto initial state
-    if (selectedConstituency) {
-      selectedColorValue = null;
+    if (selectedConstituency) {    
       selectedConstituency = null;
-    } else {
-      selectedColorValue = d;
-    }  
+    }
+    selectedColorValue = d;
     render();
   };
 
@@ -402,11 +401,9 @@
     // console.log(`const clicked: ${d}`);
     // // If color is selected goto initial state
     if (selectedColorValue) {
-      selectedConstituency = null;
       selectedColorValue = null;
-    } else{
-      selectedConstituency = d;
     }
+    selectedConstituency = d;
     render();
   };
 

@@ -31,7 +31,7 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features) =>
     ])
   }
   else if (selectedColorValue) {
-    return ['you clicked on the legend bar'];
+    return [`you clicked on the legend bar ${selectedColorValue}`];
   }
   else return ['This should not be displayed'];
 
@@ -48,10 +48,9 @@ export const infoPanel = (selection, props) => {
 
   // console.log({selectedConstituency, selectedColorValue});
   // const selectionUpdate = selection.selectAll('text').data([{selectedConstituency, selectedColorValue}]);
-  const selectionUpdate = selection.selectAll('text').data([null]);
 
-  // remove previuos(old) text
-  // selectionUpdate.exit().remove();
+  // Add one time text element
+  const selectionUpdate = selection.selectAll('text').data([null]);
 
   // Add new text element
   const selectionMerge = selectionUpdate.enter().append('text').merge(selectionUpdate);
@@ -59,13 +58,16 @@ export const infoPanel = (selection, props) => {
   // Get the data to display on panel
   const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features);
 
-  console.log({textData});
+  // console.log({textData});
+  
+  // remove all existing rows
+  selectionMerge.selectAll('tspan').remove();
 
   // Data join: tspan<=>textData
   const textRows = selectionMerge.selectAll('tspan').data(textData);
 
   // remove old text
-  textRows.exit().remove();
+  // textRows.exit().remove();
 
   textRows
     .enter()
@@ -73,7 +75,6 @@ export const infoPanel = (selection, props) => {
     .append('tspan')
     .attr('x', '0')
     .attr('dy', '1.2rem')
-    // .attr('transform', (d, i) => `translate(0, ${i * 20})`)
     .text((d) => d);  
 
 }

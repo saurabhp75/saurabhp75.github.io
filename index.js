@@ -107,12 +107,10 @@ let selectedConstituency; // tracks selected constituency in map
 const onColorClick = d => {
   // console.log(d);
   // If constituency is selected goto initial state
-  if (selectedConstituency) {
-    selectedColorValue = null;
+  if (selectedConstituency) {    
     selectedConstituency = null;
-  } else {
-    selectedColorValue = d;
-  }  
+  }
+  selectedColorValue = d;
   render();
 };
 
@@ -120,11 +118,9 @@ const onConstituencyClick = d => {
   // console.log(`const clicked: ${d}`);
   // // If color is selected goto initial state
   if (selectedColorValue) {
-    selectedConstituency = null;
     selectedColorValue = null;
-  } else{
-    selectedConstituency = d;
   }
+  selectedConstituency = d;
   render();
 }
 
