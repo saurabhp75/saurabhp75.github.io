@@ -106,7 +106,7 @@ let selectedConstituency; // tracks selected constituency in map
 // Update the 
 const onColorClick = d => {
   // console.log(d);
-  // If constituency is selected goto initial state
+  // If constituency is selected, deselect it
   if (selectedConstituency) {    
     selectedConstituency = null;
   }
@@ -116,7 +116,7 @@ const onColorClick = d => {
 
 const onConstituencyClick = d => {
   // console.log(`const clicked: ${d}`);
-  // // If color is selected goto initial state
+  // // If color is selected, deselect it
   if (selectedColorValue) {
     selectedColorValue = null;
   }
@@ -162,7 +162,9 @@ const render = () => {
       .call(infoPanel, {
         selectedConstituency,
         selectedColorValue,
-        features
+        features,
+        colorValues,
+        colorLabels
       });
 
 } // End of render()

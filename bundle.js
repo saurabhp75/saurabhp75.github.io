@@ -217,7 +217,7 @@
   };
 
   // Create data rows for infoPanel
-  const getInfoPanelData = (selectedConstituency, selectedColorValue, features) => {
+  const getInfoPanelData = (selectedConstituency, selectedColorValue, features, colorValues, colorLabels) => {
 
     // console.log('getInfoPanelData called');
 
@@ -245,7 +245,9 @@
       ])
     }
     else if (selectedColorValue) {
-      return [`you clicked on the legend bar ${selectedColorValue}`];
+      const assetsTextIndex = colorValues.indexOf(selectedColorValue);
+      
+      return [`MP(s) with assets:  ${colorLabels[assetsTextIndex]}`];
     }
     else return ['This should not be displayed'];
 
@@ -257,7 +259,9 @@
     const {
       selectedConstituency,
       selectedColorValue,
-      features
+      features,
+      colorValues,
+      colorLabels
     } = props;
 
     // console.log({selectedConstituency, selectedColorValue});
@@ -267,25 +271,24 @@
     const selectionUpdate = selection.selectAll('text').data([null]);
 
     // Add new text element
-    const selectionMerge = selectionUpdate.enter().append('text').merge(selectionUpdate);
+    const selectionMerge = selectionUpdate.enter()
+      .append('text')
+      .attr('class', 'infoText')
+      .merge(selectionUpdate);
     
     // Get the data to display on panel
-    const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features);
+    const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features, colorValues, colorLabels);
 
     // console.log({textData});
     
-    // remove all existing rows
+    // remove all existing text
     selectionMerge.selectAll('tspan').remove();
 
     // Data join: tspan<=>textData
     const textRows = selectionMerge.selectAll('tspan').data(textData);
 
-    // remove old text
-    // textRows.exit().remove();
-
     textRows
       .enter()
-      // .merge(textRows)
       .append('tspan')
       .attr('x', '0')
       .attr('dy', '1.2rem')
@@ -389,7 +392,7 @@
   // Update the 
   const onColorClick = d => {
     // console.log(d);
-    // If constituency is selected goto initial state
+    // If constituency is selected, deselect it
     if (selectedConstituency) {    
       selectedConstituency = null;
     }
@@ -399,7 +402,7 @@
 
   const onConstituencyClick = d => {
     // console.log(`const clicked: ${d}`);
-    // // If color is selected goto initial state
+    // // If color is selected, deselect it
     if (selectedColorValue) {
       selectedColorValue = null;
     }
@@ -445,7 +448,9 @@
         .call(infoPanel, {
           selectedConstituency,
           selectedColorValue,
-          features
+          features,
+          colorValues,
+          colorLabels
         });
 
   }; // End of render()

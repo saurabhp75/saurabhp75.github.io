@@ -3,7 +3,7 @@ import {
 } from 'd3';
 
 // Create data rows for infoPanel
-const getInfoPanelData = (selectedConstituency, selectedColorValue, features) => {
+const getInfoPanelData = (selectedConstituency, selectedColorValue, features, colorValues, colorLabels) => {
 
   // console.log('getInfoPanelData called');
 
@@ -31,7 +31,9 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features) =>
     ])
   }
   else if (selectedColorValue) {
-    return [`you clicked on the legend bar ${selectedColorValue}`];
+    const assetsTextIndex = colorValues.indexOf(selectedColorValue);
+    
+    return [`MP(s) with assets:  ${colorLabels[assetsTextIndex]}`];
   }
   else return ['This should not be displayed'];
 
@@ -43,7 +45,9 @@ export const infoPanel = (selection, props) => {
   const {
     selectedConstituency,
     selectedColorValue,
-    features
+    features,
+    colorValues,
+    colorLabels
   } = props;
 
   // console.log({selectedConstituency, selectedColorValue});
@@ -53,25 +57,24 @@ export const infoPanel = (selection, props) => {
   const selectionUpdate = selection.selectAll('text').data([null]);
 
   // Add new text element
-  const selectionMerge = selectionUpdate.enter().append('text').merge(selectionUpdate);
+  const selectionMerge = selectionUpdate.enter()
+    .append('text')
+    .attr('class', 'infoText')
+    .merge(selectionUpdate);
   
   // Get the data to display on panel
-  const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features);
+  const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features, colorValues, colorLabels);
 
   // console.log({textData});
   
-  // remove all existing rows
+  // remove all existing text
   selectionMerge.selectAll('tspan').remove();
 
   // Data join: tspan<=>textData
   const textRows = selectionMerge.selectAll('tspan').data(textData);
 
-  // remove old text
-  // textRows.exit().remove();
-
   textRows
     .enter()
-    // .merge(textRows)
     .append('tspan')
     .attr('x', '0')
     .attr('dy', '1.2rem')
