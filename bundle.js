@@ -229,19 +229,21 @@
       const arrItem = features.filter(d => d.properties.ST_PC === selectedConstituency);
 
       const constituency = arrItem[0].properties.PC_NAME_x;
-      const candidate = arrItem[0].properties.Candidate;
-      const party = arrItem[0].properties.Party;
-      const assets = arrItem[0].properties.Assets_num;
+      const candidate = arrItem[0].properties.Candidate ? arrItem[0].properties.Candidate : "No data";
+      const party = arrItem[0].properties.Party ? arrItem[0].properties.Party : "No data";
+      const assets = arrItem[0].properties.Assets_num ? arrItem[0].properties.Assets_num : "No data";
+
+      console.log({constituency, candidate, party, assets});
 
       return ([
 
-        'Constituency: ' + arrItem[0].properties.PC_NAME_x,
+        'Constituency: ' + constituency,
 
-        'MP: ' + arrItem[0].properties.Candidate,
+        'MP: ' + candidate,
 
-        'Assets(Rs.): ' + d3.format(",.2r")(arrItem[0].properties.Assets_num),
+        'Assets(Rs.): ' + d3.format(",.2r")(assets),
 
-        'Party: ' + arrItem[0].properties.Party
+        'Party: ' + party
       ])
     }
     else if (selectedColorValue) {
