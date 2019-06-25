@@ -32,7 +32,7 @@ const constituencyG = mainCanvas.append('g');
 const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
 
 // Information panel
-const infoPanelG = mainCanvas.append('g').attr('transform', `translate(350,20)`);
+const infoPanelG = mainCanvas.append('g').attr('transform', `translate(310,20)`);
 
 // Add border to the main canvas
 const borderPath = mainCanvas.append("rect")
