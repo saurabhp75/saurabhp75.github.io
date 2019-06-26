@@ -1,7 +1,9 @@
 import {
   select,
   scaleThreshold,
-  json
+  json,
+  zoom,
+  event
 } from 'd3';
 
 import { loadAndProcessData } from './loadAndProcessData.js';
@@ -43,6 +45,30 @@ const borderPath = mainCanvas.append("rect")
   .style("stroke", 'black')
   .style("fill", "none")
   .style("stroke-width", 1);
+
+
+// Add pannning and zooming to map
+  mainCanvas.call(zoom().on('zoom', () => {
+  constituencyG.attr('transform', event.transform);
+}));
+
+///////////////////////////////////////////////////////
+///// Add background rectangle to the info panel   ////
+///////////////////////////////////////////////////////
+
+// Background of info panel, single item, special case
+const infoPanelGBackground = infoPanelG.selectAll('rect').data([null]);
+
+// Background of legend
+infoPanelGBackground.enter().append('rect')
+  .merge(infoPanelGBackground)
+  .attr('width', 380)
+  .attr('height', 150)
+  .attr('fill', 'red')  
+  .attr('stroke', 'black')
+  .attr('stroke-width', 1)
+  .attr('rx', 10)
+  .attr('opacity', 0.3);
 
 
 // Define colorscale for constituencies

@@ -8,37 +8,44 @@ export const colorLegend = (selection, props) => {
     spacing, // spacing between color tiles
     textOffset, // spacing between color tiles
     onColorClick,
-    selectedColorValue, //currently selected value of color
-    selectedConstituency
+    selectedColorValue, // selected color value
+    selectedConstituency // selected constituency
   } = props;
 
-  // // Get background rectangale dimensions
-  // const getBgRectangleDimensions = (colorRange, legendLabels, rectSize, textOffset) => {
-  //   // Find longest label
-  //   const longestLabel = legendLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
-  //   const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
-  //   const backgroundRectHeight = spacing * (colorRange.length + 2);
-  //   return { width: backgroundRectWidth, height: backgroundRectHeight };
-  // }
+  
+  ///////////////////////////////////////////////////////
+  ///// Add background rectangle to the color legend ////
+  ///////////////////////////////////////////////////////
+  
+  // Get background rectangale dimensions
+  const getBgRectangleDimensions = (colorValues, colorLabels, rectSize, textOffset) => {
+    // Find longest label
+    const longestLabel = colorLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
+    const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
+    const backgroundRectHeight = spacing * (colorValues.length + 2);
+    return { width: backgroundRectWidth, height: backgroundRectHeight };
+  }
 
-  // const backgroundRectDimensions = getBgRectangleDimensions(colorRange,
-  //   legendLabels,
-  //   rectSize,
-  //   textOffset);
+  const backgroundRectDimensions = getBgRectangleDimensions(colorValues,
+    colorLabels,
+    rectSize,
+    textOffset);
 
-  // // Background of legend bar, single item, special case
-  // const backgroundRect = selection.selectAll('rect').data([null]);
+  // Background of legend bar, single item, special case
+  const backgroundRect = selection.selectAll('rect').data([null]);
 
-  // // Background of legend
-  // backgroundRect.enter().append('rect')
-  //   .merge(backgroundRect)
-  //   .attr('x', -rectSize)
-  //   .attr('y', -rectSize)
-  //   .attr('width', backgroundRectDimensions.width)
-  //   .attr('height', backgroundRectDimensions.height)
-  //   .attr('fill', 'green')
-  //   .attr('rx', rectSize)
-  //   .attr('opacity', 0.2);
+  // Background of legend
+  backgroundRect.enter().append('rect')
+    .merge(backgroundRect)
+    .attr('x', -rectSize)
+    .attr('y', -rectSize)
+    .attr('width', backgroundRectDimensions.width)
+    .attr('height', backgroundRectDimensions.height)
+    .attr('fill', 'red')
+    .attr('rx', rectSize)
+    .attr('stroke', 'black')
+    .attr('stroke-width', 1)
+    .attr('opacity', 0.3);
 
   // Append two groups to legend group, one for title (legendTitleG)
   // and other for body of legend bar (legendBodyG). The title 

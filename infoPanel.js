@@ -15,6 +15,8 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features, co
     const arrItem = features.filter(d => d.properties.ST_PC === selectedConstituency);
 
     const constituency = arrItem[0].properties.PC_NAME_x;
+    const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
+
     const candidate = arrItem[0].properties.Candidate ? arrItem[0].properties.Candidate : "No data";
     const party = arrItem[0].properties.Party ? arrItem[0].properties.Party : "No data";
     const assets = arrItem[0].properties.Assets_num ? arrItem[0].properties.Assets_num : "No data";
@@ -23,7 +25,7 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features, co
 
     return ([
 
-      'Constituency: ' + constituency,
+      'Constituency: ' + constCapitalized,
 
       'MP: ' + candidate,
 
@@ -61,7 +63,9 @@ export const infoPanel = (selection, props) => {
   // Add new text element
   const selectionMerge = selectionUpdate.enter()
     .append('text')
+    // .attr('stroke', 'red')
     .attr('class', 'infoText')
+    .attr('transform', 'translate(10,5)')
     .merge(selectionUpdate);
   
   // Get the data to display on panel
@@ -79,7 +83,7 @@ export const infoPanel = (selection, props) => {
     .enter()
     .append('tspan')
     .attr('x', '0')
-    .attr('dy', '1.2rem')
+    .attr('dy', '1.5rem')
     .text((d) => d);  
 
 }
