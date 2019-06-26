@@ -2,10 +2,8 @@
   'use strict';
 
   const loadAndProcessData = () =>
-
     d3.json('https://raw.githubusercontent.com/saurabhp75/saurabhp75.github.io/master/data/merged_pc_map_trim.json')
       .then((topo) => {
-
         const feature_array = topo.features;
         return feature_array;
       });
@@ -136,16 +134,18 @@
   //Set map and projection
   const projection = d3.geoMercator().scale(1200)
     .center([82.5, 23])
-    // .center([78, 20])
     .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
   const pathGenerator = d3.geoPath().projection(projection);
 
   // function returning hover text
   const hoverText = (d) => {
+    const constituency = d.properties.PC_NAME_x;
+    const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
+
     if (d.properties.Assets_num) {
       return ('Constituency: '
-        + d.properties.PC_NAME_x
+        + constCapitalized
         + '\n'
         + 'MP: '
         + d.properties.Candidate
@@ -157,7 +157,7 @@
     }
     else {
       return ('Constituency: '
-        + d.properties.PC_NAME_x
+        + constCapitalized
         + '\n' 
         + 'MP: No data'
         + '\n'
@@ -169,7 +169,6 @@
 
   // function returning constituency color
   const constituencyColor = (d, colorScale) => {
-    // console.log('constituencyColor called')
     if (!d.properties.Assets_num) { return "black" }
     return colorScale(d.properties.Assets_num);
   };
@@ -227,7 +226,6 @@
   const getInfoPanelData = (selectedConstituency, selectedColorValue, features, colorValues, colorLabels) => {
 
     // console.log('getInfoPanelData called');
-
     if (!selectedConstituency && !selectedColorValue) {
       return ['Click on legend bar or constituency'];
     }
@@ -242,7 +240,7 @@
       const party = arrItem[0].properties.Party ? arrItem[0].properties.Party : "No data";
       const assets = arrItem[0].properties.Assets_num ? arrItem[0].properties.Assets_num : "No data";
 
-      console.log({constituency, candidate, party, assets});
+      // console.log({constituency, candidate, party, assets});
 
       return ([
 
@@ -276,8 +274,6 @@
     } = props;
 
     // console.log({selectedConstituency, selectedColorValue});
-    // const selectionUpdate = selection.selectAll('text').data([{selectedConstituency, selectedColorValue}]);
-
     // Add one time text element
     const selectionUpdate = selection.selectAll('text').data([null]);
 
@@ -292,9 +288,7 @@
     // Get the data to display on panel
     const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features, colorValues, colorLabels);
 
-    // console.log({textData});
-    
-    // remove all existing text
+     // remove all existing text
     selectionMerge.selectAll('tspan').remove();
 
     // Data join: tspan<=>textData
@@ -359,8 +353,8 @@
   // Background of legend
   infoPanelGBackground.enter().append('rect')
     .merge(infoPanelGBackground)
-    .attr('width', 380)
-    .attr('height', 150)
+    .attr('width', 370)
+    .attr('height', 120)
     .attr('fill', 'red')  
     .attr('stroke', 'black')
     .attr('stroke-width', 1)

@@ -62,8 +62,8 @@ const infoPanelGBackground = infoPanelG.selectAll('rect').data([null]);
 // Background of legend
 infoPanelGBackground.enter().append('rect')
   .merge(infoPanelGBackground)
-  .attr('width', 380)
-  .attr('height', 150)
+  .attr('width', 370)
+  .attr('height', 120)
   .attr('fill', 'red')  
   .attr('stroke', 'black')
   .attr('stroke-width', 1)

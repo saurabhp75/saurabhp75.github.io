@@ -6,7 +6,6 @@ import {
 const getInfoPanelData = (selectedConstituency, selectedColorValue, features, colorValues, colorLabels) => {
 
   // console.log('getInfoPanelData called');
-
   if (!selectedConstituency && !selectedColorValue) {
     return ['Click on legend bar or constituency'];
   }
@@ -21,7 +20,7 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features, co
     const party = arrItem[0].properties.Party ? arrItem[0].properties.Party : "No data";
     const assets = arrItem[0].properties.Assets_num ? arrItem[0].properties.Assets_num : "No data";
 
-    console.log({constituency, candidate, party, assets});
+    // console.log({constituency, candidate, party, assets});
 
     return ([
 
@@ -55,8 +54,6 @@ export const infoPanel = (selection, props) => {
   } = props;
 
   // console.log({selectedConstituency, selectedColorValue});
-  // const selectionUpdate = selection.selectAll('text').data([{selectedConstituency, selectedColorValue}]);
-
   // Add one time text element
   const selectionUpdate = selection.selectAll('text').data([null]);
 
@@ -71,9 +68,7 @@ export const infoPanel = (selection, props) => {
   // Get the data to display on panel
   const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features, colorValues, colorLabels);
 
-  // console.log({textData});
-  
-  // remove all existing text
+   // remove all existing text
   selectionMerge.selectAll('tspan').remove();
 
   // Data join: tspan<=>textData

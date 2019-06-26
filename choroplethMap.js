@@ -11,16 +11,18 @@ import { getSvgDimensions } from './miscUtils';
 //Set map and projection
 const projection = geoMercator().scale(1200)
   .center([82.5, 23])
-  // .center([78, 20])
   .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
 const pathGenerator = geoPath().projection(projection);
 
 // function returning hover text
 const hoverText = (d) => {
+  const constituency = d.properties.PC_NAME_x;
+  const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
+
   if (d.properties.Assets_num) {
     return ('Constituency: '
-      + d.properties.PC_NAME_x
+      + constCapitalized
       + '\n'
       + 'MP: '
       + d.properties.Candidate
@@ -32,7 +34,7 @@ const hoverText = (d) => {
   }
   else {
     return ('Constituency: '
-      + d.properties.PC_NAME_x
+      + constCapitalized
       + '\n' 
       + 'MP: No data'
       + '\n'
@@ -44,7 +46,6 @@ const hoverText = (d) => {
 
 // function returning constituency color
 const constituencyColor = (d, colorScale) => {
-  // console.log('constituencyColor called')
   if (!d.properties.Assets_num) { return "black" }
   return colorScale(d.properties.Assets_num);
 }
