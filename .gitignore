@@ -1,6 +1,6 @@
 rollup.config.js
 
-#*.map
-*.json
+*.map
+#*.json
 
 node_modules/
