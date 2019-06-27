@@ -19,3 +19,12 @@ export const getSvgDimensions = () => {
 
   return { width: width, height: height };
 }
+
+// Get background rectangale dimensions
+export const getBgRectangleDimensions = (colorValues, colorLabels, labelRectSize, labelTextOffset, labelSpacing) => {
+  // Find longest label
+  const longestLabel = colorLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
+  const backgroundRectWidth = labelRectSize + labelTextOffset + longestLabel.length * 5 + labelTextOffset;
+  const backgroundRectHeight = labelSpacing * (colorValues.length + 2);
+  return { width: backgroundRectWidth, height: backgroundRectHeight };
+};

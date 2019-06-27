@@ -8,55 +8,20 @@
         return feature_array;
       });
 
+  // import { getBgRectangleDimensions } from './miscUtils';
+
   const colorLegend = (selection, props) => {
-
     // console.log('colorLegend called');
-
     const { colorValues, // Array of colors
       colorLabels, //Tile labels array
-      rectSize, // Size of color tile
-      spacing, // spacing between color tiles
-      textOffset, // spacing between color tiles
+      labelRectSize, //size of color tiles
+      labelSpacing, //spacing between color tiles
+      labelTextOffset, //spacing between tile and label text
       onColorClick,
       selectedColorValue, // selected color value
       selectedConstituency // selected constituency
     } = props;
-
     
-    ///////////////////////////////////////////////////////
-    ///// Add background rectangle to the color legend ////
-    ///////////////////////////////////////////////////////
-    
-    // Get background rectangale dimensions
-    const getBgRectangleDimensions = (colorValues, colorLabels, rectSize, textOffset) => {
-      // Find longest label
-      const longestLabel = colorLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
-      const backgroundRectWidth = rectSize + textOffset + longestLabel.length * 5 + textOffset;
-      const backgroundRectHeight = spacing * (colorValues.length + 2);
-      return { width: backgroundRectWidth, height: backgroundRectHeight };
-    };
-
-    const backgroundRectDimensions = getBgRectangleDimensions(colorValues,
-      colorLabels,
-      rectSize,
-      textOffset);
-
-    // Background of legend bar, single item, special case
-    const backgroundRect = selection.selectAll('rect').data([null]);
-
-    // Background of legend
-    backgroundRect.enter().append('rect')
-      .merge(backgroundRect)
-      .attr('x', -rectSize)
-      .attr('y', -rectSize)
-      .attr('width', backgroundRectDimensions.width)
-      .attr('height', backgroundRectDimensions.height)
-      .attr('fill', 'red')
-      .attr('rx', rectSize)
-      .attr('stroke', 'black')
-      .attr('stroke-width', 1)
-      .attr('opacity', 0.3);
-
     // Append two groups to legend group, one for title (legendTitleG)
     // and other for body of legend bar (legendBodyG). The title 
 
@@ -65,12 +30,12 @@
       .append('g')
       .attr("class", "legendTitle")
       .append('text')
-      .text("Assets in Rs.");
+      .text("Assets(Rs.)");
 
     const legendBodyG = selection.selectAll('.legendBody').data([null]);
     const legendBodyGSelection = legendBodyG.enter()
       .append('g')
-      .attr('transform', `translate(0, ${spacing / 2})`)
+      .attr('transform', `translate(0, ${labelSpacing / 2})`)
       .attr("class", "legendBody")
       .merge(legendBodyG);
 
@@ -83,7 +48,7 @@
     // Append/Update the label/color groups
     groupsEnter
       .merge(groups)
-      .attr('transform', (d, i) => `translate(0, ${i * spacing})`)
+      .attr('transform', (d, i) => `translate(0, ${i * labelSpacing})`)
       .attr('opacity', d => {
         return ((!selectedColorValue || d === selectedColorValue) || selectedConstituency)
           ? 1
@@ -101,15 +66,15 @@
     groupsEnter.append('rect')
       .merge(groups.select('rect'))
       .attr('fill', (d, i) => colorValues[i])
-      .attr('width', rectSize)
-      .attr('height', rectSize);
+      .attr('width', labelRectSize)
+      .attr('height', labelRectSize);
 
     // Add the text
     groupsEnter.append('text')
       .merge(groups.select('text'))
       .text((d, i) => colorLabels[i])
       .attr('dy', '1.2em')
-      .attr('x', textOffset);
+      .attr('x', labelTextOffset);
   };
 
   const getSvg = () => {
@@ -127,6 +92,15 @@
     const height = +svg.attr("height");
 
     return { width: width, height: height };
+  };
+
+  // Get background rectangale dimensions
+  const getBgRectangleDimensions = (colorValues, colorLabels, labelRectSize, labelTextOffset, labelSpacing) => {
+    // Find longest label
+    const longestLabel = colorLabels.reduce(function (a, b) { return a.length > b.length ? a : b; });
+    const backgroundRectWidth = labelRectSize + labelTextOffset + longestLabel.length * 5 + labelTextOffset;
+    const backgroundRectHeight = labelSpacing * (colorValues.length + 2);
+    return { width: backgroundRectWidth, height: backgroundRectHeight };
   };
 
   // console.log(`${getSvgDimensions()}`)
@@ -224,7 +198,6 @@
 
   // Create data rows for infoPanel
   const getInfoPanelData = (selectedConstituency, selectedColorValue, features, colorValues, colorLabels) => {
-
     // console.log('getInfoPanelData called');
     if (!selectedConstituency && !selectedColorValue) {
       return ['Click on legend bar or constituency'];
@@ -273,26 +246,14 @@
       colorLabels
     } = props;
 
-    // console.log({selectedConstituency, selectedColorValue});
-    // Add one time text element
-    const selectionUpdate = selection.selectAll('text').data([null]);
-
-    // Add new text element
-    const selectionMerge = selectionUpdate.enter()
-      .append('text')
-      // .attr('stroke', 'red')
-      .attr('class', 'infoText')
-      .attr('transform', 'translate(10,5)')
-      .merge(selectionUpdate);
-    
     // Get the data to display on panel
     const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features, colorValues, colorLabels);
 
      // remove all existing text
-    selectionMerge.selectAll('tspan').remove();
+    selection.selectAll('tspan').remove();
 
     // Data join: tspan<=>textData
-    const textRows = selectionMerge.selectAll('tspan').data(textData);
+    const textRows = selection.selectAll('tspan').data(textData);
 
     textRows
       .enter()
@@ -303,29 +264,27 @@
 
   };
 
-  // console.log(`Width: ${document.body.clientWidth}`);
-  // console.log(`Height: ${document.body.clientHeight}`);
-
-  // const height = document.body.clientHeight;
-  // const width = document.body.clientWidth;
-
-  // console.log({height, width});
-  // console.log({rem, em})
-
   // Set domensions of root svg
   const mainCanvas = d3.select("svg");
-  //   .attr('width', width)
-  //   .attr('height', height);
+
+  const mainCanvasHeight = mainCanvas.attr('height');
+  const mainCanvasWidth = mainCanvas.attr('width');
 
   // Constituency group
   const constituencyG = mainCanvas.append('g');
 
-  // Legend group and placed in lower left of svg. 
-  // This will appear over constituencyG group
-  const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
-
   // Information panel
-  const infoPanelG = mainCanvas.append('g').attr('transform', `translate(310,20)`);
+  const infoPanelG = mainCanvas.append('g').attr('transform', `translate(${mainCanvasWidth - 370 - 15},20)`);
+
+  // Add one time text element to Info Panel
+  const infoPanelGUpdate = infoPanelG.selectAll('text').data([null]);
+
+  // Add new text element
+  const infoPanelGMerge = infoPanelGUpdate.enter()
+    .append('text')
+    .attr('class', 'infoText')
+    .attr('transform', 'translate(10,5)')
+    .merge(infoPanelGUpdate);
 
   // Add border to the main canvas
   const borderPath = mainCanvas.append("rect")
@@ -337,9 +296,8 @@
     .style("fill", "none")
     .style("stroke-width", 1);
 
-
   // Add pannning and zooming to map
-    mainCanvas.call(d3.zoom().on('zoom', () => {
+  mainCanvas.call(d3.zoom().on('zoom', () => {
     constituencyG.attr('transform', d3.event.transform);
   }));
 
@@ -350,12 +308,12 @@
   // Background of info panel, single item, special case
   const infoPanelGBackground = infoPanelG.selectAll('rect').data([null]);
 
-  // Background of legend
+  // Background of info panel
   infoPanelGBackground.enter().append('rect')
     .merge(infoPanelGBackground)
     .attr('width', 370)
     .attr('height', 120)
-    .attr('fill', 'red')  
+    .attr('fill', 'red')
     .attr('stroke', 'black')
     .attr('stroke-width', 1)
     .attr('rx', 10)
@@ -379,11 +337,11 @@
     '#006d2c'];
 
   const colorLabels = ["< 1 Crore",
-    "1 - 10 Crore",
-    "10 - 100 Crore",
-    "100 - 200 Crore",
-    "200 - 500 Crore",
-    "> 500 Crore"];
+    "1 - 10 Cr.",
+    "10 - 100 Cr.",
+    "100 - 200 Cr.",
+    "200 - 500 Cr.",
+    "> 500 Cr."];
 
   // Set set domain and range of colorscale for constituencies
   colorScale.domain(colorDomain).range(colorValues);
@@ -395,20 +353,16 @@
   ///////////////////////
   /////  App states /////
   ///////////////////////
-  // A) 
-  // Color not selected, const not selected:
+  // A) Color not selected, const not selected:
   // Clicking on any color filters map.->B
   // Clicking on any const also filters map.->C
 
-  // B)
-  // Color selected, const not selected:
+  // B) Color selected, const not selected:
   // Clicking on selected color->A
   // Clicking on other color->B
-  // Clicking on filtered const.->A
-  // Clicking on non filtered const.-->B
+  // Clicking on const.->C
 
-  // C)
-  // Color not selected const. selected:
+  // C) Color not selected const. selected:
   // Clicking on any color ->B
   // Clicking on filtered const. ->C
   // Clicking on non-filtered const. A
@@ -424,7 +378,7 @@
   const onColorClick = d => {
     // console.log(d);
     // If constituency is selected, deselect it
-    if (selectedConstituency) {    
+    if (selectedConstituency) {
       selectedConstituency = null;
     }
     selectedColorValue = d;
@@ -448,6 +402,41 @@
   });
 
 
+  // constants for legend bar
+  const labelRectSize = 30;
+  const labelSpacing = 30;
+  const labelTextOffset = 40;
+
+  ///////////////////////////////////////////////////////
+  ///// Add background rectangle to the color legend ////
+  ///////////////////////////////////////////////////////
+
+  const backgroundRectDimensions = getBgRectangleDimensions(colorValues,
+    colorLabels,
+    labelRectSize,
+    labelTextOffset,
+    labelSpacing);
+
+  // Create Legend group and place in lower left of svg. 
+  // This will appear over constituencyG group
+  const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10, ${mainCanvasHeight - backgroundRectDimensions.height})`);
+
+  // Background of legend bar, single item, special case
+  const backgroundRect = colorLegendG.selectAll('rect').data([null]);
+
+  // Background of legend
+  backgroundRect.enter().append('rect')
+    .merge(backgroundRect)
+    .attr('x', -labelRectSize)
+    .attr('y', -labelRectSize)
+    .attr('width', backgroundRectDimensions.width)
+    .attr('height', backgroundRectDimensions.height)
+    .attr('fill', 'red')
+    .attr('rx', labelRectSize)
+    .attr('stroke', 'black')
+    .attr('stroke-width', 1)
+    .attr('opacity', 0.3);
+
   const render = () => {
     // console.log('render called')
 
@@ -466,23 +455,23 @@
       .call(colorLegend, {
         colorValues,
         colorLabels,
-        rectSize: 30,
-        spacing: 30,
-        textOffset: 40,
+        labelRectSize,
+        labelSpacing,
+        labelTextOffset,
         onColorClick,
         selectedColorValue,
         selectedConstituency
       });
 
-      // Draw info panel
-      infoPanelG
-        .call(infoPanel, {
-          selectedConstituency,
-          selectedColorValue,
-          features,
-          colorValues,
-          colorLabels
-        });
+    // Update info panel text
+    infoPanelGMerge
+      .call(infoPanel, {
+        selectedConstituency,
+        selectedColorValue,
+        features,
+        colorValues,
+        colorLabels
+      });
 
   }; // End of render()
 

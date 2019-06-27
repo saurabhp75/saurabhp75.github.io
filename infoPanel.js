@@ -4,7 +4,6 @@ import {
 
 // Create data rows for infoPanel
 const getInfoPanelData = (selectedConstituency, selectedColorValue, features, colorValues, colorLabels) => {
-
   // console.log('getInfoPanelData called');
   if (!selectedConstituency && !selectedColorValue) {
     return ['Click on legend bar or constituency'];
@@ -53,26 +52,14 @@ export const infoPanel = (selection, props) => {
     colorLabels
   } = props;
 
-  // console.log({selectedConstituency, selectedColorValue});
-  // Add one time text element
-  const selectionUpdate = selection.selectAll('text').data([null]);
-
-  // Add new text element
-  const selectionMerge = selectionUpdate.enter()
-    .append('text')
-    // .attr('stroke', 'red')
-    .attr('class', 'infoText')
-    .attr('transform', 'translate(10,5)')
-    .merge(selectionUpdate);
-  
   // Get the data to display on panel
   const textData = getInfoPanelData(selectedConstituency, selectedColorValue, features, colorValues, colorLabels);
 
    // remove all existing text
-  selectionMerge.selectAll('tspan').remove();
+  selection.selectAll('tspan').remove();
 
   // Data join: tspan<=>textData
-  const textRows = selectionMerge.selectAll('tspan').data(textData);
+  const textRows = selection.selectAll('tspan').data(textData);
 
   textRows
     .enter()

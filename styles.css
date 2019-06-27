@@ -1,5 +1,6 @@
 body{
 	margin: 0px;
+  background-color: rgba(245, 242, 78, 0.3)
   /* overflow: hidden; */
   /* background-color: ; */
 }
@@ -56,3 +57,13 @@ text.infoText {
   /* fill: yellow; */
   stroke: black;
 }
+
+/* .d3-wrapper {
+  width: 100%;
+  height: 100%; 
+}
+
+svg {
+ width: 100%;
+ height: 100%;
+} */

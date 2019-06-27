@@ -11,30 +11,29 @@ import { colorLegend } from './colorLegend';
 import { choroplethMap } from './choroplethMap';
 import { getSvgDimensions, getSvg } from './miscUtils';
 import { infoPanel } from './infoPanel';
-
-// console.log(`Width: ${document.body.clientWidth}`);
-// console.log(`Height: ${document.body.clientHeight}`);
-
-// const height = document.body.clientHeight;
-// const width = document.body.clientWidth;
-
-// console.log({height, width});
-// console.log({rem, em})
+import { getBgRectangleDimensions } from './miscUtils';
 
 // Set domensions of root svg
 const mainCanvas = select("svg");
-//   .attr('width', width)
-//   .attr('height', height);
+
+const mainCanvasHeight = mainCanvas.attr('height');
+const mainCanvasWidth = mainCanvas.attr('width');
 
 // Constituency group
 const constituencyG = mainCanvas.append('g');
 
-// Legend group and placed in lower left of svg. 
-// This will appear over constituencyG group
-const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10,500)`);
-
 // Information panel
-const infoPanelG = mainCanvas.append('g').attr('transform', `translate(310,20)`);
+const infoPanelG = mainCanvas.append('g').attr('transform', `translate(${mainCanvasWidth - 370 - 15},20)`);
+
+// Add one time text element to Info Panel
+const infoPanelGUpdate = infoPanelG.selectAll('text').data([null]);
+
+// Add new text element
+const infoPanelGMerge = infoPanelGUpdate.enter()
+  .append('text')
+  .attr('class', 'infoText')
+  .attr('transform', 'translate(10,5)')
+  .merge(infoPanelGUpdate);
 
 // Add border to the main canvas
 const borderPath = mainCanvas.append("rect")
@@ -46,9 +45,8 @@ const borderPath = mainCanvas.append("rect")
   .style("fill", "none")
   .style("stroke-width", 1);
 
-
 // Add pannning and zooming to map
-  mainCanvas.call(zoom().on('zoom', () => {
+mainCanvas.call(zoom().on('zoom', () => {
   constituencyG.attr('transform', event.transform);
 }));
 
@@ -59,12 +57,12 @@ const borderPath = mainCanvas.append("rect")
 // Background of info panel, single item, special case
 const infoPanelGBackground = infoPanelG.selectAll('rect').data([null]);
 
-// Background of legend
+// Background of info panel
 infoPanelGBackground.enter().append('rect')
   .merge(infoPanelGBackground)
   .attr('width', 370)
   .attr('height', 120)
-  .attr('fill', 'red')  
+  .attr('fill', 'red')
   .attr('stroke', 'black')
   .attr('stroke-width', 1)
   .attr('rx', 10)
@@ -88,11 +86,11 @@ const colorValues = ['#edf8e9',
   '#006d2c'];
 
 const colorLabels = ["< 1 Crore",
-  "1 - 10 Crore",
-  "10 - 100 Crore",
-  "100 - 200 Crore",
-  "200 - 500 Crore",
-  "> 500 Crore"];
+  "1 - 10 Cr.",
+  "10 - 100 Cr.",
+  "100 - 200 Cr.",
+  "200 - 500 Cr.",
+  "> 500 Cr."];
 
 // Set set domain and range of colorscale for constituencies
 colorScale.domain(colorDomain).range(colorValues);
@@ -104,20 +102,16 @@ colorLabels.reverse();
 ///////////////////////
 /////  App states /////
 ///////////////////////
-// A) 
-// Color not selected, const not selected:
+// A) Color not selected, const not selected:
 // Clicking on any color filters map.->B
 // Clicking on any const also filters map.->C
 
-// B)
-// Color selected, const not selected:
+// B) Color selected, const not selected:
 // Clicking on selected color->A
 // Clicking on other color->B
-// Clicking on filtered const.->A
-// Clicking on non filtered const.-->B
+// Clicking on const.->C
 
-// C)
-// Color not selected const. selected:
+// C) Color not selected const. selected:
 // Clicking on any color ->B
 // Clicking on filtered const. ->C
 // Clicking on non-filtered const. A
@@ -133,7 +127,7 @@ let selectedConstituency; // tracks selected constituency in map
 const onColorClick = d => {
   // console.log(d);
   // If constituency is selected, deselect it
-  if (selectedConstituency) {    
+  if (selectedConstituency) {
     selectedConstituency = null;
   }
   selectedColorValue = d;
@@ -157,6 +151,41 @@ loadAndProcessData().then((feature_array) => {
 });
 
 
+// constants for legend bar
+const labelRectSize = 30;
+const labelSpacing = 30;
+const labelTextOffset = 40;
+
+///////////////////////////////////////////////////////
+///// Add background rectangle to the color legend ////
+///////////////////////////////////////////////////////
+
+const backgroundRectDimensions = getBgRectangleDimensions(colorValues,
+  colorLabels,
+  labelRectSize,
+  labelTextOffset,
+  labelSpacing);
+
+// Create Legend group and place in lower left of svg. 
+// This will appear over constituencyG group
+const colorLegendG = mainCanvas.append('g').attr('transform', `translate(10, ${mainCanvasHeight - backgroundRectDimensions.height})`);
+
+// Background of legend bar, single item, special case
+const backgroundRect = colorLegendG.selectAll('rect').data([null]);
+
+// Background of legend
+backgroundRect.enter().append('rect')
+  .merge(backgroundRect)
+  .attr('x', -labelRectSize)
+  .attr('y', -labelRectSize)
+  .attr('width', backgroundRectDimensions.width)
+  .attr('height', backgroundRectDimensions.height)
+  .attr('fill', 'red')
+  .attr('rx', labelRectSize)
+  .attr('stroke', 'black')
+  .attr('stroke-width', 1)
+  .attr('opacity', 0.3);
+
 const render = () => {
   // console.log('render called')
 
@@ -175,23 +204,23 @@ const render = () => {
     .call(colorLegend, {
       colorValues,
       colorLabels,
-      rectSize: 30,
-      spacing: 30,
-      textOffset: 40,
+      labelRectSize,
+      labelSpacing,
+      labelTextOffset,
       onColorClick,
       selectedColorValue,
       selectedConstituency
     });
 
-    // Draw info panel
-    infoPanelG
-      .call(infoPanel, {
-        selectedConstituency,
-        selectedColorValue,
-        features,
-        colorValues,
-        colorLabels
-      });
+  // Update info panel text
+  infoPanelGMerge
+    .call(infoPanel, {
+      selectedConstituency,
+      selectedColorValue,
+      features,
+      colorValues,
+      colorLabels
+    });
 
 } // End of render()
 
