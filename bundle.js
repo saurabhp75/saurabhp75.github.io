@@ -180,7 +180,7 @@
           .style("opacity", 0.7);
         div.html(
           "<p><strong>" + d.properties.PC_NAME_x + "</strong></p>" +
-          "<table><tbody><tr><td class='wide'>MP in 2014:</td><td>" + d.properties.Candidate + "</td></tr>" +
+          "<table><tbody><tr><td class='wide'>MP:</td><td>" + d.properties.Candidate + "</td></tr>" +
           "<tr><td>Assets:</td><td>₹" + d3$1.format(",.2r")(d.properties.Assets_num) + "</td></tr>" +
           "<tr><td>Party:</td><td>" + d.properties.Party + "</td></tr>" +        
           "</td></tr></tbody></table>"
