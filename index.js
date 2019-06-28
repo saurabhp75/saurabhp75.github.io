@@ -13,6 +13,10 @@ import { getSvgDimensions, getSvg } from './miscUtils';
 import { infoPanel } from './infoPanel';
 import { getBgRectangleDimensions } from './miscUtils';
 
+const div = d3.select("body").append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+
 // Set domensions of root svg
 const mainCanvas = select("svg");
 
@@ -48,6 +52,8 @@ const borderPath = mainCanvas.append("rect")
 // Add pannning and zooming to map
 mainCanvas.call(zoom().on('zoom', () => {
   constituencyG.attr('transform', event.transform);
+  div.attr('transform', event.transform);
+  
 }));
 
 ///////////////////////////////////////////////////////
@@ -123,7 +129,7 @@ let selectedColorValue; // tracks selected color in legend bar
 let features; // Globally (in the file) accessible feature array
 let selectedConstituency; // tracks selected constituency in map
 
-// Update the 
+// On click, legend bar
 const onColorClick = d => {
   // console.log(d);
   // If constituency is selected, deselect it
@@ -134,6 +140,7 @@ const onColorClick = d => {
   render();
 };
 
+// On click, constituency
 const onConstituencyClick = d => {
   // console.log(`const clicked: ${d}`);
   // // If color is selected, deselect it
@@ -186,6 +193,23 @@ backgroundRect.enter().append('rect')
   .attr('stroke-width', 1)
   .attr('opacity', 0.3);
 
+// Append two groups to legend group, one for title (legendTitleG)
+// and other for body of legend bar (legendBodyG).
+const legendTitleG = colorLegendG.selectAll('.legendTitle').data([null]);
+legendTitleG.enter()
+  .append('g')
+  .attr("class", "legendTitle")
+  .append('text')
+  .text("Assets(Rs.)");
+
+const legendBodyG = colorLegendG.selectAll('.legendBody').data([null]);
+const legendBodyGSelection = legendBodyG.enter()
+  .append('g')
+  .attr('transform', `translate(0, ${labelSpacing / 2})`)
+  .attr("class", "legendBody")
+  .merge(legendBodyG);
+
+
 const render = () => {
   // console.log('render called')
 
@@ -196,11 +220,12 @@ const render = () => {
       colorScale,
       selectedColorValue,
       onConstituencyClick,
-      selectedConstituency
+      selectedConstituency,
+      div
     });
 
   // Draw legend bar
-  colorLegendG
+  legendBodyGSelection
     .call(colorLegend, {
       colorValues,
       colorLabels,

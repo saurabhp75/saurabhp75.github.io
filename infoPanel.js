@@ -13,7 +13,7 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features, co
     const arrItem = features.filter(d => d.properties.ST_PC === selectedConstituency);
 
     const constituency = arrItem[0].properties.PC_NAME_x;
-    const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
+    // const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
 
     const candidate = arrItem[0].properties.Candidate ? arrItem[0].properties.Candidate : "No data";
     const party = arrItem[0].properties.Party ? arrItem[0].properties.Party : "No data";
@@ -23,7 +23,7 @@ const getInfoPanelData = (selectedConstituency, selectedColorValue, features, co
 
     return ([
 
-      'Constituency: ' + constCapitalized,
+      'Constituency: ' + constituency,
 
       'MP: ' + candidate,
 

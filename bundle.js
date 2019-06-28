@@ -1,8 +1,8 @@
-(function (d3) {
+(function (d3$1) {
   'use strict';
 
   const loadAndProcessData = () =>
-    d3.json('https://raw.githubusercontent.com/saurabhp75/saurabhp75.github.io/master/data/merged_pc_map_trim.json')
+    d3$1.json('https://raw.githubusercontent.com/saurabhp75/saurabhp75.github.io/master/data/merged_pc_map_pok.json')
       .then((topo) => {
         const feature_array = topo.features;
         return feature_array;
@@ -22,25 +22,8 @@
       selectedConstituency // selected constituency
     } = props;
     
-    // Append two groups to legend group, one for title (legendTitleG)
-    // and other for body of legend bar (legendBodyG). The title 
-
-    const legendTitleG = selection.selectAll('.legendTitle').data([null]);
-    legendTitleG.enter()
-      .append('g')
-      .attr("class", "legendTitle")
-      .append('text')
-      .text("Assets(Rs.)");
-
-    const legendBodyG = selection.selectAll('.legendBody').data([null]);
-    const legendBodyGSelection = legendBodyG.enter()
-      .append('g')
-      .attr('transform', `translate(0, ${labelSpacing / 2})`)
-      .attr("class", "legendBody")
-      .merge(legendBodyG);
-
     // Add elements in legend body
-    const groups = legendBodyGSelection.selectAll('.tick').data(colorValues);
+    const groups = selection.selectAll('.tick').data(colorValues);
 
     // Create one group for each color
     const groupsEnter = groups.enter().append('g').attr('class', 'tick');
@@ -79,7 +62,7 @@
 
   const getSvg = () => {
     // Select the root svg element
-    const svg = d3.select("svg");
+    const svg = d3$1.select("svg");
     return svg;
 
   };
@@ -106,59 +89,49 @@
   // console.log(`${getSvgDimensions()}`)
 
   //Set map and projection
-  const projection = d3.geoMercator().scale(1200)
+  const projection = d3$1.geoMercator().scale(1200)
     .center([82.5, 23])
     .translate([getSvgDimensions().width / 2, getSvgDimensions().height / 2]);
 
-  const pathGenerator = d3.geoPath().projection(projection);
-
-  // function returning hover text
-  const hoverText = (d) => {
-    const constituency = d.properties.PC_NAME_x;
-    const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
-
-    if (d.properties.Assets_num) {
-      return ('Constituency: '
-        + constCapitalized
-        + '\n'
-        + 'MP: '
-        + d.properties.Candidate
-        + '\n' + 'Assets(Rs.): '
-        + d3.format(",.2r")(d.properties.Assets_num)
-        + '\n'
-        + 'Party: '
-        + d.properties.Party);
-    }
-    else {
-      return ('Constituency: '
-        + constCapitalized
-        + '\n' 
-        + 'MP: No data'
-        + '\n'
-        + 'Assets(Rs.): No data'
-        + '\n'
-        + 'Party: No Data');
-    }
-  };
+  const pathGenerator = d3$1.geoPath().projection(projection);
 
   // function returning constituency color
-  const constituencyColor = (d, colorScale) => {
-    if (!d.properties.Assets_num) { return "black" }
-    return colorScale(d.properties.Assets_num);
+  // const constituencyColor = (d, colorScale) => {
+  //   if (!d.properties.Assets_num) { return "black" }
+  //   return colorScale(d.properties.Assets_num);
+  // }
+
+  const constituencyColor = (d, colorScale, selectedConstituency) => {
+    let constColor;
+
+    if (!d.properties.Assets_num) { constColor =  "black";}
+    else if (selectedConstituency === d.properties.ST_PC) { constColor = 'yellow';}
+    else {constColor = colorScale(d.properties.Assets_num);}
+
+    return constColor;
   };
 
+  // const constituencyOpacity = (d, selectedConstituency, selectedColorValue, colorScale) => {
+  //   // If a const. is selected, then make opacity 1
+  //   // else if color of const. is equal to selected color, then make opacity 1
+  //   // else make opacity 0.2
+  //   if (!selectedConstituency && !selectedColorValue) {// Initial state
+  //     return 1;
+  //   } else if (selectedConstituency && (selectedConstituency === d.properties.ST_PC)) {
+  //     return 1;
+  //   } else if (selectedColorValue && (selectedColorValue === colorScale(d.properties.Assets_num))) {
+  //     return 1;
+  //   }
+  //   else return 0.2;
+  // }
+
   const constituencyOpacity = (d, selectedConstituency, selectedColorValue, colorScale) => {
-    // If a const. is selected, then make opacity 1
-    // else if color of const. is equal to selected color, then make opacity 1
-    // else make opacity 0.2
-    if (!selectedConstituency && !selectedColorValue) {// Initial state
-      return 1;
-    } else if (selectedConstituency && (selectedConstituency === d.properties.ST_PC)) {
-      return 1;
-    } else if (selectedColorValue && (selectedColorValue === colorScale(d.properties.Assets_num))){
-      return 1;
+    // If a color is selected and constituency color is not equal to selected color,
+    // then reduce the opacity
+    if (selectedColorValue && (selectedColorValue != colorScale(d.properties.Assets_num))) {
+      return 0.2;
     }
-    else return 0.2; 
+    else return 1;
   };
 
   // Draw the map from constituencyG passed as 'selection'
@@ -169,7 +142,8 @@
       colorScale,
       selectedColorValue,
       onConstituencyClick,
-      selectedConstituency
+      selectedConstituency,
+      div
     } = props;
 
     const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
@@ -177,23 +151,50 @@
     const constituencyPathsEnter = constituencyPaths.enter()
       .append("path")
       .attr('class', 'constituency')
-      .attr("d", pathGenerator)
-      .attr("fill", d => constituencyColor(d, colorScale));
+      .attr("d", pathGenerator);
+      // .attr("fill", d => constituencyColor(d, colorScale, selectedConstituency));
 
-    constituencyPathsEnter.append('title').text(hoverText);
-
+    // constituencyPathsEnter.append('title').text(hoverText);
     constituencyPathsEnter.merge(constituencyPaths)
+      .attr("fill", d => constituencyColor(d, colorScale, selectedConstituency))
       .attr('opacity', d => constituencyOpacity(d, selectedConstituency, selectedColorValue, colorScale))
       .classed('highlighted', d =>
         (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
       )
-      .on('click', d => 
-        onConstituencyClick(
+      // .classed('selected', d => {
+      //   const stpc = d.properties.ST_PC;
+      //   console.log({selectedConstituency, stpc});
+      //   (selectedConstituency && selectedConstituency === d.properties.ST_PC)
+
+      // })
+      .on('click', d => onConstituencyClick(
           d.properties.ST_PC === selectedConstituency
             ? null
             : d.properties.ST_PC
         )
-      );
+      )
+      //Adding mouseevents
+      .on("mouseover", (d) => {
+        // select(this).transition().duration(300).style("opacity", 1);
+        div.transition().duration(300)
+          .style("opacity", 0.7);
+        div.html(
+          "<p><strong>" + d.properties.PC_NAME_x + "</strong></p>" +
+          "<table><tbody><tr><td class='wide'>MP in 2014:</td><td>" + d.properties.Candidate + "</td></tr>" +
+          "<tr><td>Assets:</td><td>₹" + d3$1.format(",.2r")(d.properties.Assets_num) + "</td></tr>" +
+          "<tr><td>Party:</td><td>" + d.properties.Party + "</td></tr>" +        
+          "</td></tr></tbody></table>"
+        )
+          .style("left", (event.pageX) + "px")
+          .style("top", (event.pageY - 30) + "px");
+      })
+      .on("mouseout", function () {
+        // d3.select(this)
+        //   .transition().duration(300)
+        //   .style("opacity", 0.8);
+        div.transition().duration(300)
+          .style("opacity", 0);
+      });
   };
 
   // Create data rows for infoPanel
@@ -207,7 +208,7 @@
       const arrItem = features.filter(d => d.properties.ST_PC === selectedConstituency);
 
       const constituency = arrItem[0].properties.PC_NAME_x;
-      const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
+      // const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
 
       const candidate = arrItem[0].properties.Candidate ? arrItem[0].properties.Candidate : "No data";
       const party = arrItem[0].properties.Party ? arrItem[0].properties.Party : "No data";
@@ -217,11 +218,11 @@
 
       return ([
 
-        'Constituency: ' + constCapitalized,
+        'Constituency: ' + constituency,
 
         'MP: ' + candidate,
 
-        'Assets(Rs.): ' + d3.format(",.2r")(assets),
+        'Assets(Rs.): ' + d3$1.format(",.2r")(assets),
 
         'Party: ' + party
       ])
@@ -264,8 +265,12 @@
 
   };
 
+  const div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
   // Set domensions of root svg
-  const mainCanvas = d3.select("svg");
+  const mainCanvas = d3$1.select("svg");
 
   const mainCanvasHeight = mainCanvas.attr('height');
   const mainCanvasWidth = mainCanvas.attr('width');
@@ -297,8 +302,10 @@
     .style("stroke-width", 1);
 
   // Add pannning and zooming to map
-  mainCanvas.call(d3.zoom().on('zoom', () => {
-    constituencyG.attr('transform', d3.event.transform);
+  mainCanvas.call(d3$1.zoom().on('zoom', () => {
+    constituencyG.attr('transform', d3$1.event.transform);
+    div.attr('transform', d3$1.event.transform);
+    
   }));
 
   ///////////////////////////////////////////////////////
@@ -321,7 +328,7 @@
 
 
   // Define colorscale for constituencies
-  const colorScale = d3.scaleThreshold();
+  const colorScale = d3$1.scaleThreshold();
 
   const colorDomain = [10000000,
     100000000,
@@ -374,7 +381,7 @@
   let features; // Globally (in the file) accessible feature array
   let selectedConstituency; // tracks selected constituency in map
 
-  // Update the 
+  // On click, legend bar
   const onColorClick = d => {
     // console.log(d);
     // If constituency is selected, deselect it
@@ -385,6 +392,7 @@
     render();
   };
 
+  // On click, constituency
   const onConstituencyClick = d => {
     // console.log(`const clicked: ${d}`);
     // // If color is selected, deselect it
@@ -437,6 +445,23 @@
     .attr('stroke-width', 1)
     .attr('opacity', 0.3);
 
+  // Append two groups to legend group, one for title (legendTitleG)
+  // and other for body of legend bar (legendBodyG).
+  const legendTitleG = colorLegendG.selectAll('.legendTitle').data([null]);
+  legendTitleG.enter()
+    .append('g')
+    .attr("class", "legendTitle")
+    .append('text')
+    .text("Assets(Rs.)");
+
+  const legendBodyG = colorLegendG.selectAll('.legendBody').data([null]);
+  const legendBodyGSelection = legendBodyG.enter()
+    .append('g')
+    .attr('transform', `translate(0, ${labelSpacing / 2})`)
+    .attr("class", "legendBody")
+    .merge(legendBodyG);
+
+
   const render = () => {
     // console.log('render called')
 
@@ -447,11 +472,12 @@
         colorScale,
         selectedColorValue,
         onConstituencyClick,
-        selectedConstituency
+        selectedConstituency,
+        div
       });
 
     // Draw legend bar
-    colorLegendG
+    legendBodyGSelection
       .call(colorLegend, {
         colorValues,
         colorLabels,

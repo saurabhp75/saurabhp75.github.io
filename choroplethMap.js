@@ -18,11 +18,11 @@ const pathGenerator = geoPath().projection(projection);
 // function returning hover text
 const hoverText = (d) => {
   const constituency = d.properties.PC_NAME_x;
-  const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
+  // const constCapitalized = constituency.charAt(0).toUpperCase() + constituency.slice(1).toLowerCase();
 
   if (d.properties.Assets_num) {
     return ('Constituency: '
-      + constCapitalized
+      + constituency
       + '\n'
       + 'MP: '
       + d.properties.Candidate
@@ -34,8 +34,8 @@ const hoverText = (d) => {
   }
   else {
     return ('Constituency: '
-      + constCapitalized
-      + '\n' 
+      + constituency
+      + '\n'
       + 'MP: No data'
       + '\n'
       + 'Assets(Rs.): No data'
@@ -45,23 +45,42 @@ const hoverText = (d) => {
 }
 
 // function returning constituency color
-const constituencyColor = (d, colorScale) => {
-  if (!d.properties.Assets_num) { return "black" }
-  return colorScale(d.properties.Assets_num);
+// const constituencyColor = (d, colorScale) => {
+//   if (!d.properties.Assets_num) { return "black" }
+//   return colorScale(d.properties.Assets_num);
+// }
+
+const constituencyColor = (d, colorScale, selectedConstituency) => {
+  let constColor;
+
+  if (!d.properties.Assets_num) { constColor =  "black";}
+  else if (selectedConstituency === d.properties.ST_PC) { constColor = 'yellow';}
+  else {constColor = colorScale(d.properties.Assets_num);}
+
+  return constColor;
 }
 
+// const constituencyOpacity = (d, selectedConstituency, selectedColorValue, colorScale) => {
+//   // If a const. is selected, then make opacity 1
+//   // else if color of const. is equal to selected color, then make opacity 1
+//   // else make opacity 0.2
+//   if (!selectedConstituency && !selectedColorValue) {// Initial state
+//     return 1;
+//   } else if (selectedConstituency && (selectedConstituency === d.properties.ST_PC)) {
+//     return 1;
+//   } else if (selectedColorValue && (selectedColorValue === colorScale(d.properties.Assets_num))) {
+//     return 1;
+//   }
+//   else return 0.2;
+// }
+
 const constituencyOpacity = (d, selectedConstituency, selectedColorValue, colorScale) => {
-  // If a const. is selected, then make opacity 1
-  // else if color of const. is equal to selected color, then make opacity 1
-  // else make opacity 0.2
-  if (!selectedConstituency && !selectedColorValue) {// Initial state
-    return 1;
-  } else if (selectedConstituency && (selectedConstituency === d.properties.ST_PC)) {
-    return 1;
-  } else if (selectedColorValue && (selectedColorValue === colorScale(d.properties.Assets_num))){
-    return 1;
+  // If a color is selected and constituency color is not equal to selected color,
+  // then reduce the opacity
+  if (selectedColorValue && (selectedColorValue != colorScale(d.properties.Assets_num))) {
+    return 0.2;
   }
-  else return 0.2; 
+  else return 1;
 }
 
 // Draw the map from constituencyG passed as 'selection'
@@ -72,7 +91,8 @@ export const choroplethMap = (selection, props) => {
     colorScale,
     selectedColorValue,
     onConstituencyClick,
-    selectedConstituency
+    selectedConstituency,
+    div
   } = props;
 
   const constituencyPaths = selection.selectAll("path").data(features, d => d.properties.ST_PC);
@@ -81,20 +101,47 @@ export const choroplethMap = (selection, props) => {
     .append("path")
     .attr('class', 'constituency')
     .attr("d", pathGenerator)
-    .attr("fill", d => constituencyColor(d, colorScale));
+    // .attr("fill", d => constituencyColor(d, colorScale, selectedConstituency));
 
-  constituencyPathsEnter.append('title').text(hoverText);
-
+  // constituencyPathsEnter.append('title').text(hoverText);
   constituencyPathsEnter.merge(constituencyPaths)
+    .attr("fill", d => constituencyColor(d, colorScale, selectedConstituency))
     .attr('opacity', d => constituencyOpacity(d, selectedConstituency, selectedColorValue, colorScale))
     .classed('highlighted', d =>
       (selectedColorValue && selectedColorValue === colorScale(d.properties.Assets_num))
     )
-    .on('click', d => 
-      onConstituencyClick(
+    // .classed('selected', d => {
+    //   const stpc = d.properties.ST_PC;
+    //   console.log({selectedConstituency, stpc});
+    //   (selectedConstituency && selectedConstituency === d.properties.ST_PC)
+
+    // })
+    .on('click', d => onConstituencyClick(
         d.properties.ST_PC === selectedConstituency
           ? null
           : d.properties.ST_PC
       )
-    );
+    )
+    //Adding mouseevents
+    .on("mouseover", (d) => {
+      // select(this).transition().duration(300).style("opacity", 1);
+      div.transition().duration(300)
+        .style("opacity", 0.7)
+      div.html(
+        "<p><strong>" + d.properties.PC_NAME_x + "</strong></p>" +
+        "<table><tbody><tr><td class='wide'>MP in 2014:</td><td>" + d.properties.Candidate + "</td></tr>" +
+        "<tr><td>Assets:</td><td>₹" + format(",.2r")(d.properties.Assets_num) + "</td></tr>" +
+        "<tr><td>Party:</td><td>" + d.properties.Party + "</td></tr>" +        
+        "</td></tr></tbody></table>"
+      )
+        .style("left", (event.pageX) + "px")
+        .style("top", (event.pageY - 30) + "px");
+    })
+    .on("mouseout", function () {
+      // d3.select(this)
+      //   .transition().duration(300)
+      //   .style("opacity", 0.8);
+      div.transition().duration(300)
+        .style("opacity", 0);
+    });
 }
