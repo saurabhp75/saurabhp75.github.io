@@ -1,6 +1,14 @@
 rollup.config.js
 
+choroplethMap.js
+colorLegend.js
+dropDownMenu.js
+index.js
+infoPanel.js
+loadAndProcessData.js
+miscUtils.js
+
 *.map
-#*.json
+package*.json
 
 node_modules/
