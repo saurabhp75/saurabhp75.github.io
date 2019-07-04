@@ -8,7 +8,9 @@ infoPanel.js
 loadAndProcessData.js
 miscUtils.js
 
+package.json
+package-lock.json
+
 *.map
-package*.json
 
 node_modules/
