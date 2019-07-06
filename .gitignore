@@ -11,6 +11,9 @@ miscUtils.js
 package.json
 package-lock.json
 
-*.map
+bundle.js.map
+package-lock.json
+package.json
+rollup.config.js
 
 node_modules/
