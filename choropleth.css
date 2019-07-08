@@ -6,7 +6,7 @@ body{
 .tooltip {
   position: absolute;
   padding: 7px;
-  font-size: 0.9em;
+  font-size: 1.6em;
   pointer-events: none;
   background: #fff;
   border: 1px solid #ccc;
