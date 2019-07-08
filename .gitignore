@@ -8,10 +8,19 @@ infoPanel.js
 loadAndProcessData.js
 miscUtils.js
 
+delhiChoroMap.js
+delhiClrLgnd.js
+delhiDropDMenu.js
+delhiIndex.js
+delhiInfoPanel.js
+delhiLdNProcData.js
+
 package.json
 package-lock.json
 
 bundle.js.map
+delhiBundle.js.map
+
 package-lock.json
 package.json
 rollup.config.js
