@@ -12,4 +12,4 @@ Hi everyone!, this is my first post on my personal website built using [Jekyll](
 
 <!--more-->
 
-This site will hold all my personal notes on variuos tools, programming languages and technologies that I have used and will act as a central place for me to refer them when needed. I will ocassionally blog on this site as well. This website is a work in progress and will be updated frequently.
+This site will hold all my personal notes on variuos tools, programming languages and technologies that I have used and will act as a central place for me to refer them when needed. I will ocassionally blog on this site as well. This website is a work in progress and will be updated frequently. Thanks for talking your time to read this post.
