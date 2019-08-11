@@ -84,6 +84,11 @@ footer:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/saurabhp75"
 
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "mysite-zkuagmcy74"
+
 defaults:
   # _posts
   - scope:
