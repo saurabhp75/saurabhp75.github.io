@@ -1,11 +1,19 @@
 main:
   - title: "Posts"
     url: /posts/
+    description: "Posts"
   - title: "Categories"
     url: /categories/
+    description: "Categories"
   - title: "Tags"
     url: /tags/
+    description: "Tags"
   - title: "Portfolio"
     url: /portfolio/
+    description: "Portfolio"
   - title: "About"
     url: /about/
+    description: "About Me"
+  - title: "Sitemap"
+    url: sitemap.xml
+    description: "Sitemap"
