@@ -39,6 +39,12 @@ timezone: Asia/Kolkata
 include:
   - _pages
 
+
+twitter:
+  username: "saurabhp75"
+
+og_image: /assets/images/site-logo.png
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
