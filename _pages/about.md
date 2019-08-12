@@ -10,9 +10,9 @@ header:
   actions:
     - label: "Portfolio"
       url: "/portfolio/"
+    - label: "CV"
+      url: "https://drive.google.com/open?id=14eBCoD8Dwro3ldfvpcksqZSQOkk7ejBX"
 ---
-
-[CV](https://drive.google.com/open?id=14eBCoD8Dwro3ldfvpcksqZSQOkk7ejBX) [Portfolio](https://saurabhp75.github.io/portfolio)
 
 **TL;DR**:  I am M. Tech(Computer Technology) from IIT Delhi. I worked in telecom industry for about 17 years working mainly in C/C++, developing FCAPS modules for SDH, DWDM and OTN based products. I worked for [C-DOT](http://www.cdot.in/cdotweb/web/home.php), [Ciena](https://www.ciena.in/), [HCL](https://www.hcltech.com/) and [Wipro](https://www.wipro.com/en-IN/) as Technical Specialist/Architect. Since 2017, I am working and learning Data Science and full stack technologies.
 
