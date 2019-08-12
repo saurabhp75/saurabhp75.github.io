@@ -1,5 +1,5 @@
 ---
-title: "What this site is about"
+title: "About this site"
 excerpt_separator: "<!--more-->"
 categories:
   - Blog
