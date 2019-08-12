@@ -1,4 +1,10 @@
 main:
+  - title: "About"
+    url: /about/
+    description: "About Me"
+  - title: "Portfolio"
+    url: /portfolio/
+    description: "Portfolio"  
   - title: "Posts"
     url: /posts/
     description: "Posts"
@@ -8,12 +14,6 @@ main:
   - title: "Tags"
     url: /tags/
     description: "Tags"
-  - title: "Portfolio"
-    url: /portfolio/
-    description: "Portfolio"
-  - title: "About"
-    url: /about/
-    description: "About Me"
   - title: "Sitemap"
     url: sitemap.xml
     description: "Sitemap"

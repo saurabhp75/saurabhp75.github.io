@@ -39,11 +39,34 @@ timezone: Asia/Kolkata
 include:
   - _pages
 
-
 twitter:
   username: "saurabhp75"
 
 og_image: /assets/images/site-logo.png
+
+social:
+  type:  # Person or Organization (defaults to Person)
+  name:  # If the user or organization name differs from the site's name
+  links:
+    - "https://twitter.com/saurabhp75"
+    - "https://www.linkedin.com/in/saurabhp75"
+    #- "https://plus.google.com/your_profile"
+
+
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "UA-143498421-1"
+    anonymize_ip: false # default
+
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
+
+breadcrumbs: true  # disabled by default
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -70,6 +93,7 @@ author:
   name   : "Saurabh Prakash"
   avatar : "/assets/images/bio-photo.jpg"
   bio    : "A generalist with focus on developing product and services."
+  location : "Delhi, India" 
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
@@ -79,7 +103,7 @@ author:
       url: "https://github.com/saurabhp75"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/saurabhp75/"
+      url: "https://www.linkedin.com/in/saurabhp75"
 
 footer:
   links:
@@ -94,6 +118,11 @@ comments:
   provider: "disqus"
   disqus:
     shortname: "mysite-zkuagmcy74"
+
+# collections_dir: my_collections
+
+collections:
+  - portfolio
 
 defaults:
   # _posts

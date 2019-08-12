@@ -1,6 +1,15 @@
 ---
 permalink: /about/
 title: "About"
+# excerpt: "Welcome to my **home**."
+header:
+  overlay_image: /assets/images/header.jpg
+  overlay_filter: 0.5 # same as adding an opacity of 0.5 to a black background
+  # overlay_color: "#333"
+  caption: "Photo credit: [**Unsplash**](https://unsplash.com/photos/cckf4TsHAuw)"
+  actions:
+    - label: "Portfolio"
+      url: "/portfolio/"
 ---
 
 [CV](https://drive.google.com/open?id=14eBCoD8Dwro3ldfvpcksqZSQOkk7ejBX) [Portfolio](https://saurabhp75.github.io/portfolio)
