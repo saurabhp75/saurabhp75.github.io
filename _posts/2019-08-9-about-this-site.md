@@ -1,5 +1,5 @@
 ---
-title: "First post"
+title: "What this site is about"
 excerpt_separator: "<!--more-->"
 categories:
   - Blog
