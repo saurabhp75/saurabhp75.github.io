@@ -7,6 +7,11 @@ header:
   teaser: assets/images/blog_teaser.jpg
   overlay_image: assets/images/blog.jpg
   overlay_filter: 0.5
+  actions:
+    - label: "Demo"
+      url: "https://saurabhp75.pythonanywhere.com/"
+    - label: "GitHub"
+      url: "https://github.com/saurabhp75/djangoBlog"
 
 sidebar:
   - title: "Tech stack"
@@ -24,5 +29,3 @@ This blog site has following functionalities:
 4. Editing existing post.
 5. View account information.
 6. Updating password and or email.
-
-[GitHub](https://github.com/saurabhp75/djangoBlog)

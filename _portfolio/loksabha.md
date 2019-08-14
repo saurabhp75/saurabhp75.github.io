@@ -6,6 +6,11 @@ header:
   overlay_image: assets/images/ls.jpg
   overlay_filter: 0.5
   teaser: assets/images/ls_teaser.jpg
+  actions:
+    - label: "Demo"
+      url: "https://saurabhp75.github.io/election_visualization/choropleth.html"
+    - label: "GitHub"
+      url: "https://github.com/saurabhp75/election_visualization"
 sidebar:
   - title: "Tech stack"
     image: assets/images/d3.png
@@ -14,5 +19,3 @@ sidebar:
 ---
 
 An interactive visualiztion of Lok Sabha elections(2019).
-
-[GitHub](https://github.com/saurabhp75/election_visualization)

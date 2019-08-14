@@ -6,6 +6,9 @@ header:
   overlay_image: assets/images/dash.jpg
   overlay_filter: 0.5
   teaser: assets/images/dash_teaser.jpg
+  actions:
+    - label: "GitHub"
+      url: "https://github.com/saurabhp75/Dashboard"
 sidebar:
   - title: "Tech stack"
     image: assets/images/dash_logo.png
@@ -14,5 +17,3 @@ sidebar:
 ---
 
 An interactive stock ticker built using dash.
-
-[GitHub](https://github.com/saurabhp75/Dashboard)
