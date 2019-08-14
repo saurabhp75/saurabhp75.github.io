@@ -4,7 +4,7 @@ title: "Blog application"
 excerpt: "A blog app developed using Python/Django."
 header:
   # image: assets/images/header.jpg
-  teaser: assets/images/blog.jpg
+  teaser: assets/images/blog_teaser.jpg
   overlay_image: assets/images/blog.jpg
   overlay_filter: 0.5
 

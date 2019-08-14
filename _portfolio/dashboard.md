@@ -5,7 +5,7 @@ excerpt: "An interactive stock ticker built using Plotly/Dash."
 header:
   overlay_image: assets/images/dash.jpg
   overlay_filter: 0.5
-  teaser: assets/images/dash.jpg
+  teaser: assets/images/dash_teaser.jpg
 sidebar:
   - title: "Tech stack"
     image: assets/images/dash_logo.png

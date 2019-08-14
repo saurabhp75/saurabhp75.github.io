@@ -5,7 +5,7 @@ excerpt: "An interactive visualiztion of winners of Delhi assembly elections(201
 header:
   overlay_image: assets/images/delhi.jpg
   overlay_filter: 0.5
-  teaser: assets/images/delhi.jpg
+  teaser: assets/images/delhi_teaser.jpg
 sidebar:
   - title: "Tech stack"
     image: assets/images/d3.png
