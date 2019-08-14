@@ -1,8 +1,18 @@
 ---
-name: YelpCamp clone
-link: https://immense-gorge-49961.herokuapp.com
+layout: single
+title: "A YelpCamp clone."
+excerpt: "A YelpCamp clone developed using Nodejs/Express"
 header:
-  teaser: /assets/images/yelp.jpg
+  overlay_image: assets/images/yelp.jpg
+  overlay_filter: 0.5
+  teaser: assets/images/yelp.jpg
+sidebar:
+  - title: "Tech stack"
+    image: assets/images/node.png
+    image_alt: "logo"
+    text: "Nodejs, Express, MongoDB, Heroku"
 ---
 
 A YelpCamp clone.
+
+[GitHub](https://github.com/saurabhp75/yelpcamp)
