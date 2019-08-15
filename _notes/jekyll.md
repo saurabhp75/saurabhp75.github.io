@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Jekyll Notes"
+title: "Jekyll"
 excerpt: "Intro to Jekyll"
 
 sidebar:
