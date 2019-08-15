@@ -1,0 +1,20 @@
+---
+layout: single
+title: "SQL Notes"
+excerpt: "Intro to SQL"
+
+sidebar:
+  - title: "SQL personal notes"
+    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
+---
+
+8 type of joins (Italicized joins doesnt have built-in sql syntax) :
+
+    1. Inner join
+    2. Self join (special case of inner join)
+    3. Left join ( An outer join)
+    4. Right join ( An outer join)
+    5. Full join ( An outer join)
+    6. Cross join
+    7. __Semi join__
+    8. __Anti join__

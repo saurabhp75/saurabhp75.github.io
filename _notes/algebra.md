@@ -1,0 +1,143 @@
+---
+layout: single
+title: "Linear Algebrs"
+excerpt: "Intro to Linear Algebra"
+
+sidebar:
+  - title: "Algebra personal notes"
+    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
+---
+
+Vector Multiplication
+c = a × b
+c = (a 1 b 1 , a 2 b 2 , a 3 b 3 )
+c = a * b
+
+Vector Division
+c = a/b
+c = (a 1/b 1 , a 2/b 2 , a 3/b 3 )
+c = a/b
+
+
+Vector Dot Product
+c = a · b
+c = (a 1 b 1 + a 2 b 2 + a 3 b 3 )
+c = a.dot(b)
+
+
+Vector-Scalar Multiplication
+c = s * a
+
+
+Vector Norms
+============
+Vector L 1 Norm
+||v|| 1 = |a 1 | + |a 2 | + |a 3 |
+l1 = norm(a, 1)
+
+Vector L 2 Norm
+l2 = norm(a)
+
+
+Vector Max Norm
+The length of a vector can be calculated using the maximum norm, also called max norm
+
+maxnorm = norm(a, inf)
+
+
+
+Matrix Multiplication (Hadamard Product)
+=========================================
+C = A * B
+
+
+Matrix-Matrix Multiplication (aka matrix dot product)
+C = A.dot(B)
+# multiply matrices with @ operator
+D = A @ B
+
+
+
+Matrix-Vector Multiplication
+C = A.dot(B)
+
+
+
+Square Matrix
+
+Symmetric Matrix
+type of square matrix where the top-right triangle is the same as the
+bottom-left triangle. A symmetric matrix is always square and equal to its own transpose.
+
+Triangular Matrix
+type of square matrix that has all values in the upper-right or lower-left
+of the matrix with the remaining elements filled with zero values.
+
+lower = tril(M)
+print(lower)
+# upper triangular matrix
+upper = triu(M)
+
+
+Diagonal Matrix
+A diagonal matrix is one where values outside of the main diagonal have a zero value, where the
+main diagonal is taken from the top left of the matrix to the bottom right.
+
+# extract diagonal vector
+d = diag(M)
+print(d)
+# create diagonal matrix from vector
+D = diag(d)
+
+Identity Matrix :
+square matrix that does not change a vector when multiplied. The
+values of an identity matrix are known. All of the scalar values along the main diagonal (top-left
+to bottom-right) have the value one, while all other values are zero.
+
+I = np.identity(3)
+
+
+
+Orthogonal Matrix:
+Two vectors are orthogonal when their dot product equals zero. The length of each vector is 1
+then the vectors are called orthonormal because they are both orthogonal and normalized.
+
+v · w =0
+v · wT =0
+
+
+An orthogonal matrix is a square matrix whose rows are mutually orthonormal and
+whose columns are mutually orthonormal. A matrix is orthogonal if its transpose is equal to its inverse.
+Multiplication by an orthogonal matrix preserves lengths.
+
+
+Matrix Operations
+Transpose
+Inverse
+Trace
+A trace of a square matrix is the sum of the values on the main diagonal of the matrix (top-left
+to bottom-right).
+
+Determinant:
+The determinant of a square matrix is a scalar representation of the volume of the matrix.
+
+Rank:
+The rank of a matrix is the estimate of the number of linearly independent rows or columns in
+a matrix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

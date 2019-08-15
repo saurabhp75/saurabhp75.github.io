@@ -8,6 +8,9 @@ main:
   - title: "Posts"
     url: /posts/
     description: "Posts"
+  - title: "Notes"
+    url: /notes/
+    description: "Notes"
   - title: "Categories"
     url: /categories/
     description: "Categories"

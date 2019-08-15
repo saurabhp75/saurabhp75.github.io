@@ -123,9 +123,12 @@ comments:
 
 collections:
   - portfolio
+  - notes
 
 collections:
   portfolio:
+    output: true
+  notes:
     output: true
 
 defaults:
