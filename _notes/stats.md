@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Satistics"
+title: "Statistics"
 excerpt: "Intro to Satistics"
 
 sidebar:
