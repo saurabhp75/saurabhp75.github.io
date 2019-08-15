@@ -10,7 +10,7 @@ header:
   actions:
     - label: "Portfolio"
       url: "/portfolio/"
-    - label: "CV"
+    - label: "Resume"
       url: "https://drive.google.com/open?id=14eBCoD8Dwro3ldfvpcksqZSQOkk7ejBX"
 ---
 
