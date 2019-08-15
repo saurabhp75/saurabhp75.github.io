@@ -12,3 +12,5 @@ header:
   # overlay_color: "#333"
   caption: "Photo credit: [**pixabay**](https://pixabay.com/photos/home-office-workstation-office-336378/)"
 ---
+
+# These notes are copy-paste from my local machine, will format them when I get time
