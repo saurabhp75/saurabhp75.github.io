@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Linear Algebrs"
+title: "Linear Algebra"
 excerpt: "Intro to Linear Algebra"
 
 sidebar:
