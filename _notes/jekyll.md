@@ -170,9 +170,12 @@ Jekyll sites often use this structure to keep assets organized.
 Sass
 Sass is a fantastic extension to CSS baked right into Jekyll.
 /assets/css/styles.scss
+
+{% raw  %}
 ---
 ---
 @import "main";
+{% endraw  %}
 
 The @import "main" tells Sass to look for a file called main.scss in the sass directory (_sass/ by default which is directly under root folder of your website).
 /_sass/main.scss
@@ -189,6 +192,8 @@ Posts
 Blog posts live in a folder called _posts. The filename for posts have a special format,
 the publish date, then a title, followed by an extension. Jekyll makes posts available at site.posts.
 eg _posts/2018-08-20-bananas.md
+
+{% raw  %}
 ---
 layout: post
 author: jill
@@ -201,22 +206,25 @@ distinguishing them from dessert bananas. The fruit is variable in size, color,
 and firmness, but is usually elongated and curved, with soft flesh rich in
 starch covered with a rind, which may be green, yellow, red, purple, or brown
 when ripe.
+{% endraw  %}
 
 _layouts/post.html
+{% raw  %} 
 ---
 layout: default
 ---
 <h1>{{ page.title }}</h1>
 <p>{{ page.date | date_to_string }} - {{ page.author }}</p>
 
-{% raw  %} {{ content }} {% endraw  %} 
+{{ content }}  
 
 This is an example of layout inheritance. The post layout outputs the title, date, author 
 and content body which is wrapped by the default layout.
+{% endraw %} 
 
 List posts
 
-{% raw  %} 
+{% raw %} 
 ---
 layout: default
 title: Blog
@@ -231,8 +239,7 @@ title: Blog
     </li>
   {% endfor %}
 </ul>
-
-{% endraw  %} 
+{% endraw %} 
 
 Built-in variables in Jekyll
 page.url : gives the url of the page.
