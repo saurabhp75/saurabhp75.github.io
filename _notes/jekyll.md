@@ -2,72 +2,97 @@
 layout: single
 title: "Jekyll"
 excerpt: "Intro to Jekyll"
-
 sidebar:
   - title: "Jekyll personal notes"
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
+<!-- # Jekyll Notes -->
+# Basics
 
-Jekyll Notes
+- Install ruby as root user.
+```shell
+$ sudo apt-get install ruby-full
+```
+      
+- It is best to avoid installing Ruby Gems as the root user. Therefore, we need to set up a gem installation directory for your user account by specifying **GEM_HOME** in `.bashrc`. Then install Jekyll and bundler(gem install ...). Below are contents of `.bashrc`.
+```shell
+# Install Ruby Gems to ~/gems
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"
+```
 
-Basics
+- Gems are ruby packages for eg. `Jekyll, bundler, jekyll-plugins`. Gems can be installed at project level or system level.
+      
+- To install a Gem, issue following command.
+```shell 
+$ gem install gem_name
+```    
+- To see the installation directory of a gem run
+```shell
+$ bundle show gem_name
+```
+      
+- Gemfile is a file containing list of Gems required for your project/website. It is placed in root of project folder and is unique for each project. It is used along with bundler to manage an application's dependencies through its entire life, across many machines, systematically and repeatably. Use of bundler and Gemfile is optional but highly recommended for reproducability.
+      
+- To install all gems listed in Gemfile, issue following command. This installs the gems and creates `Gemfile.lock` which locks the current gem versions for a future bundle install. If you ever want to update your gem versions you can run bundle update.
+```shell
+$ bundle install
+```
 
-    • Install ruby as root user.
-      $ sudo apt-get install ruby-full
-      
-    • It is best to avoid installing Ruby Gems as the root user. Therefore, we need to set up a gem installation directory for your user account by specifying GEM_HOME in .bashrc. Then install Jekyll and bundler(gem install ...). Below are contents of .bashrc.
-      # Install Ruby Gems to ~/gems
-      export GEM_HOME="$HOME/gems"
-      export PATH="$HOME/gems/bin:$PATH"
+- To create a new Jekyll site at `./myblog`, issue follwing command.
+```shell
+$ jekyll new myblog
+```
 
-    • Gems are ruby packages for eg. Jekyll, bundler, jekyll-plugins. Gems can be installed at project level or system level.
+- **jekyll build** - Builds the site and outputs a static site to a directory called `_site`.
       
-    • To install a Gem, issue following command. 
-      $ gem install gem_name
-      
-    • To see the installation directory of a gem run
-      $ bundle show gem_name
-      
-    • Gemfile is a file containing list of Gems required for your project/website. It is placed in root of project folder and is unique for each project. It is used along with bundler to manage an application's dependencies through its entire life, across many machines, systematically and repeatably. Use of bundler and Gemfile is optional but highly recommended for reproducability.
-      
-    • To install all gems listed in Gemfile, issue following command. This installs the gems and creates Gemfile.lock which locks the current gem versions for a future bundle install. If you ever want to update your gem versions you can run bundle update.
-      $ bundle install
-      
-    • To create a new Jekyll site at ./myblog, issue follwing command.
-      $ jekyll new myblog
+- **jekyll serve** - Does the same as build except it rebuilds any time you make a change and runs a local web server at http://localhost:4000. But you need to restart Jekyll server whenever, config file(`_config.yml`) changes.
 
-    • jekyll build - Builds the site and outputs a static site to a directory called _site.
-      
-    • jekyll serve - Does the same as build except it rebuilds any time you make a change and runs a local web server at http://localhost:4000. But you need to restart Jekyll server whenever, config file(_config.yml) changes.
-
-    • When using a Gemfile, you’ll run commands like jekyll serve with bundle exec prefixed. So the full command is.
+- When using a Gemfile, you’ll run commands like jekyll serve with bundle exec prefixed. So the full command is.
+```shell
       $ bundle exec jekyll serve
-      
-    • Jekyll will use the files in your project first before falling back to the default versions of the theme. It exhibits this behavior with files in the following folders:
+```
+
+- Jekyll will use the files in your project first before falling back to the default versions of the theme. It exhibits this behavior with files in the following folders:
+```shell
 /assets
 /_layouts
 /_includes
 /_sass
+```
 
+[**List of jekyll plugins supported on GitHub-Pages**](https://pages.github.com/versions/)
 
-Jekyll Github Workflow (Using Jekyll with Bundler)
+[**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
 
-Install Ruby
+# Jekyll Github Workflow (Using Jekyll with Bundler)
+
+- **Install Ruby**
+```shell
 $ sudo apt-get install ruby-full
-
+```
 Then set GEM_HOME and PATH in ~/.bashrc
-# Install Ruby Gems to ~/gems
+
+- **Install Ruby Gems to ~/gems**
+```shell
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
+```
 
-Install Bundler
+- **Install Bundler**
+```shell
 $ gem install bundler
+```
 
-Create a local git repo for yout Jekyll site
+- **Create a local git repo for yout Jekyll site**
+```shell
 $ git init JEKYLL-SITE-REPOSITORY-NAME
+```
 
-Add .gitignore file
+- **Add `.gitignore` file**
+
+```shell
 # Ignore metadata generated by Jekyll
 _site/
 .sass-cache/
@@ -77,97 +102,120 @@ _site/
 # Ignore folders generated by Bundler
 .bundle/
 vendor/
+```
 
-Add Gemfile
+- **Add `Gemfile`**
+```shell
 source 'https://rubygems.org'
 gem 'github-pages', group: :jekyll_plugins
+```
 
-Install gems
-This creates bundler config file, ./.bundle/config. It contains the path(./vendor/bundle) where Gems are installed. This helps isolate the project environment as the gems are not installed globally. This will install the github versions of gems in your local repo. Also, keep running "bundle update" regularly to keep the gems in sync with github gem versions. 
+- **Install gems**
+This creates bundler config file, `./.bundle/config`. It contains the path(`./vendor/bundle`) where Gems are installed. This helps isolate the project environment as the gems are not installed globally. This will install the github versions of gems in your local repo. Also, keep running "bundle update" regularly to keep the gems in sync with github gem versions. 
+```shell
 $ bundle install --path vendor/bundle
+```
 
-Add and commit your changes
+- **Add and commit your changes**
+```shell
 $ git add .
 $ git commit -m "Initial commit"
+```
 
-Create a new repo on github with the same name, don't add readme and license
+- **Create a new repo on github with the same name(don't add readme and license).**
 
-Add the newly created repo as remote on local machines
-git remote add origin github.com-saurabhp75:saurabhp75/karmbhumi.git
+- Add the newly created repo as remote on local machines
+```shell
+$ git remote add origin github.com-saurabhp75:saurabhp75/karmbhumi.git
+```
 
-Push your changes to remote
-git push -u origin master
+- Push your changes to remote
+```shell
+$ git push -u origin master
+```
 
-carry on with website development on local
+- Carry on with website development on local
 
-To test you website locally
+- To test you website locally
+```shell
 $ bundle exec jekyll serve
+```
 
-When you are ok with locally hosted website push the changes to remote
-git push -u origin master
+- When you are ok with locally hosted website push the changes to remote
+```shell
+$ git push -u origin master
+```
 
-
-
-
-Working on draft blog posts
+## Working on draft blog posts
 All your unpublished blog posts reside under ./_drafts folder. This allows you to work on blog posts without publishing them to the live site. If you want the build to include all of our draft blog posts you could run jekyll like this:
+```shell
 jekyll build --drafts
+```
 
-Liquid
+## Liquid
 Liquid is a templating language which has three main parts: objects, tags and filters
 
-Objects
+## Objects
 Objects tell Liquid where to output content and are denoted by double curly braces.
 {% raw  %} {{ page.title }} {% endraw %} 
 
-Tags
+## Tags
 Tags create logic & control flow for templates, and are denoted by curly braces and percent signs.
  {% raw  %} {% if page.show_sidebar %}  {% endif %} {% endraw %} 
 
 
-
-Filters
+## Filters
 Filters change the output of a Liquid object.
 {% raw  %} {{ "hi" | capitalize }} {% endraw %} 
 
-Front Matter
-Snippet of YAML which sits between two triple-dashed lines at the top of a file and is used to set variables for the page. Front matter variables are available in Liquid under the page variable eg. {{ page.my_number }}
+## Front Matter
+Snippet of YAML which sits between two triple-dashed lines at the top of a file and is used to set variables for the page. Front matter variables are available in Liquid under the page variable eg. {% raw  %} {{ page.my_number }} {% endraw  %}
+
+{% raw  %}
 ---
 my_number: 5
 ---
+{% endraw  %}
 
-Layouts
+## Layouts
 Layouts are templates(html files) that wrap around your content. They live in a directory called _layouts. To use a layout, set a layout variable in front matter.
 eg.
+
+{% raw  %}
 ---
+{% endraw  %}
 layout: default
 title: Home
+{% raw  %}
 ---
-<h1>{{ "Hello World!" | downcase }}</h1>
+{% endraw  %}
 
-Includes
+{% raw  %} <h1>{{ "Hello World!" | downcase }}</h1> {% endraw  %}
+
+## Includes
 The include tag allows you to include content from another file stored in an _includes folder.
 Usage of include tag in an html file, where navigation.html is a file under _includes folder.
 {% raw  %} {% include navigation.html %} {% endraw  %} 
 
-Data Files
+## Data Files
 Jekyll supports loading data from YAML, JSON, and CSV files located in a  _data directory. 
 Data files are a great way to separate content from source code to make the site easier to maintain.
 for eg. you can store contents of navigation.
 
-for eg. _data/navigation.yml
+for eg. `_data/navigation.yml`
 Jekyll makes this data file available to you at site.data.navigation 
 
-Assets(CSS, JS, images etc)
+## Assets(CSS, JS, images etc)
 Place them in your site folder and they’ll copy across to the built site.
 Jekyll sites often use this structure to keep assets organized.
-
+```shell
 ├── assets
-|   ├── css
-|   ├── images
-|   └── js
+ |   ├── css
+ |   ├── images
+ |   └── js
+```
 
-Sass
+## Sass
 Sass is a fantastic extension to CSS baked right into Jekyll.
 /assets/css/styles.scss
 
@@ -185,13 +233,13 @@ The @import "main" tells Sass to look for a file called main.scss in the sass di
 to access css file from html page
 <link rel="stylesheet" href="/assets/css/styles.css">
 
-Blogging
+## Blogging
 In Jekyll, blogging is powered by text files only instead of a db. 
 
-Posts
+## Posts
 Blog posts live in a folder called _posts. The filename for posts have a special format,
 the publish date, then a title, followed by an extension. Jekyll makes posts available at site.posts.
-eg _posts/2018-08-20-bananas.md
+eg `_posts/2018-08-20-bananas.md`.
 
 {% raw  %}
 ---
@@ -222,7 +270,7 @@ This is an example of layout inheritance. The post layout outputs the title, dat
 and content body which is wrapped by the default layout.
 {% endraw %} 
 
-List posts
+## List posts
 
 {% raw %} 
 ---
@@ -241,23 +289,23 @@ title: Blog
 </ul>
 {% endraw %} 
 
-Built-in variables in Jekyll
-page.url : gives the url of the page.
-post.title: pulled from the post filename (can be overridden by setting title in front matter)
-post.url: set by Jekyll to the output path of the post.
-post.excerpt: first paragraph of content by default
+## Built-in variables in Jekyll
+ -page.url : gives the url of the page.
+- post.title: pulled from the post filename (can be overridden by setting title in front matter)
+- post.url: set by Jekyll to the output path of the post.
+- post.excerpt: first paragraph of content by default
 
-Collections
+## Collections
 Collections are similar to posts except the content doesn’t have to be grouped by date.
 To set up a collection you need define them in Jekyll configuration file, _config.yml(by default).
 eg.
 collections:
   authors:
 
-Define authors in files under _authors folder eg. _authors/ted.md, _authors/jill.md etc.
+Define authors in files under _authors folder eg. `_authors/ted.md, _authors/jill.md` etc.
 Note: You need to restart Jekyll server whenever, config file changes.
 
-Output a page
+## Output a page
 By default, collections do not output a page for documents. In case you want each author to have their own page, tweak the collection configuration in _config.yml. Also, you’ll need to create a layout for authors in _layouts/author.html.
 collections:
   authors:
@@ -271,14 +319,16 @@ List author’s posts
 
 Link to authors page
 
-Deployment
+## Deployment
 
-Gemfile
+## Gemfile
 It’s good practice to have a Gemfile for your site. This ensures the version of Jekyll and other gems remains consistent across different environments.
 
-Plugins
-To use the plugins, you need to add them to your Gemfile. If you put them in a jekyll_plugins 
+## Plugins
+To use the plugins, you need to add them to your `Gemfile`. If you put them in a jekyll_plugins 
 group they’ll automatically be required into Jekyll.
+
+```shell
 source 'https://rubygems.org'
 
 gem 'jekyll'
@@ -288,28 +338,28 @@ group :jekyll_plugins do
   gem 'jekyll-feed'
   gem 'jekyll-seo-tag'
 end
+```
 
-Then add these lines to your _config.yml. Then install them by running a bundle update.
+Then add these lines to your `_config.yml`. Then install them by running a bundle update.
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
 
 
-
-
-Environments
+## Environments
 Sometimes you might want to output something in production but not in development. Analytics scripts are the most common example of this. You can set the environment by using the JEKYLL_ENV environment variable when running a command. For eg:
+```shell
 $ JEKYLL_ENV=production bundle exec jekyll build
+```
 
 By default JEKYLL_ENV is development. The JEKYLL_ENV is available to you in liquid using jekyll.environment. So to only output the analytics script on production you would do the following.
-{% raw  %} 
-{% if jekyll.environment == "production" %}
-  <script src="my-analytics-script.js"></script>
-{% endif %}
-{% endraw  %} 
 
-Deployment
+{% raw  %} {% if jekyll.environment == "production" %}
+  <script src="my-analytics-script.js"></script>
+{% endif %} {% endraw  %} 
+
+## Deployment
 The final step is to get the site onto a production server. The most basic way to do this is to run a production build and copy the contents of _site to your server. A better way is to automate this process using a CI or 3rd party.
 JEKYLL_ENV=production bundle exec jekyll build
 
