@@ -9,92 +9,98 @@ sidebar:
 ---
 
 
-Django
+1. Create virtual env, Pip install django.
 
-    1. Create virtual env, Pip install django.
-       
-    2. Check django version using
-       $ python3 -m django –version (2.1.1)
-       
-    3. Start a new project using 
-       $ django-admin startproject project-name
+2. Check django version using
+```shell
+$ python3 -m django –version (2.1.1)
+```
 
-    4. The above command will create a folder with project-name containing various files.
-       
-    5. The file manage.py allows us to run command line commands.
-       
-    6. The file settings.py contains various config settings.
-           
-    7. The file urls.py contain mapping(urlpatterns) between urls and the location to send the user.
-       
-    8. The file wsgi.py (pronounce wisgee) setup the project config(wsgi config) to interface between our web app and web server(for e.g Apache).
-       
-    9. Run the web app using 
-       $ python manage.py runserver
-       
-    10. Now we can add web applications(like blog) to the above created project. In fact we can have multiple apps within django for eg. a blog and a store app.
-       
-    11. To create a new app we can use
-       $ python manage.py startapp app-name
-       
-    12. The above command will create a folder with app-name containing various files.
-       
-    13. We need to create a template folder for each app under django project and within this folder a folder with the name of the app. And then add this app to django project so that framework looks for templates folder under this app’s folder (also used in db migrations).
-       
-    14. To add an app to django framework, add the app to INSTALLED_APPS in settings.py file.
+3. Start a new project using
+```shell
+$ django-admin startproject project-name
+```
 
-    15. How the url pattern is matched in django app. 
-       In the INSTALLED_APPS (used by django to search for templates and models for db)  list in file settings.py under project-folder (django_blog/django_blog), add blog.app.BlogConfig ( a class from apps.py under app folder) 
+4. The above command will create a folder with project-name containing various files.
+
+5. The file `manage.py` allows us to run command line commands.
+
+6. The file `settings.py` contains various config settings.
+   
+7. The file `urls.py` contain mapping(urlpatterns) between urls and the location to send the user.
+
+8. The file wsgi.py (pronounce wisgee) setup the project config(wsgi config) to interface between our web app and web server(for e.g Apache).
+
+9. Run the web app using
+```shell
+$ python manage.py runserver
+```
+
+10. Now we can add web applications(like blog) to the above created project. In fact we can have multiple apps within django for eg. a blog and a store app.
+
+11. To create a new app we can use
+```shell
+$ python manage.py startapp app-name
+```
+
+12. The above command will create a folder with app-name containing various files.
+
+13. We need to create a template folder for each app under django project and within this folder a folder with the name of the app. And then add this app to django project so that framework looks for templates folder under this app’s folder (also used in db migrations).
+
+14. To add an app to django framework, add the app to INSTALLED_APPS in settings.py file.
+
+15. How the url pattern is matched in django app. 
+In the INSTALLED_APPS (used by django to search for templates and models for db)  list in file settings.py under project-folder (django_blog/django_blog), add blog.app.BlogConfig ( a class from apps.py under app folder) 
 
 The web-app first checks urlpatterns in project’s urls.py, when match is found the appropriate view method is called, if urlpatterns contains include method for url matching, the web-app calls the view method of included app with the matched portion (in project’s urls.py) removed.
 
 
-       Django Templates
-    16. The block keyword in html file can be extended by child html pages, syntax is {% raw  %} {% block block-name %} {% endblock%} {% endraw  %} 
-       
-    17. Python like code can be embedded in html files, using :
-    {% raw  %} 
-           {% for %} {% endfor %}
-           {% if %} {% else %} {% endif %}
-    {% endraw  %} 
-       
-    18. Variable in html template file can be accessed using {% raw  %} "{{ }}" {% endraw  %} .
-       
-    19. How to use custom CSS files in django templates.
-       Create a folder “app_name/static/appname/my.css”
-       In template file use {% raw  %}  {% load static %} {% endraw  %} to access the static folder  
-       {% raw  %} Then use “<link rel="stylesheet" type="text/css" href="{% static 'appname/my.css' %}">” {% endraw  %} 
-       
-    20. Handling files and image fields in django models. The db only contains the path to file, actual file is stored on server disk. We need to configure following two settings in django.
-       - Where to save uploaded files in our system/server (MEDIA_ROOT).
-       - Where the webserver should serve the files (MEDIA_URL).
+## Django Templates
+16. The block keyword in html file can be extended by child html pages, syntax is 
+{% raw  %} {% block block-name %} {% endblock%} {% endraw  %} 
 
-	Use following code in projects urls.py to server static files during debug/development. This 	code tells django to serve files with url of MEDIA_URL from path MEDIA_ROOT.
-	if settings.DEBUG:
-    	  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+17. Python like code can be embedded in html files, using :
+{% raw  %} 
+   {% for %} {% endfor %}
+   {% if %} {% else %} {% endif %}
+{% endraw  %} 
 
-    21. 
-       
-       Using reverse lookup in templates
+18. Variable in html template file can be accessed using {% raw  %} "{{ }}" {% endraw  %} .
 
-    22. If the entry in urls.py is like below
-       path('', PostListView.as_view(), name='blog-home'), 
-       Then the above view (blog-home) can be accessed in template using
-       {% raw  %}  <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a> {% raw  %} 
-       
-    23. To create admin user, use following (first do the migrations)
-       $ python manage.py makemigrations (detects changes & creates files under migration folder)
-       $ python manage.py migrate (migrate the db)
-       $ python manage.py createsuperuser
+19. How to use custom CSS files in django templates.
+Create a folder “app_name/static/appname/my.css”
+In template file use {% raw  %}  {% load static %} {% endraw  %} to access the static folder  
+{% raw  %} Then use “<link rel="stylesheet" type="text/css" href="{% static 'appname/my.css' %}">” {% endraw  %} 
 
-    24. Django template commands
+20. Handling files and image fields in django models. The db only contains the path to file, actual file is stored on server disk. We need to configure following two settings in django.
+- Where to save uploaded files in our system/server (MEDIA_ROOT).
+- Where the webserver should serve the files (MEDIA_URL).
+
+Use following code in projects urls.py to server static files during debug/development. This 	code tells django to serve files with url of MEDIA_URL from path MEDIA_ROOT.
+if settings.DEBUG:
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+21. 
+
+Using reverse lookup in templates
+
+22. If the entry in urls.py is like below
+path('', PostListView.as_view(), name='blog-home'), 
+Then the above view (blog-home) can be accessed in template using
+{% raw  %}  <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a> {% raw  %} 
+
+23. To create admin user, use following (first do the migrations)
+$ python manage.py makemigrations (detects changes & creates files under migration folder)
+$ python manage.py migrate (migrate the db)
+$ python manage.py createsuperuser
+
+24. Django template commands
 
 {% raw  %} 
 	{% url 'name' %} : link
 	{% block blockname %}   followed by {% endblock %}
 	{% load static %} followed by {% static 'static-file-name' %}
-
-   {% endraw  %} 
+{% endraw  %} 
 
 	to register a model in admin panel add follwing line to admin.py
 	admin.site.register(modelname)
