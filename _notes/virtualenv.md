@@ -9,7 +9,6 @@ sidebar:
 ---
 
 
-
 ### To create a virtual env
 ```shell
 $ cd ENV (where ENV in the directory to place virtual environment)
@@ -99,7 +98,7 @@ source ~/.local/bin/virtualenvwrapper.sh
 
 3. Create virtual environment using:
 ```shell
-    mkvirtualenv --python=python3.6 virt_env_name
+$ mkvirtualenv --python=python3.6 virt_env_name
 ```
 
 ### Conda and virtual environments
@@ -138,21 +137,21 @@ $ pyenv virtualenv 3.6.5 myenv
 ```
 3. Make it globally active (for your user) : 
 ```shell
-pyenv global myenv
+$ pyenv global myenv
 ```
 4. Delete the virtualenv : 
 ```shell
-pyenv uninstall myenv
+$ pyenv uninstall myenv
 ```
 5. Make a new one : 
 ```shell
-pyenv virtualenv 3.6.5 myenv
+$ pyenv virtualenv 3.6.5 myenv
 ```
 6. Make environments active per-directory : 
 ```shell
-pyenv local myenv
+$ pyenv local myenv
 ```
-will drop a `.python-version` file into your current folder and any time you invoke 	Python or pip-installed Python utilities from it or under it, they will be shimmed by pyenv.
+will drop a `.python-version` file into your current folder and any time you invoke Python or pip-installed Python utilities from it or under it, they will be shimmed by pyenv.
 
 Source :
 https://askubuntu.com/questions/865554/how-do-i-install-python-3-6-using-apt-get/865644#865644
