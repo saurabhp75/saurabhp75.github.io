@@ -28,8 +28,8 @@ $ pip freeze > requirements.txt
 
 ### To install a package in a virtual environment
 ```shell
-source myproject/bin/activate
-pip install pkgname
+$ source myproject/bin/activate
+$ pip install pkgname
 ```
 
 ### To install packages from requirements file
@@ -43,9 +43,18 @@ $ deactivate
 ```
 
 ### Workflow of working in virtual environmnet
-1. Create a new virtual env.($virtaulenv ENV)
-2. Activate it.($source ENV/bin/activate.)
-3. Install all the required packages from requirements.txt ($pip install -r requirements.txt)
+1. Create a new virtual env.
+```shell
+$ virtaulenv ENV
+```
+2. Activate it.
+```shell
+$ source ENV/bin/activate
+```
+3. Install all the required packages from requirements.txt 
+```shell
+$ pip install -r requirements.txt
+```
 
 
 ### Using virtualenvwrapper
@@ -158,7 +167,6 @@ $ pyenv virtualenv 3.4.3 my_env_3_4
 ```shell
 $ pyenv version
 2.7.10 (set by /Users/akbar/.pyenv/version)
-
 $ pyenv virtualenv my_env_2_7
 ```
 This will create a virtual environment based on Python 2.7.10 under the 	pyenv root in a directory called my_env_2_7.
