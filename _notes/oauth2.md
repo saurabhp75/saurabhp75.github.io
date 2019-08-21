@@ -8,8 +8,7 @@ sidebar:
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-Oauth2 flow
-
+<!-- Oauth2 flow -->
 
 1. The app redirects the user to login dialog of the provider(facebook) along with appid and appsecret and state(to prevevnt CSRF).
 

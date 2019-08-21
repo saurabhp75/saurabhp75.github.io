@@ -284,11 +284,13 @@ print("Tuned ElasticNet R squared: {}".format(r2))
 
 ## Pandas
 
-append()
-append(): Series & DataFrame method
-Invocation:
-s1.append(s2)
-Stacks rows of s2 below s1
+append()  
+append(): Series & DataFrame method  
+
+### Invocation:
+s1.append(s2)  
+Stacks rows of s2 below s1  
+
 Method for Series & DataFrames
 
 concat()
