@@ -8,28 +8,30 @@ sidebar:
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-Measuring the performance of the model in scikit-learn :
+## Measuring the performance of the model in scikit-learn :
 
+## Accuracy score :
 
-
-Accuracy score :
-
-Classification :
+### Classification :
+```python
 knn = KNeighborsClassifier(n_neighbors=8)
 knn.fit(X_train, y_train)
 y_pred = knn.predict(X_test)
 knn.score(X_test, y_test)
 0.9555555555555556
+```
 
-Regression :
+### Regression :
+```python
 reg_all = linear_model.LinearRegression()
 reg_all.fit(X_train, y_train)
 y_pred = reg_all.predict(X_test)
 reg_all.score(X_test, y_test)
 0.71122600574849526
+```
 
-
-Cross-validation in scikit-learn :
+## Cross-validation in scikit-learn :
+```python
 from sklearn.model_selection import cross_val_score
 reg = linear_model.LinearRegression()
 cv_results = cross_val_score(reg, X, y, cv=5)
@@ -37,8 +39,10 @@ print(cv_results)
 [ 0.63919994 0.71386698 0.58702344 0.07923081 -0.25294154]
 np.mean(cv_results)
 0.35327592439587058
+```
 
-Confusion matrix in scikit-learn :
+## Confusion matrix in scikit-learn :
+```python
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 knn = KNeighborsClassifier(n_neighbors=8)
@@ -57,25 +61,26 @@ print(classification_report(y_test, y_pred))
 1               0.94            0.97      0.96         115
 
 avg/total   0.94            0.94      0.94         174
+```
 
-
-
-Logistic regression for binary classification
+## Logistic regression for binary classification
 Logistic regression outputs probabilities
 If the probability ‘p’ is greater than 0.5:The data is labeled ‘1’
 If the probability ‘p’ is less than 0.5: The data is labeled ‘0’
 
 For eg. see code below :
+```python
 logreg = LogisticRegression()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
 logreg.fit(X_train, y_train)
 y_pred = logreg.predict(X_test)
+```
 
 
-
-AUC in scikit-learn :
+## AUC in scikit-learn :
 Outputting probability instead of a label, 0 or 1 (using predict_proba)
 
+```python
 from sklearn.metrics import roc_auc_score
 logreg = LogisticRegression()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
@@ -83,18 +88,21 @@ logreg.fit(X_train, y_train)
 y_pred_prob = logreg.predict_proba(X_test)[:,1]
 roc_auc_score(y_test, y_pred_prob)
 0.997466216216
+```
 
 
-AUC using cross-validation :
+## AUC using cross-validation :
+```python
 from sklearn.model_selection import cross_val_score
 cv_scores = cross_val_score(logreg, X, y, cv=5, scoring='roc_auc')
 print(cv_scores)
 [ 0.99673203 0.99183007 0.99583796 1. 0.96140652]
+```
 
+## Hyperparameter tuning :
 
-Hyperparameter tuning :
-
-GridSearchCV in scikit-learn :
+### GridSearchCV in scikit-learn :
+```python
 from sklearn.model_selection import GridSearchCV
 param_grid = {'n_neighbors': np.arange(1, 50)}
 knn = KNeighborsClassifier()
@@ -104,8 +112,10 @@ knn_cv.best_params_
 {'n_neighbors': 12}
 knn_cv.best_score_
 0.933216168717
+```
 
-Randomized search in scikit learn :
+### Randomized search in scikit learn :
+```python
 from scipy.stats import randint
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import RandomizedSearchCV
@@ -122,11 +132,13 @@ tree_cv = RandomizedSearchCV(tree, param_dist, cv=5)
 
 # Fit it to the data
 tree_cv.fit(X, y)
+```
 
 
-Hold-out set reasoning :
+### Hold-out set reasoning :
 In real life, model performance is tested on never before seen data. Therefore, using ALL data for cross-validation is not ideal. So we split data into training and hold-out set at the beginning and perform grid search cross-validation on training set and then choose best hyperparameters and evaluate on hold-out set.
 
+```python
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
@@ -148,12 +160,14 @@ logreg_cv.fit(X_train, y_train)
 # Print the optimal parameters and best score
 print("Tuned Logistic Regression Parameter: {}".format(logreg_cv.best_params_))
 print("Tuned Logistic Regression Accuracy: {}".format(logreg_cv.best_score_))
+```
 
 
-Pipelines
+## Pipelines
 
 Pipeline is an array of tuples each tuple contains string/name and the object. Below is a pipeline of imputer and logistic regressor. In a pipeline each step but the last must be a transformer and last step must be an estimator.
 
+```python
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import Imputer
 imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
@@ -183,9 +197,11 @@ y_pred = pipeline.predict(X_test)
 
 # Compute metrics
 print(classification_report(y_test, y_pred))
+```
 
 
-Scaling in a pipeline :
+## Scaling in a pipeline :
+```python
 from sklearn.preprocessing import StandardScaler
 steps = [('scaler', StandardScaler()), ('knn', KNeighborsClassifier())]
 pipeline = Pipeline(steps)
@@ -197,10 +213,12 @@ accuracy_score(y_test, y_pred)
 knn_unscaled = KNeighborsClassifier().fit(X_train, y_train)
 knn_unscaled.score(X_test, y_test)
 0.928
+```
 
 
 
-CV and scaling in a pipeline :
+## CV and scaling in a pipeline :
+```python
 steps = [('scaler', StandardScaler()), (('knn', KNeighborsClassifier())]
 pipeline = Pipeline(steps)
 parameters = {knn__n_neighbors=np.arange(1, 50)}
@@ -208,10 +226,12 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 cv = GridSearchCV(pipeline, param_grid=parameters)
 cv.fit(X_train, y_train)
 y_pred = cv.predict(X_test)
+```
 
 
 
-Bringing it all together, pipeline for classification :
+## Bringing it all together, pipeline for classification :
+```python
 steps = [('scaler', StandardScaler()), ('SVM', SVC())]
 pipeline = Pipeline(steps)
 
@@ -259,13 +279,10 @@ gm_cv.fit(X_train, y_train)
 r2 = gm_cv.score(X_test, y_test)
 print("Tuned ElasticNet Alpha: {}".format(gm_cv.best_params_))
 print("Tuned ElasticNet R squared: {}".format(r2))
+```
 
 
-
-
-
-Pandas
-
+## Pandas
 
 append()
 append(): Series & DataFrame method

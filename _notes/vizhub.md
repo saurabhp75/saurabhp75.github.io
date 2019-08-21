@@ -8,27 +8,28 @@ sidebar:
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
+<!-- D3 Visualization -->
 
-D3 Visualization
+- Workflow:
+Get the zip file from vizhub
+npm install: This will install packages under node_modules folder
+npm run build: As per package.json file(See above), this will run "rollup -c"
 
-    • Workflow:
-      Get the zip file from vizhub
-	npm install: This will install packages under node_modules folder
-      npm run build: As per package.json file(See above), this will run "rollup -c"
+- `terser.js` module is required to minify the es6 code.
 
-    • terser.js module is required to minify the es6 code.
+- `rollup.js` module is used to bundle the es6 code with tree shaking.
 
-    • rollup.js module is used to bundle the es6 code with tree shaking.
+- **iife** (Immediately Invoked Function Expression)  – A self-executing function, suitable for inclusion as a   \<script> tag in HTML file.
 
-    • iife (Immediately Invoked Function Expression)  – A self-executing function, suitable for inclusion as a <script> tag in HTML file.
-
-    • rollup.config.js defines the bundling process. It makes two bundles(in iife format), viz, 
-      bundle.js and delhiBundle.js from inputs index.js and delhiIndex.js respectively. 
+- `rollup.config.js` defines the bundling process. It makes two bundles(in iife format), viz, 
+  `bundle.js` and `delhiBundle.js` from inputs `index.js` and `delhiIndex.js` respectively. 
       
-      index.js ------> bundle.js
-      delhiIndex.js -------> delhiBundle.js
+`index.js` ------> `bundle.js`  
+`delhiIndex.js` -------> `delhiBundle.js`
 
-	rollup.config.js file:
+`rollup.config.js` file:
+
+```js
 import { terser } from "rollup-plugin-terser";
 
 export default [{
@@ -63,9 +64,14 @@ package.json file:
     "rollup-plugin-terser": "^5.1.0"
   }
 }
+```
 
-To create a package.json file:
+## To create a package.json file
+```shell
 $ npm init
+```
 
-To update npm:
+## To update npm
+```shell
 $ npm install npm@latest -g
+```
