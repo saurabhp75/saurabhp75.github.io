@@ -41,7 +41,7 @@ $ pip install -r requirements.txt
 $ deactivate
 ```
 
-### Workflow of working in virtual environmnet
+### Virtual environmnet workflow
 1. Create a new virtual env.
 ```shell
 $ virtaulenv ENV

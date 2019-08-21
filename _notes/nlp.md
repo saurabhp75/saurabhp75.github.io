@@ -9,27 +9,26 @@ sidebar:
 ---
 
 
-Lexicon Normalization
+## Lexicon Normalization
+- Stemming
+- Lemmatization
 
-Stemming
-Lemmatization
 
-
-Bag-of-Words Model :
+## Bag-of-Words Model :
 -  no order of words
 - just count the occurence of words
 
 
-convert text to word count vectors with CountVectorizer.
-both tokenize a collection of text documents and build a vocabulary of known words
+Convert text to word count vectors with **CountVectorizer**.
+Both tokenize a collection of text documents and build a vocabulary of known words
 
 
 
-convert text to word frequency vectors with TfidfVectorizer.
-    • Term Frequency: This summarizes how often a given word appears within a document.
-    • Inverse Document Frequency: This downscales words that appear a lot across documents.
+Convert text to word frequency vectors with **TfidfVectorizer**.
+- Term Frequency: This summarizes how often a given word appears within a document.
+- Inverse Document Frequency: This downscales words that appear a lot across documents.
 
 
 
-convert text to unique integers with HashingVectorizer.
-one way hash of words to convert them to integers
+Convert text to unique integers with **HashingVectorizer**.
+- one way hash of words to convert them to integers
