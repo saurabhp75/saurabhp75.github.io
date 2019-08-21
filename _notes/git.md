@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Git Notes"
+title: "Git"
 excerpt: "Intro to Plotly Dash"
 
 sidebar:

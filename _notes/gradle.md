@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Gradle Notes"
+title: "Gradle"
 excerpt: "Intro to Gradle"
 
 sidebar:
@@ -9,7 +9,7 @@ sidebar:
 ---
 
 
-Gradle
+<!-- Gradle -->
 
 - gradle is open source build tool.
 - Project and tasks in gradle.
@@ -20,7 +20,7 @@ Gradle
 - project might be deploying your applications to staging or production environment.
 - project contain one or more tasks. Task is atomic piece of work a build performs.
 
-Gradle tasks
+## Gradle tasks
 - task could be compiling some classes.
 - creating a jar.
 - generating javadoc.
@@ -28,10 +28,12 @@ Gradle tasks
 - What is ". gradle" folder?
 - it is local repo and contains jar files downloaded for the project.
 
-list default tasks in gradle:
+## list default tasks in gradle:
 $ gradle tasks
-Creating a custom task in gradle (using groovy):
-in "build.gradle" file add following lines:
+
+## Creating a custom task in gradle (using groovy):
+In "build.gradle" file add following lines:
+
 task myCustomTask {
 	group "Custom"
 	description "This is a custom task"
@@ -44,6 +46,7 @@ myCustomTask.onlyIf {
 project.hasProperty('doOperation')
 
 }
+
 To run it from command line:
 $ gradle myCustomTask -P doOperation
 
@@ -64,10 +67,12 @@ task doSomeOperation1 {
 	println "This is opeartion 1"
 	}
 }
+
 task doSomeOperation2(dependsOn: 'doSomeOperation1') {
 	group "MyCustomTasks"
 	doLast{
 	println "This is opeartion 2"
 	}
 }
+
 How to create zip file using custom gradle task.

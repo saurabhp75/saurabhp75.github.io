@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "SQL Notes"
+title: "SQL"
 excerpt: "Intro to SQL"
 
 sidebar:
