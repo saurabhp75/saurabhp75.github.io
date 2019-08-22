@@ -63,6 +63,7 @@ The primary attributes of the default user are:
 
 ## Creating users
 The most direct way to create users is to use the included create_user() helper function:
+```shell
 >>> from django.contrib.auth.models import User
 >>> user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
 # At this point, user is a User object that has already been saved
@@ -70,8 +71,9 @@ The most direct way to create users is to use the included create_user() helper 
 # if you want to change other fields.
 >>> user.last_name = 'Lennon'
 >>> user.save()
+```
 
-Note : You can also create users interactively using Django Admin.
+**Note** : You can also create users interactively using Django Admin.
 
 ### Creating superusers
 using the createsuperuser command:
@@ -93,10 +95,11 @@ $ python manage.py changepassword *username*
 ```
 
 ## Authenticating users
-
+```python
 authenticate(request=None, **credentials)
+```
 
-Use authenticate() to verify a set of credentials. It takes credentials as keyword arguments, username and password for the default case, checks them against each authentication backend, and returns a User object if the credentials are valid for a backend. If the credentials aren’t valid for any backend or if a backend raises PermissionDenied, it returns None. For example:
+Use **authenticate()** to verify a set of credentials. It takes credentials as keyword arguments, username and password for the default case, checks them against each authentication backend, and returns a User object if the credentials are valid for a backend. If the credentials aren’t valid for any backend or if a backend raises PermissionDenied, it returns None. For example:
 
 ```python
 from django.contrib.auth import authenticate
@@ -110,10 +113,10 @@ else:
 request is an optional HttpRequest which is passed on the authenticate() method of the authentication backends.
 
 
-Note:This is a low level way to authenticate a set of credentials; for example, it’s used by the RemoteUserMiddleware. Unless you are writing your own authentication system, you probably won’t use this. Rather if you’re looking for a way to login a user, use the LoginView.
+**Note**: This is a low level way to authenticate a set of credentials; for example, it’s used by the RemoteUserMiddleware. Unless you are writing your own authentication system, you probably won’t use this. Rather if you’re looking for a way to login a user, use the LoginView.
 
 
-Permissions and Authorization
+### Permissions and Authorization
 DAS provides a way to assign permissions to specific users and groups of users. It’s used by the Django admin site, but you’re welcome to use it in your own code.
 The Django admin site uses permissions as follows:
 - Access to view objects is limited to users with the “view” or “change” permission for that type of object.
@@ -121,8 +124,10 @@ The Django admin site uses permissions as follows:
 - Access to view the change list, view the “change” form and change an object is limited to users with the “change” permission for that type of object.
 - Access to delete an object is limited to users with the “delete” permission for that type of object.
 
-Permissions can be set not only per type of object, but also per specific object instance. By using the has_view_permission(), has_add_permission(), has_change_permission() andhas_delete_permission() methods provided by the ModelAdmin class, it is possible to customize permissions for different object instances of the same type.
+Permissions can be set not only per type of object, but also per specific object instance. By using the has_view_permission(), has_add_permission(), has_change_permission() and has_delete_permission() methods provided by the ModelAdmin class, it is possible to customize permissions for different object instances of the same type.
+
 User objects have two many-to-many fields: groups and user_permissions. User objects can access their related objects in the same way as any other Django model:
+```python
 myuser.groups.set([group_list])
 myuser.groups.add(group, group, ...)
 myuser.groups.remove(group, group, ...)
@@ -131,6 +136,7 @@ myuser.user_permissions.set([permission_list])
 myuser.user_permissions.add(permission, permission, ...)
 myuser.user_permissions.remove(permission, permission, ...)
 myuser.user_permissions.clear()
+```
 
 ### Default permissions
 When django.contrib.auth is listed in your INSTALLED_APPS setting, it will ensure that three default permissions – add, change and delete – are created for each Django model defined in one of your installed applications.
@@ -149,6 +155,7 @@ Beyond permissions, groups are a convenient way to categorize users to give them
 
 ### Programmatically creating permissions
 While custom permissions can be defined within a model’s Metaclass, you can also create permissions directly. For example, you can create the can_publish permission for a BlogPost model in myapp:
+```python
 from myapp.models import BlogPost
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
@@ -158,6 +165,7 @@ permission = Permission.objects.create(
     name='Can Publish Posts',
     content_type=content_type,
 )
+```
 
 The permission can then be assigned to a User via its user_permissions attribute or to a Group via its permissions attribute.
 
@@ -237,55 +245,57 @@ When a user logs in, the user’s ID and the backend that was used for authentic
 
 In cases 1 and 2, the value of the backend argument or the user.backend attribute should be a dotted import path string (like that found in AUTHENTICATION_BACKENDS), not the actual backend class.
 
-How to log a user out
+### How to log a user out
 logout(request)
 
 To log out a user who has been logged in via django.contrib.auth.login(), use django.contrib.auth.logout() within your view. It takes an HttpRequest object and has no return value. Example:
+```python
 from django.contrib.auth import logout
 def logout_view(request):
     logout(request)
     # Redirect to a success page.
-
+```
 
 
 ## Models:
 A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table.
 The basics:
-• Each model is a Python class that subclasses django.db.models.Model.
-• Each attribute of the model represents a database field.
-• With all of this, Django gives you an automatically-generated database-access API.
+- Each model is a Python class that subclasses django.db.models.Model.
+- Each attribute of the model represents a database field.
+- With all of this, Django gives you an automatically-generated database-access API.
 
 Quick example:
+```python
 from django.db import models
 
 class Person(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+```
 
-Some technical notes:
-    • The name of the table,myapp_person, is automatically derived from some model metadata but can be overridden. 
-    • An id field is added automatically, but this behavior can be overridden.
+### Some technical notes:
+- The name of the table,myapp_person, is automatically derived from some model metadata but can be overridden. 
+- An id field is added automatically, but this behavior can be overridden.
 
-Using models:
+### Using models
 Once you have defined your models, you need to tell Django you’re going to use those models. Do this by editing your settings file and changing the INSTALLED_APPS setting to add the name of the module that contains your models.py.
 For example, if the models for your application live in the module myapp.models, INSTALLED_APPS. When you add new apps to NSTALLED_APPS, be sure to run manage.py migrate, optionally making migrations for them first with manage.py makemigrations.
 Fields:
 The most important part of a model – and the only required part of a model – is the list of database fields it defines. Fields are specified by class attributes. Be careful not to choose field names that conflict with the models API like clean, save, or delete.
 
-Field types
+### Field types
 Each field in your model should be an instance of the appropriate Field class. Django uses the field class types to determine a few things:
-    • The column type, which tells the database what kind of data to store (e.g. INTEGER, VARCHAR, TEXT).
-    • The default HTML widget to use when rendering a form field (e.g. <input type="text">, <select>).
-    • The minimal validation requirements, used in Django’s admin and in automatically-generated forms.
+- The column type, which tells the database what kind of data to store (e.g. INTEGER, VARCHAR, TEXT).
+- The default HTML widget to use when rendering a form field (e.g. \<input type="text">, \<select>).
+- The minimal validation requirements, used in Django’s admin and in automatically-generated forms.
+
 Django ships with dozens of built-in field types; you can find the complete list in the model field reference. You can easily write your own fields if Django’s built-in ones don’t do the trick; see Writing custom model fields.
 
-Field options
+### Field options
 Each field takes a certain set of field-specific arguments. For example, CharField (and its subclasses) require a max_length argument which specifies the size of the VARCHAR database field used to store the data.
 There’s also a set of common arguments available to all field types. All are optional. They’re fully explained in the reference, but here’s a quick summary of the most often-used ones:
-null
-If True, Django will store empty values as NULL in the database. Default is False.
-blank
-If True, the field is allowed to be blank. Default is False.
+**null**: If True, Django will store empty values as NULL in the database. Default is False.
+**blank**: If True, the field is allowed to be blank. Default is False.
 Note that this is different than null. Null is purely database-related, whereas blank is validation-related. If a field has blank=True, form validation will allow entry of an empty value. If a field has blank=False, the field will be required.
 choices
 An iterable (e.g., a list or tuple) of 2-tuples to use as choices for this field. If this is given, the default form widget will be a select box instead of the standard text field and will limit choices to the choices given.
@@ -299,10 +309,12 @@ YEAR_IN_SCHOOL_CHOICES = (
     ('SR', 'Senior'),
     ('GR', 'Graduate'),
 )
+
 The first element in each tuple is the value that will be stored in the database. The second element is displayed by the field’s form widget.
 
 Given a model instance, the display value for a field with choices can be accessed using the get_FOO_display() method. For example:
 
+```python
 from django.db import models
 class Person(models.Model):
     SHIRT_SIZES = (
@@ -312,22 +324,25 @@ class Person(models.Model):
     )
     name = models.CharField(max_length=60)
     shirt_size = models.CharField(max_length=1, choices=SHIRT_SIZES)
+```
 
 For above model we can use below code to view the display value of shirt_size
+```shell
 >>> p = Person(name="Fred Flintstone", shirt_size="L")
 >>> p.save()
 >>> p.shirt_size
 'L'
 >>> p.get_shirt_size_display()
 'Large'
+```
 
-default
+### default
 The default value for the field. This can be a value or a callable object. If callable it will be called every time a new object is created.
 
-help_text
+### help_text
 Extra “help” text to be displayed with the form widget. It’s useful for documentation even if your field isn’t used on a form.
 
-primary_key
+### primary_key
 If True, this field is the primary key for the model.
 If you don’t specify primary_key=True for any fields in your model, Django will automatically add an IntegerField to hold the primary key, so you don’t need to set primary_key=True on any of your fields unless you want to override the default primary-key behavior.
 The primary key field is read-only. If you change the value of the primary key on an existing object and then save it, a new object will be created alongside the old one.
@@ -335,21 +350,26 @@ Unique
 If True, this field must be unique throughout the table. 
 
 
-Automatic primary key fields
+### Automatic primary key fields
 By default, Django gives each model the following field:
 id = models.AutoField(primary_key=True)
 This is an auto-incrementing primary key.
 
 If you’d like to specify a custom primary key, just specify primary_key=True on one of your fields. If Django sees you’ve explicitly set Field.primary_key, it won’t add the automatic id column.Each model requires exactly one field to have primary_key=True.
 
-Verbose field names
+### Verbose field names
 Each field type, except for ForeignKey, ManyToManyField and OneToOneField, takes an optional first positional argument – a verbose name. If the verbose name isn’t given, Django will automatically create it using the field’s attribute name, converting underscores to spaces.
 In this example, the verbose name is "person's first name":
+```python
 first_name = models.CharField("person's first name", max_length=30)
+```
 In this example, the verbose name is "first name":
+```python
 first_name = models.CharField(max_length=30)
+```
 
 ForeignKey, ManyToManyField and OneToOneField require the first argument to be a model class, so use the verbose_name keyword argument. The convention is not to capitalize the first letter of the verbose_name. Django will automatically capitalize the first letter where it needs to.
+```python
 poll = models.ForeignKey(
     Poll,
     on_delete=models.CASCADE,
@@ -361,17 +381,18 @@ place = models.OneToOneField(
     on_delete=models.CASCADE,
     verbose_name="related place",
 )
+```
 
-Relationships
+## Relationships
 Clearly, the power of relational databases lies in relating tables to each other. Django offers ways to define the three most common types of database relationships: many-to-one, many-to-many and one-to-one.
 
-Many-to-one relationships
+### Many-to-one relationships
 To define a many-to-one relationship, use django.db.models.ForeignKey. You use it just like any other Field type: by including it as a class attribute of your model.
 
 ForeignKey requires a positional argument: the class to which the model is related.
 
 For example, if a Car model has a Manufacturer – that is, a Manufacturer makes multiple cars but each Car only has one Manufacturer – use the following definitions:
-
+```python
 from django.db import models
 class Manufacturer(models.Model):
       pass
@@ -379,13 +400,15 @@ class Manufacturer(models.Model):
 class Car(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     # ...
+```
 
 It’s suggested, but not required, that the name of a ForeignKey field (manufacturer in the example above) be the name of the model, lowercase. You can, of course, call the field whatever you want.
 
-Many-to-many relationships
+### Many-to-many relationships
 To define a many-to-many relationship, use ManyToManyField. You use it just like any other Field type: by including it as a class attribute of your model.
 ManyToManyField requires a positional argument: the class to which the model is related.
 For example, if a Pizza has multiple Topping objects – that is, a Topping can be on multiple pizzas and each Pizza has multiple toppings – here’s how you’d represent that:
+```python
 from django.db import models
 class Topping(models.Model):
     # ...
@@ -393,13 +416,15 @@ class Topping(models.Model):
 class Pizza(models.Model):
     # ...
     toppings = models.ManyToManyField(Topping)
+```
 
 It’s suggested, but not required, that the name of a ManyToManyField (toppings in the example above) be a plural describing the set of related model objects. It doesn’t matter which model has the ManyToManyField, but you should only put it in one of the models – not both. Generally, ManyToManyField instances should go in the object that’s going to be edited on a form. In the above example, toppings is in Pizza (rather than Topping having a pizzas ManyToManyField) because it’s more natural to think about a pizza having toppings than a topping being on multiple pizzas. The way it’s set up above, the Pizza form would let users select the toppings.
 
-Extra fields on many-to-many relationships¶
+### Extra fields on many-to-many relationships
 When you’re only dealing with simple many-to-many relationships such as mixing and matching pizzas and toppings, a standard ManyToManyField is all you need. However, sometimes you may need to associate data with the relationship between two models.
 For example, consider the case of an application tracking the musical groups which musicians belong to. There is a many-to-many relationship between a person and the groups of which they are a member, so you could use a ManyToManyField to represent this relationship. However, there is a lot of detail about the membership that you might want to collect, such as the date at which the person joined the group.
 For these situations, Django allows you to specify the model that will be used to govern the many-to-many relationship. You can then put extra fields on the intermediate model. The intermediate model is associated with the ManyToManyField using the through argument to point to the model that will act as an intermediary. For our musician example, the code would look something like this:
+```python
 from django.db import models
 
 class Person(models.Model):
@@ -418,16 +443,18 @@ class Membership(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     date_joined = models.DateField()
     invite_reason = models.CharField(max_length=64)
+```
 
 When you set up the intermediary model, you explicitly specify foreign keys to the models that are involved in the many-to-many relationship. This explicit declaration defines how the two models are related.
 
 
-There are a few restrictions on the intermediate model:
-    • Your intermediate model must contain one – and only one - foreign key to the source model (this would be Group in our example), or you must explicitly specify the foreign keys Django should use for the relationship using ManyToManyField.through_fields. If you have more than one foreign key and through_fields is not specified, a validation error will be raised. A similar restriction applies to the foreign key to the target model (this would be Person in our example).
-    • For a model which has a many-to-many relationship to itself through an intermediary model, two foreign keys to the same model are permitted, but they will be treated as the two (different) sides of the many-to-many relationship. If there are more than two foreign keys though, you must also specify through_fields as above, or a validation error will be raised.
-    • When defining a many-to-many relationship from a model to itself, using an intermediary model, you must use symmetrical=False (seethe model field reference).
-Now that you have set up your ManyToManyField to use your intermediary model (Membership, in this case), you’re ready to start creating some many-to-many relationships. You do this by creating instances of the intermediate model:
+### There are a few restrictions on the intermediate model:
+- Your intermediate model must contain one – and only one - foreign key to the source model (this would be Group in our example), or you must explicitly specify the foreign keys Django should use for the relationship using ManyToManyField.through_fields. If you have more than one foreign key and through_fields is not specified, a validation error will be raised. A similar restriction applies to the foreign key to the target model (this would be Person in our example).
+- For a model which has a many-to-many relationship to itself through an intermediary model, two foreign keys to the same model are permitted, but they will be treated as the two (different) sides of the many-to-many relationship. If there are more than two foreign keys though, you must also specify through_fields as above, or a validation error will be raised.
+- When defining a many-to-many relationship from a model to itself, using an intermediary model, you must use symmetrical=False (seethe model field reference).
 
+Now that you have set up your ManyToManyField to use your intermediary model (Membership, in this case), you’re ready to start creating some many-to-many relationships. You do this by creating instances of the intermediate model:
+```shell
 >>> ringo = Person.objects.create(name="Ringo Starr")
 >>> paul = Person.objects.create(name="Paul McCartney")
 >>> beatles = Group.objects.create(name="The Beatles")
@@ -444,16 +471,20 @@ Now that you have set up your ManyToManyField to use your intermediary model (Me
 ...     invite_reason="Wanted to form a band.")
 >>> beatles.members.all()
 <QuerySet [<Person: Ringo Starr>, <Person: Paul McCartney>]>
+```
 
 Unlike normal many-to-many fields, you can’t use add(), create(), or set() to create relationships:
 
->>> # The following statements will not work
+### The following statements will not work
+```shell
 >>> beatles.members.add(john)
 >>> beatles.members.create(name="George Harrison")
 >>> beatles.members.set([john, paul, ringo, george])
+```
 
 Why? You can’t just create a relationship between a Person and a Group - you need to specify all the detail for the relationship required by the Membership model. The simple add, create and assignment calls don’t provide a way to specify this extra detail. As a result, they are disabled for many-to-many relationships that use an intermediate model. The only way to create this type of relationship is to create instances of the intermediate model.
 The remove() method is disabled for similar reasons. For example, if the custom through table defined by the intermediate model does not enforce uniqueness on the (model1, model2) pair, a remove() call would not provide enough information as to which intermediate model instance should be deleted:
+```shell
 >>> Membership.objects.create(person=ringo, group=beatles,
 ...     date_joined=date(1968, 9, 4),
 ...     invite_reason="You've been gone for a month and we miss you.")
@@ -461,46 +492,54 @@ The remove() method is disabled for similar reasons. For example, if the custom 
 <QuerySet [<Person: Ringo Starr>, <Person: Paul McCartney>, <Person: Ringo Starr>]>
 >>> # This will not work because it cannot tell which membership to remove
 >>> beatles.members.remove(ringo)
+```
 
 However, the clear() method can be used to remove all many-to-many relationships for an instance:
+```shell
 >> # Beatles have broken up
 >>> beatles.members.clear()
 >>> # Note that this deletes the intermediate model instances
 >>> Membership.objects.all()
 <QuerySet []>
+```
 
 Once you have established the many-to-many relationships by creating instances of your intermediate model, you can issue queries. Just as with normal many-to-many relationships, you can query using the attributes of the many-to-many-related model:
 
 # Find all the groups with a member whose name starts with 'Paul'
+```shell
 >>> Group.objects.filter(members__name__startswith='Paul')
 <QuerySet [<Group: The Beatles>]>
+```
 
 As you are using an intermediate model, you can also query on its attributes:
 
 # Find all the members of the Beatles that joined after 1 Jan 1961
+```shell
 >>> Person.objects.filter(
 ...     group__name='The Beatles',
 ...     membership__date_joined__gt=date(1961,1,1))
 <QuerySet [<Person: Ringo Starr]>
+```
 
 If you need to access a membership’s information you may do so by directly querying the Membership model:
-
+```shell
 >>> ringos_membership = Membership.objects.get(group=beatles, person=ringo)
 >>> ringos_membership.date_joined
 datetime.date(1962, 8, 16)
 >>> ringos_membership.invite_reason
 'Needed a new drummer.'
+```
 
 Another way to access the same information is by querying the many-to-many reverse relationship from a Person object:
-
+```shell
 >>> ringos_membership = ringo.membership_set.get(group=beatles)
 >>> ringos_membership.date_joined
 datetime.date(1962, 8, 16)
 >>> ringos_membership.invite_reason
 'Needed a new drummer.'
+```
 
-
-One-to-one relationships
+### One-to-one relationships
 To define a one-to-one relationship, use OneToOneField. You use it just like any other Field type: by including it as a class attribute of your model.
 This is most useful on the primary key of an object when that object “extends” another object in some way.
 OneToOneField requires a positional argument: the class to which the model is related.
