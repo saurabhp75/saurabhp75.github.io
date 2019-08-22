@@ -9,20 +9,20 @@ sidebar:
 ---
 
 ### Vector Multiplication
-c = a × b
-c = (a 1 b 1 , a 2 b 2 , a 3 b 3 )
-c = a * b
+c = a × b  
+c = (a 1 b 1 , a 2 b 2 , a 3 b 3)  
+c = a * b  
 
 ### Vector Division
-c = a/b
-c = (a 1/b 1 , a 2/b 2 , a 3/b 3 )
-c = a/b
+c = a/b  
+c = (a 1/b 1 , a 2/b 2 , a 3/b 3)  
+c = a/b  
 
 
 ### Vector Dot Product
-c = a · b
-c = (a 1 b 1 + a 2 b 2 + a 3 b 3 )
-c = a.dot(b)
+c = a · b  
+c = (a 1 b 1 + a 2 b 2 + a 3 b 3)  
+c = a.dot(b)  
 
 
 ### Vector-Scalar Multiplication
@@ -32,7 +32,7 @@ c = s * a
 ## Vector Norms
 
 ### Vector L1 Norm
-||v|| 1 = |a 1 | + |a 2 | + |a 3 |
+||v|| 1 = |a 1 | + |a 2 | + |a 3 |  
 l1 = norm(a, 1)
 
 ### Vector L2 Norm
@@ -105,8 +105,8 @@ I = np.identity(3)
 Two vectors are orthogonal when their dot product equals zero. The length of each vector is 1
 then the vectors are called orthonormal because they are both orthogonal and normalized.
 
-v · w =0
-v · wT =0
+v · w = 0  
+v · wT = 0
 
 
 An orthogonal matrix is a square matrix whose rows are mutually orthonormal and
