@@ -80,9 +80,7 @@ Use following code in projects urls.py to server static files during debug/devel
 if settings.DEBUG:
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-21. 
-
-Using reverse lookup in templates
+21. Using reverse lookup in templates
 
 22. If the entry in urls.py is like below
 path('', PostListView.as_view(), name='blog-home'), 
@@ -90,9 +88,11 @@ Then the above view (blog-home) can be accessed in template using
 {% raw  %}  <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a> {% raw  %} 
 
 23. To create admin user, use following (first do the migrations)
+```shell
 $ python manage.py makemigrations (detects changes & creates files under migration folder)
 $ python manage.py migrate (migrate the db)
 $ python manage.py createsuperuser
+```
 
 24. Django template commands
 
@@ -102,92 +102,116 @@ $ python manage.py createsuperuser
 	{% load static %} followed by {% static 'static-file-name' %}
 {% endraw  %} 
 
-	to register a model in admin panel add follwing line to admin.py
-	admin.site.register(modelname)
+to register a model in admin panel add follwing line to admin.py
+admin.site.register(modelname)
 
-	MEDIA_ROOT : 
-	MEDIA_URL :
+MEDIA_ROOT : 
+MEDIA_URL :
 
-Django Forms
+## Django Forms       
+25. DateTimeField(auto_now=True) # datetime updates on both creation and updation.
+26. DateTimeField(auto_now_add=True) # datetime updates only when creating but creation time can’t be changed.
+27. DateTimeField(default=timezone.now) # creation time can be changed.
        
-    25. DateTimeField(auto_now=True) # datetime updates on both creation and updation.
-    26. DateTimeField(auto_now_add=True) # datetime updates only when creating but creation time can’t be changed.
-    27. DateTimeField(default=timezone.now) # creation time can be changed.
+## Django Models
        
-Django Models
+28. To view the sql of migrations, do following
+```shell
+$ python manage.py sqlmigrate blog 0001
+```
+
+29. To get django python shell, use following command
+```shell
+$ python manage.py shell
+>>> from blog.models import Post
+>>> from django.contrib.auth.models import User
+>>> User.objects.all() # show all objects as queryset
+>>> User.objects.first() # show only first object (not a queryset)
+>>> User.objects.last() # show only last object
+>>> User.objects.filter(username = ‘saurabh’)
+>>> user = User.objects.filter(username = ‘saurabh’).first()
+>>> User.objects.get(id=1)
+>>> Post.objects.all()
+```
+
+# Creating and saving a model in two steps
+```shell
+>>> post_1 = Post(title=’Blog_1’, content=’First Post Content!’, author=user)
+>>> post_1.save()
+```
+
+# Check the below code for matching author_id, is it a field in post model?
+```shell
+>>> post_2 = Post(title=’Blog_2’, content=’Second Post Content!’, author_id=user.id)
+>>> post_2.save()
+```
+
+# To get all posts created by user from a user
+```shell
+# Note : ‘user’ is a foreign key to post, post_set contains all post created by 	 	  user.
+>>> user.post_set.all()
+```
+
+# to create and save a post by user in one step
+```shell
+>>> user.post_set.create(title=’Blog 3’, content=’Third Post Content!’)	
+
+>>> from django.contrib.auth.models import User
+>>> user = User.objects.filter(username='saurabh').first()
+>>> user.profile
+>>> user.profile.image.url
+```
        
-    28. To view the sql of migrations, do following
-       $ python manage.py sqlmigrate blog 0001
-       
-    29. To get django python shell, use following command
-       $ python manage.py shell
-	>>> from blog.models import Post
-	>>> from django.contrib.auth.models import User
-	>>> User.objects.all() # show all objects as queryset
-	>>> User.objects.first() # show only first object (not a queryset)
-	>>> User.objects.last() # show only last object
-	>>> User.objects.filter(username = ‘saurabh’)
-	>>> user = User.objects.filter(username = ‘saurabh’).first()
-	>>> User.objects.get(id=1)
-	>>> Post.objects.all()
+30. Class based views : Django looks for temple <app>/<model>_<viewtype>.html
+for eg. `blog/post_list.html`.
 
-#Creating and saving a model in two steps
-	>>> post_1 = Post(title=’Blog_1’, content=’First Post Content!’, author=user)
-	>>> post_1.save()
-	# Check the below code for matching author_id, is it a field in post model?
-	>>> post_2 = Post(title=’Blog_2’, content=’Second Post Content!’, author_id=user.id)
-	>>> post_2.save()
+31. Adding post from json file:
+```python
+import json
+from blog.models import Post
+with open('posts.json') as f:
+  posts_json = json.load(f)
+  for post in posts_json:
+    post = Post(title=post['title'], content=post['content'], author_id=post['user_id'])
+    post.save()
+```
 
-	# To get all posts created by user from a user
-	# Note : ‘user’ is a foreign key to post, post_set contains all post created by 	 	  user.
-	>>> user.post_set.all()
+32. Pagination in django :   
+```shell
+>>> from django.core.paginator import Paginator
+>>> posts = ['1', '2', '3', '4', '5']
+>>> p = Paginator(posts, 2)
+>>> p.num_pages
+>>> for page in p.page_range
+	  print(page)
+>>> page1 = p.page(1)
+>>> page1.number
+1
+>>> page1
+<page 1 of 3>
+```
 
-	# to create and save a post by user in one step
-	>>> user.post_set.create(title=’Blog 3’, content=’Third Post Content!’)	
+# see the items on page1
+```shell
+>>> page1.object_list
+[‘1’, ‘2’]
+```
 
-	>>> from django.contrib.auth.models import User
-	>>> user = User.objects.filter(username='saurabh').first()
-	>>> user.profile
-	>>> user.profile.image.url
-       
-    30. Class based views : Django looks for temple <app>/<model>_<viewtype>.html
-       for eg. blog/post_list.html.
+# see if the page has previous page
+```shell
+>>> page1.has_previuos()
+False
+>>> page1.has_next()
+True
+```
 
-    31. Adding post from json file:
-       import json
-	from blog.models import Post
-	with open('posts.json') as f:
-		posts_json = json.load(f)
-	for post in posts_json:
-		post = Post(title=post['title'], content=post['content'], author_id=post['user_id'])
-	post.save()
-       
-    32. Pagination in django : 
-       >>> from django.core.paginator import Paginator
-       >>> posts = ['1', '2', '3', '4', '5']
-       >>> p = Paginator(posts, 2)
-       >>> p.num_pages
-       >>> for page in p.page_range
-            print(page)
-	>>> page1 = p.page(1)
-	>>> page1.number
-	1
-	>>> page1
-	<page 1 of 3>
-	# see the items on page1
-	>>> page1.object_list
-	[‘1’, ‘2’]
-	# see if the page has previuos page
-	>>> page1.has_previuos()
-	False
-	>>> page1.has_next()
-	True
-	# get numbet of next page
-	>>> page1.next_page_number()
-	
+# get numbet of next page
+```shell
+>>> page1.next_page_number()
+```
  
 
-Note : 
+**Note** : 
 we should add trailing '/' in the route as it will enable routing of paths with missing '/' also to the same view as the path with '/'.
 
 If we keep the default root urls.py as it is and set debug=True in settings.py, then we will get a default django page, when we run the server. 
@@ -198,10 +222,10 @@ To use the static files in templates, we need to load them first using {% raw  %
 
 Question: How to avoid race condition in Django using F() ???
 
-Django Allauth 
+### Django Allauth 
 
-To retrieve access token use following.
-
->>> from allauth.socialaccount.models import SocialToken
->>> SocialToken.objects.filter(account__user=saurabhp75, account__provider='facebook')
-
+### To retrieve access token use following.
+```python
+from allauth.socialaccount.models import SocialToken
+SocialToken.objects.filter(account__user=saurabhp75, account__provider='facebook')
+```
