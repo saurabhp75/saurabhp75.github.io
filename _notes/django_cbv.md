@@ -148,11 +148,11 @@ Can be used whenever we want to display a form (not a form related to a Model i.
 - Inherits from ContextMixin
 - Overrides its get_context_data() method to add the form to the view. 
 - Adds some attributes and methods for proper form handling, 
-        ◦ form_class (attribute when the form class will be the same always)
-        ◦ get_form_class() (method when the form class will be dynamic for e.g. depending on the logged in user)
-        ◦ initial and get_initial() (same logic as before for the form’s initial values)
-        ◦ form_valid() and form_invalid() to define what should happen when the form is valid or invalid.
-        ◦ get_form_kwargs to pass some keyword arguments to the form’s constructor etc. 
+  - form_class (attribute when the form class will be the same always)
+  - get_form_class() (method when the form class will be dynamic for e.g. depending on the logged in user)
+  - initial and get_initial() (same logic as before for the form’s initial values)
+  - form_valid() and form_invalid() to define what should happen when the form is valid or invalid.
+  - get_form_kwargs to pass some keyword arguments to the form’s constructor etc. 
 
 
 ### ProcessFormView :
