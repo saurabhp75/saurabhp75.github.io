@@ -10,18 +10,18 @@ sidebar:
 
 ### Vector Multiplication
 c = a × b  
-c = (a 1 b 1 , a 2 b 2 , a 3 b 3)  
+c = (a1b1, a2b2, a3b3)  
 c = a * b  
 
 ### Vector Division
 c = a/b  
-c = (a 1/b 1 , a 2/b 2 , a 3/b 3)  
+c = (a1/b1, a2/b2, a3/b3)  
 c = a/b  
 
 
 ### Vector Dot Product
 c = a · b  
-c = (a 1 b 1 + a 2 b 2 + a 3 b 3)  
+c = (a1b1 + a2b2 + a3b3)  
 c = a.dot(b)  
 
 
@@ -32,7 +32,7 @@ c = s * a
 ## Vector Norms
 
 ### Vector L1 Norm
-||v|| 1 = |a 1 | + |a 2 | + |a 3 |  
+||v|| 1 = |a1| + |a2| + |a3|  
 l1 = norm(a, 1)
 
 ### Vector L2 Norm
