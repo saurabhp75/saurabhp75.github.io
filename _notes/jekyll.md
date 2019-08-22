@@ -111,7 +111,7 @@ gem 'github-pages', group: :jekyll_plugins
 ```
 
 - **Install gems**
-This creates bundler config file, `./.bundle/config`. It contains the path(`./vendor/bundle`) where Gems are installed. This helps isolate the project environment as the gems are not installed globally. This will install the github versions of gems in your local repo. Also, keep running "bundle update" regularly to keep the gems in sync with github gem versions. 
+This creates bundler config file, `./.bundle/config`. It contains the path(`./vendor/bundle`) where Gems are installed. This helps isolate the project environment as the gems are not installed globally. This will install the github versions of gems in your local repo. **Also, keep running "bundle update" regularly to keep the gems in sync with github gem versions**. 
 ```shell
 $ bundle install --path vendor/bundle
 ```
