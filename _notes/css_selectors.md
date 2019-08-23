@@ -52,7 +52,7 @@ sidebar:
 
 # XPATH
 
-**Absolute Xpath** :  Begins with ‘/’
+**Absolute Xpath** :  Begins with ‘/’  
 **Relative Xpath** : Begins with ‘//’
 
 - //input[@name='uid']: based on name attribute  
