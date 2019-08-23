@@ -29,7 +29,7 @@ $ django-admin startproject project-name
    
 7. The file `urls.py` contain mapping(urlpatterns) between urls and the location to send the user.
 
-8. The file wsgi.py (pronounce wisgee) setup the project config(wsgi config) to interface between our web app and web server(for e.g Apache).
+8. The file `wsgi.py` (pronounce wisgee) setup the project config(wsgi config) to interface between our web app and web server(for e.g Apache).
 
 9. Run the web app using
 ```shell
@@ -47,23 +47,21 @@ $ python manage.py startapp app-name
 
 13. We need to create a template folder for each app under django project and within this folder a folder with the name of the app. And then add this app to django project so that framework looks for templates folder under this app’s folder (also used in db migrations).
 
-14. To add an app to django framework, add the app to INSTALLED_APPS in settings.py file.
+14. To add an app to django framework, add the app to **INSTALLED_APPS** in `settings.py` file.
 
-15. How the url pattern is matched in django app. 
-In the INSTALLED_APPS (used by django to search for templates and models for db)  list in file settings.py under project-folder (django_blog/django_blog), add blog.app.BlogConfig ( a class from apps.py under app folder) 
-
-The web-app first checks urlpatterns in project’s urls.py, when match is found the appropriate view method is called, if urlpatterns contains include method for url matching, the web-app calls the view method of included app with the matched portion (in project’s urls.py) removed.
+15. **How the url pattern is matched in django app**. The web-app first checks urlpatterns in project’s `urls.py`, when match is found the appropriate view method is called, if urlpatterns contains include method for url matching, the web-app calls the view method of included app with the matched portion (in project’s urls.py) removed.  
+In the INSTALLED_APPS (used by django to search for templates and models for db) list in file `settings.py` under project-folder(django_blog/django_blog), add `blog.app.BlogConfig` (a class from `apps.py` under app folder) 
 
 
 ## Django Templates
 16. The block keyword in html file can be extended by child html pages, syntax is 
 {% raw  %} {% block block-name %} {% endblock%} {% endraw  %} 
 
-17. Python like code can be embedded in html files, using :
+17. Python like code can be embedded in html files, using:
 {% raw  %} 
-   {% for %} {% endfor %}
-   {% if %} {% else %} {% endif %}
-{% endraw  %} 
+{% for %} {% endfor %}  
+{% if %} {% else %} {% endif %}
+{% endraw %} 
 
 18. Variable in html template file can be accessed using {% raw  %} "{{ }}" {% endraw  %} .
 
@@ -80,12 +78,16 @@ Use following code in projects urls.py to server static files during debug/devel
 if settings.DEBUG:
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-21. Using reverse lookup in templates
+21. Using **reverse lookup** in templates
 
-22. If the entry in urls.py is like below
-path('', PostListView.as_view(), name='blog-home'), 
-Then the above view (blog-home) can be accessed in template using
-{% raw  %}  <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a> {% raw  %} 
+22. If the entry in `urls.py` is like below:
+```python
+path('', PostListView.as_view(), name='blog-home')
+```
+Then the above view (blog-home) can be accessed in template using    
+{% raw %}
+\<a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+{% endraw %}
 
 23. To create admin user, use following (first do the migrations)
 ```shell
@@ -108,13 +110,12 @@ admin.site.register(modelname)
 MEDIA_ROOT : 
 MEDIA_URL :
 
-## Django Forms       
+### Django Forms       
 25. DateTimeField(auto_now=True) # datetime updates on both creation and updation.
 26. DateTimeField(auto_now_add=True) # datetime updates only when creating but creation time can’t be changed.
 27. DateTimeField(default=timezone.now) # creation time can be changed.
        
-## Django Models
-       
+### Django Models       
 28. To view the sql of migrations, do following
 ```shell
 $ python manage.py sqlmigrate blog 0001
@@ -134,25 +135,25 @@ $ python manage.py shell
 >>> Post.objects.all()
 ```
 
-# Creating and saving a model in two steps
+### Creating and saving a model in two steps
 ```shell
 >>> post_1 = Post(title=’Blog_1’, content=’First Post Content!’, author=user)
 >>> post_1.save()
 ```
 
-# Check the below code for matching author_id, is it a field in post model?
+### Check the below code for matching author_id, is it a field in post model?
 ```shell
 >>> post_2 = Post(title=’Blog_2’, content=’Second Post Content!’, author_id=user.id)
 >>> post_2.save()
 ```
 
-# To get all posts created by user from a user
+### To get all posts created by user from a user
 ```shell
 # Note : ‘user’ is a foreign key to post, post_set contains all post created by 	 	  user.
 >>> user.post_set.all()
 ```
 
-# to create and save a post by user in one step
+### to create and save a post by user in one step
 ```shell
 >>> user.post_set.create(title=’Blog 3’, content=’Third Post Content!’)	
 
@@ -177,27 +178,25 @@ with open('posts.json') as f:
 ```
 
 32. Pagination in django :   
-```shell
->>> from django.core.paginator import Paginator
->>> posts = ['1', '2', '3', '4', '5']
->>> p = Paginator(posts, 2)
->>> p.num_pages
->>> for page in p.page_range
+```python
+from django.core.paginator import Paginator
+posts = ['1', '2', '3', '4', '5']
+p = Paginator(posts, 2)
+p.num_pages
+for page in p.page_range
 	  print(page)
->>> page1 = p.page(1)
->>> page1.number
-1
->>> page1
-<page 1 of 3>
+page1 = p.page(1)
+print(page1.number) # will print: 1
+print(page1) # will print: <page 1 of 3> 
 ```
 
-# see the items on page1
+### see the items on page1
 ```shell
 >>> page1.object_list
 [‘1’, ‘2’]
 ```
 
-# see if the page has previous page
+### see if the page has previous page
 ```shell
 >>> page1.has_previuos()
 False
@@ -205,14 +204,13 @@ False
 True
 ```
 
-# get numbet of next page
+### get numbet of next page
 ```shell
 >>> page1.next_page_number()
 ```
  
-
 **Note** : 
-we should add trailing '/' in the route as it will enable routing of paths with missing '/' also to the same view as the path with '/'.
+We should add trailing '/' in the route as it will enable routing of paths with missing '/' also to the same view as the path with '/'.
 
 If we keep the default root urls.py as it is and set debug=True in settings.py, then we will get a default django page, when we run the server. 
 
