@@ -19,14 +19,14 @@ $ git rm --cached <file_name>
 ```
 
 ### Type of diffs
-- Git diff : working vs staging
-- Git diff --cached/staged : staging vs last commit
-- Git diff HEAD : working vs last commit
+- git diff : working vs staging
+- git diff --cached/staged : staging vs last commit
+- git diff HEAD : working vs last commit
 
 ### Skipping the staging command (git add)
 commits all tracked modified files.
 ```shell
-$ Git commit -a -m "Commit message".
+$ git commit -a -m "Commit message".
 ```
 
 ### Fetch all data of all branches of remote which you don't have.
