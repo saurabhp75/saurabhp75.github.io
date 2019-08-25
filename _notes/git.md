@@ -88,7 +88,6 @@ v1.8.5.2
 v1.8.5.3
 ```
 
-
 ### Creating Tags 
 Git uses two main types of tags: lightweight and annotated. 
 A lightweight tag is very much like a branch that doesn’t change – it’s just a 
@@ -127,7 +126,6 @@ origin [tagname]. 
 $ git push origin v1.5
 Counting objects: 14, done.
 ```
-
 
 ### To transfer all of your tags 
 to the remote server that are not already there.
@@ -219,7 +217,7 @@ $ git reset #unstage the changes back to wd. opposite of git add
 
 
 ## Fixing Common Mistakes and Undoing Bad Commits
-## some commits change git history/log and some dont
+**Note**: some commits change git history/log and some don't
 
 
 ### To undo changes done to a file
