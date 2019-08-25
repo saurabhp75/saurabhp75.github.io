@@ -182,15 +182,13 @@ Layouts are templates(html files) that wrap around your content. They live in a 
 eg.
 
 {% raw  %}
----
-{% endraw  %}
-layout: default
-title: Home
-{% raw  %}
----
+\---  
+layout: default  
+title: Home  
+\---  
 {% endraw  %}
 
-{% raw  %} <h1>{{ "Hello World!" | downcase }}</h1> {% endraw  %}
+&lt;h1>{% raw  %}{{ "Hello World!" \| downcase }}{% endraw  %}&lt;h1>
 
 ## Includes
 The include tag allows you to include content from another file stored in an _includes folder.
@@ -286,10 +284,10 @@ title: Blog
 &lt;ul>  
   {% raw %}{% for post in site.posts %}{% endraw %}  
     &lt;li>  
-      &lt;h2>&lt;a href="{% raw %}{{ post.url }}{% endraw %}">{% raw %}{{ post.title }}{% endraw %}</a></h2>
-      &lt;p>{% raw %}{{ post.excerpt }}{% endraw %}</p>
-    &lt;/li>
-  \{% raw %}{% endfor %}{% endraw %}
+      &lt;h2>&lt;a href="{% raw %}{{ post.url }}{% endraw %}">{% raw %}{{ post.title }}{% endraw %}</a></h2>  
+      &lt;p>{% raw %}{{ post.excerpt }}{% endraw %}</p>  
+    &lt;/li>  
+  {% raw %}{% endfor %}{% endraw %}
 &lt;/ul>
 
 
