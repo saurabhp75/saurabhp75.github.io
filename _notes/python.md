@@ -112,8 +112,7 @@ for e.g.
 ```
 
 
-Exceptions to the rule "Assignment creates a new object"
-
+### Exceptions to the rule "Assignment creates a new object"
 Though each assignment creates a new object. There are few exceptions due to optimizations done in CPython. 
 
 1. For integers between -5 and 256, there is an internal array maintained and no new object is created. For e.g.
@@ -159,20 +158,21 @@ y = x
 x = 12 # this will not change the value refered to by the name 'y' 
 
 
-Assignment:
+### Assignment:
 
 4. Assignment never copies data:
+```python
 x = 23
 y = x
-
 # "Now I have two values: x and y!"
 # NO: you have two names, but only one value.
-# IMPORTANT: There is no way in python where a name can refer to another 	# name. A name can only refer to values.
-
+# IMPORTANT: There is no way in python where a name can refer to another 
+# name. A name can only refer to values.
+```
 
 5. Changes in a value are visible through all of its names.
     
-This distinction between assigning a name and changing a value is sometimes 	described as “rebinding the name vs. mutating the value.”
+This distinction between assigning a name and changing a value is sometimes described as “rebinding the name vs. mutating the value.”
 
 x = 1
 x = x + 1 # rebind the name to a new value
@@ -180,40 +180,39 @@ x = x + 1 # rebind the name to a new value
 nums = [1, 2, 3]
 nums.append(4) # mutating the value
 
-
-Myth : Python assigns mutable and immutable values differently.
+**Myth** : Python assigns mutable and immutable values differently.
 All assignment works the same: it makes a name refer to a value. But with an 	immutable value, no matter how many names are referring to the same value, the 	value can’t be changed in-place, so you can never get into a surprising Presto-	Chango situation.
 
 6. References can be more than just names
 
-Anything that can appear on the left-hand side of an assignment statement is a 	reference, and everywhere I say “name” you can substitute “reference”.
+Anything that can appear on the left-hand side of an assignment statement is a reference, and everywhere I say “name” you can substitute “reference”.
 
 my_obj.attr = 23
 my_dict[key] = 24
 my_list[index] = 25
 my_obj.attr[key][index].attr = "etc, etc"
 
-Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first 	element of i’s value.It’s important to keep straight what exactly is being assigned to. 	Just because a name appears somewhere on the left-hand side of the assignment 	statement doesn’t mean the name is being rebound.
+Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element of i’s value.It’s important to keep straight what exactly is being assigned to. Just because a name appears somewhere on the left-hand side of the assignment 	statement doesn’t mean the name is being rebound.
 
 7. Lots of things are assignment
-X = ...
-for X in ...
-[... for X in ...]
-(... for X in ...)
-{... for X in ...}
-class X(...):
-def X(...):
-def fn(X): ... ; fn(12)
-with ... as X:
-except ... as X:
-import X
-from ... import X
-import ... as X
-from ... import ... as X
+- X = ...
+- for X in ...
+- [... for X in ...]
+- (... for X in ...)
+- {... for X in ...}
+- class X(...):
+- def X(...):
+- def fn(X): ... ; fn(12)
+- with ... as X:
+- except ... as X:
+- import X
+- from ... import X
+- import ... as X
+- from ... import ... as X
 
 8. Python passes function arguments by assigning to them.
 
-Fact: References can be more than just names.
+**Fact**: References can be more than just names.
 Anything that can appear on the left-hand side of an assignment statement is a reference,
 and everywhere I say “name” you can substitute “reference”.
 
@@ -224,31 +223,15 @@ my_obj.attr[key][index].attr = "etc, etc"
 
 Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element 	of i’s value. It’s important to keep straight what exactly is being assigned to. Just because a 	name appears somewhere on the left-hand side of the assignment statement doesn’t mean the 	name is being rebound.
 
-Fact: Lots of things are assignment
-X = ...
-for X in ...
-[... for X in ...]
-(... for X in ...)
-{... for X in ...}
-class X(...):
-def X(...):
-def fn(X): ... ; fn(12)
-with ... as X:
-except ... as X:
-import X
-from ... import X
-import ... as X
-from ... import ... as X
-
-Fact: Python passes function arguments by assigning to them.
-
+**Fact**: Python passes function arguments by assigning to them.
+```shell
 >>> l = [1,2,3]
 >>> id(l)
 140581310766344
 >>> x = l[0]
 >>> id(x)
 10910400
-
+```
 
 ### Python Asynchronus IO
 
@@ -780,7 +763,7 @@ The microservices architecture is a design approach to build a single applicatio
 
 ### Python requests
 
-
+```shell
 Simple GET request
 >>> import requests 
 >>> r = requests.get('http://google.com')
@@ -814,14 +797,15 @@ Logging in using credentials
 u'https://api.github.com/user' 
 >>> r.request
 <PreparedRequest [GET]>
+```
 
-r.content vs r.text vs r.encoding 
-r.content : raw data (bytes, no meaning)
-r.text : when r.encoding is applied to r.content (meaning/code point applied to a chunk of byte(s))
-r.encoding : Encoding to be applied to r.content to get r.text.
+### r.content vs r.text vs r.encoding 
+- r.content : raw data (bytes, no meaning)
+- r.text : when r.encoding is applied to r.content (meaning/code point applied to a chunk of byte(s))
+- r.encoding : Encoding to be applied to r.content to get r.text.
 
-Note : Unicode is 4 bytes encoding. Article later.
-
+**Note** : Unicode is 4 bytes encoding. Article later.
+```shell
 # raw content
 >>> r.content
 # return a string as per ‘r.encoding’
@@ -832,6 +816,6 @@ Note : Unicode is 4 bytes encoding. Article later.
 >>> r.apparent_encoding
 ‘ascii’
 
-
+```
 
 
