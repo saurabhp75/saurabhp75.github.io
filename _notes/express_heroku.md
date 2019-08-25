@@ -8,9 +8,7 @@ sidebar:
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-
 <!-- DEPLOY EXPRESS APP ON HEROKU  -->
-
 
 1. Heroku login.
 2. Git status → git init.
@@ -32,12 +30,16 @@ To connect using the mongo shell:
 $ mongo ds135003.mlab.com:35003/yelpcampsp -u <dbuser> -p <dbpassword>
 ```
 
-Heroku password : Se*****3!
+Heroku password : S******3!
 
 ### To connect using a driver via the standard MongoDB URI:
+```js
 mongodb://saurabh:Se*****3!@ds135003.mlab.com:35003/yelpcampsp
-
-https://immense-gorge-49961.herokuapp.com/
-
-
 app.listen(process.env.PORT, process.env.IP);
+```
+
+App deployed [here](https://immense-gorge-49961.herokuapp.com/)
+
+
+
+

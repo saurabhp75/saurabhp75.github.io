@@ -78,7 +78,7 @@ Use following code in projects urls.py to server static files during debug/devel
 if settings.DEBUG:
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-21. Using **reverse lookup** in templates
+### Using **reverse lookup** in templates
 
 22. If the entry in `urls.py` is like below:
 ```python
@@ -104,11 +104,13 @@ $ python manage.py createsuperuser
 	{% load static %} followed by {% static 'static-file-name' %}
 {% endraw  %} 
 
-to register a model in admin panel add follwing line to admin.py
+to register a model in admin panel add follwing line to `admin.py`
+```python
 admin.site.register(modelname)
+```
 
-MEDIA_ROOT : 
-MEDIA_URL :
+### MEDIA_ROOT : 
+### MEDIA_URL :
 
 ### Django Forms       
 25. DateTimeField(auto_now=True) # datetime updates on both creation and updation.
@@ -149,7 +151,7 @@ $ python manage.py shell
 
 ### To get all posts created by user from a user
 ```shell
-# Note : ‘user’ is a foreign key to post, post_set contains all post created by 	 	  user.
+# Note : ‘user’ is a foreign key to post, post_set contains all post created by user.
 >>> user.post_set.all()
 ```
 

@@ -22,35 +22,47 @@ sidebar:
 
 **Geojson** file is a list of features having following format:
 
-"type":
-"geometry": 
-"Properties":
+- type:
+- geometry: 
+- Properties:
 
-**Point** : list (size 2) of x/y coordinates.
-e.g. [30, 10]
+**Point** : list (size 2) of x/y coordinates.  
+e.g. 
+```python
+[30, 10]
+```
 
-Linestring : list of n points (2D array) of shape (n,1) where n is number of points in the line.
-e.g. [
-        [30, 10], [10, 30], [40, 40]
-    ]
+**Linestring** : list of n points (2D array) of shape (n,1) where n is number of points in the line.
+e.g. 
+```python
+[
+  [30, 10], [10, 30], [40, 40]
+]
+```
 
-Polygon : list of size 1, which contains list of points (a size 2 list)
-e.g. [
-        [[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]
-    ]
+**Polygon** : list of size 1, which contains list of points (a size 2 list)
+e.g. 
+```python
+[
+  [[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]
+]
+```
 
-Polygon(a polygon within a polygon) :
-e.g. [
-        [[35, 10], [45, 45], [15, 40], [10, 20], [35, 10]], 
-        [[20, 30], [35, 35], [30, 20], [20, 30]]
-    ]
+**Polygon(a polygon within a polygon)** :
+e.g. 
+```python
+[
+  [[35, 10], [45, 45], [15, 40], [10, 20], [35, 10]], 
+  [[20, 30], [35, 35], [30, 20], [20, 30]]
+]
+```
 
-Multipolygon : 
+**Multipolygon*** : 
 e.g.  TBD
 
 
 Structure of geojson file:
-
+```json
 {
   "type": "FeatureCollection",
 
@@ -78,40 +90,42 @@ Structure of geojson file:
     }
   ]
 }
+```
 
 
-geojson file: A collection of features, ie type = "FeatureCollection".
+**geojson file***: A collection of features, ie type = "FeatureCollection".
 
-features: Must contain type, properties and geometry. 
+**features**: Must contain type, properties and geometry. 
 
-Type: It is generally "feature"
+**Type**: It is generally "feature"
 
-Properties: Could be things like country name, country code, state, etc.  
+**Properties**: Could be things like country name, country code, state, etc.  
 
-geometry: Must contain a type (point, line, polygons, etc.) and coordinates (likely an array of lat-long).
-
-
-Convert shape file to geojson:
-
-    1. Upload dbf, shp, shx and prj  file to https://mapshaper.org.
-       
-    2. (Optional) Simplyfiy the file to reduce size. Click on 'Sinplify' and select
-       prevent shape removal also select weigted area (default). Then click apply.
-       
-    3. Reduce the file size by using the slider on top. Also repair line intersections by clicking on repair in left.
-       
-    4. Export the file to json and select 'don't remove shapes'.  
+**geometry**: Must contain a type (point, line, polygons, etc.) and coordinates (likely an array of lat-long).
 
 
-Basic workflow to get a geojson india map :
-       
-    1. Download an Indian shapefile from meetup (github).
-    2. Simplify the shapefile (mapshaper.org) and export as geojson. When simplifying check the option "don't remove shapes". Also repair line intersections by clicking on repair in left.
-    3. Change the precision of exported geojson file using geojson-precision npm package as shown below.
-       $ geojson-precision -p 2 input_geojson_file output_geojson_file
+### Convert shape file to geojson:
 
-Note: 
-    1. For eg. 
-       /home/saurabh/Downloads/node_modules/geojson-precision/bin/geojson-precision -p 2 success.json success_trim.json
-    2. URL : "http://geojson.io/#map=2/20.0/0.0"  can be used to check the geojson file.
+1. Upload dbf, shp, shx and prj  file to https://mapshaper.org.
+    
+2. (Optional) Simplyfiy the file to reduce size. Click on 'Sinplify' and select
+    prevent shape removal also select weigted area (default). Then click apply.
+    
+3. Reduce the file size by using the slider on top. Also repair line intersections by clicking on repair in left.
+    
+4. Export the file to json and select 'don't remove shapes'.  
+
+
+### Basic workflow to get a geojson india map :
+1. Download an Indian shapefile from meetup (github).
+2. Simplify the shapefile (mapshaper.org) and export as geojson. When simplifying check the option "don't remove shapes". Also repair line intersections by clicking on repair in left.
+3. Change the precision of exported geojson file using geojson-precision npm package as shown below.
+```shell
+$ geojson-precision -p 2 input_geojson_file output_geojson_file
+```
+
+### Note: 
+1. For eg. 
+    /home/saurabh/Downloads/node_modules/geojson-precision/bin/geojson-precision -p 2 success.json success_trim.json
+2. URL : "http://geojson.io/#map=2/20.0/0.0"  can be used to check the geojson file.
 

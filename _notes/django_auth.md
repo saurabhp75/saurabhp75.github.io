@@ -256,7 +256,6 @@ def logout_view(request):
     # Redirect to a success page.
 ```
 
-
 ## Models:
 A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table.
 The basics:
@@ -301,7 +300,7 @@ choices
 An iterable (e.g., a list or tuple) of 2-tuples to use as choices for this field. If this is given, the default form widget will be a select box instead of the standard text field and will limit choices to the choices given.
 
 A choices list looks like this:
-
+```python
 YEAR_IN_SCHOOL_CHOICES = (
     ('FR', 'Freshman'),
     ('SO', 'Sophomore'),
@@ -309,6 +308,7 @@ YEAR_IN_SCHOOL_CHOICES = (
     ('SR', 'Senior'),
     ('GR', 'Graduate'),
 )
+```
 
 The first element in each tuple is the value that will be stored in the database. The second element is displayed by the field’s form widget.
 
@@ -368,7 +368,7 @@ In this example, the verbose name is "first name":
 first_name = models.CharField(max_length=30)
 ```
 
-ForeignKey, ManyToManyField and OneToOneField require the first argument to be a model class, so use the verbose_name keyword argument. The convention is not to capitalize the first letter of the verbose_name. Django will automatically capitalize the first letter where it needs to.
+**ForeignKey**, **ManyToManyField** and **OneToOneField** require the first argument to be a model class, so use the verbose_name keyword argument. The convention is not to capitalize the first letter of the verbose_name. Django will automatically capitalize the first letter where it needs to.
 ```python
 poll = models.ForeignKey(
     Poll,
@@ -387,9 +387,7 @@ place = models.OneToOneField(
 Clearly, the power of relational databases lies in relating tables to each other. Django offers ways to define the three most common types of database relationships: many-to-one, many-to-many and one-to-one.
 
 ### Many-to-one relationships
-To define a many-to-one relationship, use django.db.models.ForeignKey. You use it just like any other Field type: by including it as a class attribute of your model.
-
-ForeignKey requires a positional argument: the class to which the model is related.
+To define a many-to-one relationship, use django.db.models.ForeignKey. You use it just like any other Field type: by including it as a class attribute of your model. ForeignKey requires a positional argument: the class to which the model is related.
 
 For example, if a Car model has a Manufacturer – that is, a Manufacturer makes multiple cars but each Car only has one Manufacturer – use the following definitions:
 ```python
