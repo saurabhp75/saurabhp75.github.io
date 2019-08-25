@@ -83,4 +83,4 @@ task doSomeOperation2(dependsOn: 'doSomeOperation1') {
 }
 ```
 
-How to create zip file using custom gradle task.
+How to create zip file using custom gradle task?

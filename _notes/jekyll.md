@@ -8,7 +8,7 @@ sidebar:
 ---
 
 <!-- # Jekyll Notes -->
-# Basics
+## Basics
 
 - Install ruby as root user.
 ```shell
@@ -242,10 +242,11 @@ the publish date, then a title, followed by an extension. Jekyll makes posts ava
 eg `_posts/2018-08-20-bananas.md`.
 
 {% raw  %}
----
-layout: post
-author: jill
----
+\---  
+layout: post  
+author: jill  
+\---
+{% endraw %}
 A banana is an edible fruit – botanically a berry – produced by several kinds
 of large herbaceous flowering plants in the genus Musa.
 
@@ -254,40 +255,43 @@ distinguishing them from dessert bananas. The fruit is variable in size, color,
 and firmness, but is usually elongated and curved, with soft flesh rich in
 starch covered with a rind, which may be green, yellow, red, purple, or brown
 when ripe.
-{% endraw  %}
 
-_layouts/post.html
+
+`_layouts/post.html`
 {% raw  %} 
----
-layout: default
----
-<h1>{{ page.title }}</h1>
-<p>{{ page.date | date_to_string }} - {{ page.author }}</p>
+\---  
+layout: default  
+\---  
+{% endraw %}
 
-{{ content }}  
+&lt;h1>{% raw %}{{ page.title }}{% endraw %}&lt;/h1>  
+&lt;p>{% raw %}{{ page.date | date_to_string }}{% endraw %} - {% raw %}{{ page.author }}{% endraw %}&lt;/p>
+
+{% raw %}{{ content }}{% endraw %}  
 
 This is an example of layout inheritance. The post layout outputs the title, date, author 
 and content body which is wrapped by the default layout.
-{% endraw %} 
+
 
 ## List posts
 
 {% raw %} 
----
-layout: default
-title: Blog
----
-<h1>Latest Posts</h1>
-
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      <p>{{ post.excerpt }}</p>
-    </li>
-  {% endfor %}
-</ul>
+\---  
+layout: default  
+title: Blog  
+\---  
 {% endraw %} 
+\<h1>Latest Posts</h1>
+
+&lt;ul>  
+  {% raw %}{% for post in site.posts %}{% endraw %}  
+    &lt;li>  
+      &lt;h2>&lt;a href="{% raw %}{{ post.url }}{% endraw %}">{% raw %}{{ post.title }}{% endraw %}</a></h2>
+      &lt;p>{% raw %}{{ post.excerpt }}{% endraw %}</p>
+    &lt;/li>
+  \{% raw %}{% endfor %}{% endraw %}
+&lt;/ul>
+
 
 ## Built-in variables in Jekyll
  -page.url : gives the url of the page.
@@ -297,27 +301,30 @@ title: Blog
 
 ## Collections
 Collections are similar to posts except the content doesn’t have to be grouped by date.
-To set up a collection you need define them in Jekyll configuration file, _config.yml(by default).
+To set up a collection you need define them in Jekyll configuration file, `_config.yml`(by default).
 eg.
-collections:
+```yaml
+collections:  
   authors:
-
+```
 Define authors in files under _authors folder eg. `_authors/ted.md, _authors/jill.md` etc.
-Note: You need to restart Jekyll server whenever, config file changes.
+**Note**: You need to restart Jekyll server whenever, config file changes.
 
 ## Output a page
-By default, collections do not output a page for documents. In case you want each author to have their own page, tweak the collection configuration in _config.yml. Also, you’ll need to create a layout for authors in _layouts/author.html.
-collections:
-  authors:
+By default, collections do not output a page for documents. In case you want each author to have their own page, tweak the collection configuration in `_config.yml`. Also, you’ll need to create a layout for authors in `_layouts/author.html`.
+```yaml  
+collections:  
+  authors:  
     output: true
 
-link to output page: author.url
+link to output page: author.url 
+```
 
-Front matter defaults
+Front matter defaults  
 
-List author’s posts
+List author’s posts  
 
-Link to authors page
+Link to authors page  
 
 ## Deployment
 
