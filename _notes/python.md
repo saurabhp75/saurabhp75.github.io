@@ -19,9 +19,9 @@ The fragments of program code that produce or calculate new data values are call
 ### Formatting strings:
 print statement in Python
 
-{<index>:<format-specifier>}
+{% raw %}{\<index>:\<format-specifier>}{% endraw %}
 
-format-specifier : <width>.<precision><type>
+format-specifier : \<width>.\<precision>\<type>
 
 - width : Minimum width of field.
 - precision : Decimal precision, only used for floats.
@@ -32,9 +32,10 @@ For e.g.
 {0:0.2f} : 0th index, 0 min. width and 2 decimal precision
 
 <, >, and - for left, right, and center justification
-
+```shell
 >>>"left justification : {0:<5}".format("Hi ! ")
 'left justification : Hi !'
+```
 
 print("The total value of your change is ${0}.{1:0 >2}".format(totalll100 , total%100))
 
@@ -75,8 +76,9 @@ Every object has an identity, a type and a value. Once an object is created, the
 Assignment statements bind a name (identifier) to an object. Assignment creates a new object, with few exceptions (See below).
 
 For e.g
+```shell
 >>> x = 100
-
+```
 Aliasing: Two variables referring to the same object.
 ```shell
 >>> x = 100
@@ -248,17 +250,15 @@ Fact: Python passes function arguments by assigning to them.
 10910400
 
 
-
 ### Python Asynchronus IO
 
+**Concurrency** : CPU takes turns and switches between the code to be executed.
 
-Concurrency : CPU takes turns and switches between the code to be executed.
+**Parallelism** : Parallel execution of code on multiple CPU cores.
 
-Parallelism : Parallel execution of code on multiple CPU cores.
+### Multiprocessing
 
-Multiprocessing
-
-Coroutine: A function that uses yield as a signal to the scheduler, indicating that the coroutine will be waiting until an event (such as IO) is completed.
+**Coroutine**: A function that uses yield as a signal to the scheduler, indicating that the coroutine will be waiting until an event (such as IO) is completed.
 
 
 ### Iterators
@@ -267,7 +267,7 @@ Any object that supports iter() method is said to be iterable. iter() returns an
 
 Formal definition : Any object which supports iter() or has getItem() method with StopIteration exception is an interable.
 
-Iterator : Implements __next__() method with StopItertation exception. Also implemetents __iter__() method which returns self.
+**Iterator** : Implements __next__() method with StopItertation exception. Also implemetents __iter__() method which returns self.
 
 Generator Expressions
 Important differences from a list comp.
@@ -339,9 +339,9 @@ Iterator : An iterator is an object with a next (Python 2) or __next__ (Python 3
 __next__ method signals when it is done by raising StopIteration exception.Iterator also 
 implements __iter__ method which returns self object.
 
-Generators function: 
+### Generators function: 
 Generators are functions that can be paused and resumed on the fly, returning an object that can be iterated over. Unlike lists, they are lazy and thus produce items one at a time and only when asked. So they are much more memory efficient when dealing with large datasets.
-
+```shell
 >>> def countdown(num):
 ...     print('Starting')
 ...     while num > 0:
@@ -352,9 +352,10 @@ Generators are functions that can be paused and resumed on the fly, returning an
 
 >>> val
 <generator object countdown at 0x10213aee8>
+```
 
 When calling next() the first time, execution begins at the start of the function body and continues until the next yield statement where the value to the right of the statement is returned, subsequent calls to next() continue from the yield statement, and loop around and continue until another yield is called. If yield is not called (which in our case means we don’t go into the if function because num <= 0) a StopIteration exception is raised:
-
+```shell
 >>> next(val)
 Starting
 5
@@ -370,10 +371,11 @@ Starting
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
+```
 
 ### Generator Expressions :
 They are just like list comprehensions, except the parenthesis '( )' instead of '[ ]'. They return a generator object rather than a list. Generator expressions can run slower than list comprehensions (unless you run out of memory, of course), but they use less space, as can be seen from the code below.
-
+```shell
 >>> import sys
 >>> g = (i * 2 for i in range(10000) if i % 3 == 0 or i % 5 == 0)
 >>> print(sys.getsizeof(g))
@@ -381,9 +383,9 @@ They are just like list comprehensions, except the parenthesis '( )' instead of 
 >>> l = [i * 2 for i in range(10000) if i % 3 == 0 or i % 5 == 0]
 >>> print(sys.getsizeof(l))
 38216
+```
 
-
-Decorators :  Decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it.
+**Decorators** :  Decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it.
 
 say_whee = my_decorator(say_whee) is equivalent to below expression.
 
@@ -391,8 +393,8 @@ say_whee = my_decorator(say_whee) is equivalent to below expression.
 def say_whee():
     print("Whee!")
 
-# Below is a decorator which takes arguments and also return values
-# It also gives correct name of wrapped functional
+### Below is a decorator which takes arguments and also return values It also gives correct name of wrapped functional
+```python
 import functools
 
 def decorator(func):
@@ -404,6 +406,7 @@ def decorator(func):
         # Do something after
         return value
     return wrapper_decorator
+```
 
 variable scope :
 LEGB rule
@@ -428,12 +431,12 @@ class namespace that are not connected to a particular instance of that class.
 The @property decorator is used to customize getters and setters for class attributes. 
 
 
-Use case for '@property' :
+### Use case for '@property' :
 Suppose in a class there are two properties, radius and circumference. circumference is calculated using radius.
 But if we modify radius then circumference will not change automagically. We define a function circumference()
 with decorator property (this now becomes a getter) and then access it like a normal attribute, ie obj.circumference (not obj.circumference()).
 
-Python decsriptors :
+### Python decsriptors :
 Python descriptors gives us a powerful technique to write  reusable code that can be used between classes.
 
 Background :
@@ -468,7 +471,8 @@ x = map(myfunc, ('apple', 'banana', 'cherry'), ('orange', 'lemon', 'pineapple'))
 
 The filter() function returns an "iterator" were the items are filtered through a function to test if the item is accepted or not.
 syntax : filter(function, iterable)
-e.g. 
+e.g.
+```python
 ages = [5, 12, 17, 18, 24, 32]
 
 def myFunc(x):
@@ -481,7 +485,7 @@ adults = filter(myFunc, ages)
 
 for x in adults:
   print(x)
-
+```
 
 ### lambda functions : 
 Syntax : lambda arguments : expression i.e. lambda x, y : x + y
@@ -490,16 +494,18 @@ Syntax : lambda arguments : expression i.e. lambda x, y : x + y
 ### zip and enumerate builtins:
 
 enumerate() gives index along with value of a sequence, for eg :
-
+```shell
 >>> a = ["a", "b", "c"]
 >>> for i, v in enumerate(a):
         print i, v
 0 a
 1 b
 2 c
+```
 
 zip() takes two or more sequences of same length(?) and returns a sequence of touple containing two or more elements.
 for e.g.
+```shell
 >>> a = [1, 2, 3]
 >>> b = [3, 4, 5]
 >>> c = [6, 7, 8]
@@ -508,7 +514,7 @@ for e.g.
 1 3 6
 2 4 7
 3 5 8
-
+```
 
 
 ## Python OOP:
