@@ -8,24 +8,24 @@ sidebar:
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-Python Notes (tutorial)
+<!-- Python Notes (tutorial) -->
 
-Difference between list.sort() and sorted()
-    • list.sort() sorts the list in place and returns none.
-    • sorted(list) creates and returns a new copy of the sorted list.
+### Difference between list.sort() and sorted()
+- list.sort() sorts the list in place and returns none.
+- sorted(list) creates and returns a new copy of the sorted list.
 
-The fragments of program code that produce or calculate new data values are called expressions. The simplest kind of expression is a literal.
+The fragments of program code that produce or calculate new data values are called **expressions**. The simplest kind of expression is a **literal**.
 
-Formatting strings:
+### Formatting strings:
 print statement in Python
 
 {<index>:<format-specifier>}
 
 format-specifier : <width>.<precision><type>
 
-width : Minimum width of field.
-precision : Decimal precision, only used for floats.
-type : s, d, f for str, int and float respectively.
+- width : Minimum width of field.
+- precision : Decimal precision, only used for floats.
+- type : s, d, f for str, int and float respectively.
 
 For e.g. 
 
@@ -38,25 +38,25 @@ For e.g.
 
 print("The total value of your change is ${0}.{1:0 >2}".format(totalll100 , total%100))
 
-Return values of functions:
+### Return values of functions
 All functions in Python return a value, regardless of whether the function actually contains a return statement. Functions without a return always hand back a special object, denoted None.
 
-Formal parameters & actual parameters:
+### Formal parameters & actual parameters:
 The parameters appearing in the function definition are called formal parameters, and the expressions appearing in a function call are known as actual parameters.
 
 Python passes parameters by value. If the value being passed is a mutable object (e.g. list), then changes made to the object may be visible to the caller.
 
-Importing of Python modules:
+### Importing of Python modules:
 Importing a Python modules executes them. When a module is imported, Python creates a special attribute, __name __ , inside that module and assigns it a string representing the module's name.
 
 However, when Python code is being run directly (not imported), Python sets the value of __name __  to be ' __main __ ' .
 
 
-Exception handling in Python:
-try:
-except:
-else:
-finally:
+### Exception handling in Python:
+- try:
+- except:
+- else:
+- finally:
 
 If there is no exception name after except then all exceptions will be caught.
 
@@ -64,13 +64,13 @@ x and y : If x is false, return x. Otherwise, return y.(???)
 x or y : If x is true, return x. Otherwise, return y.(???)
 
 
-Python names (references) and values
+### Python names (references) and values
 
 Every object has an identity, a type and a value. Once an object is created, the type and identity can’t be changed. Whether or not the object’s value can change after creation determines if the object is mutable or immutable.
 
-Immutable Object: int, float, long, complex, string tuple, bool.
+**Immutable Object**: int, float, long, complex, string tuple, bool.
 
-Mutable Object: list, dict, set, byte array, user-defined classes.
+**Mutable Object**: list, dict, set, byte array, user-defined classes.
 
 Assignment statements bind a name (identifier) to an object. Assignment creates a new object, with few exceptions (See below).
 
@@ -78,175 +78,178 @@ For e.g
 >>> x = 100
 
 Aliasing: Two variables referring to the same object.
-
-	>>> x = 100
-	>>> y = x # aliasing
+```shell
+>>> x = 100
+>>> y = x # aliasing
+```
 
 When number of references(names) to an object becomes 0, it is garbage collected by interpreter.
 when names get out of scope, the reference count to the object decreases.
 
-Inbuilt functions:
+### Inbuilt functions:
 
-    1. id() returns the identity (memory address) of the object. No two objects have the same identity.
-       
-    2. is and is not operators: these identity operators evaluates whether or not the objects have the same identity, i.e. if they are the same object.
+1. id() returns the identity (memory address) of the object. No two objects have the same identity.
+    
+2. is and is not operators: these identity operators evaluates whether or not the objects have the same identity, i.e. if they are the same object.
+```shell
+>>> x = 4 # bind 'x' with  object whose value is 4.
+>>> y = x # bind y to the value pointed to by x
+>>> x = 8 # rebind x to object whose value is 8.
+>>> print(y) # will print 4, as 'y' is still bound to 4.
+```
 
-	>>> x = 4 # bind 'x' with  object whose value is 4.
-	>>> y = x # bind y to the value pointed to by x
-	>>> x = 8 # rebind x to object whose value is 8.
-
-	print(y) # will print 4, as 'y' is still bound to 4.
-
-
-Difference between += and + operator on mutable objects(e.g. list)
+### Difference between += and + operator on mutable objects(e.g. list)
 
 For mutable objects '+=' changes the object in place, whereas '+' gives a new object and assign to the name. '+=' calls __iadd__() whereas '+' calls __add()__.
 
 for e.g. 
+```shell
 >>> lst = [1,2,3]
 >>> lst += [4,5,6] # here id of lst doesn't change
 >>> lst = lst + [7,8,9] # here id of lst changes.
-
+```
 
 
 Exceptions to the rule "Assignment creates a new object"
 
 Though each assignment creates a new object. There are few exceptions due to optimizations done in CPython. 
 
-    1. For integers between -5 and 256, there is an internal array maintained and no new object is created. For e.g.
-       >>> a = 256
-	>>> b = 256
-	>>> a is b
-	True
+1. For integers between -5 and 256, there is an internal array maintained and no new object is created. For e.g.
+```shell
+>>> a = 256
+>>> b = 256
+>>> a is b
+True
+```
 
-    2. For small strings, if the same value string is assigned to another name, the old string object is used.
-       For e.g
-	>>> a = "python"
-	>>> b = "python"
-	>>> a is b
-	True   # a and b refer to the same object!
+2. For small strings, if the same value string is assigned to another name, the old string object is used.
+For e.g
+```shell
+>>> a = "python"
+>>> b = "python"
+>>> a is b
+True   # a and b refer to the same object!
+```
+
+3. Empty immutable objects
+```shell
+No new objects are created for empty tuples (immutable objects).
+For e.g
+>>> a = ()
+>>> b = ()
+>>> a is b
+True  # a and b both refer to the same object in memory
+```
 
 
-    3. Empty immutable objects
-       No new objects are created for empty tuples (immutable objects).
-       For e.g
-       >>> a = ()
-       >>> b = ()
-       >>> a is b
-       True  # a and b both refer to the same object in memory
+## Names and values(Ned batchelder)
 
+1. Names refer to values/objects.
 
+2. Many names can refer to one value/object.
+x = 23
+y = x
 
-Names and values(Ned batchelder)
-
-    1. Names refer to values/objects.
-
-    2. Many names can refer to one value/object.
-	x = 23
-	y = x
-
-    3. Names are reassigned independently of other names
-	When we said “y = x”, that doesn’t mean that they will always be the same forever. 	Reassigning x leaves y alone. For eg.
-	x = 23
-	y = x
-	x = 12 # this will not change the value refered to by the name 'y' 
+3. Names are reassigned independently of other names
+When we said “y = x”, that doesn’t mean that they will always be the same forever. 	Reassigning x leaves y alone. For eg.
+x = 23
+y = x
+x = 12 # this will not change the value refered to by the name 'y' 
 
 
 Assignment:
 
-    4. Assignment never copies data:
-	x = 23
-	y = x
+4. Assignment never copies data:
+x = 23
+y = x
 
-	# "Now I have two values: x and y!"
-	# NO: you have two names, but only one value.
-	# IMPORTANT: There is no way in python where a name can refer to another 	# name. A name can only refer to values.
-
-
+# "Now I have two values: x and y!"
+# NO: you have two names, but only one value.
+# IMPORTANT: There is no way in python where a name can refer to another 	# name. A name can only refer to values.
 
 
-    5. Changes in a value are visible through all of its names.
-       
-	This distinction between assigning a name and changing a value is sometimes 	described as “rebinding the name vs. mutating the value.”
+5. Changes in a value are visible through all of its names.
+    
+This distinction between assigning a name and changing a value is sometimes 	described as “rebinding the name vs. mutating the value.”
 
-	x = 1
-	x = x + 1 # rebind the name to a new value
+x = 1
+x = x + 1 # rebind the name to a new value
 
-	nums = [1, 2, 3]
-	nums.append(4) # mutating the value
+nums = [1, 2, 3]
+nums.append(4) # mutating the value
 
 
-	Myth : Python assigns mutable and immutable values differently.
-	All assignment works the same: it makes a name refer to a value. But with an 	immutable value, no matter how many names are referring to the same value, the 	value can’t be changed in-place, so you can never get into a surprising Presto-	Chango situation.
+Myth : Python assigns mutable and immutable values differently.
+All assignment works the same: it makes a name refer to a value. But with an 	immutable value, no matter how many names are referring to the same value, the 	value can’t be changed in-place, so you can never get into a surprising Presto-	Chango situation.
 
-    6. References can be more than just names
+6. References can be more than just names
 
-	Anything that can appear on the left-hand side of an assignment statement is a 	reference, and everywhere I say “name” you can substitute “reference”.
+Anything that can appear on the left-hand side of an assignment statement is a 	reference, and everywhere I say “name” you can substitute “reference”.
 
-	my_obj.attr = 23
-	my_dict[key] = 24
-	my_list[index] = 25
-	my_obj.attr[key][index].attr = "etc, etc"
+my_obj.attr = 23
+my_dict[key] = 24
+my_list[index] = 25
+my_obj.attr[key][index].attr = "etc, etc"
 
-	Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first 	element of i’s value.It’s important to keep straight what exactly is being assigned to. 	Just because a name appears somewhere on the left-hand side of the assignment 	statement doesn’t mean the name is being rebound.
+Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first 	element of i’s value.It’s important to keep straight what exactly is being assigned to. 	Just because a name appears somewhere on the left-hand side of the assignment 	statement doesn’t mean the name is being rebound.
 
-    7. Lots of things are assignment
-	X = ...
-	for X in ...
-	[... for X in ...]
-	(... for X in ...)
-	{... for X in ...}
-	class X(...):
-	def X(...):
-	def fn(X): ... ; fn(12)
-	with ... as X:
-	except ... as X:
-	import X
-	from ... import X
-	import ... as X
-	from ... import ... as X
+7. Lots of things are assignment
+X = ...
+for X in ...
+[... for X in ...]
+(... for X in ...)
+{... for X in ...}
+class X(...):
+def X(...):
+def fn(X): ... ; fn(12)
+with ... as X:
+except ... as X:
+import X
+from ... import X
+import ... as X
+from ... import ... as X
 
-    8. Python passes function arguments by assigning to them.
+8. Python passes function arguments by assigning to them.
 
-	Fact: References can be more than just names.
-	Anything that can appear on the left-hand side of an assignment statement is a reference,
-	and everywhere I say “name” you can substitute “reference”.
+Fact: References can be more than just names.
+Anything that can appear on the left-hand side of an assignment statement is a reference,
+and everywhere I say “name” you can substitute “reference”.
 
-	my_obj.attr = 23
-	my_dict[key] = 24
-	my_list[index] = 25
-	my_obj.attr[key][index].attr = "etc, etc"
+my_obj.attr = 23
+my_dict[key] = 24
+my_list[index] = 25
+my_obj.attr[key][index].attr = "etc, etc"
 
-	Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element 	of i’s value. It’s important to keep straight what exactly is being assigned to. Just because a 	name appears somewhere on the left-hand side of the assignment statement doesn’t mean the 	name is being rebound.
+Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element 	of i’s value. It’s important to keep straight what exactly is being assigned to. Just because a 	name appears somewhere on the left-hand side of the assignment statement doesn’t mean the 	name is being rebound.
 
-	Fact: Lots of things are assignment
-	X = ...
-	for X in ...
-	[... for X in ...]
-	(... for X in ...)
-	{... for X in ...}
-	class X(...):
-	def X(...):
-	def fn(X): ... ; fn(12)
-	with ... as X:
-	except ... as X:
-	import X
-	from ... import X
-	import ... as X
-	from ... import ... as X
+Fact: Lots of things are assignment
+X = ...
+for X in ...
+[... for X in ...]
+(... for X in ...)
+{... for X in ...}
+class X(...):
+def X(...):
+def fn(X): ... ; fn(12)
+with ... as X:
+except ... as X:
+import X
+from ... import X
+import ... as X
+from ... import ... as X
 
-	Fact: Python passes function arguments by assigning to them.
+Fact: Python passes function arguments by assigning to them.
 
-	>>> l = [1,2,3]
-	>>> id(l)
-	140581310766344
-	>>> x = l[0]
-	>>> id(x)
-	10910400
+>>> l = [1,2,3]
+>>> id(l)
+140581310766344
+>>> x = l[0]
+>>> id(x)
+10910400
 
 
 
-Python Asynchronus IO
+### Python Asynchronus IO
 
 
 Concurrency : CPU takes turns and switches between the code to be executed.
@@ -258,7 +261,7 @@ Multiprocessing
 Coroutine: A function that uses yield as a signal to the scheduler, indicating that the coroutine will be waiting until an event (such as IO) is completed.
 
 
-Iterators
+### Iterators
 
 Any object that supports iter() method is said to be iterable. iter() returns an iterator, which implements __next__() method.
 
@@ -269,18 +272,18 @@ Iterator : Implements __next__() method with StopItertation exception. Also impl
 Generator Expressions
 Important differences from a list comp.
 
-    1. Does not construct a list.
-    2. Only useful purpose is iteration
-    3. Once consumed, can't be reused
+1. Does not construct a list.
+2. Only useful purpose is iteration
+3. Once consumed, can't be reused
 
 The parens on a generator expression can dropped if used as a single function argument
 Example:
 sum(x*x for x in s) <------ Generator expression with parens droppped
 
 
-Python nonlocal keyword :
+### Python nonlocal keyword :
 Below code will print 'Hello' 2 times, due to use of nonlocal keyword.
-
+```python
 def function_outside():
     msg = 'Hi'
     def function_inside():
@@ -291,11 +294,12 @@ def function_outside():
     print(msg)
 
 function_outside()
+```
 
-Inner Functions
+### Inner Functions
 Inner functions  are defined functions inside other functions.
 
-Python closure :
+### Python closure :
 Closure is a function object that remembers values in enclosing scopes even if they are not present in memory.
 Basically, the method of binding data to a function without actually passing them as 
 parameters is called closure. closure is a function object that remembers values in enclosing 
@@ -310,22 +314,23 @@ In conclusion here are the three criteria’s for a closure:
 3. The enclosing function must return the nested function.
 
 The code below implements a closure.
-
+```python
 def func1():  #Outer function
   msg = 'I belong to func1'
   def func2(): #Nested function
       print (msg)
   return func2
+```
 
 >>> obj = func1()  #binding the function to an object
 >>> obj() # contains inner function reference
 I belong to func1 # the value of msg is retained even after the outer function goes out of scope.
 
-Functions as First-Class Objects :
+### Functions as First-Class Objects :
 In Python, functions are first-class objects. This means that functions can be passed 
 around and used as arguments, just like any other object in Python.
 
-Iterable and Iterators :
+### Iterable and Iterators :
 Iterable : An iterable is an object that has an __iter__ method which returns an iterator, 
 or which defines a __getitem__ method that can take sequential indexes starting from zero 
 (and raises an IndexError when the indexes are no longer valid).
@@ -366,7 +371,7 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
 
-Generator Expressions :
+### Generator Expressions :
 They are just like list comprehensions, except the parenthesis '( )' instead of '[ ]'. They return a generator object rather than a list. Generator expressions can run slower than list comprehensions (unless you run out of memory, of course), but they use less space, as can be seen from the code below.
 
 >>> import sys
@@ -409,11 +414,11 @@ list/set/dict comprehension etc
  {k:v for (k,v) in dict1.items() if v>2}
 
 
-Data Classes :
+### Data Classes :
 
-Metaclasses :
+### Metaclasses :
 
-Python descriptors :
+### Python descriptors :
  @classmethod, @staticmethod, and @property. 
 
 The @classmethod and @staticmethod decorators are used to define methods inside a 
@@ -449,7 +454,7 @@ What is a Data descriptor :
 - A data descriptor implements both __get__ and __set__ methods.
 - implementing only __get__ makes it a non data descriptor.
 
-Descriptor protocol :
+### Descriptor protocol :
 
 map/filter functions : they can be easily replicated by list comprehensions
 map(function_object, iterable1, iterable2,...)
@@ -478,11 +483,11 @@ for x in adults:
   print(x)
 
 
-lambda functions : 
+### lambda functions : 
 Syntax : lambda arguments : expression i.e. lambda x, y : x + y
 
 
-zip and enumerate builtins:
+### zip and enumerate builtins:
 
 enumerate() gives index along with value of a sequence, for eg :
 
@@ -506,9 +511,9 @@ for e.g.
 
 
 
-Python OOP:
+## Python OOP:
 
-Python MRO(Method resolution order)
+### Python MRO(Method resolution order)
 
 Head : First element of the list.
 Tail : all elements except the head in the list.
@@ -516,10 +521,10 @@ Tail : all elements except the head in the list.
 Bad head : Present in the tail of other sequence.
 Good head : Not in the tail of any other list/sequence.
 
-How to compute the merge
+### How to compute the merge
 Take the head of the first list, if this head is not in the tail of any of the other lists, then add it to the linearization of C and remove it from the lists in the merge, otherwise look at the head of the next list and take it, if it is a good head. Then repeat the operation until all the class are removed or it is impossible to find good heads. In this case, it is impossible to construct the merge, Python 2.3 will refuse to create the class C and will raise an exception.
 
-Linearization of class C :
+### Linearization of class C :
 It is sum of C plus the merge of linearization of the parents and the list of parents, i.e.
 
 Given
@@ -558,7 +563,7 @@ L[B] = [B, D, E] + merge([O], [O])
 L[B] = [B, D, E, O]
 
 
-static method vs class method in Python :
+### static method vs class method in Python :
 class method :
 - Decorated using @classmethod, it is distinct from instance methods, which are default.
 - Bound to the class and not the object of the class.
@@ -732,22 +737,22 @@ web dev security :
 CSRF
 XSRF
 
-OWASP (Open Web Application Security Project) Top 10
+### OWASP (Open Web Application Security Project) Top 10
 
-    1. Injection
-    2. Bad Authentication
-    3. Sensitive Data Exposure
-    4. XML External Entity (XXE)
-    5. Bad Access Control
-    6. Security Miscofiguration
-    7. Cross Site Scripting
-    8. Insecure deserialization
-    9. Using component with Vulnerabilities
-    10. Insufficient logging and monitoring
+1. Injection
+2. Bad Authentication
+3. Sensitive Data Exposure
+4. XML External Entity (XXE)
+5. Bad Access Control
+6. Security Miscofiguration
+7. Cross Site Scripting
+8. Insecure deserialization
+9. Using component with Vulnerabilities
+10. Insufficient logging and monitoring
 
 
 
-DEVOPS :
+### DEVOPS :
 Definition of DevOps :
 DevOps is a new term emerging from the collision of two major related trends. 
 The first was also called “agile infrastructure” or “agile operations”; 
@@ -760,14 +765,14 @@ in our increasingly service-oriented world.
 DevOps is a set of software development practices that combines software development with information technology operations to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
 
 
-Microservices :
+### Microservices :
 The microservices architecture is a design approach to build a single application as a set of small services. Each service runs in its own process and communicates with other services through a well-defined interface using a lightweight mechanism, typically an HTTP-based application programming interface (API). Microservices are built around business capabilities; each service is scoped to a single purpose. You can use different frameworks or programming languages to write microservices and deploy them independently, as a single service, or as a group of services.
 
-Metaclasses
+### Metaclasses
 
 
 
-Python requests
+### Python requests
 
 
 Simple GET request
