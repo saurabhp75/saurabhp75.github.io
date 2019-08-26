@@ -9,4 +9,4 @@ header:
   caption: "Photo credit: [**pixabay**](https://pixabay.com/photos/home-office-workstation-office-336378/)"
 ---
 
-<embed src="/assets/datacamp.pdf" width="800px" height="1200px" />
+<iframe src="https://docs.google.com/gview?url=https://saurabhp75.github.io/assets/datacamp.pdf&embedded=true" style="width:400px; height:500px;" frameborder="0"></iframe>
