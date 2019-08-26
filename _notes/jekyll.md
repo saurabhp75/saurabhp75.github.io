@@ -66,13 +66,13 @@ $ jekyll new myblog
 
 [**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
 
-# Jekyll Github Workflow (Using Jekyll with Bundler)
+## Jekyll Github Workflow (Using Jekyll with Bundler)
 
 - **Install Ruby**
 ```shell
 $ sudo apt-get install ruby-full
 ```
-Then set GEM_HOME and PATH in ~/.bashrc
+Then set **GEM_HOME** and **PATH** in `~/.bashrc`.
 
 - **Install Ruby Gems to ~/gems**
 ```shell
@@ -160,8 +160,8 @@ Objects tell Liquid where to output content and are denoted by double curly brac
 {% raw  %} {{ page.title }} {% endraw %} 
 
 ## Tags
-Tags create logic & control flow for templates, and are denoted by curly braces and percent signs.
- {% raw  %} {% if page.show_sidebar %}  {% endif %} {% endraw %} 
+Tags create logic & control flow for templates, and are denoted by curly braces and percent signs. for eg.  
+{% raw  %} {% if page.show_sidebar %}  {% endif %} {% endraw %} 
 
 
 ## Filters
@@ -191,7 +191,7 @@ title: Home
 
 ## Includes
 The include tag allows you to include content from another file stored in an `_includes` folder.
-Usage of include tag in an html file, where navigation.html is a file under `_includes` folder.
+Usage of include tag in an html file, where navigation.html is a file under `_includes` folder. eg.  
 {% raw  %} {% include navigation.html %} {% endraw  %} 
 
 ## Data Files
@@ -293,10 +293,10 @@ title: Blog
 
 
 ## Built-in variables in Jekyll
- -page.url : gives the url of the page.
-- post.title: pulled from the post filename (can be overridden by setting title in front matter)
-- post.url: set by Jekyll to the output path of the post.
-- post.excerpt: first paragraph of content by default
+- **page.url**: Gives the url of the page.
+- **post.title**: Pulled from the post filename (can be overridden by setting title in front matter)
+- **post.url**: Set by Jekyll to the output path of the post.
+- **post.excerpt**: First paragraph of content by default
 
 ## Collections
 Collections are similar to posts except the content doesn’t have to be grouped by date.
@@ -358,7 +358,6 @@ Sometimes you might want to output something in production but not in developmen
 ```shell
 $ JEKYLL_ENV=production bundle exec jekyll build
 ```
-
 By default JEKYLL_ENV is development. The JEKYLL_ENV is available to you in liquid using jekyll.environment. So to only output the analytics script on production you would do the following.
 
 {% raw  %} {% if jekyll.environment == "production" %}
@@ -366,9 +365,10 @@ By default JEKYLL_ENV is development. The JEKYLL_ENV is available to you in liqu
 {% endif %} {% endraw  %} 
 
 ## Deployment
-The final step is to get the site onto a production server. The most basic way to do this is to run a production build and copy the contents of _site to your server. A better way is to automate this process using a CI or 3rd party.
-JEKYLL_ENV=production bundle exec jekyll build
-
+The final step is to get the site onto a production server. The most basic way to do this is to run a production build and copy the contents of `_site` to your server. A better way is to automate this process using a CI or 3rd party.
+```shell
+$ JEKYLL_ENV=production bundle exec jekyll build
+```
 
 
 
