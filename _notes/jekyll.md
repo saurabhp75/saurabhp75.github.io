@@ -147,7 +147,7 @@ $ git push -u origin master
 ```
 
 ## Working on draft blog posts
-All your unpublished blog posts reside under ./_drafts folder. This allows you to work on blog posts without publishing them to the live site. If you want the build to include all of our draft blog posts you could run jekyll like this:
+All your unpublished blog posts reside under `./_drafts folder`. This allows you to work on blog posts without publishing them to the live site. If you want the build to include all of our draft blog posts you could run jekyll like this:
 ```shell
 jekyll build --drafts
 ```
@@ -170,15 +170,14 @@ Filters change the output of a Liquid object.
 
 ## Front Matter
 Snippet of YAML which sits between two triple-dashed lines at the top of a file and is used to set variables for the page. Front matter variables are available in Liquid under the page variable eg. {% raw  %} {{ page.my_number }} {% endraw  %}
-
 {% raw  %}
----
-my_number: 5
----
+\---  
+my_number: 5  
+\---  
 {% endraw  %}
 
 ## Layouts
-Layouts are templates(html files) that wrap around your content. They live in a directory called _layouts. To use a layout, set a layout variable in front matter.
+Layouts are templates(html files) that wrap around your content. They live in a directory called `_layouts`. To use a layout, set a layout variable in front matter.
 eg.
 
 {% raw  %}
@@ -191,8 +190,8 @@ title: Home
 &lt;h1>{% raw  %}{{ "Hello World!" \| downcase }}{% endraw  %}&lt;h1>
 
 ## Includes
-The include tag allows you to include content from another file stored in an _includes folder.
-Usage of include tag in an html file, where navigation.html is a file under _includes folder.
+The include tag allows you to include content from another file stored in an `_includes` folder.
+Usage of include tag in an html file, where navigation.html is a file under `_includes` folder.
 {% raw  %} {% include navigation.html %} {% endraw  %} 
 
 ## Data Files
@@ -215,21 +214,23 @@ Jekyll sites often use this structure to keep assets organized.
 
 ## Sass
 Sass is a fantastic extension to CSS baked right into Jekyll.
-/assets/css/styles.scss
+`/assets/css/styles.scss`.
 
 {% raw  %}
----
----
+\---  
+\---  
 @import "main";
 {% endraw  %}
 
-The @import "main" tells Sass to look for a file called main.scss in the sass directory (_sass/ by default which is directly under root folder of your website).
-/_sass/main.scss
+The @import "main" tells Sass to look for a file called `main.scss` in the sass directory (_sass/ by default which is directly under root folder of your website).
+`/_sass/main.scss`
+```css
 .current {
   color: green;
 }
-to access css file from html page
-<link rel="stylesheet" href="/assets/css/styles.css">
+```
+to access css file from html page.  
+&lt;link rel="stylesheet" href="/assets/css/styles.css">
 
 ## Blogging
 In Jekyll, blogging is powered by text files only instead of a db. 
@@ -282,12 +283,12 @@ title: Blog
 \<h1>Latest Posts</h1>
 
 &lt;ul>  
-  {% raw %}{% for post in site.posts %}{% endraw %}  
-    &lt;li>  
-      &lt;h2>&lt;a href="{% raw %}{{ post.url }}{% endraw %}">{% raw %}{{ post.title }}{% endraw %}</a></h2>  
-      &lt;p>{% raw %}{{ post.excerpt }}{% endraw %}</p>  
-    &lt;/li>  
-  {% raw %}{% endfor %}{% endraw %}
+{% raw %}{% for post in site.posts %}{% endraw %}  
+  &nbsp;&nbsp;&lt;li>  
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;h2>&lt;a href="{% raw %}{{ post.url }}{% endraw %}">{% raw %}{{ post.title }}{% endraw %}</a></h2>  
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p>{% raw %}{{ post.excerpt }}{% endraw %}</p>  
+  &nbsp;&nbsp;&lt;/li>  
+{% raw %}{% endfor %}{% endraw %}  
 &lt;/ul>
 
 
