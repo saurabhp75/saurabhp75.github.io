@@ -61,7 +61,7 @@ e.g.
 e.g.  TBD
 
 
-Structure of geojson file:
+### Structure of geojson file:
 ```json
 {
   "type": "FeatureCollection",
@@ -106,9 +106,9 @@ Structure of geojson file:
 
 ### Convert shape file to geojson:
 
-1. Upload dbf, shp, shx and prj  file to https://mapshaper.org.
+1. Upload dbf, shp, shx and prj file to https://mapshaper.org.
     
-2. (Optional) Simplyfiy the file to reduce size. Click on 'Sinplify' and select
+2. (Optional) Simplyfiy the file to reduce size. Click on 'Simplify' and select
     prevent shape removal also select weigted area (default). Then click apply.
     
 3. Reduce the file size by using the slider on top. Also repair line intersections by clicking on repair in left.
@@ -119,13 +119,11 @@ Structure of geojson file:
 ### Basic workflow to get a geojson india map :
 1. Download an Indian shapefile from meetup (github).
 2. Simplify the shapefile (mapshaper.org) and export as geojson. When simplifying check the option "don't remove shapes". Also repair line intersections by clicking on repair in left.
-3. Change the precision of exported geojson file using geojson-precision npm package as shown below.
+3. Change the precision of exported geojson file using _geojson-precision_ npm package as shown below.
 ```shell
 $ geojson-precision -p 2 input_geojson_file output_geojson_file
 ```
 
 ### Note: 
-1. For eg. 
-    /home/saurabh/Downloads/node_modules/geojson-precision/bin/geojson-precision -p 2 success.json success_trim.json
-2. URL : "http://geojson.io/#map=2/20.0/0.0"  can be used to check the geojson file.
+1. This [link](http://geojson.io/#map=2/20.0/0.0) can be used to verify the geojson file.
 

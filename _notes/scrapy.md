@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Scrapy Notes"
+title: "Scrapy"
 excerpt: "Intro to Scrapy"
 
 sidebar:
