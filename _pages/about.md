@@ -38,7 +38,7 @@ header:
 ## Online Certifications/Courses:
 1. Machine learning course from [ODSC](https://medium.com/open-machine-learning-course): Secured [16th](https://docs.google.com/spreadsheets/d/1VlVgHJSQff0huK1hPsyNiImztc7wop0E8Gvw3qO5vBk/edit#gid=0) rank among 200 candidates. 
 
-2. [Data Science](/assets/datacamp.pdf) in Python from Datacamp
+2. [Data Science](/datacamp) in Python from Datacamp
 
 3. [Deep Learning](https://www.coursera.org/account/accomplishments/specialization/QK5UWBWPY5DS) specialization from Coursera
 
