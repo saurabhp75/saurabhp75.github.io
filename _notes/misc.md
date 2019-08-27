@@ -23,7 +23,6 @@ $ grep -r --exclude "*.txt" texthere .
 $ find . -type d -exec chmod 755 {} \;
 ```
 
-
 ### To change only file permissions recursively :
 ```shell
 $ find . -type f -exec chmod 644 {} \;
@@ -38,13 +37,12 @@ $ grep -r "string" .
 $ ls -l | grep '^d'
 ```
 
-
 ### To selectivey download folder from github:
-url     : https://github.com/ParrotPrediction/docker-course-xgboost/tree/master/notebooks notebooks
-command : svn export https://github.com/ParrotPrediction/docker-course-xgboost/trunk/notebooks notebooks
+**url**: https://github.com/ParrotPrediction/docker-course-xgboost/tree/master/notebooks notebooks  
+**command**: svn export https://github.com/ParrotPrediction/docker-course-xgboost/trunk/notebooks notebooks
 
-url     : https://github.com/CoreyMSchafer/code_snippets/tree/master/Python/Flask_Blog
-command : svn export https://github.com/CoreyMSchafer/code_snippets/trunk/Flask_Blog corey_flask 
+**url**: https://github.com/CoreyMSchafer/code_snippets/tree/master/Python/Flask_Blog  
+**command**: svn export https://github.com/CoreyMSchafer/code_snippets/trunk/Flask_Blog corey_flask 
 
 
 ### pandas get_dummies : 
@@ -56,98 +54,74 @@ pd.get_dummies(train, columns = ['Month', 'DayofMonth', 'DayOfWeek', 'UniqueCarr
 $ sudo dmidecode | grep -A 9 "System Information"
 ```
 
-
-### to update conda
+### To update conda
 ```shell
 $ conda update conda
 $ conda update anaconda
 ```
 
-### to see all jupyetrlab installed extensions
+### To see all jupyterlab installed extensions
 ```shell
 $ jupyter labextension list
 ```
 
-### dash installation
-conda create -n env-dash python
-
-conda install -n env-dash dash==0.21.1
-conda install -n env-dash -c conda-forge dash==0.21.1
-
-conda install -n env-dash dash-renderer==0.13.0
-conda install -n env-dash -c conda-forge dash-renderer==0.13.0
-
-conda install -n env-dash dash-html-components==0.11.0
-conda install -n env-dash -c conda-forge dash-html-components==0.11.0
-
-conda install -n env-dash dash-core-components==0.23.0
-conda install -n env-dash -c conda-forge dash-core-components==0.23.0
-
-conda update -n env-dash myenv -c conda-forge plotly
-
-
+### Jupyter rate limit ####
+jupyter notebook --NotebookApp.iopub_data_rate_limit=10000000000
 
 ### To remove a certain file type/extension recursively in folders
 ```shell
 $ find . -name "*.mp4" -type f -delete
 ```
 
-
-### packages installed for chloropleth
-pip install shapely==1.6.3
-pip install pyshp==1.2.10
-pip install geopandas==0.3.0
-
-
-### jupyter rate limit ####
-jupyter notebook --NotebookApp.iopub_data_rate_limit=10000000000
-
-https://gis.stackexchange.com/questions/293326/how-to-automate-topology-check-fix-in-qgis
-
-
 ### If you are using two different github accounts. Use seperate ssh keys.
 
 - Create a new key for each github a/c using command below. This will create keys in "~/.ssh/id_rsa_ytechlabs"
   file.
-
-  $ ssh-keygen -t rsa -C "contact@ytechlabs.com"
-
+```shell
+$ ssh-keygen -t rsa -C "contact@ytechlabs.com"
+```
 - Add the keys in ssh using command below. 
-
-  $ ssh-add ~/.ssh/id_rsa_ytechlabs
-
+```shell
+$ ssh-add ~/.ssh/id_rsa_ytechlabs
+```
 - Delete all cached keys before using command below.
-  $ ssh-add -D
-
+```shell
+$ ssh-add -D
+```
 - Check your saved keys using command below.
-  $ ssh-add -l
-
+```shell
+$ ssh-add -l
+```
 - Important:  you need to add the generated ssh public key (.pub)to github account also.
 
-- Add following lines in "~/.ssh/config". This create ssh alias, which should be used when cloning a repo.
-  Otherwise you have to change the [remote "origin"]/url field  in ".git/config" the after cloning. 
+- Add following lines in `~/.ssh/config`. This create ssh alias, which should be used when cloning a repo.
+  Otherwise you have to change the [remote "origin"]/url field  in `.git/config` the after cloning. 
 
-  #personal account
-  Host github.com-saurabhp75  # ssh alias
-   	HostName github.com
-	User git
-	IdentityFile ~/.ssh/id_rsa
-        IdentitiesOnly yes
+#personal account
+Host github.com-saurabhp75  # ssh alias
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
 
-  #org account
-  Host github.com-ytechlabs # ssh alias
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/id_ytech
-        IdentitiesOnly yes
+#org account
+    Host github.com-ytechlabs # ssh alias
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ytech
+    IdentitiesOnly yes
 
-- When cloning a repo don't use "a", use "b". Where "github.com-ytechlabs" is ssh alias.
-  (a) $ git clone git@github.com:ytechlabs/ytechlabs.github.io.git 
-  (b) $ git clone git@github.com-ytechlabs:ytechlabs/ytechlabs.github.io.git
+- When cloning a repo don't use "a", use "b". Where "saurabhp75" is ssh alias.
+  (a)  
+```shell
+$ git clone git@github.com:saurabhp75/saurabhp75.github.io.git
+```
+  (b) 
+```shell
+$ git clone git@github.com-saurabhp75:saurabhp75/saurabhp75.github.io.git
+```
 
-$ git clone git@github.com-ytechlabs:ytechlabs/ytechlabs.github.io.git
 
-git clone git@github.com-saurabhp75:saurabhp75/saurabhp75.github.io.git
 
 
 

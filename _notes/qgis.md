@@ -39,6 +39,8 @@ get plugin for basemap(quick services plugin)
 
 Basic spatial joins:
 
+[how to automate topology check fix in qgis](https://gis.stackexchange.com/questions/293326/how-to-automate-topology-check-fix-in-qgis)
+
 
 
 
