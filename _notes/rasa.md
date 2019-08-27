@@ -11,7 +11,7 @@ sidebar:
 
 ### Defining the pipeline
 
-*Intent classification* is independent of *entity extraction*. So sometimes NLU will get the intent right but entities wrong, or the other way around. You need to provide enough data for both intents and entities.
+**Intent classification** is independent of **entity extraction**. So sometimes NLU will get the intent right but entities wrong, or the other way around. You need to provide enough data for both intents and entities.
 
 Pipeline defined in `config.yml`
 ```yaml
@@ -22,10 +22,10 @@ pipeline:
   intent_split_symbol: "+"
 ```
 
-**CountVectorsFeaturizer**: defines how model features are extracted
-**EmbeddingIntentClassifier**: states that we are going to use TensorFlow embeddings for intent classification
-**intent_tokenization_flag**: true  -> tell the model that we want to split intent labels into tokens which means that the model will know which intents are multi-intents
-**intent_split_symbol**: define which character should be used to make a split, which in this case is a +.
+**CountVectorsFeaturizer**: Defines how model features are extracted.  
+**EmbeddingIntentClassifier**: states that we are going to use TensorFlow embeddings for intent classification.  
+**intent_tokenization_flag**: true  -> tells the model that we want to split intent labels into tokens which means that the model will know which intents are multi-intents.  
+**intent_split_symbol**: define which character should be used to make a split, which in this case is a +.  
 	
 
 `data/nlu_data.md` : contains training data in markdown.
@@ -260,10 +260,11 @@ $ docker run -it -v $(pwd):/app rasa/rasa shell
 
 
 If you want to split intents into multiple labels, e.g. for predicting **multiple intents** or for modeling **hierarchical intent structure**, you can only do this with the **supervised embeddings pipeline**.
-``yaml
+```yaml
 language: "en"
 pipeline: "pretrained_embeddings_spacy"
 ```
+### Is same as
 ```yaml
 language: "en"
 
@@ -284,6 +285,7 @@ The two configurations below are equivqlent.
 language: "en"
 pipeline: "supervised_embeddings"
 ```
+### Is same as
 
 ```yaml
 language: "en"

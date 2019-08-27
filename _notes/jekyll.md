@@ -9,7 +9,9 @@ sidebar:
 
 <!-- # Jekyll Notes -->
 ## Basics
+[**List of jekyll plugins supported on GitHub-Pages**](https://pages.github.com/versions/)
 
+[**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
 - Install ruby as root user.
 ```shell
 $ sudo apt-get install ruby-full
@@ -61,10 +63,6 @@ $ jekyll new myblog
 /_includes
 /_sass
 ```
-
-[**List of jekyll plugins supported on GitHub-Pages**](https://pages.github.com/versions/)
-
-[**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
 
 ## Jekyll Github Workflow (Using Jekyll with Bundler)
 
