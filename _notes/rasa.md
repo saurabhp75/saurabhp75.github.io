@@ -200,3 +200,125 @@ Using it is totally optional. If you don’t want to, you can just use Rasa on i
 It’s not a hosted service.
 It’s not an all-in-one, point-and-click bot platform.
 
+Docker shares the host OS/kernel.
+
+A **container** is a runtime instance of an **image**.
+
+A container runs natively on Linux and shares the kernel of the host machine with other containers.
+
+It runs a discrete process, taking no more memory than any other executable, making it lightweight
+
+**virtual machine(VM)** runs a full-blown “guest” operating system with virtual access to **host resources** through a **hypervisor**. 
+In general, VMs provide an environment with more resources than most applications need.
+
+### List of running containers
+```shell
+$ docker ps
+```
+
+### Misc
+To see details about a package in ubuntu
+```bash
+$ apt-cache showpkg
+```
+[Rasa Docker Images(Core + NLU)](https://hub.docker.com/r/rasa/rasa_nlu/)
+### Run(and train) rasa with Docker
+```shell
+$ docker run -v $(pwd):/app rasa/rasa init --no-prompt
+```
+### Train the rasa 
+```shell
+$ docker run -v $(pwd):/app rasa/rasa:latest train --domain domain.yml --data data --out models
+```
+
+### Run the chatbot
+```shell
+$ docker run -it -v $(pwd):/app rasa/rasa shell
+```
+
+### Componenets of pipeline 
+
+### Word Vector Sources
+- SpacyNLP
+### Featurizers
+- SpacyFeaturizer
+- NGramFeaturizer
+- RegexFeaturizer
+- CountVectorsFeaturizer
+### Intent Classifiers
+- KeywordIntentClassifier
+- SklearnIntentClassifier
+- EmbeddingIntentClassifier
+### Tokenizers
+- WhitespaceTokenizer
+- SpacyTokenizer
+### Entity Extractors
+- SpacyEntityExtractor
+- EntitySynonymMapper
+- CRFEntityExtractor
+- DucklingHTTPExtractor
+
+
+If you want to split intents into multiple labels, e.g. for predicting **multiple intents** or for modeling **hierarchical intent structure**, you can only do this with the **supervised embeddings pipeline**.
+``yaml
+language: "en"
+pipeline: "pretrained_embeddings_spacy"
+```
+```yaml
+language: "en"
+
+pipeline:
+- name: "SpacyNLP"
+- name: "SpacyTokenizer"
+- name: "SpacyFeaturizer"
+- name: "RegexFeaturizer" # also used in embedding pipeline
+- name: "CRFEntityExtractor" # also used in embedding pipeline
+- name: "EntitySynonymMapper" # also used in embedding pipeline
+- name: "SklearnIntentClassifier"
+```
+
+**Pre-configured Pipelines**: A template is just a shortcut for a full list of components.
+The two configurations below are equivqlent.
+
+```yaml
+language: "en"
+pipeline: "supervised_embeddings"
+```
+
+```yaml
+language: "en"
+
+pipeline:
+- name: "WhitespaceTokenizer"
+- name: "RegexFeaturizer"
+- name: "CRFEntityExtractor"
+- name: "EntitySynonymMapper"
+- name: "CountVectorsFeaturizer"
+- name: "EmbeddingIntentClassifier"
+```
+
+### RegexFeaturizer
+- Supports intent and entity classification. 
+- Outputs `text_features` and `tokens.pattern`.	
+- During training, the regex intent featurizer creates a list of regular expressions defined in the training data format. 
+- For each regex, a feature will be set marking whether this expression was found in the input, which will later be fed into intent classifier / entity extractor to simplify classification (assuming the classifier has learned during the training phase, that this set feature indicates a certain intent). 
+- Regex features for entity extraction are currently only supported by the CRFEntityExtractor component!
+
+### CRFEntityExtractor
+- Conditional random field entity extraction
+- Output: appends `entities`
+- Performs named entity recognition.
+
+### EntitySynonymMapper
+- Maps synonymous entity values to the same value.
+
+### CountVectorsFeaturizer
+- Creates bag-of-words representation of intent features.
+- Used as an input to intent classifiers that need bag-of-words representation of intent features.
+
+### EmbeddingIntentClassifier
+- Outputs `intent` and `intent_ranking`.
+
+
+
+
