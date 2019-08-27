@@ -12,6 +12,7 @@ sidebar:
 [**List of jekyll plugins supported on GitHub-Pages**](https://pages.github.com/versions/)
 
 [**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
+
 - Install ruby as root user.
 ```shell
 $ sudo apt-get install ruby-full

@@ -9,6 +9,106 @@ sidebar:
 ---
 
 
+<br><br>
+**Note**: Rasa NLU and Rasa Core are now merged. 
+
+## Workflow:
+1. Create a New Project
+```shell
+$ rasa init
+```
+2. View Your NLU Training Data
+```shell
+$ vi data/nlu.md
+```
+3. Define Your Model Configuration
+```shell
+$ vi config.yml
+```
+4. Write Your First Stories
+```shell
+$ vi data/stories.md
+```
+5. Define a Domain
+```shell
+$ vi domain.yml
+```
+6. Train a Model
+```shell
+$ rasa train
+```
+7. Talk to Your Assistant
+```shell
+$ rasa shell
+```
+
+### Rasa NLU:
+**User Input --> Intents and entities**    
+A library for natural language understanding (NLU) which does the classification of intent and extract the entity from the user input and helps bot to understand what the user is saying.
+
+### Rasa Core:
+**Intent and entities --> Action**   
+A chatbot framework with machine learning-based **dialogue management** which takes the structured input from the NLU and predicts the next best action using a probabilistic model like LSTM neural network.
+
+## RASA Terminology
+### Intent
+Intent is nothing but **what the user is aiming for**. For eg. if the user says “Reserve a table at Cliff House tonight” the intent can be classified as to book the table.
+
+### Entity
+Entity is to extract the **useful information** from the user input. From the example above “Reserve a table at Cliff House tonight” the **entities** extracted would be **place** and **time**. Place — Cliff House and Time — tonight.
+
+### Stories
+Stories define the **sample interaction** between the user and chatbot in terms of **intent and action** taken by the bot. They are defined in `data/stories.md`.
+
+### Actions
+Actions are basically the **operations performed by the bot** either asking for some more details to get all the entities or integrating with some APIs or querying the database to get/save some information. There are **3 kinds of actions** in Rasa Core: default actions, utter actions & custom actions.
+- Utterance actions: Starts with utter_, just send a message to the user
+- Custom actions: Any other action, these actions can run arbitrary code
+- Default actions: e.g. action_listen, action_restart, action_default_fallback
+
+### Domain
+The domain consists of **five key parts** consisting of **intents, entities, slots, actions, and templates**. The domain defines the universe your assistant lives in file `domain.yml`.
+**intent**:  
+**entity**:  
+**Slots**: Slots are basically bot’s memory. They act as a key-value store which can be used to store information the user provided (e.g their home city) as well as information gathered about the outside world (e.g. the result of a database query).
+**Actions**: 
+**Templates**: Templates are messages the bot will send back to the user.
+
+Sample domain file.  
+```yaml
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+
+actions:
+- utter_greet
+- utter_cheer_up
+- utter_did_that_help
+- utter_happy
+- utter_goodbye
+
+templates:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+```
+
 ### Defining the pipeline
 
 **Intent classification** is independent of **entity extraction**. So sometimes NLU will get the intent right but entities wrong, or the other way around. You need to provide enough data for both intents and entities.
@@ -30,8 +130,8 @@ pipeline:
 
 `data/nlu_data.md` : contains training data in markdown.
 
-sample data/nlu_data.md file:
-
+Sample `data/nlu_data.md` file
+```markdown
 ### intent: meetup
 - I am new to the area. What meetups I could join in Berlin? 
 - I have just moved to Berlin. Can you suggest any cool meetups for me?
@@ -39,43 +139,24 @@ sample data/nlu_data.md file:
 ### intent: affirm+ask_transport
 - Yes. How do I get there?
 - Sounds good. Do you know how I could get there from home?
+```
 
-### Training and testing the NLU model:
-You can specify parameters like number of epochs used in training inside the config.yml file.
+### Training and testing only the NLU model
+**Note**: You can specify parameters like number of epochs used in training inside the config.yml file.
 ```shell
 $ rasa train nlu
 $ rasa shell nlu
 ```
-### train both NLU and core model:
-trains both NLU and Core models and saves them as a compressed tar.gz file
+### Train both NLU and core model
+To train both NLU and Core models and save them as a compressed tar.gz file
 ```shell
 $ rasa train
 $ rasa shell
 ```
 
-### Defining the domain and training data
-
-The domain file(domain.yml) contains templates, which dialogue management model will use to respond to the user.
-
-Sample `domain.yml` file:
-```yaml
-templates:
-  utter_greet:
-    - text: "Hey, how can I help you?"
-  utter_goodbye: # Note this, have more than one possible response
-    - text: "Talk to you later!"
-    - text: "Goodbye :("
-    - text: "Bye!"
-    - text: "Have a great day!"
-  utter_confirm:
-    - text: "Done - I have just booked you a spot at the Bots Berlin meetup."
-    - text: "Great, just made an RSVP for you."
-```
-
-### Generating the stories:
-
-to train a dialogue management model we need some stories. stories are defined in data/stories.md file.
-stories contain intent(defined in nlu_data.md)  and the corresponding action (defined in domain.yml)
+### Generating the stories
+To train a dialogue management model we need some **stories**. Stories are defined in `data/stories.md` file.
+stories contain intent(defined in nlu_data.md) and the corresponding action(defined in domain.yml)
 
 sample `data/stories.md` file:
 ```yaml
@@ -91,51 +172,19 @@ sample `data/stories.md` file:
 ```
 
 ### Note: 
-
 The stories definition is entirely upto dev/domain, there can be single/multiple actions for a single/multiple intents.
 
-it is important to note that you should consider using multi-intents only when the logic of your chatbot requires it. Excessive use of multi-intents can overcomplicate the chatbot so we suggest using them only when they are really necessary to ensure the natural flow of the conversation with your chatbot.
-
-TensorFlow pipeline is only performing intent classification tasks.
+It is important to note that you should consider using multi-intents only when the logic of your chatbot requires it. Excessive use of multi-intents can overcomplicate the chatbot so we suggest using them only when they are really necessary to ensure the natural flow of the conversation with your chatbot. TensorFlow pipeline is only performing intent classification tasks.
 Check if TF is used for entity recognition in current version.
 
-### Rasa NLU
-a library for natural language understanding (NLU) which does the classification of intent and extract the entity from the user input and helps bot to understand what the user is saying.
-
-### Rasa Core
-a chatbot framework with machine learning-based dialogue management which takes the structured input from the NLU and predicts the next best action using a probabilistic model like LSTM neural network.
-
-### Intent
-Intent is nothing but what the user is aiming for. For example — if the user says“Reserve a table at Cliff House tonight” the intent can be classified as to book the table.
-
-### Entity
-Entity is to extract the useful information from the user input. From the example above “Reserve a table at Cliff House tonight” the entities extracted would be place and time. Place — Cliff House and Time — tonight.
-
-### Stories
-Stories define the sample interaction between the user and chatbot in terms of intent and action taken by the bot
-
-### Actions
-Actions are basically the operations performed by the bot either asking for some more details to get all the entities or integrating with some APIs or querying the database to get/save some information.
-
-
-### Domain(domain.yml)
-The domain consists of five key parts consisting of intents, entities, slots, actions, and templates.
-
-slots: slots are basically bot’s memory. They act as a key-value store which can be used to store information the user provided (e.g their home city) as well as information gathered about the outside world (e.g. the result of a database query).
-
-actions: are nothing but bots response to user input. There are 3 kinds of actions in Rasa Core: default actions, utter actions & custom actions
-
-templates: templates are messages the bot will send back to the user.
-
 ### Types of actions:
-
 - default actions (action_restart)
 - utter actions (utter_greet, utter_reply ….) 
 - custom actions (action_get_news)
 - utter_default: a fallback in case bot is not able to understand the user message
 
 ### Policies (policy.yml)
-rasa core policies decide which action to take at every step in the conversation.
+Rasa core policies decide which action to take at every step in the conversation.
 ```yaml
 policies:
   - name: KerasPolicy
@@ -177,28 +226,12 @@ dialogue management: handled by your Core model.
 A story is a real conversation between a user and an assistant. user intent -> asisstant action
 Core models learn from real conversational data in the form of training “stories”. file location data/stories.md.
 
-
-The domain defines the universe your assistant lives in: file domain.yml
-
-
-### workflow:
-1. Create a New Project
-2. View Your NLU Training Data
-3. Define Your Model Configuration
-4. Write Your First Stories
-5. Define a Domain
-6. Train a Model
-7. Talk to Your Assistant
-
-
 ### RASAX:
-What Rasa X is:
 Rasa X is a tool to learn from real conversations and improve your assistant.
 Using it is totally optional. If you don’t want to, you can just use Rasa on its own.
 
 ### What Rasa X is not:
-It’s not a hosted service.
-It’s not an all-in-one, point-and-click bot platform.
+It’s not a hosted service. It’s not an all-in-one, point-and-click bot platform.
 
 Docker shares the host OS/kernel.
 
@@ -323,4 +356,13 @@ pipeline:
 
 
 
+### Forms
+One of the most common conversation patterns is to collect a few pieces of information from a user in order to do something (book a restaurant, call an API, search a database, etc.). This is also called **slot filling**.
 
+If you need to collect multiple pieces of information in a row, we recommended that you create a **FormAction**. When you define a form, you need to add it to your domain file.
+
+To use forms, you also need to include the FormPolicy in your policy configuration file. For example:
+``yaml
+policies:
+  - name: "FormPolicy"
+```
