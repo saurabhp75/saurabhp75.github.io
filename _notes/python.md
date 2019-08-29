@@ -391,13 +391,13 @@ def decorator(func):
     return wrapper_decorator
 ```
 
-variable scope :
-LEGB rule
-global/nonlocal keyword
+### variable scope
+### LEGB rule
+### global/nonlocal keyword
 
-list/set/dict comprehension etc
- [ x for x in range(20) if x % 2 == 0]
- {k:v for (k,v) in dict1.items() if v>2}
+### list/set/dict comprehension etc
+[ x for x in range(20) if x % 2 == 0]
+{k:v for (k,v) in dict1.items() if v>2}
 
 
 ### Data Classes :
@@ -414,15 +414,15 @@ class namespace that are not connected to a particular instance of that class.
 The @property decorator is used to customize getters and setters for class attributes. 
 
 
-### Use case for '@property' :
+### Use case for '@property'
 Suppose in a class there are two properties, radius and circumference. circumference is calculated using radius.
 But if we modify radius then circumference will not change automagically. We define a function circumference()
 with decorator property (this now becomes a getter) and then access it like a normal attribute, ie obj.circumference (not obj.circumference()).
 
-### Python decsriptors :
+### Python decsriptors
 Python descriptors gives us a powerful technique to write  reusable code that can be used between classes.
 
-Background :
+### Background
 Attributes(method and otherwise) of an objects are stored in dict on the object. (obj.__dict__). 
 
 If you access an attribute of an object (obj.foo). It gets you one of the following three.
@@ -435,7 +435,7 @@ If you access an attribute of an object (obj.foo). It gets you one of the follow
 - And Assignment always creates an entry in obj.__dict__.
 - Unless there was a setter property in which case you are callling a function.
 
-What is a Data descriptor :
+### What is a Data descriptor :
 - Descriptors is any object that implements atleast one of the methods named __get__, __set__, __delete__.
 - A data descriptor implements both __get__ and __set__ methods.
 - implementing only __get__ makes it a non data descriptor.
@@ -521,8 +521,9 @@ Class C(B1, B2...Bn)
 Then, Linearization of class C = L[C(B1, B2...Bn)]
 L[C(B1, B2...Bn)] = C + merge(L[B1], L[B1] .... L[Bn], B1, B2...Bn)
 
-Consider an example :
-Object (Base class for all classes)
+### Consider an example
+```python
+# Object (Base class for all classes)
 
 Class D(Object):
 	pass
@@ -541,10 +542,10 @@ Class B(D, E):
 
 Class A(B, C):
 	pass
+```
 
-In the above scenario:
+### In the above scenario:
 L[O] = O,	L[D] = [D, O],	L[E] = [E, O],	L[F] = [F, O]
-
 L[B] = B + merge(L[D], L[E], [D, E])
 L[B] = B + merge([D, O], [E, O], [D, E])
 L[B] = [B, D] + merge([O], [E, O], [E])
@@ -552,7 +553,7 @@ L[B] = [B, D, E] + merge([O], [O])
 L[B] = [B, D, E, O]
 
 
-### static method vs class method in Python :
+### Static method vs Class method in Python :
 class method :
 - Decorated using @classmethod, it is distinct from instance methods, which are default.
 - Bound to the class and not the object of the class.
@@ -560,16 +561,17 @@ class method :
 - It can modify a class state that would apply across all the instances of the class. For example it can modify a class variable that will be applicable to all the instances.
 - They are used as alternative constructors.
 
-static method :
+### Static method :
 - Decorated using @staticmethod.
 - A static method is also a method which is bound to the class and not the object of the class.
 - A static method can’t access or modify class state.
 - It is present in a class because it makes sense for the method to be present in class.
 
-Instance variables : Contains data unique to each instance. They are visible in namespace of class instance.
+**Instance variables**: Contains data unique to each instance. They are visible in namespace of class instance.
 
-Class variables : Contains data which is same in each instance. Can be accessed from instance as well as class. When we access class variable from instance, python first look for variablew in the instance, then look for it in the class. They are not visible in namespace of class instance, but in namespace of the class.
+**Class variables**: Contains data which is same in each instance. Can be accessed from instance as well as class. When we access class variable from instance, python first look for variablew in the instance, then look for it in the class. They are not visible in namespace of class instance, but in namespace of the class.
 
+```python
 class Employee:
 
     raise_amt = 1.04
@@ -600,41 +602,39 @@ class Employee:
         if day.weekday() == 5 or day.weekday() == 6:
             return False
         return True
+```
 
-
-These two are same :
+### These two are same :
+```python
 emp1 = Employee('saurabh', 'prakash', 190000)
 Employee.fullname(emp1)
 emp1.fullname()
+```
 
-
-To print namespace of emp1 :
+### To print namespace of emp1
+```python
 print(emp1.__dict__)
+```
 
-Imp : Below code will create a variable 'raise_amt' and will not affect the class variabe.
+### Classmethods and static methods
+### Classmethods as alternative constructors
+### Inheritance
 
+**Note** : Below code will create a variable 'raise_amt' and will not affect the class variable.
+```python
 emp1.raise_amt = 1.05
-
-Classmethods and static methods
-
-Classmethods as alternative constructors :
-
-Inheritance :
-
 class Developer(Employee):      <---- Developer is derived class and Employee is base class
     raise_amt = 1.10
 
     def __init__(self, first, last, pay, prog_lang):
         super().__init__(first, last, pay)
         self.prog_lang = prog_lang
+```
 
+### python builtin functions
+- type()
+- len()
 
-
-Python for Data Science (Michigan Notes):
-python builtin functions :
-
-type
-len
 map(function, iter1, iter2,....) :  Returns an iterator with a function which take an argument each from specified arrays
 lambda x, y.... : expression of arguments
 list comprehension : [x for x in iter]
@@ -642,29 +642,31 @@ excercise : make a list of all possible 2 letter combinations
 letters = 'abcdef...xyz'
 [a + b for a in letters for b in letters] 
 
-numpy
-
+### Numpy
+```python
 np.array(list)
 np.arange(0, 100, 3)
-np.linspace(0, 10, 20) : evenly spaced 20 items
+np.linspace(0, 10, 20) # evenly spaced 20 items
 np.shape
 np.reshape()
 np.resize() : inplace
 np.ones((x,y))
 np.zeros((x,y))
 np.eye(x)
-np.diag(list) : create diagonal array/matrix
-np.repeat(list, k) : create a list k times larger than "list".
-np.vstack(arr1, arr2) : stack vertically
-np.hstack(arr1, arr2) : stack hozizontally
+np.diag(list) # create diagonal array/matrix
+np.repeat(list, k) # create a list k times larger than "list".
+np.vstack(arr1, arr2) # stack vertically
+np.hstack(arr1, arr2) # stack hozizontally
+```
 
-Element-wise array operations
-note : array should be of same size.
+### Element-wise array operations
+**Note**: array should be of same size.
+```python
 arr1 + arr2
 arr1 - arr2
 arr1 * arr2
 
-more operations
+# more operations
 arr1.dot(arr2) : arrays should have compatible shape
 arr1.T : transpose 
 
@@ -678,16 +680,17 @@ arr1.mean()
 arr1.std()
 arr1.argmax() : get index of max value
 arr1.argmin() : get index of min value
+```
 
-Note : len() gives no. of rows in a 2D array.
+**Note**: len() gives no. of rows in a 2D array.
 
-array indexing/Slicing
+### Array indexing/Slicing
 
-for a 1D array (Note index ~= x:y:z in each dimension of the array)
+For a 1D array (Note index ~= x:y:z in each dimension of the array)
 arr1[index]
 arr1[x:y:z] : If x:start index, y:end index, z: step size. if z is negative then counting is from the end of array
 
-for a 2D array, 
+For a 2D array, 
 arr1[index1, index2]
 arr1[x1:y1:z1, x2:y2:z2]
 
@@ -695,36 +698,24 @@ Conditional indexing and assignment
 arr1[arr1 > 30]
 arr1[arr1 > 30] = 50
 
-np.random.randint(low, high, (array shape)) : creating an array of random ints of a certain shape 
+### creating an array of random ints of a certain shape
+```python
+np.random.randint(low, high, (array shape)) 
+```
 
-iterating over arrays
+### Iterating over arrays
 - for a 2d arr, we can iterate over rows using for loop.
 - len() gives no. of rows.
 - enumerate gives (rowindex, row) touple 
 - We can also zip two 2D arrays to get a touple containing row index of each array.
 
 
-class decorators
-django 
-flask
-machine learning
+### class decorators
 
 
-Statistics
-
-chi squared test :  
-The chi-squared test is used to determine whether there is a significant difference between the expected frequencies and the observed frequencies in one or more categories.
-
-a/b testing:
-randomized experiment with two variants, A and B. It includes application of statistical hypothesis 
-testing or "two-sample hypothesis testing" as used in the field of statistics. A/B testing is a way 
-to compare two versions of a single variable, typically by testing a subject's response to variant 
-A against variant B, and determining which of the two variants is more effective.
-
-
-web dev security :
-CSRF
-XSRF
+### web dev security
+- CSRF
+- XSRF
 
 ### OWASP (Open Web Application Security Project) Top 10
 
@@ -757,7 +748,7 @@ DevOps is a set of software development practices that combines software develop
 ### Microservices :
 The microservices architecture is a design approach to build a single application as a set of small services. Each service runs in its own process and communicates with other services through a well-defined interface using a lightweight mechanism, typically an HTTP-based application programming interface (API). Microservices are built around business capabilities; each service is scoped to a single purpose. You can use different frameworks or programming languages to write microservices and deploy them independently, as a single service, or as a group of services.
 
-### Metaclasses
+### Metaclasses (TBD)
 
 
 
@@ -804,7 +795,7 @@ u'https://api.github.com/user'
 - r.text : when r.encoding is applied to r.content (meaning/code point applied to a chunk of byte(s))
 - r.encoding : Encoding to be applied to r.content to get r.text.
 
-**Note** : Unicode is 4 bytes encoding. Article later.
+**Note** : Unicode is 4 bytes encoding.  
 ```shell
 # raw content
 >>> r.content

@@ -64,9 +64,9 @@ avg/total   0.94            0.94      0.94         174
 ```
 
 ## Logistic regression for binary classification
-Logistic regression outputs probabilities
-If the probability ‘p’ is greater than 0.5:The data is labeled ‘1’
-If the probability ‘p’ is less than 0.5: The data is labeled ‘0’
+Logistic regression outputs probabilities.  
+- If the probability ‘p’ is greater than 0.5:The data is labeled ‘1’.  
+- If the probability ‘p’ is less than 0.5: The data is labeled ‘0’.  
 
 For eg. see code below :
 ```python
