@@ -13,6 +13,13 @@ sidebar:
 
 [**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
 
+### Sites for pics
+- Flickr
+- Pixabay
+- Pexels
+- Stocksnap.io
+
+
 - Install ruby as root user.
 ```shell
 $ sudo apt-get install ruby-full
