@@ -122,7 +122,12 @@ $ git clone git@github.com-saurabhp75:saurabhp75/saurabhp75.github.io.git
 ```
 
 
+https://www.codeacademy.com
 
+https: Protocol
+www: subdomain
+academy: second level domain
+com: top level domain
 
 
 

@@ -10,17 +10,13 @@ sidebar:
 
 <!-- D3 Visualization -->
 
-- Workflow:
-Get the zip file from vizhub
-npm install: This will install packages under node_modules folder
-npm run build: As per package.json file(See above), this will run "rollup -c"
-
+### Workflow
+- Get the zip file from vizhub.
+- npm install: This will install packages under node_modules folder
+- npm run build: As per package.json file(See below), this will run "rollup -c"
 - `terser.js` module is required to minify the es6 code.
-
 - `rollup.js` module is used to bundle the es6 code with tree shaking.
-
-- **iife** (Immediately Invoked Function Expression)  – A self-executing function, suitable for inclusion as a   \<script> tag in HTML file.
-
+- **iife** (Immediately Invoked Function Expression)  – A self-executing function, suitable for inclusion as a \<script> tag in HTML file.
 - `rollup.config.js` defines the bundling process. It makes two bundles(in iife format), viz, 
   `bundle.js` and `delhiBundle.js` from inputs `index.js` and `delhiIndex.js` respectively. 
       
@@ -53,8 +49,10 @@ export default [{
   },
   plugins: [terser()]
 }];
+```
 
 package.json file:
+```js
 {
   "scripts": {
     "build": "rollup -c"
