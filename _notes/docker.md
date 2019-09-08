@@ -9,12 +9,12 @@ sidebar:
 ---
 
 ### Docker ecosystem consists of
-- Docker image.
-- Docker hub.
-- Docker client.
-- Docker server.
-- Docker machine.
-- Docker compose.
+- Docker image
+- Docker hub
+- Docker client
+- Docker server
+- Docker machine
+- Docker compose
 
 ### Docker image and container
 **Docker image**: Single file with all deps and config required to run a program.
@@ -147,11 +147,11 @@ $ docker build -t ytechlabs/redis:latest .
 - $ docker commit -c 'CMD["redis-server"]' container_id
 
 ### Basic docker workflow
-- Develop (web) app.
-- Create Dockerfile.
-- Create image from Dockerfile.
-- Run image as container.
-- Connect to webapp from browser.
+- Develop (web) app
+- Create Dockerfile
+- Create image from Dockerfile
+- Run image as container
+- Connect to webapp from browser
 
 ### Container port mapping
 - Required for incoming request.
@@ -161,14 +161,14 @@ $ docker build -t ytechlabs/redis:latest .
 $ docker run -p 8080:8080 image_name
 ```
 
-### Specifying a working directory(for COPY):
+### Specifying a working directory(for COPY)
 - WORKDIR /use/app
 **Note**: Any command following will be executed relative to this path in container.
 
 **Note**: The order of commands in Dockerfile is important. Generally we should segment copy in Dockerfile, so that only the commands below the modified state are executed. Ie better use of caches.
 
-###Docker compose
-- used to start multiple containers at the same time.
+### Docker compose
+- Used to start multiple containers at the same time.
 - Also simplifies long winded arguments passed when using docker run.
 - Config file `docker-compose.yml`.
 
@@ -180,81 +180,106 @@ environment:
 
 ### Run services
 Similar to $ docker run image
+```shell
 $ docker-compose up
-To run services in background
+```
+### To run services in background
+```shell
 $ docker-compose up -d
+```
 
 ### rebuild images and run services
 Similar to
+```shell
 $ docker build .
 $ docker run image
-
-$ docker-compose up --build.
+$ docker-compose up --build
+```
 
 ## Stopping docker-compose containers
-
+```shell
 $ docker-compose down
+```
 
-### container maintenance with compose
-- restarting crashed container.
+### Container maintenance with compose
+- Restarting crashed container.
 
 restart: always/"no"/on-failure/unless-stopped
 
 ### To see status of running services
+```shell
 $ docker-compose ps
-Note: Above command should be run from the directory containing docker-compose.yml file
+```
+**Note**: Above command should be run from the directory containing docker-compose.yml file
 
 ### Docker in production environment
 Workflow:
-- two branches in GitHub repo, feature and master.
-- work on feature branch.
-- issue pull request to master branch and merge.
-- on pull request Travis CI will merge(locally) and run test and merge in master if test are successful and later deploy.
+- Two branches in GitHub repo, feature and master.
+- Work on feature branch.
+- Issue pull request to master branch and merge.
+- On pull request Travis CI will merge(locally) and run test and merge in master if test are successful and later deploy.
 - Above workflow is simplified using docker.
 
-Project generator:
+### Project generator
 - node version 8.11.3
 - npx create-react-app appname.
 - older way: npm install -g create-react-app
 create-react-app client
 
-### run only in dev env. Runs on Dev server. For development use only
+### Run only in dev env. Runs on Dev server. For development use only
+```shell
 $ npm run start
-### used to run test
+```
+### To run test
+```shell
 $ npm run test
-### build production version of app
+```
+### Build production version of app
+```shell
 $ npm run build
+```
 
-### docker volumes
+### Docker volumes
 Maps host directory to container directory.
+```shell
 $ docker run -v $(pwd):/app imageid
+```
 
 ### bookmarking volumes
+```shell
 $ docker run -v /app/node_modules -v $(pwd):/app imageid
-Here /app/node_modules folder in container should not be mapped to any host folder.
+```
+**Note**: Here /app/node_modules folder in container should not be mapped to any host folder.
 
-Volumes In docker-compose.yml
+### Volumes In docker-compose.yml
+```yaml
 volumes:
   - app/node_modules
   - .:/app
-
-Build In docker-compose.yml
+```
+### Build In docker-compose.yml
+```yaml
 build:
   context: .
   dockerfile: Dockerfile.dev
+```
 
-Startup command in docker-compose.yml
+### Startup command in docker-compose.yml
+```yaml
 command: ["npm", "run", "start"]
+```
 
-### multistep docker builds
+### Multistep docker builds
 - step 1: output build folder using a base image
 - step 2 : serve build folder using nginx and another base image.
 
 ### specifying phases in Dockerfile
+```yaml
 FROM node:alpine as builder
+```
 
-.travis.yml file:
-
+`.travis.yml` file:
+```yaml
 sudo: required
 services:
   - docker
@@ -271,31 +296,32 @@ deploy:
     secure: "Encypted <secret-access-key>=" region: "us-east-1"
 app: "example-app-name"
 env: "example-app-environment" bucket_name: "the-target-S3-bucket"
- 
+ ```
+
 To run tests and exit, as Travis expects the tests to exit, do the following.
-
+```shell
 $ docker run image_name npm run test -- --coverage
+```
 
-### AWS Elastic beanstalk:
-- most appropriate for running one docker container at a time. We can also run multiple copies of same container.
+### AWS Elastic beanstalk
+- Most appropriate for running one docker container at a time. We can also run multiple copies of same container.
 - In the course Stephen deployed multiple different containers on elastic beanstalk?? 
 - EB automatically creates a load balancer and can spawn docker instances when needed.
 - EB automatically scales the app for us.
 - For port mapping in EB, use" EXPOSE 80" in Dockerfile.
 
-### to push images to dockerhub from Travis config file
-Note: this is generally done under after_success. First login to dockerhub then push the imageid/tagname
-
+### To push images to dockerhub from Travis config file
+**Note**: This is generally done under after_success. First login to dockerhub then push the imageid/tagname
+```yaml
 - echo DOCKER_PASSWORD | docker login -u "$DOCKER_ID" --password-stdin
-
 - docker push tagname
+```
+**Note**: When we push a single Dockerfile to elastic beanstalk, it automatically builds the image and run the docker container. For running multiple containers EB used ECS (elastic container service).ECS has task definitions which tells how to run each service.
 
-Note: When we push a single Dockerfile to elastic beanstalk, it automatically builds the image and run the docker container. For running multiple containers EB used ECS (elastic container service).ECS has task definitions which tells how to run each service.
+`dockerrun.aws.json` is similar to docker compose file. But here we don't build images, rather we download from docker hub. Also, services are called container definition.
 
-Dockerrun.aws.json is similar to docker compose file. But here we don't build images, rather we download from docker hub. Also, services are called container definition.
-
-Task definitions are defined in Dockerrun.aws.json file.
-
+Task definitions are defined in `Dockerrun.aws.json` file.
+```json
 {
   name:
   image: image in docker hub
@@ -305,38 +331,35 @@ memory: 128
 portMappings: [ ]
 links: [ ]
   }
+```
 
 ### Running databases inside containers
-We generally don't run dB to n containers. Easy to scale, built in logging and maintenance, better security, automated backups and rollback, easy to migrate away from elastic beanstalk and use some other service.
+We generally don't run dB in containers. Easy to scale, built in logging and maintenance, better security, automated backups and rollback, easy to migrate away from elastic beanstalk and use some other service.
 
 Redis > AWS (EC) ElastiCache
 Postgres > AWS RDS (relational database service).
 
 AWS regions = Data centres.
 
-AWS VPC (Virtual private cloud).
+### AWS VPC (Virtual private cloud)
 Each AWS user has his own VPC. All service instance are inside his own VPC cloud which ensures privacy and security. 
 A user has one vpc per region. 
 
 ### Security group(firewall rules). 
 Defines inbound and outbound traffic on VPC. It is used to connect multiple AWS instances in a VPC. For eg. a redis  dB and EB container.
 
-Note: Docker compose is generally used in development environment.
+**Note**: Docker compose is generally used in development environment.
 
-==============================
-==============================
-What is Kubernetes aka k8s?
+### What is Kubernetes aka k8s?
 System for running many different containers over multiple different machines.
 
-Why use Kubernetes.
+### Why use Kubernetes.
 When you need to run many different containers with different images. 
 
 If an app has one type of container then Kubernetes is not needed.
 
 ### Kubernetes:
-A **cluster** consisting of one **master** and one or more **nodes** (VMs/physical machine).
-
-Master controls what each node runs.
+A **cluster** consisting of one **master** and one or more **nodes** (VMs/physical machine). Master controls what each node runs.
 
 ### Minikube(used in development)
 - used to setup kubernetes cluster on your local machine.
@@ -347,46 +370,50 @@ Master controls what each node runs.
 - EKS(elastic container service for kubernetes) by AWS,
 - GKE(Google kubernetes engine) by google.
 
-Kubectl: used to manage containers in the node/VM. Used both in development and production. 
-
-kubectl interacts with master in the cluster.
+**Kubectl**: used to manage containers in the node/VM. Used both in development and production. kubectl interacts with master in the cluster.
 
 ### Sanity commands
+```shell
 $ minikube status
 $ kubectl cluster-info
+```
 
-minikube start creates a VM/node on your local machine.
+"$ minikube start" creates a VM/node on your local machine.
 
 ### to get IP of VM
+```shell
 $ minikube ip
-
-Note: Each pod also has an IP address but it is not easily Accessible from outside. Updating a pod may change its IP address, therefore we have service objects which has a selector property which connects with the pod. The user access the pod through service object.
+```
+**Note**: Each pod also has an IP address but it is not easily Accessible from outside. Updating a pod may change its IP address, therefore we have service objects which has a selector property which connects with the pod. The user access the pod through service object.
 
 ### Docker Vs Kubernetes
 - In Docker we can build images using Dockerfile, whereas in Kubernetes images are expected to be prebuilt.
-
 - In Docker networking between containers is easy by using docker compose. In Kubernetes networking has to be done manually.
 
 ### Kubernetes config files
-client-pod.yaml
-client-node-port.yaml
+- client-pod.yaml
+- client-node-port.yaml
 
 We feed the two config files to kubectl. Which creates objects from them.
-
+```shell
 $ kubectl apply -f filename
-Note: If filename is a directory, then all the files in the directory will be applied.
+```
+**Note**: If filename is a directory, then all the files in the directory will be applied.
 
 ### To get status of pods
+```shell
 $ kubectl get pods
+```
 
 ### To get status of services
+```shell
 $ kubectl get services
+```
 
-### Objects in k8s:
+### Objects in k8s
+In k8s we define **object** instead of containers.
 
-In k8s we define object instead of containers.
-
-### types of objects
+### Types of objects
 - StatefulSet
 - ReplicaController
 - Pod: used to run a container, it's a grouping of similar containers. It's smallest unit of deployment.
@@ -395,7 +422,7 @@ In k8s we define object instead of containers.
 - Pod: smallest unit for deployment in k8s.
 - Secrets: normally used to store passwords.
 
-Note:We create secret Object using an imperative command instead of config file due to security reasons.
+**Note**: We create secret Object using an imperative command instead of config file due to security reasons.
 Node>pod>containers
 
 ### Types of services
@@ -406,7 +433,7 @@ Node>pod>containers
 
 Every node in k8s cluster has a kube-proxy. Which is one single window to outside world.
 
-k8s development workflow:
+### k8s development workflow
 
 ### Imperative Vs declarative deployment
 - Declarative is used in production environment.
@@ -417,71 +444,79 @@ k8s development workflow:
 Name and kind in config file uniquely identifies an object in k8s. This helps in deciding whether to update or create an object.
 
 ### To get detailed info about an object
+```shell
 $ kubectl describe obj-type [obj-name]
+```
 
 ### Deployment Vs pod Objects
 
-###pods
-- run a single set of tightly coupled containers.
-- good for one off deployment.
-- rarely used directly in production.
+### Pods
+- Run a single set of tightly coupled containers.
+- Good for one off deployment.
+- Rarely used directly in production. Deployment are used instead.
 
-### deployment
-- runs a set of one or more identical pods.
-- monitors the state of each pods and updating as required.
-- good for both development and production.
-- deployment uses pod template.
+### Deployment
+- Runs a set of one or more identical pods.
+- Monitors the state of each pods and updating as required.
+- Good for both development and production.
+- Deployment uses pod template.
 
 ### To delete an object
+```shell
 $ kubectl delete -f config file
-
+```
 ### To get status of deployments
+```shell
 $ kubectl get deployments
+```
 
 To get the deployment to recreate the pods with latest updated version of docker image is a bit complex.  (Kubernetes issue#33664). Because the latest image has no tag , so there is no change in deployment config file. The accepted solution is to use an imperative command to update the image version(a unique tag) the deployment should use. 
-
+```shell
 $ kubectl set image object-type / object-name container-name = image-to-use
+```
+**Description**: set image property on an object. 
 
-Description: set image property on an object. 
-
-To make the docker cli to communicate to docker server in a VM/node.
+### To make the docker cli to communicate to docker server in a VM/node
+```shell
 $ eval $(minikube docker env)
-
-Note: this only configures your current terminal window. It can be used to alter the containers in a VM/node.
+```
+**Note**: this only configures your current terminal window. It can be used to alter the containers in a VM/node.
 
 ### NodePort Vs ClusterIP services
 - ClusterIP: Exposes a set of pods to other objects in the cluster.
 - NodePort: Exposes a set of pods to the outside world (only good for development purpose).
 
-PVC: persistent volume claim. 
+**PVC**: persistent volume claim. 
 
 PVC>PV>Volume.
 
-Volume (generic container): 
+### Volume (generic container)
 Some sort of mechanism which allows a container to access filesystem outside of itself.
 
-Volume (k8s): 
+### Volume (k8s)
 An object that allows a container to store data at pod level.
 
-Volume Vs persistent volume(PV) 
+### Volume Vs persistent volume(PV) 
 Volume's lifecycle is tied to that of pod. Persistent volume outlasts the kid's lifecycle.
 
-PV Vs PVC 
+### PV Vs PVC 
 PVC consists of: 
 - Statically provisioned PV
 - Dynamically provisioned PV.
 
-PV access modes 
+### PV access modes 
 - ReadWriteOnce: can be used by single node.
 - ReadMany: many nodes can read
 - ReadWriteMany: many nodes can read write. 
 
-Storage classes for PVs 
-GCP: Persistent disk
-AWS: Block store
+### Storage classes for PVs 
+- GCP: Persistent disk
+- AWS: Block store
 
-Creating a secret Object:.
+### Creating a secret Object
+```shell
 $ kubectl create secret generic secrrt-na me --from-literal key=value
+```
 
 ### Types of services
 - ClusterIP
