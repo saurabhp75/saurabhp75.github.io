@@ -2,10 +2,6 @@
 layout: single
 title: "Kotlin"
 excerpt: "Intro to Kotlin"
-
-sidebar:
-  - title: "Kotlin personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 Running a Kotlin program

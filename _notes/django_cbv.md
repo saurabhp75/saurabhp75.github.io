@@ -2,15 +2,7 @@
 layout: single
 title: "Django Class Based Views"
 excerpt: "Intro to Django Class Based Views"
-
-sidebar:
-  - title: "Django Class Based Views"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-
-<!-- Django CBVs -->
-
 
 ### Justification of CBVs
 By using decorators you can change things before and after the original view runs but you can’t do anything about the way the original view works.

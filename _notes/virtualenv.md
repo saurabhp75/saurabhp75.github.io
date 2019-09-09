@@ -2,12 +2,7 @@
 layout: single
 title: "Python Virtual Environment"
 excerpt: "Intro to Python Virtual Environment"
-
-sidebar:
-  - title: "Python Virtual Environment personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 ### To create a virtual env
 ```shell

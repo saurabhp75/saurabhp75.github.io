@@ -2,12 +2,7 @@
 layout: single
 title: "NLP"
 excerpt: "Intro to NLP"
-
-sidebar:
-  - title: "NLP personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 ## Lexicon Normalization
 - Stemming

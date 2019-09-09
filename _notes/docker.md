@@ -2,10 +2,6 @@
 layout: single
 title: "Docker and Kubernets"
 excerpt: "Intro to Docker and Kebernets"
-
-sidebar:
-  - title: "Algebra personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ### Docker ecosystem consists of
@@ -15,6 +11,19 @@ sidebar:
 - Docker server
 - Docker machine
 - Docker compose
+
+### Docker hierarchy
+- Stack > Services > Container
+- Serrvices are defined in docker compose file
+- Ports are exposed in Dockerfile, but mapped in Docker compose or command line
+
+### Docker registery and repository
+- Docker registery is a collection of repositories
+- Docker repository is a collection of images similar to GitHub repo
+- An account on registery(Dockerhub) can create many repositories
+- The docker CLI uses Docker's public registery by default  
+
+**Note**: You can set your own private registery using docker trusted registery.
 
 ### Docker image and container
 **Docker image**: Single file with all deps and config required to run a program.
@@ -41,7 +50,7 @@ Limit amount of resources used per process.
 $ docker run image_name [command]
 ```
 
-### Run container in background
+### Run container in background(detached mode)
 ```shell
 $ docker run -d image_name [command]
 ```
@@ -135,7 +144,14 @@ $ docker build -f Dockerfile.dev .
 ### Tagging an image
 ```shell
 $ docker build -t ytechlabs/redis:latest .
+$ docker tag
 ```
+
+### Publishing an image
+```shell
+$ docker push
+```
+
 **Note**: In the command above:
 - Ytechlabs: dockerid
 - Redis: repo/project

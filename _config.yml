@@ -36,7 +36,7 @@ paginate: 5
 paginate_path: /page:num/
 timezone: Asia/Kolkata 
 
-teaser: /assets/images/500x300.png
+teaser: /assets/images/500x300.jpg
 logo: "/assets/images/site-logo.png"
 
 include:

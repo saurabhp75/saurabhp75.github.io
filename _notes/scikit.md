@@ -2,10 +2,6 @@
 layout: single
 title: "Scikit Learn"
 excerpt: "Intro to Scikit Learn"
-
-sidebar:
-  - title: "Scikit Learn personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ## Measuring the performance of the model in scikit-learn :

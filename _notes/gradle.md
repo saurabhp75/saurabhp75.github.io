@@ -2,14 +2,7 @@
 layout: single
 title: "Gradle"
 excerpt: "Intro to Gradle"
-
-sidebar:
-  - title: "Gradle personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-
-<!-- Gradle -->
 
 - Gradle is open source build tool and uses groovy or kotlin DSL.
 - Project and tasks in gradle. 

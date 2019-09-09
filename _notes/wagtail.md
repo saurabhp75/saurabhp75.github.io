@@ -8,8 +8,6 @@ sidebar:
     text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-<!-- Wagtail -->
-
 Wagtail uses normal Django templates to render each page type. 
 
 By default, it will look for a template filename formed from the app and model name, separating capital letters with underscores (e.g. HomePage within the ‘home’ app becomes `home/home_page.html`).

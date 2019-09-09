@@ -2,10 +2,6 @@
 layout: single
 title: "Statistics"
 excerpt: "Intro to Satistics"
-
-sidebar:
-  - title: "Satistics personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 **Mean** : sensitive to outliers

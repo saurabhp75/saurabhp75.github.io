@@ -2,13 +2,7 @@
 layout: single
 title: "CSS Selectors"
 excerpt: "Intro to CSS Selectors"
-
-sidebar:
-  - title: "CSS Selectors personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- CSS Selectors -->
 
 1. Element type(‘p’ ): Select all paragraph elements
 

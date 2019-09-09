@@ -2,13 +2,7 @@
 layout: single
 title: "Python3"
 excerpt: "Python3 Notes"
-
-sidebar:
-  - title: "Python3"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- Python Notes (tutorial) -->
 
 ### Difference between list.sort() and sorted()
 - list.sort() sorts the list in place and returns none.

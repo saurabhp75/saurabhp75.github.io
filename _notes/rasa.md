@@ -2,12 +2,7 @@
 layout: single
 title: "Intro to RASA"
 excerpt: "Intro to RASA conversational AI"
-
-sidebar:
-  - title: "Intro to RASA"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 <br><br>
 **Note**: Rasa NLU and Rasa Core are now merged. 

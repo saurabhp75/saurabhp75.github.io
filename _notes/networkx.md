@@ -2,14 +2,9 @@
 layout: single
 title: "Networkx"
 excerpt: "Intro to Networkx"
-
-sidebar:
-  - title: "Networkx personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-
-network : 
+Network : 
 
 useful for modelling relationships between entities.
 

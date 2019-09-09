@@ -2,13 +2,7 @@
 layout: single
 title: "QGIS"
 excerpt: "Intro to QGIS"
-
-sidebar:
-  - title: "QGIS"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- QGIS -->
 
 ## Vector features:
 

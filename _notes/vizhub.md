@@ -2,13 +2,7 @@
 layout: single
 title: "Vizhub D3js workflow"
 excerpt: "Intro to vizhub/D3js"
-
-sidebar:
-  - title: "vizhub/D3js personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- D3 Visualization -->
 
 ### Workflow
 - Get the zip file from vizhub.

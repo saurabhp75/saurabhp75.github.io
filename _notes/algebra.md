@@ -2,10 +2,6 @@
 layout: single
 title: "Linear Algebra"
 excerpt: "Intro to Linear Algebra"
-
-sidebar:
-  - title: "Algebra personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ### Vector Multiplication

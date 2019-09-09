@@ -2,12 +2,7 @@
 layout: single
 title: "Plotly Dash"
 excerpt: "Intro to Plotly Dash"
-
-sidebar:
-  - title: "Dash personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 The **dash_core_components** library includes a component called **Graph**.
 

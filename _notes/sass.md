@@ -2,13 +2,7 @@
 layout: single
 title: "Sass and Koala"
 excerpt: "Intro to Sass and Koala"
-
-sidebar:
-  - title: "Sass and Koala"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- KOALA and SASS -->
 
 1. Copy ‘scss’ folder including files to your project.
 2. By default koala output directory is ‘scss’ but we need to change it to our ‘css’ folder.

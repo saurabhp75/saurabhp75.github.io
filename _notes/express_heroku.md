@@ -2,13 +2,7 @@
 layout: single
 title: "Deploy Express app on Heroku"
 excerpt: "Intro to Deployment of Express app on Heroku"
-
-sidebar:
-  - title: "Deploy Express app on Heroku"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- DEPLOY EXPRESS APP ON HEROKU  -->
 
 1. Heroku login.
 2. Git status → git init.

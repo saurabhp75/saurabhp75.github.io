@@ -2,12 +2,7 @@
 layout: single
 title: "Levels of Conversational AI"
 excerpt: "Five levels of conversational AI"
-
-sidebar:
-  - title: "Conversational AI"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 Level 1: Notification Assistants
 receiving notifications on your phone but they show up in a messaging app like WhatsApp instead.

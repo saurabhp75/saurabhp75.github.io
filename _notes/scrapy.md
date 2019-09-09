@@ -2,13 +2,7 @@
 layout: single
 title: "Scrapy"
 excerpt: "Intro to Scrapy"
-
-sidebar:
-  - title: "Scrapy personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-<!-- Scrapy -->
 
 1. To start a new project
 ```shell

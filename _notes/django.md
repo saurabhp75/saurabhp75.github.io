@@ -2,12 +2,7 @@
 layout: single
 title: "Django"
 excerpt: "Intro to Django"
-
-sidebar:
-  - title: "Django personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 1. Create virtual env, Pip install django.
 

@@ -2,12 +2,7 @@
 layout: single
 title: "PCA"
 excerpt: "Intro to PCA"
-
-sidebar:
-  - title: "PCA personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 Source: Victor lavrenko youtube PCA :
 

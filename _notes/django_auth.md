@@ -2,15 +2,7 @@
 layout: single
 title: "Django Auth"
 excerpt: "Intro to Django Auth"
-
-sidebar:
-  - title: "Django Auth personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-
-<!-- Django Auth -->
-
 
 ## Django user authentication system handles 
 - user accounts, 

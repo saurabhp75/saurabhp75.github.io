@@ -2,14 +2,7 @@
 layout: single
 title: "Mongodb"
 excerpt: "Intro to Mongodb"
-
-sidebar:
-  - title: "Mongodb"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
-
-<!-- MongoDB -->
 
 ## Installing mongodb on Ubuntu
 1. Add the official repository key.

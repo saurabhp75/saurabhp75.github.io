@@ -2,10 +2,6 @@
 layout: single
 title: "Miscellaneous"
 excerpt: "Miscellaneous Notes"
-
-sidebar:
-  - title: "Miscellaneous"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ### To search recursively (including some filetypes)

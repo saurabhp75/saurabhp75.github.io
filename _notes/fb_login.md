@@ -2,15 +2,9 @@
 layout: single
 title: "Facebook login flow"
 excerpt: "Intro to Facebook login"
-
-sidebar:
-  - title: "Intro to Facebook login"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-
 Facebook OAUTH
-
 
 Access token : 
 When someone connects with an app using Facebook Login and approves the request for permissions, the app obtains an access token that provides temporary, secure access to Facebook APIs.

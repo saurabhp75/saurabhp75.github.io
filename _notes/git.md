@@ -2,10 +2,6 @@
 layout: single
 title: "Git"
 excerpt: "Intro to Plotly Dash"
-
-sidebar:
-  - title: "Git personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ### To add a remote github to local repo

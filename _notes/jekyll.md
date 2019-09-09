@@ -2,12 +2,8 @@
 layout: single
 title: "Jekyll"
 excerpt: "Intro to Jekyll"
-sidebar:
-  - title: "Jekyll personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
-<!-- # Jekyll Notes -->
 ## Basics
 [**List of jekyll plugins supported on GitHub-Pages**](https://pages.github.com/versions/)
 

@@ -2,12 +2,7 @@
 layout: single
 title: "HTML Tags"
 excerpt: "Intro to HTML Tags"
-
-sidebar:
-  - title: "HTML Tags"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
-
 
 ### HTML Table
 - Table is defined with <table> tag.

@@ -2,9 +2,6 @@
 layout: single
 title: "SQL"
 excerpt: "Intro to SQL"
-sidebar:
-  - title: "SQL personal notes"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ## 8 type of joins(Italicized joins doesnt have built-in sql syntax) :

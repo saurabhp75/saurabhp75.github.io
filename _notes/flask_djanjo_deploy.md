@@ -2,10 +2,6 @@
 layout: single
 title: "Deploying django and Flask"
 excerpt: "Intro to Django and Flask app deployment"
-
-sidebar:
-  - title: "Django and Flask app deployment"
-    text: "Python 3.x, Django 2.x, PythonAnywhere.com"
 ---
 
 ### Hosting Flask app on pythonanywhere
