@@ -3,9 +3,9 @@ title: My Notes
 layout: collection
 permalink: /notes/
 collection: notes
-entries_layout: grid
+entries_layout: list
 #excerpt: "My **Portfolio**"
-classes: wide
+# classes: wide
 header:
   overlay_image: /assets/images/header.jpg
   overlay_filter: 0.5 # same as adding an opacity of 0.5 to a black background

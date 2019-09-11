@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Docker and Kubernets"
-excerpt: "Intro to Docker and Kebernets"
+excerpt: "Intro to Docker and Kubernets"
 ---
 
 ### Docker ecosystem consists of
