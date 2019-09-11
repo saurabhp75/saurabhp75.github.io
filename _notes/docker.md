@@ -14,7 +14,7 @@ excerpt: "Intro to Docker and Kubernets"
 
 ### Docker hierarchy
 - Stack > Services > Container
-- Serrvices are defined in docker compose file
+- Services are defined in docker compose file
 - Ports are exposed in Dockerfile, but mapped in Docker compose or command line
 
 ### Docker registery and repository
@@ -143,7 +143,7 @@ $ docker build -f Dockerfile.dev .
 
 ### Tagging an image
 ```shell
-$ docker build -t ytechlabs/redis:latest .
+$ docker build -t saurabhp75/redis:latest .
 $ docker tag
 ```
 
@@ -153,14 +153,14 @@ $ docker push
 ```
 
 **Note**: In the command above:
-- Ytechlabs: dockerid
-- Redis: repo/project
-- Latest: version(tag)
+- saurabhp75: dockerid
+- redis: repo/project
+- latest: version(tag)
 
 ### Manually Creating image from running container
 - Run container using -it and sh.
 - Install packages
-- $ docker commit -c 'CMD["redis-server"]' container_id
+- `$ docker commit -c 'CMD["redis-server"]' container_id`
 
 ### Basic docker workflow
 - Develop (web) app
@@ -172,13 +172,15 @@ $ docker push
 ### Container port mapping
 - Required for incoming request.
 - IMP: not done in Dockerfile.
+- Can be done in docker compose config file or from command line.
 - specified while running container.
 ```shell
 $ docker run -p 8080:8080 image_name
 ```
 
 ### Specifying a working directory(for COPY)
-- WORKDIR /use/app
+- WORKDIR /use/app  
+
 **Note**: Any command following will be executed relative to this path in container.
 
 **Note**: The order of commands in Dockerfile is important. Generally we should segment copy in Dockerfile, so that only the commands below the modified state are executed. Ie better use of caches.
@@ -188,13 +190,15 @@ $ docker run -p 8080:8080 image_name
 - Also simplifies long winded arguments passed when using docker run.
 - Config file `docker-compose.yml`.
 
-### docker-compose commands:
+### Docker-compose commands:
 
-### specifying environment variables
+### Specifying environment variables in docker compose config file
+```yaml
 environment:
   - REDIS_HOST=redis-server
+```
 
-### Run services
+### Run services specified in docker compose file
 Similar to $ docker run image
 ```shell
 $ docker-compose up
@@ -203,13 +207,14 @@ $ docker-compose up
 ```shell
 $ docker-compose up -d
 ```
-
-### rebuild images and run services
-Similar to
+### Rebuild images and run services
+```shell
+$ docker-compose up --build
+```
+### Above is similar to
 ```shell
 $ docker build .
 $ docker run image
-$ docker-compose up --build
 ```
 
 ## Stopping docker-compose containers
@@ -217,10 +222,12 @@ $ docker-compose up --build
 $ docker-compose down
 ```
 
-### Container maintenance with compose
-- Restarting crashed container.
+### Container maintenance with docker compose file
 
+- Restarting crashed container.
+```yaml
 restart: always/"no"/on-failure/unless-stopped
+```
 
 ### To see status of running services
 ```shell
@@ -238,9 +245,9 @@ Workflow:
 
 ### Project generator
 - node version 8.11.3
-- npx create-react-app appname.
-- older way: npm install -g create-react-app
-create-react-app client
+- New method: Just run `$ npx create-react-app appname`
+- older way: First run `$ npm install -g create-react-app`
+- Then run `$ create-react-app client`
 
 ### Run only in dev env. Runs on Dev server. For development use only
 ```shell
@@ -254,8 +261,8 @@ $ npm run test
 ```shell
 $ npm run build
 ```
-
 ### Docker volumes
+
 Maps host directory to container directory.
 ```shell
 $ docker run -v $(pwd):/app imageid
@@ -265,7 +272,7 @@ $ docker run -v $(pwd):/app imageid
 ```shell
 $ docker run -v /app/node_modules -v $(pwd):/app imageid
 ```
-**Note**: Here /app/node_modules folder in container should not be mapped to any host folder.
+**Note**: Here `/app/node_modules` folder in container should not be mapped to any host folder.
 
 ### Volumes In docker-compose.yml
 ```yaml
@@ -286,10 +293,10 @@ command: ["npm", "run", "start"]
 ```
 
 ### Multistep docker builds
-- step 1: output build folder using a base image
-- step 2 : serve build folder using nginx and another base image.
+- step 1: Output build folder using a base image
+- step 2: Serve build folder using nginx and another base image.
 
-### specifying phases in Dockerfile
+### Specifying phases in Dockerfile
 ```yaml
 FROM node:alpine as builder
 ```
@@ -327,7 +334,7 @@ $ docker run image_name npm run test -- --coverage
 - For port mapping in EB, use" EXPOSE 80" in Dockerfile.
 
 ### To push images to dockerhub from Travis config file
-**Note**: This is generally done under after_success. First login to dockerhub then push the imageid/tagname
+**Note**: This is generally done under `after_success`. First login to dockerhub then push the imageid/tagname
 ```yaml
 - echo DOCKER_PASSWORD | docker login -u "$DOCKER_ID" --password-stdin
 - docker push tagname
@@ -378,9 +385,9 @@ If an app has one type of container then Kubernetes is not needed.
 A **cluster** consisting of one **master** and one or more **nodes** (VMs/physical machine). Master controls what each node runs.
 
 ### Minikube(used in development)
-- used to setup kubernetes cluster on your local machine.
+- Used to setup kubernetes cluster on your local machine.
 - Used only in development.
-- used to manage/create VMs/node on local machine.
+- Used to manage/create VMs/node on local machine.
 
 ### Managed solutions (used in production) :
 - EKS(elastic container service for kubernetes) by AWS,
@@ -394,9 +401,9 @@ $ minikube status
 $ kubectl cluster-info
 ```
 
-"$ minikube start" creates a VM/node on your local machine.
+`$ minikube start` creates a VM/node on your local machine.
 
-### to get IP of VM
+### To get IP of VM
 ```shell
 $ minikube ip
 ```
@@ -407,8 +414,8 @@ $ minikube ip
 - In Docker networking between containers is easy by using docker compose. In Kubernetes networking has to be done manually.
 
 ### Kubernetes config files
-- client-pod.yaml
-- client-node-port.yaml
+- `client-pod.yaml`
+- `client-node-port.yaml`
 
 We feed the two config files to kubectl. Which creates objects from them.
 ```shell
@@ -430,32 +437,32 @@ $ kubectl get services
 In k8s we define **object** instead of containers.
 
 ### Types of objects
-- StatefulSet
-- ReplicaController
-- Pod: used to run a container, it's a grouping of similar containers. It's smallest unit of deployment.
-- Service: used to setup networking.
-- Deployment
-- Pod: smallest unit for deployment in k8s.
-- Secrets: normally used to store passwords.
+- **StatefulSet**
+- **ReplicaController**
+- **Pod**: used to run a container, it's a grouping of similar containers. It's smallest unit of deployment.
+- **Service**: used to setup networking.
+- **Deployment**
+- **Pod**: smallest unit for deployment in k8s.
+- **Secrets**: normally used to store passwords.
 
 **Note**: We create secret Object using an imperative command instead of config file due to security reasons.
 Node>pod>containers
 
 ### Types of services
-- ClusterIP: IP address to be used within the cluster.
-- NodePort: exposes container to outside world. Used only in development, with exceptions. It's between 30000 - 32767
-- Load balancer
-- Ingress
+- **ClusterIP**: IP address to be used within the cluster.
+- **NodePort**: exposes container to outside world. Used only in development, with exceptions. It's between 30000 - 32767
+- **Load balancer**: Not used directly now
+- **Ingress**: Preferred over Load balancer. It automatically creates Load balance.
 
-Every node in k8s cluster has a kube-proxy. Which is one single window to outside world.
+Every node in k8s cluster has a **kube-proxy**. Which is one single window to outside world.
 
 ### k8s development workflow
 
-### Imperative Vs declarative deployment
+### Imperative Vs Declarative deployment
 - Declarative is used in production environment.
-- just change the config file and feed to kubectl.
+- Just change the config file and feed to kubectl.
 - We cannot change everything in a Node using this(pod) approach, only few things like image name. But not containers, name and port.
-- but we can change them using deployment object.
+- But we can change them using deployment object.
 
 Name and kind in config file uniquely identifies an object in k8s. This helps in deciding whether to update or create an object.
 
@@ -486,11 +493,11 @@ $ kubectl delete -f config file
 $ kubectl get deployments
 ```
 
-To get the deployment to recreate the pods with latest updated version of docker image is a bit complex.  (Kubernetes issue#33664). Because the latest image has no tag , so there is no change in deployment config file. The accepted solution is to use an imperative command to update the image version(a unique tag) the deployment should use. 
+To get the deployment to recreate the pods with latest updated version of docker image is a bit complex. (Kubernetes `issue#33664`). Because the latest image has no tag , so there is no change in deployment config file. The accepted solution is to use an imperative command to update the image version(a unique tag) the deployment should use. 
 ```shell
 $ kubectl set image object-type / object-name container-name = image-to-use
 ```
-**Description**: set image property on an object. 
+**Description**: Set image property on an object. 
 
 ### To make the docker cli to communicate to docker server in a VM/node
 ```shell
@@ -499,8 +506,8 @@ $ eval $(minikube docker env)
 **Note**: this only configures your current terminal window. It can be used to alter the containers in a VM/node.
 
 ### NodePort Vs ClusterIP services
-- ClusterIP: Exposes a set of pods to other objects in the cluster.
-- NodePort: Exposes a set of pods to the outside world (only good for development purpose).
+- **ClusterIP**: Exposes a set of pods to other objects in the cluster.
+- **NodePort**: Exposes a set of pods to the outside world (only good for development purpose).
 
 **PVC**: persistent volume claim. 
 
@@ -521,24 +528,18 @@ PVC consists of:
 - Dynamically provisioned PV.
 
 ### PV access modes 
-- ReadWriteOnce: can be used by single node.
-- ReadMany: many nodes can read
-- ReadWriteMany: many nodes can read write. 
+- **ReadWriteOnce**: can be used by single node.
+- **ReadMany**: many nodes can read
+- **ReadWriteMany**: many nodes can read write. 
 
 ### Storage classes for PVs 
-- GCP: Persistent disk
-- AWS: Block store
+- **GCP**: Persistent disk
+- **AWS**: Block store
 
 ### Creating a secret Object
 ```shell
 $ kubectl create secret generic secrrt-na me --from-literal key=value
 ```
-
-### Types of services
-- ClusterIP
-- NodePort
-- Ingress: pregeiover LoadBalancer
-- LoadBalancer: legacy , not used now.
 
 ### Ingress-nginx(community/k8s led)
 - We'll use this
@@ -551,7 +552,7 @@ $ kubectl create secret generic secrrt-na me --from-literal key=value
 - create s service account in GCP.
 - Download the credentials Jason file to local machine.
 - Install Travis CLI on local machine.
-- $ travis encrypt-file json-file -r saurabhp75/repo-name
+- `$ travis encrypt-file json-file -r saurabhp75/repo-name`
 
 ### Helm, Tiller(package manager for GCP)
 
