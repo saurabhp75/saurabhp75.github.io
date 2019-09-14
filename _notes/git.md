@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Git"
-excerpt: "Intro to Plotly Dash"
+excerpt: "Intro to Git"
 ---
 
 ### To add a remote github to local repo

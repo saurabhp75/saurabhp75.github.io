@@ -62,7 +62,9 @@ $ jupyter labextension list
 ```
 
 ### Jupyter rate limit ####
-jupyter notebook --NotebookApp.iopub_data_rate_limit=10000000000
+```shell
+$ jupyter notebook --NotebookApp.iopub_data_rate_limit=10000000000
+```
 
 ### To remove a certain file type/extension recursively in folders
 ```shell
