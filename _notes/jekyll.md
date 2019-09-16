@@ -15,7 +15,12 @@ excerpt: "Intro to Jekyll"
 - Pexels
 - Stocksnap.io
 
+### Useful Jekyll commands
+- `jekyll doctor` - Outputs any deprecation or configuration issues
+- `jekyll clean` - Removes all generated files: destination folder, metadata file, Sass and Jekyll caches.
 
+
+### Getting started
 - Install ruby as root user.
 ```shell
 $ sudo apt-get install ruby-full
