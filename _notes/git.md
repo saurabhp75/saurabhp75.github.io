@@ -213,7 +213,7 @@ $ git reset #unstage the changes back to wd. opposite of git add
 
 
 ## Fixing Common Mistakes and Undoing Bad Commits
-**Note**: some commits change git history/log and some don't
+**Note**: some commits change git history/log and some don't.
 
 
 ### To undo changes done to a file
@@ -221,14 +221,40 @@ $ git reset #unstage the changes back to wd. opposite of git add
 $ git checkout filename
 ```
 
+### To revert changes made to your working copy
+```shell
+$ git checkout . 
+```
+
+### To revert changes made to the index (i.e., that you have added)
+```shell
+$ git reset
+```
+
+### To revert a change that you have committed
+```shell
+$ git revert <commit 1> <commit 2>
+```
+
+### To remove untracked files (e.g., new files, generated files):
+```shell
+$ git clean -f
+```
+
+### To remove untracked directories (e.g., new or automatically generated directories):
+```shell
+$ git clean -fd
+```
+
 ### To change commit message of last commit 
-(this will change commit hash as message is used in hash calculation)
-the changed hash is not desirable if others also use our code 
-If we are thde only one who see commit history(before git push) then this makes for a cleaner log
+- This will change commit hash as message is used in hash calculation.
+- The changed hash is not desirable if others also use our code. 
+- If we are the only one who see commit history(before git push) then this makes for a cleaner log.
+
 ```shell
 $ git commit --amend -m "new message"
 ```
-### To add a file to the previuos commit (this will also change commit hash)
+### To add a file to the previous commit(this will also change commit hash)
 ```shell
 $ git add filename
 $ git commit --amend
