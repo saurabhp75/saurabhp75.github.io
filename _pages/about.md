@@ -31,7 +31,7 @@ header:
 | **Deep Learning** | CNNs (LeNet-5, AlexNet, VGG-16, ResNets, Inception, Yolov2, Deepface, FaceNet) RNNs (GRU, LSTM), Transfer Learning.|
 | **NLP** | Bag of Words, TF-IDF, Word embeddings, Glove, Sentiment Analysis, Word2Vec Model, Beam Search, Bleu Score, Attention Models, Trigger word detection. |
 | **Python GIS libs** | Geopandas, Shapely, Fiona |
-| **Tools/Libraries** | Anaconda-Jupyter, Scikit-Learn, Numpy, Pandas, Postgresql, TensorFlow, Keras, xgboost, Vowpal Wabbit, Scrapy, Flask, Django, Node.js, Express, MongoDB, Mongoose, Oauth, GitHub, Jekyll, GitHub-Pages, Bootstrap 4, jQuery, Heroku, Pythonanywhere.|
+| **Tools/Libraries** | Anaconda-Jupyter, Docker, Kubernets, Scikit-Learn, Numpy, Pandas, Postgresql, TensorFlow, Keras, xgboost, Vowpal Wabbit, Scrapy, Flask, Django, Node.js, Express, MongoDB, Mongoose, Oauth, GitHub, Jekyll, GitHub-Pages, Bootstrap 4, jQuery, Heroku, Pythonanywhere.|
 
 
 
@@ -41,4 +41,8 @@ header:
 2. [Data Science](/datacamp) in Python from Datacamp
 
 3. [Deep Learning](https://www.coursera.org/account/accomplishments/specialization/QK5UWBWPY5DS) specialization from Coursera
+
+4. [Docker & Kubernetes course](https://www.udemy.com/certificate/UC-8ZZFK7OL/)
+
+5. [Web developer bootcamp](https://www.udemy.com/certificate/UC-EP4ZACG7/)
 

@@ -33,10 +33,10 @@ A valid host IP address should not have all bits as 0s.
 
 ### Class D
 - NW address (1110....)
-- multicast address
-- used in video streaming and broadcast applications.
+- Multicast address
+- Used in video streaming and broadcast applications.
 - 224.0.0.0 to 239.255.255.255
-- there is no distinction of public or private IP.
+- There is no distinction of public or private IP.
 
 ### Class E
 - NW address (1111...)
@@ -45,43 +45,43 @@ A valid host IP address should not have all bits as 0s.
 
 
 ### Private IP address space(RFC 1918)
-- defines addresses which will be private to an organisation and will connect to internet via gateway.
-- class A: 10.0.0.0 to 10.255.255.255
-- class B: 172.16.0.0 to 172.31.255.255
-- class C: 192.168.0.0 to 198.168.255.255
-- private IP -> NAT-> Public IP
+- Defines addresses which will be private to an organisation and will connect to internet via gateway.
+- Class A: 10.0.0.0 to 10.255.255.255
+- Class B: 172.16.0.0 to 172.31.255.255
+- Class C: 192.168.0.0 to 198.168.255.255
+- Private IP -> NAT-> Public IP
 - NAT happen at gateway.
 
 ### Subnetting:
 - Routing happen in layer 3, network layer.
-- routing based on IP address.
-- network mask: to get network address from IP address.
-- in class based IP addressing scheme, ne mask is defined by address class.
-- in subnetting we manually specify subnet mask.
+- Routing based on IP address.
+- Network mask: to get network address from IP address.
+- In class based IP addressing scheme, ne mask is defined by address class.
+- In subnetting we manually specify subnet mask.
 
 ### Why subnetting:
-- efficient use of IP address.
-- facilitate heirarchical network: subnets of subnets.
-- allows for address summarisation.
+- Efficient use of IP address.
+- Facilitate heirarchical network: subnets of subnets.
+- Allows for address summarisation.
 
 **Subnet bits**: borrowed from host address bits.
 
 ### Questions to ask when subnetting:
-- what is sub-network ID.
-- what is usable host ID ranges.
-- what is broadcast address.
-- what is next sub-network ID.
+- What is sub-network ID.
+- What is usable host ID ranges.
+- What is broadcast address.
+- What is next sub-network ID.
 
 ### Note: 
 - 1st host address= subnet Id + 1
 - Last host= next sub-network Id -2
 - Broadcast address= next sub-network Id - 1
 
-**Subnet increment**: the value by which the next sub-network I'd increase. This value is the "binary weight" of last(lsb)subnet bit.
+**Subnet increment**: The value by which the next sub-network I'd increase. This value is the "binary weight" of last(lsb)subnet bit.
 
 ### IP routing table:
-- all the networks the router is connected to.
-- all the networks the device has learnt from dynamic routing protocols like ospf, eigrp or static routes.
+- All the networks the router is connected to.
+- All the networks the device has learnt from dynamic routing protocols like ospf, eigrp or static routes.
 
 ### Powers of 2:
 - 2^4 = 16
