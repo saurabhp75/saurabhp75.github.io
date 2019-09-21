@@ -6,53 +6,54 @@ excerpt: "Intro to Big data & Hadoop"
 
 ### Big data Hadoop
 
-HDFS: Hadoop distributed file system
+**HDFS**: Hadoop distributed file system
 
-YARN: Yet another resource negotiator. sits on top of mapreduce.
+**YARN**: Yet another resource negotiator. sits on top of mapreduce.
 - Manages the resources on hadoop cluster.
 
-Mapreduce: Programming metaphore/model that allows you to distribute the data processing over a cluster. It consists of mappers and reducers.
+**Mapreduce**: Programming metaphore/model that allows you to distribute the data processing over a cluster. It consists of **mappers** and **reducers**.
 
-Mappers transform the data in parallel across the cluster and reducers aggregate the data together.
+**Note**:
+- Mappers transform the data in parallel across the cluster and reducers aggregate the data together.
 
-Earlier mapreduce and yarn were a single module.
+- Earlier mapreduce and yarn were a single module.
 
-pig: A SQL style scripting, can be used in place of Java and Python. It sits on top of mapreduce.
+**Pig**: A SQL style scripting, can be used in place of Java and Python. It sits on top of mapreduce.
 
-Hive: Just like pig, it sits over mapreduce and is very similar to SQL db.
+**Hive**: Just like pig, it sits over mapreduce and is very similar to SQL db.
 
-Apache Ambari: Web view of the Hadoop cluster.
+**Apache Ambari**: Web view of the Hadoop cluster.
 
-Ambari alternatives: Cloudera, MapR etc.
+**Ambari alternatives**: Cloudera, MapR etc.
 
-Mesos: a yarn alternative.
+**Mesos**: A yarn alternative.
 
-Spark: Sits at the same level as mapreduce. 
+**Spark**: Sits at the same level as mapreduce. 
 
-Tez: used in conjunction with Hive. Works on directed acyclic graph, similar to spark.
+**Tez**: Used in conjunction with Hive. Works on directed acyclic graph, similar to spark.
 
-HBASE: Exposes the data on cluster to transactional platforms. HBASE is a nosql db, a columnar datastore.
+**HBASE**: Exposes the data on cluster to transactional platforms. HBASE is a nosql db, a columnar datastore.
 
-Apache storm: A way of processing streaming data ie from sensors or weblogs, it is similar to spark streaming.
+**Apache storm**: A way of processing streaming data ie from sensors or weblogs, it is similar to spark streaming.
 
-OOzie: A way to schedule jobs on the cluster.
+**OOzie**: A way to schedule jobs on the cluster.
 
-Zookeeper: A tech for coordinating everything on your cluster, ie which nodes are up or down, keeping track of which node is master.
+**Zookeeper**: A tech for coordinating everything on your cluster, ie which nodes are up or down, keeping track of which node is master.
 
 
 ### Data ingestion:
-- sqoop: ties the cluster to relational db.
+- **sqoop**: Ties the cluster to relational db.
 
-- Flume: transfers weblogs to the cluster.
+- **Flume**: Transfers weblogs to the cluster.
 
-- Kafka: General purpose data ingestion for hadoop cluster.
+- **Kafka**: General purpose data ingestion for hadoop cluster.
 
 ### External data store:
 - Cassandra
 - Mongodb
 - MySQL
 
-Note: Cassandra/Mongodb sites between real time app and hadoop cluster.
+**Note**: Cassandra/Mongodb sits between real time app and hadoop cluster.
 
 ### Query Engines(Hive is built into hadoop)
 - Apache Drill: SQL like queries
@@ -99,9 +100,17 @@ Note: Cassandra/Mongodb sites between real time app and hadoop cluster.
 
 ### HDFS high availability
 - Prevents downtime on cluster in case of failure.
-- Previuos approaches lead to small downtime.
+- Previous approaches lead to small downtime.
 - Hot standby namenode using shared edit log(which is outside of cluster?).
 - Hot standby namenode can takeover right after the namenode failure.
+- There is no downtime unlike earlier methods.
 - Zookeeper tracks active namenode.
 - Uses extreme measures to ensure only one namenode is used at a time.
+
+### Using HDFS
+- Ambari Web UI.
+- CLI.
+- HTTP/HDFS proxies.
+- Java interface.
+- NFS gateway.
 

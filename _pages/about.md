@@ -20,7 +20,7 @@ header:
 ## Tools/Tech:
 
 | Skill| Description/Tool|
-|:--------|:-------:|
+|:--------|:-------|
 | **Maths** | Descriptive Statistics, Inferential Statistics, Probability, Z-Test, Student T-test, Chi-Squared Test, Hypothesis Testing, A/B Testing, Bayesian Analysis.|
 | **Languages** | Python,  Javascript/ES6, C, C++ | 
 |-------------------|
