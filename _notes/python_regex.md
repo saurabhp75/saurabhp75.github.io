@@ -25,14 +25,10 @@ excerpt: "Intro to Python Regex"
 ### Specifying a character class
 - Character class is a set of characters that you wish to match.
 - Characters can be listed individually, For example, [abc] will match any of the characters a, b, or c
-- Or a range of characters can be indicated by giving two characters and separating them by a '-'
-- [abc] is the same as [a-c], which uses a range to express the same set of characters. 
+- Or a range of characters can be indicated by giving two characters and separating them by a '-'. [abc] is the same as [a-c], which uses a range to express the same set of characters. 
 - If you wanted to match only lowercase letters, your RE would be [a-z].
-- Metacharacters are not active inside classes. 
-- For example, [akm$] will match any of the characters 'a', 'k', 'm', or '$'.
-- You can match the characters not listed within the class by complementing the set. 
-- This is indicated by including a '^' as the first character of the class. 
-- For example, [^5] will match any character except '5'. 
+- Metacharacters are not active inside classes. For example, [akm$] will match any of the characters 'a', 'k', 'm', or '$'.
+- You can match the characters not listed within the class by complementing the set. This is indicated by including a '^' as the first character of the class. For example, [^5] will match any character except '5'. 
 - If the caret appears elsewhere in a character class, it does not have special meaning. For example: [5^] will match either a '5' or a '^'.
 
 ### Use of the metacharacter backslash, \
@@ -168,10 +164,10 @@ charref = re.compile(r"""
 ### More Metacharacters
 
 ### zero-width assertions
-They don’t cause the engine to advance through the string; instead, they consume no characters at all, and simply succeed or fail. For example, \b is an assertion that the current position is located at a word boundary; the position isn’t changed by the \b at all. This means that zero-width assertions should never be repeated, because if they match once at a given location, they can obviously be matched an infinite number of times.
+They don’t cause the engine to advance through the string, instead, they consume no characters at all, and simply succeed or fail. For example, \b is an assertion that the current position is located at a word boundary; the position isn’t changed by the \b at all. This means that zero-width assertions should never be repeated, because if they match once at a given location, they can obviously be matched an infinite number of times.
 
 
-`|`: Alternation, or the “or” operator. If A and B are regular expressions, A|B will match any string that matches either A or B. | has very low precedence in order to make it work reasonably when you’re alternating multi-character strings. Crow|Servo will match either Crow or Servo, not Cro, a 'w' or an 'S', and ervo.
+`|`: Alternation, or the “or” operator. If A and B are regular expressions, A\|B will match any string that matches either A or B. \| has very low precedence in order to make it work reasonably when you’re alternating multi-character strings. Crow\|Servo will match either Crow or Servo, not Cro, a 'w' or an 'S', and ervo.
 
 `^`: Matches at the beginning of lines. Unless the MULTILINE flag has been set, this will only match at the beginning of the string. In MULTILINE mode, this also matches immediately after each newline within the string.
 
@@ -245,8 +241,77 @@ The regex to find duplicate word can now be written as.
 
 ### Lookahead Assertions
 - Zero width assertions.
-- (?=...): **Positive lookahead assertion**. This succeeds if the contained regular expression, represented here by ..., successfully matches at the current location, and fails otherwise. But, once the contained expression has been tried, the matching engine doesn’t advance at all; the rest of the pattern is tried right where the assertion started.
+- (?=...): **Positive lookahead assertion**. This succeeds if the contained regular expression, represented here by `...`, successfully matches at the current location, and fails otherwise. But, once the contained expression has been tried, the matching engine doesn’t advance at all; the rest of the pattern is tried right where the assertion started.
 - (?!...): **Negative lookahead assertion**. This is the opposite of the positive assertion; it succeeds if the contained expression doesn’t match at the current position in the string.
+
+The regex to parse a filename with an extension after '.', also th extension should not be "bat".
+`.*[.](?!bat$)[^.]*$`
+
+
+| **Method/Attribute**| **Purpose**|
+|:--------|:-------|
+|**split(string[, maxsplit=0])**|Split the string into a list, splitting it wherever the RE matches. returning a list of the pieces. If capturing parentheses are used in the RE, then their values are also returned as part of the list.|
+|**sub(replacement, string[, count=0])**|Find all substrings where the RE matches, and replace them with a different string. Returns the string obtained by replacing the leftmost non-overlapping occurrences of the RE in string by the replacement replacement.|
+|**subn()**|Does the same thing as sub(), but returns a 2-tuple containing the new string value and the number of replacements that were performed|
+
+### Split
+```shell
+>>> p = re.compile(r'\W+')
+>>> p2 = re.compile(r'(\W+)')
+>>> p.split('This... is a test.')
+['This', 'is', 'a', 'test', '']
+>>> p2.split('This... is a test.')
+['This', '... ', 'is', ' ', 'a', ' ', 'test', '.', '']
+```
+
+### Search and Replace
+The example below replaces colour names with the word `colour`:
+
+>>> p = re.compile('(blue|white|red)')
+```python
+>>> p = re.compile('(blue|white|red)')
+>>> p.sub('colour', 'blue socks and red shoes')
+'colour socks and colour shoes'
+>>> p.sub('colour', 'blue socks and red shoes', count=1)
+'colour socks and red shoes'
+```
+
+Empty matches are replaced only when they’re not adjacent to a previous match.
+```shell
+>>> p = re.compile('x*')
+>>> p.sub('-', 'abxd')
+'-a-b-d-'
+```
+
+If replacement is a string, any backslash escapes in it are processed. That is, \n is converted to a single newline character, \r is converted to a carriage return, and so forth. Unknown escapes such as \j are left alone. Backreferences, such as \6, are replaced with the substring matched by the corresponding group in the RE. This lets you incorporate portions of the original text in the resulting `replacement string`.  
+
+
+The following substitutions are all equivalent, but use all three variations of the `replacement string`.
+```shell
+>>> p = re.compile('section{ (?P<name> [^}]* ) }', re.VERBOSE)
+>>> p.sub(r'subsection{\1}','section{First}')
+'subsection{First}'
+>>> p.sub(r'subsection{\g<1>}','section{First}')
+'subsection{First}'
+>>> p.sub(r'subsection{\g<name>}','section{First}')
+'subsection{First}'
+```
+
+If replacement is a function, the function is called for every non-overlapping occurrence of pattern. On each call, the function is passed a match object argument for the match and can use this information to compute the desired replacement string and return it. In the following example, the replacement function translates decimals into hexadecimal.
+```shell
+>>> def hexrepl(match):
+...     "Return the hex string for a decimal number"
+...     value = int(match.group())
+...     return hex(value)
+...
+>>> p = re.compile(r'\d+')
+>>> p.sub(hexrepl, 'Call 65490 for printing, 49152 for user code.')
+'Call 0xffd2 for printing, 0xc000 for user code.'
+```
+
+
+
+
 
 
 
