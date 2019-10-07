@@ -4,6 +4,10 @@ title: "HTML Tags"
 excerpt: "Intro to HTML Tags"
 ---
 
+### Opening and closing tags
+- Opening and closing tags: <h1></h1>
+- Single opening and closing tag: <br/>
+
 ### HTML Table
 - Table is defined with <table> tag.
 - Each row in table is defined with <tr> tag.

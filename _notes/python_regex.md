@@ -266,8 +266,6 @@ The regex to parse a filename with an extension after '.', also th extension sho
 
 ### Search and Replace
 The example below replaces colour names with the word `colour`:
-
->>> p = re.compile('(blue|white|red)')
 ```python
 >>> p = re.compile('(blue|white|red)')
 >>> p.sub('colour', 'blue socks and red shoes')
