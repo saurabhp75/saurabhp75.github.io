@@ -164,7 +164,7 @@ charref = re.compile(r"""
 ### More Metacharacters
 
 ### zero-width assertions
-They don’t cause the engine to advance through the string, instead, they consume no characters at all, and simply succeed or fail. For example, \b is an assertion that the current position is located at a word boundary; the position isn’t changed by the \b at all. This means that zero-width assertions should never be repeated, because if they match once at a given location, they can obviously be matched an infinite number of times.
+They don’t cause the engine to advance through the string, instead, they consume no characters at all, and simply succeed or fail. For example, `\b` is an assertion that the current position is located at a word boundary; the position isn’t changed by the `\b` at all. This means that zero-width assertions should never be repeated, because if they match once at a given location, they can obviously be matched an infinite number of times.
 
 
 `|`: Alternation, or the “or” operator. If A and B are regular expressions, A\|B will match any string that matches either A or B. \| has very low precedence in order to make it work reasonably when you’re alternating multi-character strings. Crow\|Servo will match either Crow or Servo, not Cro, a 'w' or an 'S', and ervo.
@@ -180,7 +180,7 @@ They don’t cause the engine to advance through the string, instead, they consu
 `\B`: Another zero-width assertion, this is the opposite of \b, only matching when the current position is not at a word boundary.
 
 ### Grouping
-- Groups are marked by the '(', ')' metacharacters. '(' and ')' have much the same meaning as they do in mathematical expressions; they group together the expressions contained inside them, and you can repeat the contents of a group with a repeating qualifier, such as *, +, ?, or {m,n}. For example, (ab)* will match zero or more repetitions of ab.
+- Groups are marked by the '(', ')' metacharacters. '(' and ')' have much the same meaning as they do in mathematical expressions; they group together the expressions contained inside them, and you can repeat the contents of a group with a repeating qualifier, such as **, +, ?, or {m,n}**. For example, **(ab)** will match zero or more repetitions of ab.
 - Groups indicated with '(', ')' also **capture** the starting and ending index of the text that they match; this can be retrieved by passing an argument to group(), start(), end(), and span(). Groups are numbered starting with 0. Group 0 is always present; it’s the whole RE, so match object methods all have group 0 as their default argument.
 - Subgroups are numbered from left to right, from 1 upward. Groups can be nested; to determine the number, just count the opening parenthesis characters, going from left to right.
 ```shell
@@ -212,7 +212,7 @@ They don’t cause the engine to advance through the string, instead, they consu
 
 ### Backreferences 
 - Backreferences are very useful when performing string substitutions.
-- Backreferences in a pattern allow you to specify that the contents of an earlier capturing group must also be found at the current location in the string. For example, \1 will succeed if the exact contents of group 1 can be found at the current position, and fails otherwise. Remember that Python’s string literals also use a backslash followed by numbers to allow including arbitrary characters in a string, so be sure to use a raw string when incorporating backreferences in a RE.
+- Backreferences in a pattern allow you to specify that the contents of an earlier capturing group must also be found at the current location in the string. For example, `\1` will succeed if the exact contents of group 1 can be found at the current position, and fails otherwise. Remember that Python’s string literals also use a backslash followed by numbers to allow including arbitrary characters in a string, so be sure to use a raw string when incorporating backreferences in a RE.
 
 For example, the following RE detects doubled words in a string.
 ```shell
@@ -281,7 +281,7 @@ Empty matches are replaced only when they’re not adjacent to a previous match.
 '-a-b-d-'
 ```
 
-If replacement is a string, any backslash escapes in it are processed. That is, \n is converted to a single newline character, \r is converted to a carriage return, and so forth. Unknown escapes such as \j are left alone. Backreferences, such as \6, are replaced with the substring matched by the corresponding group in the RE. This lets you incorporate portions of the original text in the resulting `replacement string`.  
+If replacement is a string, any backslash escapes in it are processed. That is, `\n` is converted to a single newline character, `\`r is converted to a carriage return, and so forth. Unknown escapes such as `\j` are left alone. Backreferences, such as `\6`, are replaced with the substring matched by the corresponding group in the RE. This lets you incorporate portions of the original text in the resulting `replacement string`.  
 
 
 The following substitutions are all equivalent, but use all three variations of the `replacement string`.
