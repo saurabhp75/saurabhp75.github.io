@@ -9,6 +9,8 @@ excerpt: "Intro to Jekyll"
 
 [**List-of-supported-languages-and-lexers in Jekyll**](https://github.com/rouge-ruby/rouge/wiki/)
 
+[**Markdown Cheatsheet**](https://www.markdownguide.org/cheat-sheet/)
+
 ### Sites for pics
 - Flickr
 - Pixabay
