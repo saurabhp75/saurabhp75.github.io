@@ -5,35 +5,26 @@ excerpt: "Python3 Notes"
 ---
 
 ### Difference between list.sort() and sorted()
-- list.sort() sorts the list in place and returns none.
-- sorted(list) creates and returns a new copy of the sorted list.
+- **list.sort()** sorts the list in place and returns none.
+- **sorted(list)** creates and returns a new copy of the sorted list.
 
 The fragments of program code that produce or calculate new data values are called **expressions**. The simplest kind of expression is a **literal**.
 
 ### Formatting strings:
-print statement in Python
+Print statement in Python: {[**index**] : [ \< | \> | - ] [**format-specifier**]}
 
-{% raw %}{\<index>:\<format-specifier>}{% endraw %}
-
-format-specifier : \<width>.\<precision>\<type>
-
-- width : Minimum width of field.
-- precision : Decimal precision, only used for floats.
-- type : s, d, f for str, int and float respectively.
+**format-specifier** : [width].[precision][type]
+- **width** : Minimum width of field.
+- **precision** : Decimal precision, only used for floats.
+- **type** : s, d, f for str, int and float respectively.
 
 For e.g. 
 
-{0:0.2f} : 0th index, 0 min. width and 2 decimal precision
+**{0:0.2f}** : 0th index, 0 min. width and 2 decimal precision.
 
-<, >, and - for left, right, and center justification
-```shell
->>>"left justification : {0:<5}".format("Hi ! ")
-'left justification : Hi !'
-```
+`<`, `>`, and `-` for left, right, and center justification.
 
-print("The total value of your change is ${0}.{1:0 >2}".format(totalll100 , total%100))
-
-### Return values of functions
+### Return value of functions
 All functions in Python return a value, regardless of whether the function actually contains a return statement. Functions without a return always hand back a special object, denoted None.
 
 ### Formal parameters & actual parameters:
@@ -49,13 +40,13 @@ However, when Python code is being run directly (not imported), Python sets the 
 
 ### Exception handling in Python:
 - try:
-- except:
-- else:
-- finally:
+- except: 
+- else: (Run if no exceptions occur)
+- finally: (Run in any case)
 
 If there is no exception name after except then all exceptions will be caught.
 
-x and y : If x is false, return x. Otherwise, return y.(???)
+x and y : If x is false, return x. Otherwise, return y.(???)  
 x or y : If x is true, return x. Otherwise, return y.(???)
 
 
@@ -141,14 +132,14 @@ True  # a and b both refer to the same object in memory
 
 1. Names refer to values/objects.
 
-2. Many names can refer to one value/object.
-x = 23
+2. Many names can refer to one value/object. For e.g.  
+x = 23  
 y = x
 
 3. Names are reassigned independently of other names
-When we said “y = x”, that doesn’t mean that they will always be the same forever. 	Reassigning x leaves y alone. For eg.
-x = 23
-y = x
+When we said “y = x”, that doesn’t mean that they will always be the same forever. 	Reassigning x leaves y alone. For eg.  
+x = 23  
+y = x  
 x = 12 # this will not change the value refered to by the name 'y' 
 
 
@@ -168,10 +159,10 @@ y = x
     
 This distinction between assigning a name and changing a value is sometimes described as “rebinding the name vs. mutating the value.”
 
-x = 1
-x = x + 1 # rebind the name to a new value
+x = 1  
+x = x + 1 # rebind the name to a new value  
 
-nums = [1, 2, 3]
+nums = [1, 2, 3]  
 nums.append(4) # mutating the value
 
 **Myth** : Python assigns mutable and immutable values differently.
@@ -181,9 +172,9 @@ All assignment works the same: it makes a name refer to a value. But with an 	im
 
 Anything that can appear on the left-hand side of an assignment statement is a reference, and everywhere I say “name” you can substitute “reference”.
 
-my_obj.attr = 23
-my_dict[key] = 24
-my_list[index] = 25
+my_obj.attr = 23  
+my_dict[key] = 24  
+my_list[index] = 25  
 my_obj.attr[key][index].attr = "etc, etc"
 
 Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element of i’s value.It’s important to keep straight what exactly is being assigned to. Just because a name appears somewhere on the left-hand side of the assignment 	statement doesn’t mean the name is being rebound.
@@ -210,9 +201,9 @@ Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it as
 Anything that can appear on the left-hand side of an assignment statement is a reference,
 and everywhere I say “name” you can substitute “reference”.
 
-my_obj.attr = 23
-my_dict[key] = 24
-my_list[index] = 25
+my_obj.attr = 23  
+my_dict[key] = 24  
+my_list[index] = 25  
 my_obj.attr[key][index].attr = "etc, etc"
 
 Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element 	of i’s value. It’s important to keep straight what exactly is being assigned to. Just because a 	name appears somewhere on the left-hand side of the assignment statement doesn’t mean the 	name is being rebound.
@@ -228,33 +219,28 @@ Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it as
 ```
 
 ### Python Asynchronus IO
-
 **Concurrency** : CPU takes turns and switches between the code to be executed.
 
 **Parallelism** : Parallel execution of code on multiple CPU cores.
 
 ### Multiprocessing
-
 **Coroutine**: A function that uses yield as a signal to the scheduler, indicating that the coroutine will be waiting until an event (such as IO) is completed.
 
-
 ### Iterators
-
 Any object that supports iter() method is said to be iterable. iter() returns an iterator, which implements __next__() method.
 
-Formal definition : Any object which supports iter() or has getItem() method with StopIteration exception is an interable.
+**Formal definition** : Any object which supports iter() or has getItem() method with StopIteration exception is an interable.
 
 **Iterator** : Implements __next__() method with StopItertation exception. Also implemetents __iter__() method which returns self.
 
-Generator Expressions
+### Generator Expressions
 Important differences from a list comp.
-
 1. Does not construct a list.
 2. Only useful purpose is iteration
 3. Once consumed, can't be reused
 
 The parens on a generator expression can dropped if used as a single function argument
-Example:
+Example:  
 sum(x*x for x in s) <------ Generator expression with parens droppped
 
 
@@ -278,11 +264,7 @@ Inner functions  are defined functions inside other functions.
 
 ### Python closure :
 Closure is a function object that remembers values in enclosing scopes even if they are not present in memory.
-Basically, the method of binding data to a function without actually passing them as 
-parameters is called closure. closure is a function object that remembers values in enclosing 
-scopes even if they are not present in memory. when the interpreter detects the dependency of 
-inner nested function on the outer function, it stores or makes sure that the variables 
-in which inner function depends on are available even if the outer function goes away.
+Basically, the method of binding data to a function without actually passing them as parameters is called closure. closure is a function object that remembers values in enclosing scopes even if they are not present in memory. when the interpreter detects the dependency of inner nested function on the outer function, it stores or makes sure that the variables in which inner function depends on are available even if the outer function goes away.
 
 In conclusion here are the three criteria’s for a closure:
 
@@ -297,22 +279,22 @@ def func1():  #Outer function
   def func2(): #Nested function
       print (msg)
   return func2
-```
 
 >>> obj = func1()  #binding the function to an object
 >>> obj() # contains inner function reference
 I belong to func1 # the value of msg is retained even after the outer function goes out of scope.
+```
 
 ### Functions as First-Class Objects :
 In Python, functions are first-class objects. This means that functions can be passed 
 around and used as arguments, just like any other object in Python.
 
 ### Iterable and Iterators :
-Iterable : An iterable is an object that has an __iter__ method which returns an iterator, 
+**Iterable** : An iterable is an object that has an __iter__ method which returns an iterator, 
 or which defines a __getitem__ method that can take sequential indexes starting from zero 
 (and raises an IndexError when the indexes are no longer valid).
 
-Iterator : An iterator is an object with a next (Python 2) or __next__ (Python 3) method.
+**Iterator** : An iterator is an object with a next (Python 2) or __next__ (Python 3) method.
 __next__ method signals when it is done by raising StopIteration exception.Iterator also 
 implements __iter__ method which returns self object.
 
@@ -390,8 +372,11 @@ def decorator(func):
 ### global/nonlocal keyword
 
 ### list/set/dict comprehension etc
-[ x for x in range(20) if x % 2 == 0]
-{k:v for (k,v) in dict1.items() if v>2}
+[ x for x in range(20) if x % 2 == 0]  
+{k:v for (k,v) in dict1.items() if v>2}  
+excercise : make a list of all possible 2 letter combinations
+letters = 'abcdef...xyz'
+[a + b for a in letters for b in letters] 
 
 
 ### Data Classes :
@@ -401,12 +386,9 @@ def decorator(func):
 ### Python descriptors :
  @classmethod, @staticmethod, and @property. 
 
-The @classmethod and @staticmethod decorators are used to define methods inside a 
-class namespace that are not connected to a particular instance of that class. 
-
+The @classmethod and @staticmethod decorators are used to define methods inside a class namespace that are not connected to a particular instance of that class. 
 
 The @property decorator is used to customize getters and setters for class attributes. 
-
 
 ### Use case for '@property'
 Suppose in a class there are two properties, radius and circumference. circumference is calculated using radius.
@@ -417,37 +399,38 @@ with decorator property (this now becomes a getter) and then access it like a no
 Python descriptors gives us a powerful technique to write  reusable code that can be used between classes.
 
 ### Background
-Attributes(method and otherwise) of an objects are stored in dict on the object. (obj.__dict__). 
+Attributes(method and otherwise) of an objects are stored in dict on the object. (obj.\__dict__). 
 
 If you access an attribute of an object (obj.foo). It gets you one of the following three.
-
 - Result of a property of same name if it is defined.
-  Result of the __get__ method of 'data descriptor' of the same name attached to the class, if it exists. 
-- Corresponding value in obj.__dict__ if it exists.
-- fall back to look in type(obj).__dict__. i.e in the class attribute 'list'
+  Result of the \__get__ method of 'data descriptor' of the same name attached to the class, if it exists. 
+- Corresponding value in obj.\__dict__ if it exists.
+- fall back to look in type(obj).\__dict__. i.e in the class attribute 'list'
 - Repeating for each type until it exists in MRO.
-- And Assignment always creates an entry in obj.__dict__.
+- And Assignment always creates an entry in obj.\__dict__.
 - Unless there was a setter property in which case you are callling a function.
 
 ### What is a Data descriptor :
-- Descriptors is any object that implements atleast one of the methods named __get__, __set__, __delete__.
-- A data descriptor implements both __get__ and __set__ methods.
-- implementing only __get__ makes it a non data descriptor.
+- Descriptors is any object that implements atleast one of the methods named \__get__, \__set__, \__delete__.
+- A data descriptor implements both \__get__ and \__set__ methods.
+- implementing only \__get__ makes it a non data descriptor.
 
 ### Descriptor protocol :
 
-map/filter functions : they can be easily replicated by list comprehensions
-map(function_object, iterable1, iterable2,...)
 
+### map/filter functions 
+They can be easily replicated by list comprehensions.  
+**syntax**: map(function_object, iterable1, iterable2,...)
 e.g.
+```python
 def myfunc(a, b):
   return a + b
 
 x = map(myfunc, ('apple', 'banana', 'cherry'), ('orange', 'lemon', 'pineapple'))
-
+```
 
 The filter() function returns an "iterator" were the items are filtered through a function to test if the item is accepted or not.
-syntax : filter(function, iterable)
+**filter syntax** : filter(function, iterable)
 e.g.
 ```python
 ages = [5, 12, 17, 18, 24, 32]
@@ -480,7 +463,7 @@ enumerate() gives index along with value of a sequence, for eg :
 2 c
 ```
 
-zip() takes two or more sequences of same length(?) and returns a sequence of touple containing two or more elements.
+zip() takes two or more sequences of same length and returns a sequence of tuple containing two or more elements.
 for e.g.
 ```shell
 >>> a = [1, 2, 3]
@@ -493,15 +476,12 @@ for e.g.
 3 5 8
 ```
 
-
 ## Python OOP:
 
 ### Python MRO(Method resolution order)
-
-Head : First element of the list.
-Tail : all elements except the head in the list.
-
-Bad head : Present in the tail of other sequence.
+Head : First element of the list.  
+Tail : all elements except the head in the list.  
+Bad head : Present in the tail of other sequence.  
 Good head : Not in the tail of any other list/sequence.
 
 ### How to compute the merge
@@ -510,9 +490,9 @@ Take the head of the first list, if this head is not in the tail of any of the o
 ### Linearization of class C :
 It is sum of C plus the merge of linearization of the parents and the list of parents, i.e.
 
-Given
-Class C(B1, B2...Bn)
-Then, Linearization of class C = L[C(B1, B2...Bn)]
+Given  
+Class C(B1, B2...Bn)  
+Then, Linearization of class C = L[C(B1, B2...Bn)]  
 L[C(B1, B2...Bn)] = C + merge(L[B1], L[B1] .... L[Bn], B1, B2...Bn)
 
 ### Consider an example
@@ -539,13 +519,12 @@ Class A(B, C):
 ```
 
 ### In the above scenario:
-L[O] = O,	L[D] = [D, O],	L[E] = [E, O],	L[F] = [F, O]
-L[B] = B + merge(L[D], L[E], [D, E])
-L[B] = B + merge([D, O], [E, O], [D, E])
-L[B] = [B, D] + merge([O], [E, O], [E])
-L[B] = [B, D, E] + merge([O], [O])
-L[B] = [B, D, E, O]
-
+L[O] = O,	L[D] = [D, O],	L[E] = [E, O],	L[F] = [F, O]  
+L[B] = B + merge(L[D], L[E], [D, E])  
+L[B] = B + merge([D, O], [E, O], [D, E])  
+L[B] = [B, D] + merge([O], [E, O], [E])  
+L[B] = [B, D, E] + merge([O], [O])  
+L[B] = [B, D, E, O]  
 
 ### Static method vs Class method in Python :
 class method :
@@ -629,12 +608,6 @@ class Developer(Employee):      <---- Developer is derived class and Employee is
 - type()
 - len()
 
-map(function, iter1, iter2,....) :  Returns an iterator with a function which take an argument each from specified arrays
-lambda x, y.... : expression of arguments
-list comprehension : [x for x in iter]
-excercise : make a list of all possible 2 letter combinations
-letters = 'abcdef...xyz'
-[a + b for a in letters for b in letters] 
 
 ### Numpy
 ```python
@@ -679,18 +652,17 @@ arr1.argmin() : get index of min value
 **Note**: len() gives no. of rows in a 2D array.
 
 ### Array indexing/Slicing
-
-For a 1D array (Note index ~= x:y:z in each dimension of the array)
-arr1[index]
+For a 1D array (Note index ~= x:y:z in each dimension of the array)  
+arr1[index]  
 arr1[x:y:z] : If x:start index, y:end index, z: step size. if z is negative then counting is from the end of array
 
-For a 2D array, 
-arr1[index1, index2]
-arr1[x1:y1:z1, x2:y2:z2]
+For a 2D array,   
+arr1[index1, index2]  
+arr1[x1:y1:z1, x2:y2:z2]  
 
-Conditional indexing and assignment
-arr1[arr1 > 30]
-arr1[arr1 > 30] = 50
+Conditional indexing and assignment  
+arr1[arr1 > 30]  
+arr1[arr1 > 30] = 50  
 
 ### creating an array of random ints of a certain shape
 ```python
@@ -728,13 +700,8 @@ np.random.randint(low, high, (array shape))
 
 ### DEVOPS :
 Definition of DevOps :
-DevOps is a new term emerging from the collision of two major related trends. 
-The first was also called “agile infrastructure” or “agile operations”; 
-it sprang from applying Agile and Lean approaches to operations work.  
-The second is a much expanded understanding of the value of collaboration between 
-development and operations staff throughout all stages of the development lifecycle 
-when creating and operating a service, and how important operations has become 
-in our increasingly service-oriented world.
+DevOps is a new term emerging from the collision of two major related trends. The first was also called “agile infrastructure” or “agile operations”; it sprang from applying Agile and Lean approaches to operations work.  
+The second is a much expanded understanding of the value of collaboration between development and operations staff throughout all stages of the development lifecycle when creating and operating a service, and how important operations has become in our increasingly service-oriented world.
 
 DevOps is a set of software development practices that combines software development with information technology operations to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
 
@@ -802,5 +769,3 @@ u'https://api.github.com/user'
 ‘ascii’
 
 ```
-
-
