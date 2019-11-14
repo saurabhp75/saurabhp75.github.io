@@ -4,22 +4,21 @@ title: "Introduction to JS"
 excerpt: "Javascript Introduction"
 ---
 
-
-### separation of concern
+### Separation of concern
 - Structure: html
 - Behaviour: JS
 - Presentation: CSS
 
-### JavaScript:
+### JavaScript
 -  Single line comment: //
 -  Multi line comment: /*   */
 
 ### 5 primitive data types
-1. numbers: Includes ALL numbers, integer and fraction.
+1. **Numbers**: Includes ALL numbers, integer and fraction.
 - % : remainder
-- 1/3= 0.33333 (no int forcing of result)
+- 1/3= 0.33333 (no type coercion of result)
 
-2. strings :
+2. **Strings**:
 - Use both ", ' 
 - Use + to concatenate strings.
 - Use '/' to escape quotes in a string.
@@ -31,44 +30,45 @@ excerpt: "Javascript Introduction"
 - str.toUpperCase()
 - str1.replace(/-/g, "_"); //replace - by _ and returns a new string.
 
-3. boolean : true, false
+3. **boolean**: true, false
 
-4. null : explicit null value assigned to variable.
+4. **null**: Explicit null value assigned to variable.
 
-5. undefined : no value assigned to variable.
+5. **undefined** : No value assigned to variable.
 
-Note: null and undefined are values, not types.
+**Note**: null and undefined are values, not types.
 
-### Variable :
-var variableName = "hi"
-
--  Variable type can be changed after assignment.
+### Variable 
+ - Syntax: var variableName = "hi"
+- Variable type can be changed after assignment.
 - camelCase.
 
-### Built-in methods:
-- console.log()
-- clear()
-- alert(): show dialog to user
-- prompt(): take input from user as a string.
-- type of: type of 'saurabh'; // prints "string"
-  type of 25; // prints "number"
-- Number("45"): converts to number, ie 45.
+### Built-in methods
+- **console.log()**
+- **clear()**
+- **alert()**: show dialog to user
+- **prompt()**: take input from user as a string.
+- **type of**: 
+- type of 'saurabh'; // prints "string"
+- type of 25; // prints "number"
+- **Number("45")**: converts to number, ie 45.
+- **console.dir(document)**
 
 ### including js files in html
-- <script type="text/Javascript" src="path of us file"></script>-
+- {% raw %}\<script type="text/Javascript" src="path of us file">\</script>{% endraw %}
 - If your js interacts with html element then put script tag at the bottom of body, so that html is rendered before js loads.
-- the functions declared in js files can be called from chrome debug console.
-- use script tag in header(only header?)
+- The functions declared in js files can be called from chrome debug console.
+- Use script tag in header(only header?)
 
 ### Comparison operators
-- === : equal in value and type.
-- !== : Not equal in value or type.
-
+- `===`: equal in value and type.
+- `!==`: Not equal in value or type.
+```javascript
 var x = 5;
 x == "5"  //is true
 x === 5 //is false
 
-"==" Does 'type coercion', ie make both sides of same type, then compare.
+//"==" Does 'type coercion', ie make both sides of same type, then compare.
 
 null == undefined // true
 null === undefined // false
@@ -77,8 +77,9 @@ true == "1" // true
 true == "2" // false
 0 == false // true
 NaN == NaN // false
+```
 
-Note: NaN is not comparable.
+**Note**: NaN is not comparable.
 
 ### Logical operators
 - connects Boolean expressions.
@@ -117,7 +118,7 @@ else if() {
 }
 
 ### functions
-- two syntax for defining functions, declaration and expression.
+- Two syntax for defining functions, declaration and expression.
 
 - function funcName(arg1) {
 console.log("Hi " + arg1);
@@ -130,17 +131,17 @@ console.log("Hi " + arg1);
 
 - funcName can be reassigned to a different value, in that case function will not be accessible.
 
-- if we fail to pass the arguments, they will be undefined, it will not break the code.
+- If we fail to pass the arguments, they will be undefined, it will not break the code.
 
-- if a function does not have return statement, it returns undefined.
+- If a function does not have return statement, it returns undefined.
 
 ### variable scope
-- a global variable is accessible inside a function, if we don't use var keyword.
-- if we use var keyword inside function, a new local variable is created.
+- A global variable is accessible inside a function, if we don't use var keyword.
+- If we use var keyword inside function, a new local variable is created.
 
 ### higher order functions
-- takes function as an argument.
-- return function as an argument.
+- Takes function as an argument.
+- Return function as an argument.
 
 ### setInterval(), clearInterval()
 - setInterval (func1, interval). interval is in ms. Run func1 after every interval ms.
@@ -159,7 +160,7 @@ console.log("Hi " + arg1);
 })()
 
 ### JS Arrays
-- arrays can be nested, in that case it'll have multiple indexes to access an item.
+- Arrays can be nested, in that case it'll have multiple indexes to access an item.
 - var arr1 = []
 - var arr2 = new Array()
 - array can hold non homogeneous data
@@ -182,10 +183,10 @@ console.log(item)
 
 ### Objects in JS
 - Objects are unordered unlike arrays.
-- adding/deleting item can be done directly, no push/pop required as there is no order.
+- Adding/deleting item can be done directly, no push/pop required as there is no order.
 - Similar to Python Dictionaries, key-value pairs.
 - eg var obj1={name:"Saurabh", age:45}
-- notice no quotes on key/property names.
+- Notice no quotes on key/property names.
 - obj1["name"]: notice quotes in key/property when accessing. This is unlike Python.
 - objects can have methods eg:
 {
@@ -204,22 +205,18 @@ console.log("hi");
 - var obj1= new Object();
 
 ### Accessing objects with brackets and dot notation
-- if property name (key) starts with number, you can't use for notation.
-- if property name has spaces, you can't use for notation.
-- you can use variable in bracket notation, but not in dot notation.
-- array and object can be nested and mixed.
+- If property name (key) starts with number, you can't use for notation.
+- If property name has spaces, you can't use for notation.
+- You can use variable in bracket notation, but not in dot notation.
+- Array and object can be nested and mixed.
 
 ### DOM
 - document object model is interface between js and html-css.
-
 - js interacts with html using Dom.
-
-- browser converts html to us objects which can be manipulated using js.
-- everything is stored inside document object.
+- Browser converts html to us objects which can be manipulated using js.
+- Everything is stored inside document object.
 
 Document>html (root element)>header and body.
-
-console.dir(document)
 
 ### Dom manipulation workflow
 - select then manipulate.
