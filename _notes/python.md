@@ -250,19 +250,14 @@ In Python, functions are first-class objects. This means that functions can be p
 around and used as arguments, just like any other object in Python.
 
 ### Iterable and Iterators :
-**Formal definition** : Any object which supports **iter()** or has **getItem()** method with **StopIteration** exception is an interable.
+**Iterable** : An iterable is an object that has an **__iter__()** method which returns an **iterator**, 
+or which defines a **__getitem__()** method that can take sequential indexes starting from zero 
+(and raises an **IndexError** when the indexes are no longer valid or
+**StopIteration** when the end of iterable has reached).
 
-iter() returns an **iterator**, which implements **__next__()** method.
-
-**Iterator** : Implements __next__() method with StopItertation exception. Also implemetents __iter__() method which returns self.
-
-**Iterable** : An iterable is an object that has an __iter__ method which returns an iterator, 
-or which defines a __getitem__ method that can take sequential indexes starting from zero 
-(and raises an IndexError when the indexes are no longer valid).
-
-**Iterator** : An iterator is an object with a next (Python 2) or __next__ (Python 3) method.
-__next__ method signals when it is done by raising StopIteration exception.Iterator also 
-implements __iter__ method which returns self object.
+**Iterator** : An iterator is an object with a next (Python 2) or **__next__()** (Python 3) method.
+**__next__()** method signals when it is done by raising StopIteration exception.Iterator also 
+implements **__iter__()** method which returns self object.
 
 ### Generators function: 
 Generators are functions that can be paused and resumed on the fly, returning an object that can be iterated over. Unlike lists, they are lazy and thus produce items one at a time and only when asked. So they are much more memory efficient when dealing with large datasets.
@@ -279,7 +274,7 @@ Generators are functions that can be paused and resumed on the fly, returning an
 <generator object countdown at 0x10213aee8>
 ```
 
-When calling next() the first time, execution begins at the start of the function body and continues until the next yield statement where the value to the right of the statement is returned, subsequent calls to next() continue from the yield statement, and loop around and continue until another yield is called. If yield is not called (which in our case means we don’t go into the if function because num <= 0) a StopIteration exception is raised:
+When calling next() the first time, execution begins at the start of the function body and continues until the next yield statement where the value to the right of the statement is returned, subsequent calls to next() continue from the yield statement, and loop around and continue until another yield is called. If yield is not called (which in our case means we don’t go into the if function because num <= 0) a **StopIteration** exception is raised:
 ```shell
 >>> next(val)
 Starting
@@ -315,19 +310,18 @@ They are just like list comprehensions, except the parenthesis '( )' instead of 
 2. Only useful purpose is iteration
 3. Once consumed, can't be reused
 
-The parens on a generator expression can dropped if used as a single function argument
-Example:  
-sum(x*x for x in s) <------ Generator expression with parens droppped
-**Decorators** :  Decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it.
+The parens on a generator expression can dropped if used as a single function argument, for e.g:  
+sum(x*x for x in s) <------ Generator expression with parens droppped.  
 
+**Decorators** :  Decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it.
+```python
 say_whee = my_decorator(say_whee) is equivalent to below expression.
 
 @my_decorator
 def say_whee():
     print("Whee!")
 
-### Below is a decorator which takes arguments and also return values It also gives correct name of wrapped functional
-```python
+# Below is a decorator which takes arguments and also return values It also gives correct name of wrapped functional
 import functools
 
 def decorator(func):
