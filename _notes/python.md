@@ -339,12 +339,11 @@ def decorator(func):
 ### LEGB rule
 ### global/nonlocal keyword
 
-### list/set/dict comprehension etc
-[ x for x in range(20) if x % 2 == 0]  
-{k:v for (k,v) in dict1.items() if v>2}  
-excercise : make a list of all possible 2 letter combinations
-letters = 'abcdef...xyz'
-[a + b for a in letters for b in letters] 
+### List/Set/Dict Comprehension
+**List Comprehension**: [ x for x in range(20) if x % 2 == 0]  
+**Dictionary Comprehension**: {k:v for (k,v) in dict1.items() if v>2}  
+**Excercise** : Make a list of all possible 2 letter combinations, where, letters = 'abcdef...xyz'.  
+**Solution**: [a + b for a in letters for b in letters] 
 
 
 ### Data Classes :
@@ -352,6 +351,8 @@ letters = 'abcdef...xyz'
 ### Metaclasses :
 
 ### Python descriptors :
+Python descriptors gives us a powerful technique to write  reusable code that can be used between classes.  
+
  @classmethod, @staticmethod, and @property. 
 
 The @classmethod and @staticmethod decorators are used to define methods inside a class namespace that are not connected to a particular instance of that class. 
@@ -362,9 +363,6 @@ The @property decorator is used to customize getters and setters for class attri
 Suppose in a class there are two properties, radius and circumference. circumference is calculated using radius.
 But if we modify radius then circumference will not change automagically. We define a function circumference()
 with decorator property (this now becomes a getter) and then access it like a normal attribute, ie obj.circumference (not obj.circumference()).
-
-### Python decsriptors
-Python descriptors gives us a powerful technique to write  reusable code that can be used between classes.
 
 ### Background
 Attributes(method and otherwise) of an objects are stored in dict on the object. (obj.\__dict__). 
@@ -575,6 +573,8 @@ class Developer(Employee):      <---- Developer is derived class and Employee is
 ### python builtin functions
 - type()
 - len()
+- next()
+- isinstance(obj1, obj2): Returns True if obj1 is instance of obj2 or its subclass.
 
 
 ### Numpy
