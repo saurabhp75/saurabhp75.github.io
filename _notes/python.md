@@ -16,7 +16,7 @@ Print statement in Python: {[**index**] : [ \< | \> | - ] [**format-specifier**]
 **format-specifier** : [width].[precision][type]
 - **width** : Minimum width of field.
 - **precision** : Decimal precision, only used for floats.
-- **type** : s, d, f for str, int and float respectively.
+- **type** : **s**, **d**, **f** for **str**, **int** and **float** respectively.
 
 For e.g. 
 
@@ -25,65 +25,56 @@ For e.g.
 `<`, `>`, and `-` for left, right, and center justification.
 
 ### Return value of functions
-All functions in Python return a value, regardless of whether the function actually contains a return statement. Functions without a return always hand back a special object, denoted None.
+All functions in Python return a value, regardless of whether the function actually contains a return statement. Functions without a return always hand back a special object, denoted **None**.
 
 ### Formal parameters & actual parameters:
-The parameters appearing in the function definition are called formal parameters, and the expressions appearing in a function call are known as actual parameters.
+The parameters appearing in the function definition are called **formal parameters**, and the expressions appearing in a function call are known as **actual parameters**.
 
-Python passes parameters by value. If the value being passed is a mutable object (e.g. list), then changes made to the object may be visible to the caller.
+Python passes parameters **by value.** If the value being passed is a mutable object (e.g. list), then changes made to the object may be visible to the caller.
 
 ### Importing of Python modules:
-Importing a Python modules executes them. When a module is imported, Python creates a special attribute, __name __ , inside that module and assigns it a string representing the module's name.
+Importing a Python modules executes them. When a module is imported, Python creates a special attribute, **__name __**, inside that module and assigns it a string representing the module's name.
 
-However, when Python code is being run directly (not imported), Python sets the value of __name __  to be ' __main __ ' .
+However, when Python code is being run directly (not imported), Python sets the value of __name __  to be **__main __**. 
 
 
-### Exception handling in Python:
+### Exception handling in Python
 - try:
-- except: 
+- except: (If there is no exception name after except then all exceptions will be caught)
 - else: (Run if no exceptions occur)
 - finally: (Run in any case)
 
-If there is no exception name after except then all exceptions will be caught.
 
-x and y : If x is false, return x. Otherwise, return y.(???)  
-x or y : If x is true, return x. Otherwise, return y.(???)
+x and y : If x is false, return x. Otherwise, return y.  
+x or y : If x is true, return x. Otherwise, return y.
 
 
 ### Python names (references) and values
+Every object has an identity, a type and a value. Once an object is created, the **type and identity can’t be changed**. Whether or not the object’s value can change after creation determines if the object is mutable or immutable.
 
-Every object has an identity, a type and a value. Once an object is created, the type and identity can’t be changed. Whether or not the object’s value can change after creation determines if the object is mutable or immutable.
-
-**Immutable Object**: int, float, long, complex, string tuple, bool.
+**Immutable Object**: Native types(int, float, long, complex, string, bool), tuple.
 
 **Mutable Object**: list, dict, set, byte array, user-defined classes.
 
-Assignment statements bind a name (identifier) to an object. Assignment creates a new object, with few exceptions (See below).
-
-For e.g
+Assignment statements bind a name (identifier) to an object. **Assignment creates a new object, with few exceptions**. For e.g.
 ```shell
 >>> x = 100
 ```
-Aliasing: Two variables referring to the same object.
+**Aliasing**: Two variables referring to the same object.
 ```shell
 >>> x = 100
 >>> y = x # aliasing
 ```
 
-When number of references(names) to an object becomes 0, it is garbage collected by interpreter.
-when names get out of scope, the reference count to the object decreases.
+### How the objects are garbage collected
+- When number of references(names) to an object becomes 0, it is garbage collected by interpreter.
+- When names get out of scope, the reference count to the object decreases.
 
 ### Inbuilt functions:
 
-1. id() returns the identity (memory address) of the object. No two objects have the same identity.
+1. **id()** returns the identity (memory address) of the object. No two objects have the same identity.
     
-2. is and is not operators: these identity operators evaluates whether or not the objects have the same identity, i.e. if they are the same object.
-```shell
->>> x = 4 # bind 'x' with  object whose value is 4.
->>> y = x # bind y to the value pointed to by x
->>> x = 8 # rebind x to object whose value is 8.
->>> print(y) # will print 4, as 'y' is still bound to 4.
-```
+2. **is** and **is not** operators: these identity operators evaluates whether or not the objects have the same identity, i.e. if they are the same object.
 
 ### Difference between += and + operator on mutable objects(e.g. list)
 
@@ -119,14 +110,13 @@ True   # a and b refer to the same object!
 
 3. Empty immutable objects
 ```shell
-No new objects are created for empty tuples (immutable objects).
+# No new objects are created for empty tuples (immutable objects).
 For e.g
 >>> a = ()
 >>> b = ()
 >>> a is b
 True  # a and b both refer to the same object in memory
 ```
-
 
 ## Names and values(Ned batchelder)
 
@@ -146,27 +136,27 @@ x = 12 # this will not change the value refered to by the name 'y'
 ### Assignment:
 
 4. Assignment never copies data:
-```python
-x = 23
-y = x
-# "Now I have two values: x and y!"
-# NO: you have two names, but only one value.
-# IMPORTANT: There is no way in python where a name can refer to another 
-# name. A name can only refer to values.
+```shell
+>>> x = 4 # bind 'x' with  object whose value is 4.
+>>> y = x # bind y to the value pointed to by x
+>>> x = 8 # rebind x to object whose value is 8.
+>>> print(y) # will print 4, as 'y' is still bound to 4.
 ```
+**IMPORTANT**: There is no way in python where a name can refer to another name. A name can only refer to values.
 
 5. Changes in a value are visible through all of its names.
     
-This distinction between assigning a name and changing a value is sometimes described as “rebinding the name vs. mutating the value.”
+### Rebinding the name vs. mutating the value
+```python
+x = 1
+x = x + 1 # rebind the name to a new value
 
-x = 1  
-x = x + 1 # rebind the name to a new value  
-
-nums = [1, 2, 3]  
+nums = [1, 2, 3]
 nums.append(4) # mutating the value
+```
 
 **Myth** : Python assigns mutable and immutable values differently.
-All assignment works the same: it makes a name refer to a value. But with an 	immutable value, no matter how many names are referring to the same value, the 	value can’t be changed in-place, so you can never get into a surprising Presto-	Chango situation.
+All assignment works the same: it makes a name refer to a value. But with an 	immutable value, no matter how many names are referring to the same value, the 	value can’t be changed in-place, so you can never get into a surprising Presto-Chango situation.
 
 6. References can be more than just names
 
@@ -197,17 +187,6 @@ Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it as
 
 8. Python passes function arguments by assigning to them.
 
-**Fact**: References can be more than just names.
-Anything that can appear on the left-hand side of an assignment statement is a reference,
-and everywhere I say “name” you can substitute “reference”.
-
-my_obj.attr = 23  
-my_dict[key] = 24  
-my_list[index] = 25  
-my_obj.attr[key][index].attr = "etc, etc"
-
-Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it assigns to the first element 	of i’s value. It’s important to keep straight what exactly is being assigned to. Just because a 	name appears somewhere on the left-hand side of the assignment statement doesn’t mean the 	name is being rebound.
-
 **Fact**: Python passes function arguments by assigning to them.
 ```shell
 >>> l = [1,2,3]
@@ -218,31 +197,13 @@ Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it as
 10910400
 ```
 
-### Python Asynchronus IO
+### Concurrency vs Parallelism vs Multiprocessing
 **Concurrency** : CPU takes turns and switches between the code to be executed.
-
 **Parallelism** : Parallel execution of code on multiple CPU cores.
+**Multiprocessing** :??? 
 
-### Multiprocessing
-**Coroutine**: A function that uses yield as a signal to the scheduler, indicating that the coroutine will be waiting until an event (such as IO) is completed.
-
-### Iterators
-Any object that supports iter() method is said to be iterable. iter() returns an iterator, which implements __next__() method.
-
-**Formal definition** : Any object which supports iter() or has getItem() method with StopIteration exception is an interable.
-
-**Iterator** : Implements __next__() method with StopItertation exception. Also implemetents __iter__() method which returns self.
-
-### Generator Expressions
-Important differences from a list comp.
-1. Does not construct a list.
-2. Only useful purpose is iteration
-3. Once consumed, can't be reused
-
-The parens on a generator expression can dropped if used as a single function argument
-Example:  
-sum(x*x for x in s) <------ Generator expression with parens droppped
-
+### Coroutine 
+A function that uses **yield** as a signal to the scheduler, indicating that the coroutine will be **waiting** until an event (such as IO) is completed.
 
 ### Python nonlocal keyword :
 Below code will print 'Hello' 2 times, due to use of nonlocal keyword.
@@ -290,6 +251,12 @@ In Python, functions are first-class objects. This means that functions can be p
 around and used as arguments, just like any other object in Python.
 
 ### Iterable and Iterators :
+**Formal definition** : Any object which supports **iter()** or has **getItem()** method with **StopIteration** exception is an interable.
+
+iter() returns an **iterator**, which implements **__next__()** method.
+
+**Iterator** : Implements __next__() method with StopItertation exception. Also implemetents __iter__() method which returns self.
+
 **Iterable** : An iterable is an object that has an __iter__ method which returns an iterator, 
 or which defines a __getitem__ method that can take sequential indexes starting from zero 
 (and raises an IndexError when the indexes are no longer valid).
@@ -344,6 +311,14 @@ They are just like list comprehensions, except the parenthesis '( )' instead of 
 38216
 ```
 
+### Generator Expressions vs List comprehension
+1. Does not construct a list.
+2. Only useful purpose is iteration
+3. Once consumed, can't be reused
+
+The parens on a generator expression can dropped if used as a single function argument
+Example:  
+sum(x*x for x in s) <------ Generator expression with parens droppped
 **Decorators** :  Decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it.
 
 say_whee = my_decorator(say_whee) is equivalent to below expression.

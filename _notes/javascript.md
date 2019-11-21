@@ -63,6 +63,7 @@ excerpt: "Javascript Introduction"
 ### Comparison operators
 - `===`: equal in value and type.
 - `!==`: Not equal in value or type.
+
 ```javascript
 var x = 5;
 x == "5"  //is true
