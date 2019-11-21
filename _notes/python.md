@@ -198,9 +198,9 @@ Note that “i = x” assigns to the name i, but “i[0] = x” doesn’t, it as
 ```
 
 ### Concurrency vs Parallelism vs Multiprocessing
-**Concurrency** : CPU takes turns and switches between the code to be executed.
-**Parallelism** : Parallel execution of code on multiple CPU cores.
-**Multiprocessing** :??? 
+- **Concurrency** : CPU takes turns and switches between the code to be executed.
+- **Parallelism** : Parallel execution of code on multiple CPU cores.
+- **Multiprocessing** :??? 
 
 ### Coroutine 
 A function that uses **yield** as a signal to the scheduler, indicating that the coroutine will be **waiting** until an event (such as IO) is completed.
@@ -225,10 +225,9 @@ Inner functions  are defined functions inside other functions.
 
 ### Python closure :
 Closure is a function object that remembers values in enclosing scopes even if they are not present in memory.
-Basically, the method of binding data to a function without actually passing them as parameters is called closure. closure is a function object that remembers values in enclosing scopes even if they are not present in memory. when the interpreter detects the dependency of inner nested function on the outer function, it stores or makes sure that the variables in which inner function depends on are available even if the outer function goes away.
+Basically, the method of binding data to a function without actually passing them as parameters is called closure. When the interpreter detects the dependency of inner nested function on the outer function, it stores or makes sure that the variables in which inner function depends on are available even if the outer function goes away.
 
 In conclusion here are the three criteria’s for a closure:
-
 1. There must be a nested function (a function inside another function).
 2. This nested function has to refer to a variable defined inside the enclosing function.
 3. The enclosing function must return the nested function.
