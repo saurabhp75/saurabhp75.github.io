@@ -84,18 +84,18 @@ NaN == NaN // false
 
 ### Logical operators
 - connects Boolean expressions.
-- &&, ||, !
-- short circuit of && and |.
+- &&, \|\|, !
+- short circuit of && and \|\|.
 
 ### Truthy and falsey values
 - values that are not true or false are still inherently truthy or falsey, when evaluated in a Boolean context.
 
-!"hello" //false
-!!"hello" //true
-!null //true
-!"" //true
-!NaN //true
-!-1 // false
+- !"hello" //false  
+- !!"hello" //true  
+- !null //true  
+- !"" //true  
+- !NaN //true  
+- !-1 // false  
 
 ### falsey values
 - false
@@ -105,11 +105,10 @@ NaN == NaN // false
 - everything else is truthy except above four values.
 
 ### conditionals
-- if() {
-}
-else if() {
-} else {
-}
+if() {  
+} else if() {//Notice the space between else and if  
+} else {  
+}  
 
 ### Loops
 - while() {
@@ -118,12 +117,12 @@ else if() {
 - for(init; condition; step) {
 }
 
-### functions
+### Functions
 - Two syntax for defining functions, declaration and expression.
 
 - function funcName(arg1) {
 console.log("Hi " + arg1);
-} // Notice no car in arg1, function declaration
+} // Notice no var in arg1, function declaration
 
 - var funcName = function(arg1) {
 }// Function expression
@@ -136,11 +135,11 @@ console.log("Hi " + arg1);
 
 - If a function does not have return statement, it returns undefined.
 
-### variable scope
+### Variable scope
 - A global variable is accessible inside a function, if we don't use var keyword.
 - If we use var keyword inside function, a new local variable is created.
 
-### higher order functions
+### Higher order functions
 - Takes function as an argument.
 - Return function as an argument.
 
@@ -176,7 +175,7 @@ console.log("Hi " + arg1);
 - arr1.indexOf(item): gives index or -1.
 - arr1.slice(index1,index2): returns copy of array. If no args are present then copy entire array.
 
-### array iteration
+### Array iteration
 - arr1.forEach(function (item, index, arr){
 console.log(item)
 });// note that index and array can also be passed.
@@ -223,33 +222,31 @@ Document>html (root element)>header and body.
 - select then manipulate.
 
 ### NodeList, HTMLCollection, arrays of objects
--
+- TBD
 
 ### document selectors
-
 document.URL: URL of the webpage.
-
 document.links: all links on the web page.
 document.body
 document.head
 
 var tag = document.getDocumentById("highlight");
 
-- on console, tag will be printed as an html element, but it is a JavaScript object.
-- do a console.dir(tag);
+- On console, tag will be printed as an html element, but it is a JavaScript object.
+- Do a console.dir(tag);
 
-querySelector(): selects first matching element.
+**querySelector()**: selects first matching element.
 
-querySelectorAll(): selects all matching elements.
+**querySelectorAll()**: selects all matching elements.
 
 ### Dom manipulation
-Separation of concern: style is defined in CSS file and toggled in js. You should avoid direct style changes in js.
+**Separation of concern**: style is defined in CSS file and toggled in js. You should avoid direct style changes in js.
 
-### change style of element
+### Change style of element
 We can add style manually for eg tag.style.border etc, but we generally use classes.
-- add remove class.
-- change content of a tag.
-- change attributes like href, src etc.
+- Add remove class.
+- Change content of a tag.
+- Change attributes like href, src etc.
 
 1. Define a class in CSS file. eg
 .my- class {
@@ -266,12 +263,12 @@ classList.remove()
 classList.toggle() // used for mouse clicks
 Note: classList us not an array. You can't use push/pop etc.
 
-### change content of element
+### Change content of element
 tag.textContent : get/set text content inside an element, it ignores tags and recurse to get all text. You can't set html tags with this, they will appear as strings on webpage.
 
 text.innerHTML: get/set text + html tags. You can set html tags with this.
 
-### change attribute of element
+### Change attribute of element
 - tag.getAttrubute("src").
 - tag.setAttribute("src", "me.png").
 
@@ -282,7 +279,7 @@ text.innerHTML: get/set text + html tags. You can set html tags with this.
 
 element.addEventListener('type', function)
 
-### to add event listener to nodeList(HTMLCollection)
+### To add event listener to nodeList(HTMLCollection)
 ```javascript
 for(i=0; i < tagList.length; ++i ){
   tagList[i].addEventListener(click, function(){
@@ -295,7 +292,7 @@ for(i=0; i < tagList.length; ++i ){
 - input: on any user input to text or select.
 - change: when value changes or focus changes.
 
-### types of events
+### Types of events
 - mouseover: when mouse comes over an element
 - mouseout: when mouse hover out of element.
 
@@ -304,10 +301,10 @@ In jQuery, you don't need for loop when manipulating a selection, unlike vanilla
 - use $(), to select element(s) using CSS selectors. It works like document.quesrySelectorAll().
 - use .css(property, value) to style them. We can also pass CSS object directly to css().
 
-### psuedo selectors
+### Psuedo selectors
 - div: first-of-type , selects first div.
 
-### common jQuery methods(getters and setters)
+### Common jQuery methods(getters and setters)
 - text(): gets text of element and it's descendents.
 - val(): get/set value of an input element.
 - attr(): get/set attr of an element
@@ -316,9 +313,9 @@ In jQuery, you don't need for loop when manipulating a selection, unlike vanilla
 - removeClass():
 - toggleClass():
 
-### to select first or last element from a selection
-$("li").first()
-$("li").last()
+### To select first or last element from a selection
+- $("li").first()
+- $("li").last()
 
 ### jQuery events
 - click(func1)
@@ -347,25 +344,25 @@ $("li").last()
 
 - slideToggle():
 
-### intermediate js
+### Intermediate js
 
 ### this keyword
-- global context: when this is not inside of a declared object. this refers to global  object(window in case of browser). Any vat declared in global scope is attached to window object.
+- Global context: when this is not inside of a declared object. this refers to global  object(window in case of browser). Any vat declared in global scope is attached to window object.
 ```javascript
 this.person = "Ellie" // person is now a global variable.
 ```
 
-- global with strict: if we type "use strict" at top of js file then, value is this inside a function is undefined.
+- Global with strict: if we type "use strict" at top of js file then, value is this inside a function is undefined.
 
-- object/implicit context: when this is inside of a declared object. Then value of this is closest parent object.
+- Object/implicit context: when this is inside of a declared object. Then value of this is closest parent object.
 
-- explicit context: change the context of this by using call(), apply() or bind() methods.
+- Explicit context: change the context of this by using call(), apply() or bind() methods.
 
-- new context:  when an object is created using new, then this attaches to the newly created object.
+- New context:  when an object is created using new, then this attaches to the newly created object.
 
 
 ### call(), apply() and bind()
-- they can only be called on functions. They are used to explicitly set the value of this.
+- They can only be called on functions. They are used to explicitly set the value of this.
 
 - call(thisArg, a, b, c, ....): It is called immediately. thisArg is the object to which this should refer to inside the function.
 
@@ -382,28 +379,28 @@ this.person = "Ellie" // person is now a global variable.
 - JS doesn't have Built-in support for classes. We mimic classes using constructor functions. These constructor functions creates objects through the use of new keyword.
 
 
-- constructor functions: creates an object/instance. Their first letter should be capitalized. They are used along with new to bind the this to the returned object.
+- Constructor functions: creates an object/instance. Their first letter should be capitalized. They are used along with new to bind the this to the returned object.
 
-- if a constructor function uses another constructor function (since they share common properties), then it should set the context of this when calling the other constructor function.
+- If a constructor function uses another constructor function (since they share common properties), then it should set the context of this when calling the other constructor function.
 
 ### new keyword does four things
-- it creates an empty object.
-- it sets the keyword this to be that empty object.
-- it adds "return this" to the end of the function which follows it.
-- it adds a property __proto__ to the empty object, which links the prototype property on constructor function to empty object.
+- It creates an empty object.
+- It sets the keyword this to be that empty object.
+- It adds "return this" to the end of the function which follows it.
+- It adds a property __proto__ to the empty object, which links the prototype property on constructor function to empty object.
 
-### prototypes
-- every constructor function has a property named prototype, which is an object.
+### Prototypes
+- Every constructor function has a property named prototype, which is an object.
 
-- the prototype object has a property named constructor, which points back to constructor function.
+- The prototype object has a property named constructor, which points back to constructor function.
 
-- anytime an object is created using new keyword, a property named __proto__ gets created linking the object and prototype property of constructor function.
+- Anytime an object is created using new keyword, a property named __proto__ gets created linking the object and prototype property of constructor function.
 
-- the constructor function creates properties and objects on the prototype object, which are accessed by the object created by the constructor function, using __proto__ property.
+- The constructor function creates properties and objects on the prototype object, which are accessed by the object created by the constructor function, using __proto__ property.
 
-- prototype object(it's properties and methods) is shared among all objects created by that constructor function.
+- Prototype object(it's properties and methods) is shared among all objects created by that constructor function.
 
-- prototype is a good place to define property/methods which should be shared by the objects created by that constructor function. This way, the code is not replicated in all the objects created by that constructor function, rather it is kept at one place(function1.prototype)
+- Prototype is a good place to define property/methods which should be shared by the objects created by that constructor function. This way, the code is not replicated in all the objects created by that constructor function, rather it is kept at one place(function1.prototype)
 
 
 ### To add a custom method to Array
@@ -416,10 +413,10 @@ Array.prototype.myForEach = function(func) {
 	}
 ```
 
-### prototype chain
+### Prototype chain
 - Any property defined on prototype can be accessed directly by objects created using new(). That's why we can access are.push() method as it is defined in Array.prototype.
 
-- js looks for a method/property in the prototype chain, if method is not found then error/undefined is returned.
+- Js looks for a method/property in the prototype chain, if method is not found then error/undefined is returned.
 
 - var arr = [] // new Array()
 
@@ -433,13 +430,13 @@ Array.prototype.myForEach = function(func) {
 Is Object.prototype the root object?
 
 ### Closures
-- closure is a function that makes use of variables defined in outer function that have previously returned.
+- Closure is a function that makes use of variables defined in outer function that have previously returned.
 
-- running the outer function multiple times gives a separate instance of private variable wrapped in the inner function.
+- Running the outer function multiple times gives a separate instance of private variable wrapped in the inner function.
 
-### conditions for a closure
-- inner function must use variable defined in outer function.
-- the outer function must return the inner function.
+### Conditions for a closure
+- Inner function must use variable defined in outer function.
+- The outer function must return the inner function.
 
 ### Real world use of closures
-- closure can implement a private variable which is not supported in js natively.
+- Closure can implement a private variable which is not supported in js natively.
