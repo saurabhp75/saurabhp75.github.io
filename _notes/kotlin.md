@@ -8,6 +8,11 @@ excerpt: "Intro to Kotlin"
 $adb connect 100.71.253.137:5555
 ```
 
+### Definitions
+- Activity
+- Layout
+- Fragment
+
 - Activity has an associated layout file.
 - Layout file is an XML file.
 - Layout inflation process connects activity and its layout.
@@ -16,109 +21,118 @@ $adb connect 100.71.253.137:5555
 
 
 ### AppCompatActivity
-It is a subclass of andoid which provides access to modern android features while providing compatibility with older versions of android.
+It is a subclass of android which provides access to modern android features while providing compatibility with older versions of android.
 
-The namespace for the Android Jetpack libraries is androidx. Android Jetpack is a collection of libraries, developed by Google, that offers backward-compatible classes and helpful functions for supporting older versions of Android. Jetpack replaces and expands on the set of libraries formerly known as the Android Support Library.Classes imported from the androidx package refer to the Jetpack libraries. Dependencies to Jetpack in your build.gradle file also start with androidx.
+The namespace for the **Android Jetpack** libraries is **androidx**. Android Jetpack is a collection of libraries, developed by Google, that offers backward-compatible classes and helpful functions for supporting older versions of Android. Jetpack replaces and expands on the set of libraries formerly known as the **Android Support Library**. Classes imported from the androidx package refer to the Jetpack libraries. Dependencies to Jetpack in your `build.gradle` file also start with androidx.
 
-Android apps entry point is not a main funtion but a main activity as mentioned in manifest file.
+Android apps **entry point** is not a main funtion but a **main activity** as mentioned in **manifest file**.
 
-OS (android) uses info in manifest file to launch an app.
+Android uses info in manifest file to launch an app.
 
-You need to override the onCreate() method of AppCompatActivity class to launch the app.
-setContentView() method, where you provide the activity associated with the app and inflate it and draw to screen.
+- You need to override the **onCreate()** method of **AppCompatActivity** class to launch the app.
+- **setContentView()** method, where you provide the activity associated with the app and inflate it and draw to screen.
 
-Layout file contains the information about variuos elements and thier positioning. These elements are called views.
+Layout file contains the information about various elements and their positioning. These elements are called **views**.
 
-### constraint layout
+### Constraint layout
 Constraint layout allows you to create large, complex layouts with flat view hierarchies (no nested view groups).In a constraint layout, you position a view by defining at least one horizontal and one vertical constraint.
 
-- View Groups: Holds multiple view (buttons, text etc). For eg. LinearLayout.
+- **View Groups**: Holds multiple view (buttons, text etc). For eg. LinearLayout.
 
-Parent of the mainactivity is root view, which is the entire screen.
+Parent of the mainactivity is **root view**, which is the **entire screen**.
 
-Strings in your app should be located in resources folder.
+Strings in your app should be located in **resources folder**.
 
 **findViewById()** : Find the view(element) by id you assigned.  
-You should minimize the use of findViewById() as it is an expensive operation.
+You should minimize the use of findViewById() as it is an **expensive operation**.
 
-"lateinit" keyword: Tells Kotlin compiler that the variable will be initialized before it is accessed.  
+- **"lateinit" keyword**: Tells Kotlin compiler that the variable will be initialized before it is accessed.  
 It is a common pattern in android to initialize non null variables.
 
-"tools" namespace: It is used when you want to define dummy content when you are previewing the app in the preview pane. Attribute using the tools namespace are removed when you compile the app.
+- **"tools" namespace**: It is used when you want to define dummy content when you are previewing the app in the preview pane. Attribute using the tools namespace are removed when you compile the app.
 
-Module: A folder with source files and resources for a discrete piece of functionality in your app.
+- **Module**: A folder with source files and resources for a discrete piece of functionality in your app.
 
-By default there is one module(App) in your Android project. In large project there are many modules with their own gradle files.
+By default there is one **module(App)** in your Android project. In large project there are many modules with their own gradle files.
 
-- compileSdkVersion : Version against which the app is compiled.
-- minSdkVersion : Minimum suported version.
-- targetSdkVersion : Version on which build is tested to run.
+- **compileSdkVersion**: Version against which the app is compiled.
+- **minSdkVersion**: Minimum suported version.
+- **targetSdkVersion**: Version on which build is tested to run.
 
 Generally compileSdkVersion and targetSdkVersion are kept to the most recent version of Android.
 
-applicationId is the unique identifier which is used by both google play and Android to identify your app. Two apps on same device cannot have identical application id. Also there cannot be duplicate app id on playstore. App id matches the package of your app.
+**applicationId** is the unique identifier which is used by both google play and Android to identify your app. Two apps on same device cannot have identical application id. Also there cannot be duplicate app id on playstore. **App id matches the package of your app**.
 
-resources are drawn using vector files for android apk 21 and above, for 20 and below the png file generated by SDK is used.
+Resources are drawn using vector files for android apk21 and above, for 20 and below the png file generated by SDK is used.
 
 After making any changes in the gradle file, you should click "sync now" to propogate the changes to the whole project.
 
-"app" namespace is used for attributes that come from your custom code/libraries.
+**app namespace** is used for attributes that come from your custom code/libraries.
 
-All the visual elements that make up a screen are views, and they are all children of View class.
+All the visual elements that make up a screen are **views**, and they are all children of **View class**.
 
-All views have width height and background and they all can be made interactive. eg. TextView, ImageView, EditText, CheckBoxes, Sliders, Menus, ColorPickers, Button etc.
+All views have width height and background and they all can be made interactive. eg. **TextView, ImageView, EditText, CheckBoxes, Sliders, Menus, ColorPickers, Button** etc.
 
 Every view has a location expressed as pair of left and top coordinates, and dimension expressed as width and height all units are in dp.
 
-- dp: Density independent pixel. Depends on the screen pixel density.
-- sp: Scale independent pixel. Depends on font size and screen pixel density.
+- **dp (Density independent pixel)**: Depends on the screen pixel density. On a 160 dpi screen 1 dp = 1 pixel, On a 480 dpi screen 1dp = 3 pixel
+- **sp (Scale independent pixel)**: Depends on font size and screen pixel density.
 
-On a 160 dpi screen 1 dp = 1 pixel
-On a 480 dpi screen 1dp = 3 pixel
+Views are organized into view groups. Having a deep view heirarchy slows down the app. Constrainedlayout is used to build app with small number of views with complex layout to **avoid deep view heirarchy**.
 
-Views are organized into view groups. Having a deep view heirarchy slows down the app. Constrainedlayout is used to build app with small number of views with complex layout to avoid deep view heirarchy.
+**ScrollView** can contain only one view as a child, it could be either a groupview(eg LinearView) or an individual view , for eg. TextView.
 
-ScrollView can contain only one view as a child, it could be either a groupview(eg LinearView) or an individual view , for eg. TextView.
-
-Data binding: Optimize the access to views by creating a class at compile time from layout and accessing its properties/methods. You need to wrap the root class (view group) in layout tag.
+**Data binding**: Optimize the access to views by creating a class at compile time from layout and accessing its properties/methods. You need to wrap the root class (view group) in layout tag.
 
 ### Binding dataclass to view
+- TBD
+
 ### Introduction to navigation
-A destination is any place inside the app to which a user can navigate. A navigation graph for an app consists of a set of destinations within the app. Navigation graphs allow you to visually define and customize how users navigate among destinations in your app.
-A navigation host fragment acts as a host for the fragments in a navigation graph. The navigation host fragment is usually named NavHostFragment.
+- A destination is any place inside the app to which a user can navigate. 
+- A navigation graph for an app consists of a set of destinations within the app. 
+- Navigation graphs allow you to visually define and customize how users navigate among destinations in your app.
+- A navigation host fragment acts as a host for the fragments in a navigation graph. The navigation host fragment is usually named NavHostFragment.
 
 ### Running a Kotlin program
-Kotlin program file extension is ".kt", after compilation it becomes "...Kt.class"
+- Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
 
-kotlinc main.kt -include-runtime -d main.jar
-if a function body is a single expression, then parens can be removed.
-If compiler can infer the return type of function the there is no need to specify it.
+```shell
+$ kotlinc main.kt -include-runtime -d main.jar
+```
+
+### Kotlin functions
+- If a function body is a single expression, then parens can be removed.
+- If compiler can infer the return type of function the there is no need to specify it.
 
 ### Kotlin Data types
 Byte, Short, Long, Float, and Double.
-Null Safety
+
+### Null Safety
 Kotlin variables can't hold null values by default.
-// Fails to compile
-val languageName: String = null
+```kotlin
+val languageName: String = null //Invalid code, fails to compile
 val languageName: String? = null //Valid code
+```
 
 ### Control Flow
 - If, else can return a value.
 - The value is the last statement in each of the block in if, else is returned
-- Switch case is replaced by when()
+- Switch case is replaced by **when()**.
 - In when(), there is "else", which is same as "default" of switch case.
 - When() is very flexible.
 
 ### Functions in Kotlin
-- Functions are first class citizen.
-- Functions in a class by default are final, so you cannot override them.
-- You need to declare Functions as open to override them.
-- After overriding function in derived we can declare it as "final" to avoid further overriding.
+- Functions are **first class citizen**.
+- Functions in a class by **default** are **final**, so you **cannot override** them.
+- You need to declare Functions as **open** to **override** them.
+- After overriding function in derived we can declare it as final to avoid further overriding.
 - default value of parameters.
 - named parameters in functions.
 - function with unlimited no. of parameters.
-- If function body consists of one statement, you can use assignment
-  for eg. fun sayHello(name: String) = println("Hello, $name!")
+- If function body consists of one statement, you can use assignment for eg. 
+```kotlin
+fun sayHello(name: String) = println("Hello, $name!")
+```
 
 ```kotlin
 fun printString(vararg names:String) {
@@ -132,24 +146,22 @@ println(name)
 
 ### Spread operator: See above
 
-function returning "Nothing", actually never returns.
+- function returning "Nothing", actually never returns.
 
 ### Classes in Kotlin
-- Classes are first class citizen.
-- No concept of fields in Kotlin.
+- Classes are **first class citizen**.
+- **No** concept of **fields** in Kotlin.
 - Kotlin classes have properties but no fields.
-- No need of "new" operator when instantiating classes.
-- classes by default are final, so you cannot inherit from them.
-- You need to declare class as open to inherit from them.
+- **No need** of **new** operator when **instantiating** classes.
+- Classes by **default** are **final**, so you cannot inherit from them.
+- You need to declare class as **open** to **inherit** from them.
 
-// The class below is complete, diesn't require body. It has two properties.
-class customer(var id:Int, var name:String="default")
-
-
-- primary and secondary constructors.
-- Secondary constructor should always call priary constructor first.
+- **Primary** and **secondary** constructors.
+- Secondary constructor should always call primary constructor first.
 
 ```kotlin
+// The class below is complete, diesn't require body. It has two properties.
+// viz, id and name
 class customer(var id:Int, var name:String="default") {
    init {
        name = name.toUpperCase()
@@ -164,24 +176,25 @@ class customer(var id:Int, var name:String="default") {
 - Use of backing field in setters.
 
 ### Visibility modifiers :
-1. public (default): accessible anywhere.
+1. **public(default)**: accessible anywhere.
 
 - Top level declarations:
-2. private: available anywhere inside the file conatining declaration 
-3. internal: available anywhere in the same module.
+2. **private**: Available anywhere inside the file containing declaration 
+3. **internal**: available anywhere in the same module.
 
 ### Classes
-private: only available to class members.
-protected: same as private and subclasses.
-internal: any client inside the module.
+- **private**: only available to class members.
+- **protected**: same as private and subclasses.
+- **internal**: any client inside the module.
 
 ### Data classes:
-Data classes/objects are called Java beans. They just hold the data.
-They implicitly implements getters/setters/toString/getHashCode/equalTo/copy etc methods.
-So there is no boilerplate code.
-
-eg:  data class customer(var id:Int, var name:String="default")
-
+- Data classes/objects are called **Java beans**. They just hold the data.
+- They implicitly implements getters/setters/toString/getHashCode/equalTo/copy etc methods.
+- So there is no boilerplate code.
+- For eg.
+```kotlin
+data class customer(var id:Int, var name:String="default")
+```
 - copying with some properties changed
 
 customer2 = customer1.copy(name="saurabh")
@@ -194,23 +207,24 @@ customer2 = customer1.copy(name="saurabh")
 ### Objects in kotlin (Singleton).
 - We can create objects, without them being instances of any class (just like javascript).
 - Use the keyword object.
-
-eg. object Global {
+- For eg.
+```kotlin
+object Global {
   val PI = 3.14
 }
+```
 
 ### Abstract classes
-- Declared using "abstract" keyword.
-- they cannot be instatntiated.
-- Can have abstact methods and properties.
+- Declared using **abstract** keyword.
+- They cannot be instantiated.
+- Can have abstract methods and properties.
 
 ### Interface
-- Declared using "interface" keyword.
-- Very similar to abstract class, but they cannot have state (ie only abstract property allowed).
+- Declared using **interface** keyword.
+- Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
 - A class cannot inherit from more than one base class.
-- The baove is called single inheritance model.
+- The above is called **single inheritance model**.
 - A class can inherit from one base class and multiple interfaces.
-
 
 ### Generics in Kotlin
 - Generic interfaces.
@@ -225,70 +239,71 @@ interface Repo {
   fun <T> getById(id:Int): T
 }
 ```
-
 ### Null safety
 - By default Kotlin is null safe.
 - You cannot assign null to any default variable type.
-- A nullable variable has to be declared using "?" (elvis operator).
+- A nullable variable has to be declared using "?" (**elvis operator**).
 - e.g. var personName: String? = "Saurabh"
 - Implicit also works eg. var personName = null
 - Calling methods on nullable variable, eg. personName?.length
-- You can override compiler error by using "!!" personName!!.length
+- You can **override compiler** error by using "!!" personName!!.length
 
 ### Type casting
-- Smart casting by the compiler.
+- **Smart casting** by the compiler.
 
-Tuples
-- Tuples has been removed from Kotlin.
-- Tuples are implemented using Pair() and Triple().
+### Tuples
+- Tuples has been **removed** from Kotlin.
+- Tuples are implemented using **Pair()** and **Triple()**.
 - Bigger Tuples can be constructed using data classes.
 
 ### Miscellineous
-- Check if object is type of a class, "if obj is classType".
-- Safely cast int variable to string, "input as? String"
+- Check if object is type of a class, **if obj is classType**.
+- Safely cast int variable to string, **input as? String**.
 - Deconstructing values, val (capital, population) = Pair("Delhi", 1000)
 - Deconstructing values also works on data classes
 - Deconstructing values also works in for loop
-- Base class for exceptions in Kotlin is Throwable
+- Base class for exceptions in Kotlin is **Throwable**
 - In kotlin there are no fields, there are properties.
-- Kotlin sequences are equivalent of Java Streams.
+- **Kotlin sequences** are equivalent of **Java Streams**.
 - Unlike Java Streams Sequences are available on all platforms like android etc.
-- Parallel processing is not yet available in sequences (checl latest Kotlin version).
+- Parallel processing is not yet available in sequences (check latest Kotlin version).
 
 ### Properties
-Classes represent state using properties. A property is a class-level variable that can include a getter, a setter, and a backing field.
-If you would like to customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private:
-Exceptions
+- Classes represent **state** using **properties**. 
+- A property is a class-level variable that can include a getter, a setter, and a backing field.
+- If you would like to customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private.
+
+### Exceptions
 - try, catch, finally
 - try/catch can also return a value
 
 ### Declaring constants
-- There is no const keyword.
-- Top level constants/properties are declared using val.
-- others are embedded in Singleton(object) as val property.
+- There is **no const keyword**.
+- Top level constants/properties are declared using **val**.
+- Others are embedded in Singleton(object) as val property.
 
 ### Kotlin annotations
-- used in testing to annotate functions as "@test" etc.
+- Used in testing to annotate functions as **@test** etc.
 
 ### Higher order functions
 
 ### Lambda Expression in Koltin
-- functions can be passed as parameters to functions using "::functionName"
+- Functions can be passed as parameters to functions using **::functionName**
 - Better approach is to pass a lambda expression.
 - Lambda function syntax, {x, y -> x + y}
-- If lambda function takes only one parameter, we can use "it".
+- If lambda function takes only one parameter, we can use **it**.
 - For eg, {x -> x * x} is same as {it * it}
 - Alternate syntax if last parameter is a function/lambda expression.
 - Eg, unaryOperation(3, {it * it}) is same as unaryOperation(3){it * it}
-- An alternate to lamba function is anonymous function.
-- For eg, unaryOperator(3, fun(x:Int):Int { return x * x}
+- An alternate to lamba function is **anonymous function**.
+- For eg, unaryOperator(3, fun(x:Int):Int { return x * x})
 
-Note: The convention is, if the last, or in this case only, parameter of a 
+**Note**: The convention is, if the last, or in this case the only, parameter of a 
 function is another function, it doesn't need to go into brackets.
 
 ### Closures
-- Diferrence in Kotlin closures is that internal function captures value everytime.
-- This is unlikek other languages where value is captured only once.
+- Difference in Kotlin closures is that internal function **captures value everytime**.
+- This is unlike other languages where value is captured only once.
 
 ### Extension functions
 - Using this you can extend existing class without inheriting them.
@@ -300,14 +315,11 @@ function is another function, it doesn't need to go into brackets.
 - They can be imported in another file for accessing them.
 - Extension functions are statically resolved.
 
-
 ### Interoperability with Java
-Talk to Java from Kotlin
+- Talk to Java from Kotlin
 - When using a java class, Kotlin allows accessing properties directly.
 - Rather than using getters and setters.
-- When extending an interface with single function, we don't need to
-  extend the interface traditionally, we can simply pass the lambda function,
-  which will become the definition of the interface function.
+- When extending an interface with single function, we don't need to extend the interface traditionally, we can simply pass the lambda function, which will become the definition of the interface function.
 
 ### Working with nulls from java
 - Platform types in Kotlin, "!". Used when there is no equivalent in kotlin.
@@ -500,48 +512,48 @@ In kotlin static method are implemented using companion objects. These are acces
 ### Sealed classes in Kotlin
 - Kotlin doesnt have algebric data types.
 - But you can simulate them using sealed classes.
-- Selaed classes puts restriction on what type of classes can inherit from base class.
+- Sealed classes puts restriction on what type of classes can inherit from base class.
 - Inner(nested classes) iheriting from outer class to implement two different return types for http request, viz. "success" and "failure".
 - The "sealed" keyword before the "class" keyword ensures that no other class can inherit from the outer class.
 - Starting Kotlin v1.1, the inner class restriction was removed. Now classes can be defined  anywhere within the same file.
 
 ### Type aliases in Kotlin
-Type aliases allow us to provide aliases for certain types, while keeping the underlying characteristics the same.
-typealias Name = String
+- Type aliases allow us to provide aliases for certain types, while keeping the underlying characteristics the same.
+-  For eg. typealias Name = String
 
-Delegation
-Problems with inheritance
-Long heirarchies
-Bloated classes
-Kotlin has single inheritance model
-Composition Vs inheritance
-Compose functionality of different classes into one class.
-Eg log + permissions = controller.
-Leads to better design.
-Composition in kotlin is achieved by delegation.
-Delegation of classes
-Delegation pattern.
+### Delegation
 
-Delegation of properties
+### Problems with inheritance
+- Long heirarchies
+- Bloated classes
+- Kotlin has single inheritance model
+- Composition Vs inheritance
+- Compose functionality of different classes into one class. Eg log + permissions = controller.
+- Leads to better design.
+- Composition in kotlin is achieved by **delegation**.
+- Delegation of classes
+- Delegation pattern.
+
+### Delegation of properties
 
 ### Delegating member function in kotlin
 Syntax:
 Class xyz(repository: Repository): Repository by repository {}
 
-
 Now xyz can call the methods of Repository directly, without dereferencing .
 This is possible because the repository instance is passed to the constructor.
 We should not inject too many dependencies, at most two.
 
-Local delegates in kotlin
-Extension properties in kotlin
+- Local delegates in kotlin
+- Extension properties in kotlin
 
 ### Generics:
-Generic constraints in k
-Generics and invariance
-Covariance in k
-Contravariance in k
-Type projections in k
+- Generic constraints in kotlin
+- Generics and invariance
+
+### Covariance in kotlin
+- Contravariance in kotlin
+- Type projections in kotlin
 
 ### Metaprogramming:
 - Using java reflection in kotlin
@@ -551,71 +563,71 @@ Type projections in k
 - Custom annotations in kotlin
 
 ### Asynchronous programming
-Kotlin does not bind user to any particular approach of asynchronous programming.
-
-K uses coroutines for asynchronous programming.
-Suspendible computation.
+- Kotlin does not bind user to any particular approach of asynchronous programming.
+- Kotlin uses coroutines for asynchronous programming.
+- Suspendible computation.
 
 ### Async await in kotlin
 These are std library functions and not keywords.
 
 ### Yields in kotlin
-yield is a function and not keyword.
+- yield is a function and not keyword.
 
 ### Coroutines and reactive extensions in kotlin
 
-Types are non null by default in kotlin 
-var name: String = null #non billable string.
-14:54 : does null has a type. Are there different type of nulls.
-Pair(1,"a") == 1 to "a".
-Collections: array, list, map
-Collections are immutable by default.
-vararg parameter
-Spread operator: * ,. Converts list to sequence of individual items.
+- Types are non null by default in kotlin 
+- var name: String = null #non billable string.
+- 14:54 : does null has a type. Are there different type of nulls.
+- Pair(1,"a") == 1 to "a".
 
-Class declaration options
-class name #shortest form
+### Collections
+- array, list, map
+- Collections are immutable by default.
 
-Init block in class declaration run when instance is created. Class can have multiple init blocks.
-Properties in a class can be accessed directly instead of getter and setter (unlike java)
-All init blocks run before secondary constructor.
-Getters and setters are automatically defined for properties in kotlin.
+### vararg parameter
 
-You can override default getter and setter in kotlin.
-In kotlin visibility is public by default.
+### Spread operator
+- `*`:  Converts list to sequence of individual items.
+
+### Class declaration options
+- class name #shortest form
+- **Init block** in class declaration run when instance is created. Class can have multiple init blocks.
+- Properties in a class can be accessed directly instead of getter and setter (unlike java)
+- All **init blocks** run before **secondary constructor**.
+- **Getters and setters** are **automatically defined** for properties in kotlin.
+- You can override default getter and setter in kotlin.
+- In kotlin visibility is public by default.
 
 ### Visibility modifiers
-- Internal: class is public within a module.
-- Private: available only in the file where it is defined.
-- Protected: accessible from within the class or its children.
+- **Internal**: class is public within a module.
+- **Private**: available only in the file where it is defined.
+- **Protected**: accessible from within the class or its children.
 - Interfaces can define methods and properties.
 - Property initializer is not allowed in interface.
 - You can override the interface properties.
 - Check for types
-xyz [!]is ABC
-Typecast xyz as abc
-Smart casting in kotlin
-done by compiler.
-Classes in kotlin are final(closed) by default.you need to "open" it to inherit from it. Same holds true for properties.
-Anonymous Inner class using "object expression". It is used in android development to implement click listener.
+
+- xyz [!]is ABC
+- Typecast xyz as abc
+- Smart casting in kotlin, done by compiler.
+- Classes in kotlin are final(closed) by default.you need to "open" it to inherit from it. Same holds true for properties.
+- Anonymous Inner class using "object expression". It is used in android development to implement click listener.
 object: parentClass { }
-Companion objects:these are scoped to instance of other class.
-A factory can have private primary constructor(See below). It restricts the user from invoking primary constructor.
-class myClass private constructor (Val prop1: String).
-Kotlin enforced immutability by forcing you to explicitly declare classes, properties, and methods to be open for extension/override.
-Static class declared using object don't have constructors.
-Enum classes
+- Companion objects:these are scoped to instance of other class.
+- A factory can have private primary constructor(See below). It restricts the user from invoking primary constructor.
+- class myClass private constructor (Val prop1: String).
+- Kotlin enforced immutability by forcing you to explicitly declare classes, properties, and methods to be open for extension/override.
+- Static class declared using object don't have constructors.
+- Enum classes
 
-Sealed classes
-== Vs ===
-list.filterNotNull()
-String.orEmpty()
+### Sealed classes
+- list.filterNotNull() vs. String.orEmpty()
 
-DSL : Domain secific language.
+**DSL** : Domain specific language.
 
-### Java Bean:
-JavaBeans are classes that encapsulate many objects into a single object (the bean).
-It is a java class that should follow following conventions:
+### Java Bean
+- JavaBeans are classes that encapsulate many objects into a single object (the bean).
+- It is a java class that should follow following conventions:
 - Must implement Serializable.
 - It should have a public no-arg constructor.
 - All properties in java bean must be private with public getters and setter methods.
@@ -626,8 +638,5 @@ It is a java class that should follow following conventions:
 - Property has getters and setters and are accessible publicly.
 - Field is private and has no getters and setters.
 - Koltin don't have fields.
-
-
-Kotlin does not have checked exceptions.
 
 ### What are checked exceptions. (java has it, but Kotlin doesn't)
