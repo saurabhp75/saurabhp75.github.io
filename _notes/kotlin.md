@@ -93,8 +93,8 @@ All views have width height and background and they all can be made interactive.
 
 Every view has a location expressed as pair of left and top coordinates, and dimension expressed as width and height all units are in dp.
 
-- **dp (Density independent pixel)**: Depends on the screen pixel density. On a 160 dpi screen 1 dp = 1 pixel, On a 480 dpi screen 1dp = 3 pixel
-- **sp (Scale independent pixel)**: Depends on font size and screen pixel density.
+- **dp (Density independent pixel)**: Use it for margin, padding and border. It is fixed size for all screen densities
+- **sp (Scale independent pixel)**: Use it for font-size. Depends on font size and screen pixel density.
 
 Views are organized into view groups. Having a deep view heirarchy slows down the app. Constrainedlayout is used to build app with small number of views with complex layout to **avoid deep view heirarchy**.
 
@@ -111,6 +111,113 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Navigation graphs allow you to visually define and customize how users navigate among destinations in your app.
 - A navigation host fragment acts as a host for the fragments in a navigation graph. The navigation host fragment is usually named NavHostFragment.
 
+# Activity states
+- `non existent` when user presses `back` key.
+- `Stopped` when activity goes to background, either using home button or going to other activity using the `overview screen`.
+- An activity is destroyes and recreated during config changes.
+
+# What is Configuration change
+- Any change to system setting like font, language etc.
+- Rotation of device, window resizing and night mode changes etc.
+
+
+# What is ViewModel
+- ViewModel is part of the `androidx.lifecycle package`, which contains lifecycle-related APIs including lifecycle-aware components.
+- Google created the `androidx.lifecycle` package and its contents to make dealing with the activity lifecycle a little less painful.
+- `LiveData`, is another lifecycle-aware component.
+- ViewModel’s lifecycle more closely mirrors the user’s expectations: It survives configuration changes and is destroyed only when its associated activity is finished.
+
+
+# Implementing ViewModel
+- Add following to you app gradle file.
+- `implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'`
+
+# ViewModel Class
+- The onCleared() function in ViewModel class is called just before a ViewModel is destroyed. 
+- `onCleared()` is a useful place to perform any cleanup, such as un-observing a data source.
+
+
+# How to access ViewModwel instance
+- Associate a ViewModel instance with an activity’s lifecycle, using code below.
+- viewModelInstance = ViewModelProvider(this).get(MyViewModel::class.java)
+- `ViewModelProvider(this)` creates and returns a ViewModelProvider associated with the activity.
+- The ViewModel is then said to be scoped to that activity’s lifecycle.
+- The ViewModelProvider acts like a registry of ViewModels. 
+- When the activity queries for a QuizViewModel for the first time, ViewModelProvider creates and returns a new QuizViewModel instance. 
+- When the activity queries for the QuizViewModel after a configuration change, the instance that was first created is returned. 
+- When the activity is finished (such as when the user presses the Back button), the ViewModel-Activity pair is removed from memory.
+- The relationship between MainActivity and QuizViewModel is unidirectional. 
+- The activity references the ViewModel, but the ViewModel does not access the activity. 
+- Your ViewModel should never hold a reference to an activity or a view, otherwise you will introduce a memory leak.
+- When OS kills the activity(process), ViewModel is lso wiped, for this situation, use saved instance state.
+
+# Memory leaks
+- A memory leak occurs when one object holds a strong reference to another object that should be destroyed. 
+- Holding the strong reference prevents the garbage collector from clearing the object from memory. 
+- Memory leaks due to a configuration change are common bugs.
+
+
+# What is `isFinishing` property of an activity
+- Tells us if the user has finished the activity or not.
+- If isFinishing is true, the activity is being destroyed because the user finished the activity (such as by pressing the Back button or by clearing the app’s card from the overview screen). 
+- If isFinishing is false, the activity is being destroyed by the system because of a configuration change.
+
+
+# Activity/process killed by Android
+- When an activity is in stopped state(not visible), it may be killed by OS to reclaim memory.
+- stopped activities are marked as killable.
+- An activity in paused state is not likely to be killed by OS.
+- When an activity is killed by OS viewModel is also wiped from memory, no lifecycle callbacks are invoked.
+
+- 
+
+# On Saved Instance State
+-  To save UI state data and use it to reconstruct the activity when it is killed by OS, Activity.onSaveInstanceState(Bundle) is overidden.
+- onSaveInstanceState(Bundle) is called when an activity that is not `finished` moves to the `stopped` state.
+- Important : onSaveInstanceState(Bundle) will not be called when user kills activity as it is 'finished'.
+- For eg. when the user presses the Home button and then launches a different app.
+- If your app process is killed by OS, then you can rest assured that Activity.onSaveInstanceState(Bundle) was already called.
+- The default implementation of onSaveInstanceState(Bundle) directs all of the activity’s views to save their state as data in the Bundle object.
+- The bundle object for eg. may also contain additional information added by the framework, such as the contents of an EditText or other basic UI widget state.
+- When onSaveInstanceState(Bundle) is called, the data is saved to the Bundle object. That Bundle object is then stuffed into your activity’s `activity record` by the OS.
+- `Activity record` gets wiped when the activity finishes. At that point, your activity record is discarded. Activity records are also discarded on reboot.
+- Note that your activity can pass into the stashed state without onDestroy() being called.
+- Typically, you override `onSaveInstanceState(Bundle)` to stash small, transient-state data that belongs to the current activity in your Bundle. 
+- You should override `onStop()` to save any permanent data, such as things the user is editing, because your activity may be killed at any time after this function returns.
+
+
+# ViewModel vs Saved Instance State (Important)
+- Saved instance state protects from both configuration changes and process death.
+- Since saved instance state is serialized to disk, you should avoid stashing any large or complex objects.
+- Use saved instance state to store the minimal amount of information necessary to re-create the UI state (for example, the current question index). 
+- Use ViewModel to cache the rich set of data needed to populate the UI in memory across configuration changes for quick and easy access.
+
+
+# Debugging
+- When you encounter runtime exceptions, remember to look for the last exception in Logcat and the first line in its stack trace that refers to code that you have written.
+- That is where the problem occurred, and it is the best place to start looking for answers.
+- `stack trace logging ` : To find out where the function is invoked from, add below line and see the stack trace.
+- Log.d(TAG, "Updating question text", Exception())
+- `Using breakpoints`.
+-`Profiling` : View->Tool windows-> profiler.
+- `Layout inspector`: tools->layout inspector.
+
+
+# CREATING A NEW ACTIVITY
+- Creating an activity typically involves touching at least three files: the Kotlin class file, an XML layout file, and the application manifest.
+- Use Android Studio’s New Activity wizard.
+
+# Starting an activity
+- Use startActivity(Intent), this call is sent to the ActivityManager in the OS.
+- The ActivityManager creates the Activity instance and calls its onCreate(Bundle?) function.
+- Intents are multipurpose communication tools, Intent class provides different constructors depending on what you are using the intent to do.
+- Intent(packageContext: Context, class: Class<?>)
+- The Class argument specifies the activity class that the ActivityManager should start. 
+- The Context argument tells the ActivityManager which application package the activity class can be found in.
+
+# Explicit vs Implicit Intents
+- Use explicit intents to start activities within your application.
+- Use implicit intents to start activities outside your application.
 
 ## KOTLIN
 - All files in kotlin starts with `package` specification.
@@ -121,6 +228,45 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 ### Package and class naming conventions
 - Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
 - Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
+
+# Conditional expressions, if-else, while
+- conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
+- You can drop braces if a branch is a single expresion. See eg below.
+- val auraColor = if (auraVisible) "GREEN" else "NONE"
+
+# Ranges in Kotlin
+- 1..5 includes 1, 2, 3, 4, and 5. That is includes both bounds.
+- Use of `in` in range, for eg value in 1..5
+- 5 downTo 1 creates a range that descends rather than ascends.
+- 1 until 5  creates a range that excludes the upper bound.
+
+# Extracting a code to function
+- Ctrl-click (right-click) on the code you selected and choose Refactor → Extract Function.
+
+
+# functions in Kotlin
+- The function parameters are always read-only – they do not support reassignment within the function body.
+- Function parameters and local variables exist within the scope of the function body and cease to exist once the function completes.
+
+# FIle level variables
+- Variable that are not local to a function or class.
+- File-level variables remain initialized until program execution stops.
+- File-level variables must always be assigned when they are defined.
+- A local variable only has to be initialized before it is used.
+
+
+# Compile-Time Constants
+- Values of val may change in special cases.
+- Use `Compile-Time Constants` if you want absolutely immutable data.
+- Use `const` modifier before `val` keyword to define compile time constant.
+- Compile-time constant must be defined outside of any function, including main, because its value must be assigned at compile time.
+- Compile-time constants also must be of one of the basic types(Int, Char, String, Float, Double etc).
+- Naming convention :  fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
+
+# naming convention
+- var/val and function names : use camel casing and an initial lowercase, for eg. playerName
+- Compile time constants : fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
+
 
 ### functions, properties and local variables naming conventions
 - Start with a lower case letter and use the camel case and no underscores, for eg. `processDeclarations`.
@@ -144,11 +290,6 @@ class C {
          get() = _elementList
 }
 ```
-
-
-
-
-
 
 ### Running a Kotlin program
 - Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
