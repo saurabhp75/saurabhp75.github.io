@@ -20,6 +20,23 @@ $adb connect 100.71.253.137:5555
 - During LI the "views" in the layout files are inflated to Kotlin view objects in memory.
 
 
+- bundle object parameter in onCreate() method contain dynamic state information (typically relating to the state of the user interface)
+from a prior invocation of the activity.
+
+- onCreate(savedInstanceState: Bundle?) – The method that is called when the activity is first created 
+
+- onRestart() – Called when the activity is about to restart after having previously been stopped by the runtime
+system.
+
+- onStart() – Always called immediately after the call to the onCreate() or onRestart() methods, this method
+indicates to the activity that it is about to become visible to the user. This call will be followed by a call to
+onResume() if the activity moves to the top of the activity stack, or onStop() in the event that it is pushed down
+the stack by another activity.
+
+- onResume() – Indicates that the activity is now at the top of the activity stack and is the activity with which
+the user is currently interacting.
+
+
 ### AppCompatActivity
 It is a subclass of android which provides access to modern android features while providing compatibility with older versions of android.
 
@@ -93,6 +110,45 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Navigation graphs allow you to visually define and customize how users navigate among destinations in your app.
 - A navigation host fragment acts as a host for the fragments in a navigation graph. The navigation host fragment is usually named NavHostFragment.
 
+
+## KOTLIN
+- All files in kotlin starts with `package` specification.
+- The classes and objects in the source files can be accessed using `dot` after package description.
+- The package and folder structure generally match, but it is not mandatory.
+- Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
+
+### Package and class naming conventions
+- Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
+- Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
+
+### functions, properties and local variables naming conventions
+- Start with a lower case letter and use the camel case and no underscores, for eg. `processDeclarations`.
+- Names for `backing properties` start with underscore.
+- Exception: Factory functions used to create instances of classes can have the same name as the abstract return type.
+- Names of constants (properties marked with const, or top-level or object val properties with no custom get function that hold deeply immutable data) should use uppercase underscore-separated names.
+
+```kotlin
+const val MAX_COUNT = 8
+val USER_NAME_FIELD = "UserName"
+```
+
+### Backing properties
+- If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
+
+```kotlin
+class C {
+    private val _elementList = mutableListOf<Element>()
+
+    val elementList: List<Element>
+         get() = _elementList
+}
+```
+
+
+
+
+
+
 ### Running a Kotlin program
 - Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
 
@@ -101,11 +157,86 @@ $ kotlinc main.kt -include-runtime -d main.jar
 ```
 
 ### Kotlin functions
-- If a function body is a single expression, then parens can be removed.
+- If a function body is a single expression, then parens from function body can be removed.
 - If compiler can infer the return type of function the there is no need to specify it.
+- If a function has no return statement then it return type is `Unit`, which can be omitted.
+
+### String Templates
+- We can use a simple variable(using `$`) or an arbitrary expression(using `${expression}`) in a string.
 
 ### Kotlin Data types
-Byte, Short, Long, Float, and Double.
+- **Byte**: 8 bits. 
+- **Short**: 16 bits.
+- **Int**: 32 bits, default type for numbers if the size fits.  
+- **Long**: 64 bits, specify `L` at the end of a number to specify Long type.  
+- **Float**: 32 bits, specify `f` or `F` at the of a number to specify Float type.
+- **Double**: 64 bits, default type for fractional numbers.
+
+There is not implicit widening conversions in kotlin, for eg., a function with a double parameter will not accept float or int parameter.
+
+### Literal constants
+- **Integral**: eg. 100
+- **Long integer**: eg. 100L
+- **Hexadecimal**: Preceded by `0X` eg. 0X0F
+- No octal literals in kotlin
+
+```kotlin
+// Use of underscore in number constants
+
+val oneMillion = 1_000_000
+val creditCardNumber = 1234_5678_9012_3456L
+val socialSecurityNumber = 999_99_9999L
+val hexBytes = 0xFF_EC_DE_5E
+val bytes = 0b11010010_01101001_10010100_10010010
+```
+### Boxing/unboxing/autoboxing
+- **Boxing**: Conversion of primitve type to an object.
+- **Unboxing**: Conversion of object type to an primitve.
+- **Autoboxing**: Automatic conversion of primitve type to an object.
+
+**Note**: In JVM, the numbers are internally stored as primitive types, unless they are nullable or generics is involved.
+
+### No implicit conversions of types while assignment
+- Smaller types are NOT implicitly converted to bigger types.
+- We cannot assign a value of type Byte to an Int variable without an explicit conversion.
+
+### IMplicit conversion of types on arithmetic operation
+- Type is inferred from context and Arithmetical operations are overloaded for appropriate conversions, for example
+
+```kotlin
+val l = 1L + 3 // Long + Int => Long
+```
+
+### Every number type supports the following conversions:
+- toByte(): Byte
+- toShort(): Short
+- toInt(): Int
+- toLong(): Long
+- Explicit conversions
+- toFloat(): Float
+- toDouble(): Double
+- toChar(): Char
+
+### Arithmetic operations
+- Division of integers gives an integer.
+- Division of interger and a float gives float/double.
+
+### Bitwise operations
+- shl(bits) – signed shift left
+- shr(bits) – signed shift right
+- ushr(bits) – unsigned shift right
+- and(bits) – bitwise and
+- or(bits) – bitwise or
+- xor(bits) – bitwise xor
+- inv() – bitwise inversion
+- Bitwise operations Don't have a special character, instaed use function name in infix form
+- They are available for Int and Long only.
+
+```kotlin
+val x = (1 shl 2) and 0x000FF000
+```
+
+
 
 ### Null Safety
 Kotlin variables can't hold null values by default.
@@ -297,6 +428,126 @@ interface Repo {
 - Eg, unaryOperation(3, {it * it}) is same as unaryOperation(3){it * it}
 - An alternate to lamba function is **anonymous function**.
 - For eg, unaryOperator(3, fun(x:Int):Int { return x * x})
+
+
+### Lambda functions usage
+- In older Java versions, we used anonymous inner class for “When an event happens, run this handler” or
+“Apply this operation to all elements in a data structure.” For these cases, instead of declaring a class and passing an instance
+of that class to a function, you can pass a function directly. So lambda can be used as an alternative to an anonymous object with
+only one method.
+
+- Another classical use of lambda expressions: working with collections. 
+
+>>> val people = listOf(Person("Alice", 29), Person("Bob", 31))
+>>> println(people.maxBy { it.age })
+Person(name=Bob, age=31)
+
+-  If a lambda just delegates to a function or property for eg. people.maxBy(Person::age)
+
+- Most of the things we typically do with collections in Java (prior to Java 8) can be
+better expressed with library functions taking lambdas or member(property or method) references
+
+### Syntax for lambda expressions
+- A lambda expression is always surrounded by curly braces.
+- there are no parentheses around the arguments.
+- The arrow separates the argument list from the body of the lambda.
+- You can store a lambda expression in a variable and then treat this variable like a normal function.
+- { x: Int, y: Int -> x + y }
+
+### Running a Lambda function
+- Using brackets after the body: { println(42) }()
+- Using run library function: run { println(42) }
+
+### Breaking down syntax
+- people.maxBy({ p: Person -> p.age })
+- The type can be inferred from the context and therefore omitted: people.maxBy({ p -> p.age }) 
+- You don’t need to assign a name to the lambda argument in this case.
+- You can move a lambda expression out of parentheses if it’s the last argument in a function call: people.maxBy(){ p -> p.age }
+- When the lambda is the only argument to a function, you can remove the empty parentheses from the call: people.maxBy { p -> p.age }
+- if the context expects a lambda with only one argument, and its type can be inferred: people.maxBy { it.age }
+
+### Lambda, capturing variables from the context
+- fun printProblemCounts(responses: Collection<String>) {
+var clientErrors = 0
+var serverErrors = 0
+responses.forEach {
+if (it.startsWith("4")) {
+clientErrors++
+} else if (it.startsWith("5")) {
+serverErrors++
+}
+}
+println("$clientErrors client errors, $serverErrors server errors")
+}
+
+###  member references, a feature that lets you easily pass references to existing functions
+-  A member reference has the same type as a lambda that calls that function, so you can use the two interchangeably.
+- - It’s convenient to provide a member reference instead of a lambda that delegates to a function taking several parameters.
+- people.maxBy { person: Person -> person.age } can be replaced by
+- people.maxBy (Person::age)
+
+
+### Using Java functional interfaces
+- Interface like OnClickListener has only one abstract method. Such interfaces are called functional interfaces, 
+or SAM interfaces, where SAM stands for single abstract method.
+
+- You can pass a lambda to any Java method that expects a functional interface.
+
+
+### compile time constants
+- Syntax: const val FIRST_NAME = "Saurabh"
+
+### Anonymous functions
+- Used to pass function as arguments and/or return function as value
+
+### interface
+- Interface is similar to abstract classes but they dont have a state(properties), they only have (abstract)methods.
+- Methods in interface are abstract by default.
+- Abstract methods in interface don't require "abstract" keyword unlike abstract classes.
+- kotlin/Java support multiple inheritance ONLY for interfaces and not for classes.
+- In Java we extend a class and implement an interface.
+- from Java 8 onwards interface can have defined methdos, this allows to change interface without breaking code.
+
+### data class
+- Give default methods like to String(), equals(), hashCode(), copy() etc.
+- 
+
+### object keyword
+- Used to create singleton
+- Syntax: object BookShelf{
+}
+- Name of class is the name of the singleton object (for eg. BookShelf)
+
+### anonymous inner class
+- using object keyword.
+- Syntax: var myIntance = object: MyInterface{ }
+- Used to implement an interface for an anonymous class.
+
+
+### companion object
+- @JVMStatic annotation
+- Syntax: companion object {}
+- Can be used for Factory for pattern.
+- used in place of static, as there is no static keyword in kotlin.
+
+
+### strong reference in Java/Kotlin
+- Default behaviour.
+- Garage collected when there are no references left for an object.
+
+### Weak Reference in Java/Kotlin
+- GC responsible to determine reachability for garbage collection.
+- Eager GC.
+
+### Soft Reference in Java/Kotlin
+- GC responsible for garbage collection.
+- Lazy GC(Only on OutOfMemoryError).
+
+### Delegated properties use cases
+- lazy properties: the value gets computed only upon first access;
+- observable properties: listeners get notified about changes to this property;
+- storing properties in a map, instead of a separate field for each property.
+
 
 **Note**: The convention is, if the last, or in this case the only, parameter of a 
 function is another function, it doesn't need to go into brackets.
