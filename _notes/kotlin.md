@@ -5,6 +5,7 @@ excerpt: "Intro to Kotlin"
 ---
 
 ```shell
+$adb -s devname tcpip 5555
 $adb connect 100.71.253.137:5555
 ```
 
@@ -182,7 +183,6 @@ There is not implicit widening conversions in kotlin, for eg., a function with a
 
 ```kotlin
 // Use of underscore in number constants
-
 val oneMillion = 1_000_000
 val creditCardNumber = 1234_5678_9012_3456L
 val socialSecurityNumber = 999_99_9999L
