@@ -8,6 +8,12 @@ excerpt: "Intro to Kotlin"
 $adb -s devname tcpip 5555
 $adb connect 100.71.253.137:5555
 ```
+# Keyboard shortcut in android studio to find a file
+- Ctrl + Shift + n : Search for a file
+
+- Ctrl + Shift + p : Find the type of a variable.
+
+- Shift + Shift :  Search everywhere.
 
 ### Definitions
 - Activity
@@ -273,11 +279,160 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Names for `backing properties` start with underscore.
 - Exception: Factory functions used to create instances of classes can have the same name as the abstract return type.
 - Names of constants (properties marked with const, or top-level or object val properties with no custom get function that hold deeply immutable data) should use uppercase underscore-separated names.
+- Kotlin has file level functions but Java has functions(methods) only as part of a class.
 
 ```kotlin
 const val MAX_COUNT = 8
 val USER_NAME_FIELD = "UserName"
 ```
+
+# Single expression functions
+- Omit the return type, curly braces, and return statement.
+- use the assignment operator (=), followed by the expression.
+
+```kotlin
+// A higher order function, runMyRunnable,  taking a lambda/function
+fun runMyRunnable(runnable: () -> Unit) { runnable() }
+
+// Invoke the higher order function, runMyRunnable, with a lambda.
+runMyRunnable ({ println("hey now") })
+// Alternatively, invoke as below
+runMyRunnable { println("hey now") }
+
+// Declare a function type variable, myFunc, with no parameters and no return
+// Alternatively: Pass the function type variable to higher order function,
+// runMyRunnable
+val myFunc: () -> Unit =  { println("hey now0") }
+runMyRunnable(myFunc)
+
+// runMyRunnable1 is a function type variable with no params and no return "()->Unit"
+fun runMyRunnable1(runnable: () -> Unit) = { runnable() }
+runMyRunnable1 { println("hey now1") }()
+```
+
+# Unit functions
+- They define no return type and have no return statement. 
+- Kotlin uses the `Unit` return type to signify a function that returns no value (no return statement). 
+
+# Functions with nothing as return type
+- Function is guaranteed to never successfully complete.
+- the function will either throw an exception or for some other reason never return to where it was called.
+```kotlin
+/**
+* Always throws [NotImplementedError] stating that operation is not implemented.
+*/
+public inline fun TODO(): Nothing = throw NotImplementedError()
+```
+
+# Use of TODO()
+- To indicate that the function containing TODO() has some "todo".
+- The function containing TODO() can have a diffreent retrn type.
+- The statement after TODO() is never executed.
+
+# Function overloading 
+- Using default parameter(s). 
+- Using same function name and return type but different parameters.
+
+# Function names using backticks
+- We can use any characters or reserved keywrd using backticks.
+- Used in testing.
+```kotlin
+fun `**~prolly not a good idea!~**`() {
+...
+}
+```
+
+# Anonymous function.
+- Defined using braces {}.
+- Called using ().
+- Anonymous function does not require – or even allow, except in rare cases – the return keyword to output data.
+- Anonymous functions implicitly, or automatically, return the last line of their function definition, omitting the return keyword.
+- Function type syntax: Consists of two parts: the function’s parameters, in parentheses, followed by its return type, delimited by the arrow (->).
+- The parentheses is not required when defining parameters in definition of anonymous function.
+```kotlin
+// Defining and invoking anonymous function
+{
+val currentYear = 2018
+"Welcome to SimVillage, Mayor! (copyright $currentYear)"
+}()
+```
+
+```kotlin
+fun main(args: Array<String>) {
+  // Notice, no parenthesis around parameter in definition
+  val greetingFunction: (String) -> String = { playerName ->
+    val currentYear = 2018
+    "Welcome to SimVillage, $playerName! (copyright $currentYear)"
+  }
+  println(greetingFunction("Guyal"))
+
+}
+```
+
+# The `it` keyword
+- Defining anonymous functions that accept `exactly one` argument.
+- Requires no parameter name and arrow in the beginning.
+- Above code can be written as below.
+```kotlin
+fun main(args: Array<String>) {
+
+  val greetingFunction: (String) -> String = { 
+    val currentYear = 2018
+    "Welcome to SimVillage, $it! (copyright $currentYear)"
+  }
+  println(greetingFunction("Guyal"))
+
+}
+```
+
+# Lambdas vs anonymous function
+- Anonymous functions are also called `lambdas`.
+- Anonymous functions definitions are called `lambda expressions`. 
+- What an anonymous function returns is called a lambda result.
+
+
+# Shorthand syntax for function accepting a `function type`(lambda) for its `last` parameter
+- You can also omit the parentheses around the lambda argument.
+
+# Function Inlining
+- Lambda is represented as an object instance on the JVM.
+- The JVM also performs memory allocations for all variables accessible to the lambda.
+- This introduce memory overhead that can in turn cause a performance impact.
+- Inlining removes the need for the JVM to use an object instance and to perform variable memory allocations for the lambda.
+- To inline a lambda, you mark the function that accepts the lambda using the `inline` keyword.
+- It is generally a good idea to mark functions that accept lambdas as arguments with the inline keyword.
+- One situation where inlining is not permitted, for example, is a recursive function that accepts a lambda.
+
+# Function References
+- They can be passed as arguments instaed of lambda functions.
+- Function reference converts a named function (a function defined using the fun keyword) to a value that can be passed as an argument. 
+- You can use a function reference anywhere you use a lambda expression. 
+- To obtain a function reference, you use the :: operator with the function name you would like a reference for.
+
+# Kotlin vs Java: Functional programming
+- Java 8 includes support for OOP & lambda expressions but does not include the ability to define a function as a parameter to a function or variable. 
+- Instead, Java provides anonymous inner classes – nameless classes that are defined within another class to implement a single method definition. 
+- You can pass anonymous inner classes as an instance, like a lambda.
+```kotlin
+public interface Runnable {
+  public abstract void run();
+}
+
+fun runMyRunnable(runnable: () -> Unit) = { runnable() }
+runMyRunnable { println("hey now") }()
+```
+
+# Nullability
+- Some elements in Kotlin can be assigned a value of null, and some cannot. 
+- We say that the former are nullable and the latter are non-nullable.
+
+
+
+
+
+
+
+
 
 ### Backing properties
 - If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
