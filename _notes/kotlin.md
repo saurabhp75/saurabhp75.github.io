@@ -175,7 +175,6 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - An activity in paused state is not likely to be killed by OS.
 - When an activity is killed by OS viewModel is also wiped from memory, no lifecycle callbacks are invoked.
 
-- 
 
 # On Saved Instance State
 -  To save UI state data and use it to reconstruct the activity when it is killed by OS, Activity.onSaveInstanceState(Bundle) is overidden.
@@ -225,13 +224,13 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Use explicit intents to start activities within your application.
 - Use implicit intents to start activities outside your application.
 
-## KOTLIN
+# KOTLIN
 - All files in kotlin starts with `package` specification.
 - The classes and objects in the source files can be accessed using `dot` after package description.
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
 
-### Package and class naming conventions
+# Package and class naming conventions
 - Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
 - Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
 
@@ -269,12 +268,12 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Compile-time constants also must be of one of the basic types(Int, Char, String, Float, Double etc).
 - Naming convention :  fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
 
-# naming convention
+# Naming convention
 - var/val and function names : use camel casing and an initial lowercase, for eg. playerName
 - Compile time constants : fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
 
 
-### functions, properties and local variables naming conventions
+# Functions, properties and local variables naming conventions
 - Start with a lower case letter and use the camel case and no underscores, for eg. `processDeclarations`.
 - Names for `backing properties` start with underscore.
 - Exception: Factory functions used to create instances of classes can have the same name as the abstract return type.
