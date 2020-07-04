@@ -290,23 +290,15 @@ val USER_NAME_FIELD = "UserName"
 - use the assignment operator (=), followed by the expression.
 
 ```kotlin
-// A higher order function, runMyRunnable,  taking a lambda/function
+// A higher order function, runMyRunnable, taking a function parameter
 fun runMyRunnable(runnable: () -> Unit) { runnable() }
+// Invoke and pass a lambda
+runMyRunnable { println("Hello world") }
 
-// Invoke the higher order function, runMyRunnable, with a lambda.
-runMyRunnable ({ println("hey now") })
-// Alternatively, invoke as below
-runMyRunnable { println("hey now") }
-
-// Declare a function type variable, myFunc, with no parameters and no return
-// Alternatively: Pass the function type variable to higher order function,
-// runMyRunnable
-val myFunc: () -> Unit =  { println("hey now0") }
-runMyRunnable(myFunc)
-
-// runMyRunnable1 is a function type variable with no params and no return "()->Unit"
+// runMyRunnable1 is a higher order function, taking a function parameter
+// and returning a lambda containing that function
 fun runMyRunnable1(runnable: () -> Unit) = { runnable() }
-runMyRunnable1 { println("hey now1") }()
+runMyRunnable1 { println("Hello world") }()
 ```
 
 # Unit functions
@@ -426,9 +418,91 @@ runMyRunnable { println("hey now") }()
 - We say that the former are nullable and the latter are non-nullable.
 
 
+# Use of `?`, `let` and `!!` with nullable values
+
+# Null coalescing/Elvis operator, `?:`
+- “If the thing on the lefthand side of me is null, do the thing on the righthand side instead.”
+
+# Precondition functions
+- `checkNotNull()`: Throws an IllegalStateException if argument is null. Otherwise returns the non-null value.
+- `require()`: Throws an IllegalArgumentException if argument is false.
+- `error()`: Throws an IllegalArgumentException with a provided message if argument is null. Otherwise returns the non-null value.
+- `requireNotNull()`: Throws an IllegalArgumentException if argument is null. Otherwise returns the non-null value.
+- `assert()`: Throws an AssertionError if argument is false and the assertion compiler flag is enabled.
+
+# String functions
+- `String.indexOf()`:
+- `String.subString(IntRange)`: 
+- `String.split()`: 
+
+# Converting strings to numbers
+- `toFloat()`:
+- `toDouble()`:
+- `toDoubleOrNull()`:
+- `toIntOrNull()`:
+- `toLong()`:
+- `toBigDecimal()`:
+
+# Restructuring.
 
 
+| Type | Bits | Max Value | Min Value |
+|-------|--------|---------|---------|
+| Byte | 8 | 127 | -128 |
+| Short | 16 | 32767 | -32768 |
+| Int | 32 | 2147483647 | -2147483648 |
+| Long | 64 | 9223372036854775807 | -9223372036854775808 |
+| Float | 32 | 3.4028235E38 | 1.4E-45 |
+| Double | 64 | 1.7976931348623157E308 | 4.9E-324 |
 
+
+# Strings in kotlin are immutable.
+
+- Operation between Int will give Int, If you want deimal values use ne operand as double/float.
+- All numeric types in kotlin are signed.
+
+`String.toIntOrNull()`
+`toFloat()`
+`toDouble()`
+
+`String.format()`
+${"%.2f".format(remainingBalance)}"
+
+`Double.toInt()`
+`Double.roundToInt()`
+
+Integer.toBinaryString()
+Integer.shl(bitcount)
+Integer.shr(bitcount)
+Integer.Inv()
+
+# let
+- passes the receiver to the lambda you provide, you can use"it".
+- returns the last line of the lambda (the
+lambda result).
+
+# apply
+- apply passes nothing to lambda you provide.
+- apply returns the current receiver once the anonymous function completes.
+- all the
+function calls within the lambda are now called relative to the receiver.
+- Another
+way to say this is that they are implicitly called on the receiver.
+- apply returns the current receiver once the anonymous function
+completes. 
+
+# run
+- similar to apply
+in that it provides the same relative scoping behavior. 
+- However, unlike apply,
+run does not return the receiver.
+- run returns the lambda result – here, a true or false value.
+- run can also be used to execute a function reference on a receiver. 
+
+# with
+- with requires
+its argument to be accepted as the first parameter rather than calling the standard
+function on a receiver type
 
 
 
@@ -1185,4 +1259,7 @@ object: parentClass { }
 - Field is private and has no getters and setters.
 - Koltin don't have fields.
 
-### What are checked exceptions. (java has it, but Kotlin doesn't)
+### What are checked exceptions. 
+- In Kotlin all exceptions are unchecked. 
+- This means that the Kotlin compiler does not force you to wrap all code that could produce an exception in a try/catch statement.
+- In Java all exceptions are unchecked. 
