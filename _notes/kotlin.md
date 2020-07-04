@@ -230,37 +230,37 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
 
-# Package and class naming conventions
+## Package and class naming conventions
 - Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
 - Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
 
-# Conditional expressions, if-else, while
+## Conditional expressions, if-else, while
 - conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
 - You can drop braces if a branch is a single expresion. See eg below.
 - val auraColor = if (auraVisible) "GREEN" else "NONE"
 
-# Ranges in Kotlin
+### Ranges in Kotlin
 - 1..5 includes 1, 2, 3, 4, and 5. That is includes both bounds.
 - Use of `in` in range, for eg value in 1..5
 - 5 downTo 1 creates a range that descends rather than ascends.
 - 1 until 5  creates a range that excludes the upper bound.
 
-# Extracting a code to function
+### Extracting a code to function
 - Ctrl-click (right-click) on the code you selected and choose Refactor → Extract Function.
 
 
-# functions in Kotlin
+# Functions in Kotlin
 - The function parameters are always read-only – they do not support reassignment within the function body.
 - Function parameters and local variables exist within the scope of the function body and cease to exist once the function completes.
 
-# FIle level variables
+### File level variables
 - Variable that are not local to a function or class.
 - File-level variables remain initialized until program execution stops.
 - File-level variables must always be assigned when they are defined.
 - A local variable only has to be initialized before it is used.
 
 
-# Compile-Time Constants
+### Compile-Time Constants
 - Values of val may change in special cases.
 - Use `Compile-Time Constants` if you want absolutely immutable data.
 - Use `const` modifier before `val` keyword to define compile time constant.
@@ -268,12 +268,12 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Compile-time constants also must be of one of the basic types(Int, Char, String, Float, Double etc).
 - Naming convention :  fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
 
-# Naming convention
+### Naming convention
 - var/val and function names : use camel casing and an initial lowercase, for eg. playerName
 - Compile time constants : fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
 
 
-# Functions, properties and local variables naming conventions
+## Functions, properties and local variables naming conventions
 - Start with a lower case letter and use the camel case and no underscores, for eg. `processDeclarations`.
 - Names for `backing properties` start with underscore.
 - Exception: Factory functions used to create instances of classes can have the same name as the abstract return type.
@@ -285,7 +285,7 @@ const val MAX_COUNT = 8
 val USER_NAME_FIELD = "UserName"
 ```
 
-# Single expression functions
+## Single expression functions
 - Omit the return type, curly braces, and return statement.
 - use the assignment operator (=), followed by the expression.
 
@@ -301,13 +301,14 @@ fun runMyRunnable1(runnable: () -> Unit) = { runnable() }
 runMyRunnable1 { println("Hello world") }()
 ```
 
-# Unit functions
+## Unit functions
 - They define no return type and have no return statement. 
 - Kotlin uses the `Unit` return type to signify a function that returns no value (no return statement). 
 
-# Functions with nothing as return type
+## Functions with nothing as return type
 - Function is guaranteed to never successfully complete.
 - the function will either throw an exception or for some other reason never return to where it was called.
+
 ```kotlin
 /**
 * Always throws [NotImplementedError] stating that operation is not implemented.
@@ -315,31 +316,33 @@ runMyRunnable1 { println("Hello world") }()
 public inline fun TODO(): Nothing = throw NotImplementedError()
 ```
 
-# Use of TODO()
+## Use of TODO()
 - To indicate that the function containing TODO() has some "todo".
 - The function containing TODO() can have a diffreent retrn type.
 - The statement after TODO() is never executed.
 
-# Function overloading 
+## Function overloading 
 - Using default parameter(s). 
 - Using same function name and return type but different parameters.
 
-# Function names using backticks
+## Function names using backticks
 - We can use any characters or reserved keywrd using backticks.
 - Used in testing.
+
 ```kotlin
 fun `**~prolly not a good idea!~**`() {
 ...
 }
 ```
 
-# Anonymous function.
+## Anonymous function
 - Defined using braces {}.
 - Called using ().
 - Anonymous function does not require – or even allow, except in rare cases – the return keyword to output data.
 - Anonymous functions implicitly, or automatically, return the last line of their function definition, omitting the return keyword.
 - Function type syntax: Consists of two parts: the function’s parameters, in parentheses, followed by its return type, delimited by the arrow (->).
 - The parentheses is not required when defining parameters in definition of anonymous function.
+
 ```kotlin
 // Defining and invoking anonymous function
 {
@@ -360,10 +363,11 @@ fun main(args: Array<String>) {
 }
 ```
 
-# The `it` keyword
+## The `it` keyword
 - Defining anonymous functions that accept `exactly one` argument.
 - Requires no parameter name and arrow in the beginning.
 - Above code can be written as below.
+
 ```kotlin
 fun main(args: Array<String>) {
 
@@ -376,16 +380,16 @@ fun main(args: Array<String>) {
 }
 ```
 
-# Lambdas vs anonymous function
+## Lambdas vs anonymous function
 - Anonymous functions are also called `lambdas`.
 - Anonymous functions definitions are called `lambda expressions`. 
 - What an anonymous function returns is called a lambda result.
 
 
-# Shorthand syntax for function accepting a `function type`(lambda) for its `last` parameter
+## Shorthand syntax for function accepting a `function type`(lambda) for its `last` parameter
 - You can also omit the parentheses around the lambda argument.
 
-# Function Inlining
+## Function Inlining
 - Lambda is represented as an object instance on the JVM.
 - The JVM also performs memory allocations for all variables accessible to the lambda.
 - This introduce memory overhead that can in turn cause a performance impact.
@@ -394,13 +398,13 @@ fun main(args: Array<String>) {
 - It is generally a good idea to mark functions that accept lambdas as arguments with the inline keyword.
 - One situation where inlining is not permitted, for example, is a recursive function that accepts a lambda.
 
-# Function References
+## Function References
 - They can be passed as arguments instaed of lambda functions.
 - Function reference converts a named function (a function defined using the fun keyword) to a value that can be passed as an argument. 
 - You can use a function reference anywhere you use a lambda expression. 
 - To obtain a function reference, you use the :: operator with the function name you would like a reference for.
 
-# Kotlin vs Java: Functional programming
+## Kotlin vs Java: Functional programming
 - Java 8 includes support for OOP & lambda expressions but does not include the ability to define a function as a parameter to a function or variable. 
 - Instead, Java provides anonymous inner classes – nameless classes that are defined within another class to implement a single method definition. 
 - You can pass anonymous inner classes as an instance, like a lambda.
@@ -418,27 +422,27 @@ runMyRunnable { println("hey now") }()
 - We say that the former are nullable and the latter are non-nullable.
 
 
-# Use of `?`, `let` and `!!` with nullable values
+## Use of `?`, `let` and `!!` with nullable values
 
-# Null coalescing/Elvis operator, `?:`
+## Null coalescing/Elvis operator, `?:`
 - “If the thing on the lefthand side of me is null, do the thing on the righthand side instead.”
 
-# Precondition functions
+## Precondition functions
 - `checkNotNull()`: Throws an IllegalStateException if argument is null. Otherwise returns the non-null value.
 - `require()`: Throws an IllegalArgumentException if argument is false.
 - `error()`: Throws an IllegalArgumentException with a provided message if argument is null. Otherwise returns the non-null value.
 - `requireNotNull()`: Throws an IllegalArgumentException if argument is null. Otherwise returns the non-null value.
 - `assert()`: Throws an AssertionError if argument is false and the assertion compiler flag is enabled.
 
-# String functions
+## String functions
 - `String.indexOf()`: Gives index of a acharacter in string.
 - `String.subString(IntRange)`: Returrns a substring with using range.
 - `String.split()`: Returns list of strings split on the character provided.
 
-# Destructuring
+### Destructuring
 - val (type, name, price) = "shandy,Dragon's Breath,5.91".split(',')
 
-# Converting strings to numbers
+## Converting strings to numbers
 - `toFloat()`:
 - `toDouble()`:
 - `toDoubleOrNull()`: DOn't give exception but return null.
@@ -446,11 +450,11 @@ runMyRunnable { println("hey now") }()
 - `toLong()`:
 - `toBigDecimal()`:
 
-# Strings in kotlin are immutable.
+## Strings in kotlin are immutable.
 - The replace function below creates a new string instead of mutating the original string.
 - Though the string vartiables can be reassigned.
 
-# Using replace method of string
+## Using replace method of string
 ```kotlin
 fun toDragonSpeak(phrase: String) =
   phrase.replace(Regex("[aeiou]")) {
@@ -465,11 +469,11 @@ fun toDragonSpeak(phrase: String) =
   }
 ```
 
-# Specifying unicode characters
+### Specifying unicode characters
 - Use '\u' prefix.
 - val myChar: Char = '\u0950'
 
-# Iterating over a String
+### Iterating over a String
 - Use forEach to iterate over every character in the string
 ```kotlin
 "Dragon's Breath".forEach {        
@@ -491,7 +495,7 @@ fun toDragonSpeak(phrase: String) =
 - Operation between Ints will give an Int, If you want decimal values use one operand as double/float.
 - All numeric types in kotlin are signed.
 
-# Converting a String to a Numeric Type
+## Converting a String to a Numeric Type
 - `String.toInt()`: 
 - `String.toIntOrNull()`: Will return null instead of throwing an exception.
 - `String.toIntOrNull()`: Will return null instead of throwing an exception.
@@ -499,14 +503,14 @@ fun toDragonSpeak(phrase: String) =
 - `String.toDouble()`
 - `String.toDoubleOrNull()`: Will return null instead of throwing an exception.
 
-# Format double values
+## Format double values
 - println("Balance: ${"%.2f".format(4.1899999999)}")
 
-# Converting doubles to Int
+## Converting doubles to Int
 - `Double.toInt()`
 - `Double.roundToInt()`
 
-# Bit manipulation on Int
+## Bit manipulation on Int
 - `Integer.toBinaryString()`: Integer.toBinaryString(42)
 - `shl()`: 42.shl(2)
 - `shr()`: 42.shr(2)
@@ -518,20 +522,16 @@ fun toDragonSpeak(phrase: String) =
 - **receiver**: The subject of an extension function.
 -  Kotlin’s standard functions are extension functions under the hood.
 
-## let function
-- Passes the receiver to the lambda you provide, you can use"it".
-- Returns the last line of the lambda (the lambda result).
-
 ## apply function
 - Can be thought of as a `configuration function`. 
 - It allows you to call a series of functions on a receiver to configure it for use. 
-- After the lambda provided to apply executes,apply returns the configured receiver
+- After the lambda provided to apply executes,apply returns the configured receiver.
 - Apply passes nothing to lambda you provide.
-- Apply returns the current receiver once the anonymous function completes.
 - All the function calls within the lambda are now called relative to the receiver.
 - Another way to say this is that they are implicitly called on the receiver.
 - Apply returns the current receiver once the anonymous function completes. 
-```koltin
+
+```kotlin
 val menuFile = File("menu-file.txt")    
 menuFile.setReadable(true)    
 menuFile.setWritable(true)    
@@ -539,23 +539,105 @@ menuFile.setExecutable(false)
 
 // Above can be written as
 val menuFile = File("menu-file.txt").apply {
-          setReadable(true)        
-          setWritable(true)        
-          setExecutable(false)    
+  setReadable(true) // Implicitly, menuFile.setReadable(true)     
+  setWritable(true) // Implicitly, menuFile.setWritable(true)       
+  setExecutable(false) // Implicitly, menuFile.setExecutable(false)   
+}
+```
+
+## let function
+- let scopes a variable to the lambda provided and makes the keyword it
+- Passes the receiver to the lambda you provide.
+- Returns the last line of the lambda (the lambda result).
+
+## let vs apply
+- let passes the receiver to the lambda you provide, but apply passes nothing.
+- apply returns the current receiver once the anonymous functioncompletes. let, on the other hand, returns the last line of the lambda (thelambda result).
+
+## run function
+- Similar to `apply` in that it provides the same relative scoping behavior. 
+- However, unlike apply, run does not return the receiver, but returns the lambda result.
+- Run can also be used to execute a function reference on a receiver. 
+- There is a second flavor of run that is not called on a receiver. 
+
+```kotlin
+fun nameIsLong(name: String) = name.length >= 20  
+// run with a function reciever 
+"Madrigal".run(::nameIsLong)  // False
+
+// Less common use of run
+val status = run {
+          if (healthPoints == 100) "perfect health" else "has injuries"    
       }
 ```
 
-# run function
-- Similar to apply in that it provides the same relative scoping behavior. 
-- However, unlike apply, run does not return the receiver.
-- Run returns the lambda result – here, a true or false value.
-- Run can also be used to execute a function reference on a receiver. 
+## with function
+- with is a variant of run. It behaves identically, but it uses a different calling convention.
+- With requires its argument to be accepted as the first parameter rather than calling the standard function on a receiver type.
+- The second is the lambda.
+- It is not used often due to different syntax than other library functions.
 
-# with
-- With requires its argument to be accepted as the first parameter rather than calling the standard function on a receiver type
+```kotlin
+val nameTooLong = with("Polarcubis, Supreme Master of NyetHack") {
+          length >= 20    
+}
+```
+
+## also function
+- also function works very similarly to the let function.
+- Just like let,also passes the receiver you call it on as an argument to a lambda you provide.
+- But also returns the receiver, rather than the result of the lambda.
+- Since also returns the receiver instead of the result of the lambda, you cancontinue to chain additional function calls on to the original receiver.
+
+## takeIf function
+- `takeif` evaluates a condition providedin a lambda, called a `predicate`, that returns either true or false depending on theconditions defined. 
+- If the condition evaluates as true, the receiver is returned from takeIf. If the condition is false, null is returned instead.
+
+```kotlin
+// with takeIf
+val fileContents = File("myfile.txt")            
+.takeIf { it.canRead() && it.canWrite() }            
+?.readText()
+
+// Without takeIf
+val file = File("myfile.txt")    
+val fileContents = if (file.canRead() && file.canWrite()) {
+    file.readText()    
+} else {
+    null    
+}
+```
+
+## takeUnless function
+- It returns the original value(receiver) if the condition you define is false.
+- It is confusing and not used often, takeIf is used instead.
+
+| Function | Passes receiver to lambda as argument? | Provides relativescoping? | Returns |
+|------|----------|-------------|----------|
+| let | Yes | No | Lambda result | 
+| apply | No | Yes | Receiver |
+| run | No | Yes | Lambda result |
+| with | No | Yes | Lambda result |
+| also | Yes | No | Receiver |
+| takeIf | Yes | No | Nullable version of receiver |
+| takeUnless | Yes | No | Nullable versionof receiver |
 
 
 
+# Collections, List, Set, and Map
+- lists, sets, and maps come in two distinct varieties: `mutable` and `read-only`.
+
+## List
+- Lists hold an ordered collection of values and allow duplicate values.
+- listOf() returns a read-only list.
+-  List is a generic type.
+
+### parameterized type
+- The type defined for the contents of a collection.
+- For eg. List\<String\>.
+
+### Genereic type
+- A class that accepts a generic input - i.e., an input of any type.
 
 ### Backing properties
 - If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
