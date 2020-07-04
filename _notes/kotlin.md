@@ -431,20 +431,53 @@ runMyRunnable { println("hey now") }()
 - `assert()`: Throws an AssertionError if argument is false and the assertion compiler flag is enabled.
 
 # String functions
-- `String.indexOf()`:
-- `String.subString(IntRange)`: 
-- `String.split()`: 
+- `String.indexOf()`: Gives index of a acharacter in string.
+- `String.subString(IntRange)`: Returrns a substring with using range.
+- `String.split()`: Returns list of strings split on the character provided.
+
+# Destructuring
+- val (type, name, price) = "shandy,Dragon's Breath,5.91".split(',')
 
 # Converting strings to numbers
 - `toFloat()`:
 - `toDouble()`:
-- `toDoubleOrNull()`:
+- `toDoubleOrNull()`: DOn't give exception but return null.
 - `toIntOrNull()`:
 - `toLong()`:
 - `toBigDecimal()`:
 
-# Restructuring.
+# Strings in kotlin are immutable.
+- The replace function below creates a new string instead of mutating the original string.
+- Though the string vartiables can be reassigned.
 
+# Using replace method of string
+```kotlin
+fun toDragonSpeak(phrase: String) =
+  phrase.replace(Regex("[aeiou]")) {
+    when (it.value) {
+      "a" -> "4"
+      "e" -> "3"
+      "i" -> "1"
+      "o" -> "0"
+      "u" -> "|_|
+      "else -> it.value
+      }
+  }
+```
+
+# Specifying unicode characters
+- Use '\u' prefix.
+- val myChar: Char = '\u0950'
+
+# Iterating over a String
+- Use forEach to iterate over every character in the string
+```kotlin
+"Dragon's Breath".forEach {        
+  println("$it\n")    
+  }
+```
+
+# Numbers in Koltin
 
 | Type | Bits | Max Value | Min Value |
 |-------|--------|---------|---------|
@@ -455,54 +488,71 @@ runMyRunnable { println("hey now") }()
 | Float | 32 | 3.4028235E38 | 1.4E-45 |
 | Double | 64 | 1.7976931348623157E308 | 4.9E-324 |
 
-
-# Strings in kotlin are immutable.
-
-- Operation between Int will give Int, If you want deimal values use ne operand as double/float.
+- Operation between Ints will give an Int, If you want decimal values use one operand as double/float.
 - All numeric types in kotlin are signed.
 
-`String.toIntOrNull()`
-`toFloat()`
-`toDouble()`
+# Converting a String to a Numeric Type
+- `String.toInt()`: 
+- `String.toIntOrNull()`: Will return null instead of throwing an exception.
+- `String.toIntOrNull()`: Will return null instead of throwing an exception.
+- `String.toFloat()`
+- `String.toDouble()`
+- `String.toDoubleOrNull()`: Will return null instead of throwing an exception.
 
-`String.format()`
-${"%.2f".format(remainingBalance)}"
+# Format double values
+- println("Balance: ${"%.2f".format(4.1899999999)}")
 
-`Double.toInt()`
-`Double.roundToInt()`
+# Converting doubles to Int
+- `Double.toInt()`
+- `Double.roundToInt()`
 
-Integer.toBinaryString()
-Integer.shl(bitcount)
-Integer.shr(bitcount)
-Integer.Inv()
+# Bit manipulation on Int
+- `Integer.toBinaryString()`: Integer.toBinaryString(42)
+- `shl()`: 42.shl(2)
+- `shr()`: 42.shr(2)
+- `inv()`: 42.inv()
+- `xor()`: 42.xor(33)
+- `and()`: 42.and(10)
 
-# let
-- passes the receiver to the lambda you provide, you can use"it".
-- returns the last line of the lambda (the
-lambda result).
+# Standard Functions in Kotlin
+- **receiver**: The subject of an extension function.
+-  Kotlin’s standard functions are extension functions under the hood.
 
-# apply
-- apply passes nothing to lambda you provide.
-- apply returns the current receiver once the anonymous function completes.
-- all the
-function calls within the lambda are now called relative to the receiver.
-- Another
-way to say this is that they are implicitly called on the receiver.
-- apply returns the current receiver once the anonymous function
-completes. 
+## let function
+- Passes the receiver to the lambda you provide, you can use"it".
+- Returns the last line of the lambda (the lambda result).
 
-# run
-- similar to apply
-in that it provides the same relative scoping behavior. 
-- However, unlike apply,
-run does not return the receiver.
-- run returns the lambda result – here, a true or false value.
-- run can also be used to execute a function reference on a receiver. 
+## apply function
+- Can be thought of as a `configuration function`. 
+- It allows you to call a series of functions on a receiver to configure it for use. 
+- After the lambda provided to apply executes,apply returns the configured receiver
+- Apply passes nothing to lambda you provide.
+- Apply returns the current receiver once the anonymous function completes.
+- All the function calls within the lambda are now called relative to the receiver.
+- Another way to say this is that they are implicitly called on the receiver.
+- Apply returns the current receiver once the anonymous function completes. 
+```koltin
+val menuFile = File("menu-file.txt")    
+menuFile.setReadable(true)    
+menuFile.setWritable(true)    
+menuFile.setExecutable(false)
+
+// Above can be written as
+val menuFile = File("menu-file.txt").apply {
+          setReadable(true)        
+          setWritable(true)        
+          setExecutable(false)    
+      }
+```
+
+# run function
+- Similar to apply in that it provides the same relative scoping behavior. 
+- However, unlike apply, run does not return the receiver.
+- Run returns the lambda result – here, a true or false value.
+- Run can also be used to execute a function reference on a receiver. 
 
 # with
-- with requires
-its argument to be accepted as the first parameter rather than calling the standard
-function on a receiver type
+- With requires its argument to be accepted as the first parameter rather than calling the standard function on a receiver type
 
 
 
