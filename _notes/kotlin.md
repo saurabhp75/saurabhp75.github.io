@@ -4,11 +4,13 @@ title: "Kotlin Android"
 excerpt: "Intro to Kotlin"
 ---
 
+### adb over wifi
+
 ```shell
 $adb -s devname tcpip 5555
 $adb connect 100.71.253.137:5555
 ```
-# Keyboard shortcut in android studio to find a file
+### Keyboard shortcut in android studio to find a file
 - Ctrl + Shift + n : Search for a file
 
 - Ctrl + Shift + p : Find the type of a variable.
@@ -290,12 +292,14 @@ val USER_NAME_FIELD = "UserName"
 - use the assignment operator (=), followed by the expression.
 
 ```kotlin
-// A higher order function, runMyRunnable, taking a function parameter
+// A higher order function, runMyRunnable,
+// taking a function parameter
 fun runMyRunnable(runnable: () -> Unit) { runnable() }
 // Invoke and pass a lambda
 runMyRunnable { println("Hello world") }
 
-// runMyRunnable1 is a higher order function, taking a function parameter
+// runMyRunnable1 is a higher order function,
+// taking a function parameter
 // and returning a lambda containing that function
 fun runMyRunnable1(runnable: () -> Unit) = { runnable() }
 runMyRunnable1 { println("Hello world") }()
@@ -310,9 +314,8 @@ runMyRunnable1 { println("Hello world") }()
 - the function will either throw an exception or for some other reason never return to where it was called.
 
 ```kotlin
-/**
-* Always throws [NotImplementedError] stating that operation is not implemented.
-*/
+// Always throws [NotImplementedError] stating 
+// that operation is not implemented.
 public inline fun TODO(): Nothing = throw NotImplementedError()
 ```
 
