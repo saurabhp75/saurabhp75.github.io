@@ -29,20 +29,19 @@ $adb connect 100.71.253.137:5555
 - During LI the "views" in the layout files are inflated to Kotlin view objects in memory.
 
 
-- bundle object parameter in onCreate() method contain dynamic state information (typically relating to the state of the user interface)
-from a prior invocation of the activity.
+- bundle object parameter in onCreate() method contain dynamic state information (typically relating to the state of the UI) from a prior invocation of the activity.
 
-- onCreate(savedInstanceState: Bundle?) – The method that is called when the activity is first created 
+- **onCreate(savedInstanceState: Bundle?)** – The method that is called when the activity is first created 
 
-- onRestart() – Called when the activity is about to restart after having previously been stopped by the runtime
+- **onRestart()** – Called when the activity is about to restart after having previously been stopped by the runtime
 system.
 
-- onStart() – Always called immediately after the call to the onCreate() or onRestart() methods, this method
+- **onStart()** – Always called immediately after the call to the onCreate() or onRestart() methods, this method
 indicates to the activity that it is about to become visible to the user. This call will be followed by a call to
 onResume() if the activity moves to the top of the activity stack, or onStop() in the event that it is pushed down
 the stack by another activity.
 
-- onResume() – Indicates that the activity is now at the top of the activity stack and is the activity with which
+- **onResume()** – Indicates that the activity is now at the top of the activity stack and is the activity with which
 the user is currently interacting.
 
 
@@ -72,8 +71,7 @@ Strings in your app should be located in **resources folder**.
 **findViewById()** : Find the view(element) by id you assigned.  
 You should minimize the use of findViewById() as it is an **expensive operation**.
 
-- **"lateinit" keyword**: Tells Kotlin compiler that the variable will be initialized before it is accessed.  
-It is a common pattern in android to initialize non null variables.
+- **"lateinit" keyword**: Tells Kotlin compiler that the variable will be initialized before it is accessed. It is a common pattern in android to initialize non null variables.
 
 - **"tools" namespace**: It is used when you want to define dummy content when you are previewing the app in the preview pane. Attribute using the tools namespace are removed when you compile the app.
 
@@ -411,6 +409,7 @@ fun main(args: Array<String>) {
 - Java 8 includes support for OOP & lambda expressions but does not include the ability to define a function as a parameter to a function or variable. 
 - Instead, Java provides anonymous inner classes – nameless classes that are defined within another class to implement a single method definition. 
 - You can pass anonymous inner classes as an instance, like a lambda.
+
 ```kotlin
 public interface Runnable {
   public abstract void run();
@@ -428,7 +427,7 @@ runMyRunnable { println("hey now") }()
 ## Use of `?`, `let` and `!!` with nullable values
 
 ## Null coalescing/Elvis operator, `?:`
-- “If the thing on the lefthand side of me is null, do the thing on the righthand side instead.”
+- If the thing on the lefthand side of me is null, do the thing on the righthand side instead.
 
 ## Precondition functions
 - `checkNotNull()`: Throws an IllegalStateException if argument is null. Otherwise returns the non-null value.
@@ -458,6 +457,7 @@ runMyRunnable { println("hey now") }()
 - Though the string vartiables can be reassigned.
 
 ## Using replace method of string
+
 ```kotlin
 fun toDragonSpeak(phrase: String) =
   phrase.replace(Regex("[aeiou]")) {
@@ -478,6 +478,7 @@ fun toDragonSpeak(phrase: String) =
 
 ### Iterating over a String
 - Use forEach to iterate over every character in the string
+
 ```kotlin
 "Dragon's Breath".forEach {        
   println("$it\n")    
