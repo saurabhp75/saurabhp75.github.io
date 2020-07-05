@@ -649,12 +649,17 @@ val fifthPatron = patronList.getOrNull(4) ?: "Unknown Patron"
 - List.containsAll(List): To check whether elements in the given list are present.
 
 ### Mutable list
-- Use `mutableListOf()` function.
-- You can add or delete elements in this list.
-- Use `remove(element)` method to remove an element.
-- Use `add(element)` method to add an element at the end of the list.
-- Use `add(index, element)` method to add an element at given index of the list. 
-- Use `toList()` method on mutable list to change to read only list.
+- Use `mutableListOf()` function. You can add or delete elements in this list.
+- `[]=`: set operator, Sets the value at the index.
+- `+=`: Adds an element or collection of elements to the list.
+- `-=`: Removes an element or collection of elements from the list.
+- `remove(element)`: remove an element.
+- `add(element)`: add an element at the end of the list.
+- `add(index, element)`: add an element at given index of the list. 
+- `toList()`:  method on mutable list to change to read only list.
+- `addAll()`: Adds all of another collection withcontents of the same type to the list.
+- `clear()`: Removes all the elements from the list.
+- `removeIf()`: Removes elements from the list based on a predicate lambda.
 
 ### Genereic type
 - A class that accepts a generic input - i.e., an input of any type.
