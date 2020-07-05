@@ -10,37 +10,29 @@ excerpt: "Intro to Kotlin"
 $adb -s devname tcpip 5555
 $adb connect 100.71.253.137:5555
 ```
-### Keyboard shortcut in android studio to find a file
-- Ctrl + Shift + n : Search for a file
-
-- Ctrl + Shift + p : Find the type of a variable.
-
-- Shift + Shift :  Search everywhere.
+### Android Studio keyboard shortcuts
+- **Ctrl + Shift + n** : Search for a file.
+- **Ctrl + Shift + p** : Find the type of a variable.
+- **Shift + Shift** :  Search everywhere.
 
 ### Definitions
-- Activity
-- Layout
-- Fragment
+- **Activity**: Activity has an associated layout file. 
+- **Layout**: Layout file is an XML file. Layout file contains the information about various elements and their positioning. These elements are called **views**.
+- **Fragment**
 
-- Activity has an associated layout file.
-- Layout file is an XML file.
-- Layout inflation process connects activity and its layout.
-- LI is triggered when activity starts.
+## Layout inflation process
+- Connects activity and its layout.
+- Triggered when activity starts.
 - During LI the "views" in the layout files are inflated to Kotlin view objects in memory.
 
 
 - bundle object parameter in onCreate() method contain dynamic state information (typically relating to the state of the UI) from a prior invocation of the activity.
-
 - **onCreate(savedInstanceState: Bundle?)** – The method that is called when the activity is first created 
-
-- **onRestart()** – Called when the activity is about to restart after having previously been stopped by the runtime
-system.
-
+- **onRestart()** – Called when the activity is about to restart after having previously been stopped by the runtime system.
 - **onStart()** – Always called immediately after the call to the onCreate() or onRestart() methods, this method
 indicates to the activity that it is about to become visible to the user. This call will be followed by a call to
 onResume() if the activity moves to the top of the activity stack, or onStop() in the event that it is pushed down
 the stack by another activity.
-
 - **onResume()** – Indicates that the activity is now at the top of the activity stack and is the activity with which
 the user is currently interacting.
 
@@ -56,8 +48,6 @@ Android uses info in manifest file to launch an app.
 
 - You need to override the **onCreate()** method of **AppCompatActivity** class to launch the app.
 - **setContentView()** method, where you provide the activity associated with the app and inflate it and draw to screen.
-
-Layout file contains the information about various elements and their positioning. These elements are called **views**.
 
 ### Constraint layout
 Constraint layout allows you to create large, complex layouts with flat view hierarchies (no nested view groups).In a constraint layout, you position a view by defining at least one horizontal and one vertical constraint.
@@ -350,9 +340,7 @@ fun `**~prolly not a good idea!~**`() {
 val currentYear = 2018
 "Welcome to SimVillage, Mayor! (copyright $currentYear)"
 }()
-```
 
-```kotlin
 fun main(args: Array<String>) {
   // Notice, no parenthesis around parameter in definition
   val greetingFunction: (String) -> String = { playerName ->
@@ -616,6 +604,7 @@ val fileContents = if (file.canRead() && file.canWrite()) {
 - It returns the original value(receiver) if the condition you define is false.
 - It is confusing and not used often, takeIf is used instead.
 
+
 | Function | Passes receiver to lambda as argument? | Provides relativescoping? | Returns |
 |------|----------|-------------|----------|
 | let | Yes | No | Lambda result | 
@@ -627,18 +616,45 @@ val fileContents = if (file.canRead() && file.canWrite()) {
 | takeUnless | Yes | No | Nullable versionof receiver |
 
 
-
 # Collections, List, Set, and Map
 - lists, sets, and maps come in two distinct varieties: `mutable` and `read-only`.
-
-## List
-- Lists hold an ordered collection of values and allow duplicate values.
-- listOf() returns a read-only list.
--  List is a generic type.
 
 ### parameterized type
 - The type defined for the contents of a collection.
 - For eg. List\<String\>.
+
+## List
+- Lists hold an ordered collection of values and allow duplicate values.
+- **listOf()** returns a read-only list. The read-only nature of the list has nothing to do with the val or var keyword.
+- List is a generic type.
+
+### Accessing a list’s elements
+- Using the element’s index and the [] operator.
+- First and last elements: List.first(), List.last().
+- attempting to access anelement at an index that does not exist throws an `ArrayIndexOutOfBoundsException`.
+
+### Accessing a list’s elements safely
+- No exception, lambda as an alternative: `List.getOrElse(index) {"Element doesn't exist"}`.
+- No exception, null as an alternative: `List.getOrNull(index)`.
+
+```kotlin
+val patronList = listOf("Eli", "Mordoc", "Sophie")
+patronList.getOrElse(4) { "Unknown Patron" }
+
+val fifthPatron = patronList.getOrNull(4) ?: "Unknown Patron"
+```
+
+### Checking the contents of a list
+- List.contains(): Check wheher an element is present in the list. 
+- List.containsAll(List): To check whether elements in the given list are present.
+
+### Mutable list
+- Use `mutableListOf()` function.
+- You can add or delete elements in this list.
+- Use `remove(element)` method to remove an element.
+- Use `add(element)` method to add an element at the end of the list.
+- Use `add(index, element)` method to add an element at given index of the list. 
+- Use `toList()` method on mutable list to change to read only list.
 
 ### Genereic type
 - A class that accepts a generic input - i.e., an input of any type.
