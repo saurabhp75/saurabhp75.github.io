@@ -174,6 +174,7 @@ $ docker push
 - IMP: not done in Dockerfile.
 - Can be done in docker compose config file or from command line.
 - specified while running container.
+
 ```shell
 $ docker run -p 8080:8080 image_name
 ```
@@ -204,14 +205,17 @@ Similar to $ docker run image
 $ docker-compose up
 ```
 ### To run services in background
+
 ```shell
 $ docker-compose up -d
 ```
 ### Rebuild images and run services
+
 ```shell
 $ docker-compose up --build
 ```
 ### Above is similar to
+
 ```shell
 $ docker build .
 $ docker run image
@@ -223,8 +227,8 @@ $ docker-compose down
 ```
 
 ### Container maintenance with docker compose file
-
 - Restarting crashed container.
+
 ```yaml
 restart: always/"no"/on-failure/unless-stopped
 ```
@@ -485,10 +489,12 @@ $ kubectl describe obj-type [obj-name]
 - Deployment uses pod template.
 
 ### To delete an object
+
 ```shell
 $ kubectl delete -f config file
 ```
 ### To get status of deployments
+
 ```shell
 $ kubectl get deployments
 ```
@@ -524,17 +530,17 @@ Volume's lifecycle is tied to that of pod. Persistent volume outlasts the kid's 
 
 ### PV Vs PVC 
 PVC consists of: 
-- Statically provisioned PV
+- Statically provisioned PV.
 - Dynamically provisioned PV.
 
 ### PV access modes 
 - **ReadWriteOnce**: can be used by single node.
-- **ReadMany**: many nodes can read
+- **ReadMany**: many nodes can read.
 - **ReadWriteMany**: many nodes can read write. 
 
 ### Storage classes for PVs 
-- **GCP**: Persistent disk
-- **AWS**: Block store
+- **GCP**: Persistent disk.
+- **AWS**: Block store.
 
 ### Creating a secret Object
 ```shell
@@ -542,7 +548,7 @@ $ kubectl create secret generic secrrt-na me --from-literal key=value
 ```
 
 ### Ingress-nginx(community/k8s led)
-- We'll use this
+- We'll use this.
 - Setup is different on AWS and GCP.
 - We'll configure ingress on GCP.
 
