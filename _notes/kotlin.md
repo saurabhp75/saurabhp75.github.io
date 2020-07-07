@@ -14,6 +14,7 @@ $adb connect 100.71.253.137:5555
 - **Ctrl + Shift + n** : Search for a file.
 - **Ctrl + Shift + p** : Find the type of a variable.
 - **Shift + Shift** :  Search everywhere.
+- **Ctrl + Alt + backward/forward Arrow**: Navigate to previous/next cursor position.
 
 ### Definitions
 - **Activity**: Activity has an associated layout file. 
@@ -645,21 +646,176 @@ val fifthPatron = patronList.getOrNull(4) ?: "Unknown Patron"
 ```
 
 ### Checking the contents of a list
-- List.contains(): Check wheher an element is present in the list. 
-- List.containsAll(List): To check whether elements in the given list are present.
+- List.contains(): Check whether an element is present in the list. 
+- List.containsAll(List): Check whether elements in the given list are present.
 
 ### Mutable list
 - Use `mutableListOf()` function. You can add or delete elements in this list.
-- `[]=`: set operator, Sets the value at the index.
+- `[]=`: Set operator, Sets the value at the index.
 - `+=`: Adds an element or collection of elements to the list.
 - `-=`: Removes an element or collection of elements from the list.
-- `remove(element)`: remove an element.
+- `remove(element)`: remove an element from the list.
 - `add(element)`: add an element at the end of the list.
 - `add(index, element)`: add an element at given index of the list. 
 - `toList()`:  method on mutable list to change to read only list.
-- `addAll()`: Adds all of another collection withcontents of the same type to the list.
+- `addAll(collection)`: Adds all of another collection with contents of the same type to the list.
 - `clear()`: Removes all the elements from the list.
-- `removeIf()`: Removes elements from the list based on a predicate lambda.
+- `removeIf{}`: Removes elements from the list based on a predicate lambda.
+- `shuffled()`: Shuffles the contents of a list.
+
+### Iterting a list
+
+```kotlin
+val patronList = listOf("Alex", "Tony", "Rocky", "Tina")
+  // Normal iteration
+  for (patron in patronList) {
+      println("Good evening, $patron")
+  }
+  // functional style iteration
+  patronList.forEach { println("Good evening, $it!")}
+  // Iterating with index
+  patronList.forEachIndexed {index, s -> println("$s you're $index")}
+```
+
+### Changing between mutable and immutable list
+- Use `toList()` or `toMutableList()` method.
+
+
+# What is an iterable
+-  An iterable allows traversing the elements it holds, performing some action for each element.
+- A collection supporting `forEach()` and `forEachIndexed()` methods.
+- List,Set, Map, IntRange (ranges like 0..9)
+
+### Reading a File into a List
+
+```koltin
+// readText() returns the contents of the file 
+// as a String. Then split on newline 
+val fileList = File("Data/tavern-menu-data.txt")
+        .readText()
+        .split('\n').forEach { println(it) }
+```kotlin
+
+### Destructuring a list 
+- List offers the ability to destructure up to the `first five elements` it contains.
+- Destructuring, allows you to declare and assign multiple variables in a single  expression.
+
+```kotlin
+val (type, name, price) = menuData.split(',')
+
+// Using _ to skip unwanted elements
+val (type, _, price) = menuData.split(',')
+```
+
+# Sets in Koltin
+- Unlike list enforces unique element.
+- Set does not index its contents, you cannot use `[]` operator with index to access elements.
+- Set also have a mutable version.
+
+
+### Creating a set
+
+```kotlin
+//Empty Set, notice type specification 
+val stars = setOf<String>()
+
+val planets = setOf("Mercury", "Venus", "Earth")
+```
+
+### Set methods
+- `contains(element)`: Check whether an element is present in the Set. 
+- `containsAll(collection)`: Check whether elements in the given collection are present.
+
+### Accessing Set elements
+- `elementAt(index)`: Access element at the given index. This method is very slow as the set iterates to the index you provide, one element at a time.
+- So if you want index-based access,you probably want a List, not a Set.
+
+
+### MutableSet 
+- Supports adding and removing elements, likeMutableList, it does not provide index-based mutator functions.
+
+### Mutable set mutator functions
+- `add(element)`: Adds an element to set.
+- `addAll(collection)`: Adds the elements of the collection to the set.
+- `+=`: Adds the value(s)to the set.
+- `-=`: Removes the value(s)from the set.
+- `remove(element)`: Removes the elementfrom the set.
+- `removeAll(collection)`: Removes all elementsin another collectionfrom the set.
+- `clear()`: Removes all elementsfrom the set.
+
+### Using while loops to iterate over collection 
+- It is more flexible as they can represent state that is not purely based on iteration. 
+
+### Use `break` to break out of any loop
+
+### Collection Conversion
+- Convert a list to a set using `toSet()` to drop the non-unique elements in a list.
+- To drop duplicate element in a list, use `distinct()` as it calls `toSet()` then `toList()` internally.
+
+### Arrays in Java and Kotlin
+- In Java we have arrays of primitive types, like intArray.
+- Kotlin includes a number of reference types, called Arrays, that compile down to Java primitive arrays. 
+- Arrays are included primarily to support interoperability between Kotlin and Java.
+- Unlike a List, an Array is backed by a primitive type when compiled to bytecode.
+- A Kotlin collection is a better choice in most cases because collections provide the concept of “read-only-ness” versus “mutability” and support a more robust set of features.
+
+| Array type | Creation function |
+|------------|-------------------|
+| IntArray | intArrayOf |
+| DoubleArray | doubleArrayOf | 
+| LongArray | longArrayOf |
+| ShortArray | shortArrayOf |
+| ByteArray | byteArrayOf |
+| FloatArray | floatArrayOf |
+| BooleanArray | booleanArrayOf |
+| Array | arrayOf |
+
+**Note**: Array compiles to a primitive array that holds any reference type.
+
+### Creating empty collection
+- You need to specify parametrized type as it cannot be inferenced from the content.
+
+# Maps in Koltin
+- Read-only by default, use parameterized types to tell the compiler the type of their contents.
+- Maps also support iteration.
+- Map's elements consist of key-value pairs, and instead of index-based access using an integer, a map provides key-based access. 
+- Keys are unique and identify the values in the map.
+- The values, on the other hand, need not to be unique.
+- The keys in a map must all be of the same type.
+- The values in a map must be of the same type.
+- when a map is printed, it is shown in curly braces, while lists and sets are both shown in square brackets.
+
+### Specifying type of a map
+- For eg val employeeMap: Map<String, Int>
+
+### Creating a Map
+- Use `mapOf()` and `mutableMapOf()`
+
+```kotlin
+// Using to keyword
+val patronGold = mapOf("Eli" to 10.5, "Mordoc" to 8.0, "Sophie" to 5.5)
+
+// Using Pair() method
+val patronGold = mapOf(Pair("Eli", 10.75),
+  Pair("Mordoc", 8.00),
+  Pair("Sophie", 5.50))
+```
+
+### To keyword in kotlin
+- It is a special type of function that allows you to drop the dot and the parentheses around its arguments.
+- The `to` function converts the values on its lefthand and righthand sides into a Pair
+- A pair is a type for representing a group of two elements.
+- Maps are built using key-value pairs.
+
+### Adding a duplicate key in map
+- The existing pair will be replaced with the new one.
+
+
+
+
+
+
+
 
 ### Genereic type
 - A class that accepts a generic input - i.e., an input of any type.

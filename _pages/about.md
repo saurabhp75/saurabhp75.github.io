@@ -22,7 +22,7 @@ header:
 | Skill| Description/Tool|
 |:--------|:-------|
 | **Maths** | Descriptive Statistics, Inferential Statistics, Probability, Z-Test, Student T-test, Chi-Squared Test, Hypothesis Testing, A/B Testing, Bayesian Analysis.|
-| **Languages** | Python,  Javascript/ES6, C, C++ | 
+| **Languages** | Python, Koltin, Javascript/ES6, C, C++ | 
 |-------------------|
 | **Supervised Learning** | Linear Regression, K Nearest Neighbors, Logistic Regression, SVMs, Neural Networks, Decision Trees, Random Forest.|
 | **Unsupervised learning** | K-Means Clustering, PCA, t-SNE, Anomaly Detection, Recommender Systems.|

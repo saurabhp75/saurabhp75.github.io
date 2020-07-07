@@ -237,7 +237,7 @@ restart: always/"no"/on-failure/unless-stopped
 ```shell
 $ docker-compose ps
 ```
-**Note**: Above command should be run from the directory containing docker-compose.yml file
+**Note**: Above command should be run from the directory containing `docker-compose.yml` file
 
 ### Docker in production environment
 Workflow:

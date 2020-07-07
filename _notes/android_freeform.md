@@ -79,6 +79,7 @@ override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean,
 
 ### Identifying topmost resumed activity in Multi-window mode
 - As multiple activities can be in resumed state, code below identifies topmost resumed activity.
+
 ```kotlin
 override fun onTopResumedActivityChanged(isTopResumedActivity: Boolean) {
  super.onTopResumedActivityChanged(isTopResumedActivity)
