@@ -811,8 +811,180 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - The existing pair will be replaced with the new one.
 
 
+### Map accessor functions (Accessing Map Values)
+- `[key]` (get/indexoperator): Gets the value for a key; returnsnull if the key does not exist.
+- `getValue(key)`: Gets the value for a key; throws anexception if the key provided isnot in the map.
+- `getOrElse(key){value}`: Gets the value for the key or returns a default using ananonymous function.
+- `getOrDefault(key, default)`: Gets the value for the key orreturns a default using a value you provide.
+
+###  Mutable map mutator functions
+- `=`(assignmentoperator): Adds or updates the value in the map for the key specified.
+- `+=`(plus assignoperator): Adds or updates an entry or entries inthe map based on the entry or mapspecified.
+- `put(key, value)`: Adds or updates the value in the map forthe key specified.
+- `putAll(listOf(Pairs))`: Adds all of the key-value pairs providedto the map
+- `getOrPut(key){value}`: Adds an entry for the key if it does notexist already and returns the result;otherwise returns the existing entry.
+- `remove(key)`: Removes an entry from the map andreturns the value.
+- `-`(minusoperator): Returns a new map, excluding the entries specified.
+- `-=`(minusassignoperator): Removes entry or map of entries fromthe map.
+- `clear()`: Removes all entries from the map.
 
 
+# Kotlin collections summary
+
+| Collection type | Ordered? | Unique? | Stores | Supports destructuring? |
+|-----------------|----------|---------|--------|-------------------------|
+| List | Yes | No | Elements | Yes |
+| Set | No | Yes | Elements | No |
+| Map | No | Keys | Key-value pairs | No |
+
+
+# Classes in Koltin
+
+### Defining Classes
+- A class can be defined in its own file or alongside other elements, like functions or variables.
+- Defining a class in its own file gives it room to grow as the program scales up over time.
+- A class is often declared in a file matching its name, but it does not have to be.
+- You can define multiple classes in the same file.
+- The class body holds definitions for the class’s behavior and data
+
+### Constructing Instances
+- A class's primary constructor is called by suffixing the class name with parentheses, creating an instance.
+- Class definitions can specify two types of content: behavior and data.
+- The parenthesis for primary constructor in class definition are optional if there are no constructor arguments.
+- A body of a class is optional (but then class will not be of much use).
+- By default, any function or property without a visibility modifier is public. 
+
+```kotlin
+// Code below is valid
+fun main(args: Array<String>) {
+    class Player
+    val player = Player()
+}
+```
+
+### Visibility and Encapsulation
+- A `public` class function can be invoked anywhere in the program
+- A `private` class function cannot be invoked outside of the class on which it is defined. 
+- This idea of restricting visibility to certain class functions or properties drives a concept in object-oriented programming known as `encapsulation`.
+
+| Modifier | Description |
+|----------|-------------|
+| public(default) | The function or property will be accessible by code outside of theclass. By default, functions and properties without a visibility modifier are public. |
+| private | The function or property will be accessible only within the same class. |
+| protected | The function or property will be accessible only within the same class or its subclass. |
+| internal | The function or property will be accessible within the same module |
+
+
+**Note**: Unlike Java, package private visibility level is not included in Kotlin.
+
+### Class properties
+- Data definitions, better known as class properties, are the attributes required to represent the specific state or characteristics of a class.
+- When an instance of a class is constructed, all of its properties must have values.This means that, unlike other variables, class properties must be assigned an initial value.
+- Like normal variables, properties can represent either read-only or mutable data using the valand var keywords, respectively.
+- Properties model the `characteristics` of each instance of a class.
+- For each property you define, Kotlin will generate a `field`, a `getter`, and, if needed, a `setter`. 
+- A field is only accessible within a getter or a setter
+- A field is where the data for a property is stored. You cannot directly define a field on a class. Kotlin encapsulates the fields for you, protecting the data in the field and exposing it via getters and setters.
+- A getter is generated only when a property is writable, that is, when the propertyis a `var`.
+- You can override the default generated getter and setter, when you want to specify how the data will be read or written.
+- Property getters are called using the same access syntax as the other variables that you have seen. 
+- Property setters are called using the assignment operator thatyou have used to assign values to variables.
+- By default, the visibility of a property’s getter and setter match the visibility of the property itself.
+- To expose access to a property but not expose its setter. Define the visibility of the setter separately as private.
+- A getter or a setter’s visibility cannot be more permissive than the property onwhich it is defined. This implies that you can `restrict` access to a property via a getter or a setter,but they are not intended for making properties more visible.
+- We use the terms “writable” and “read-only”rather than “mutable” and “immutable” for properties as for read-only computed properties the value may change on each access, for eg a randomly computed property.
+
+
+```kotlin
+// Overriding default getter & setter
+fun main(args: Array<String>) {
+    class Player {
+        var name = "madrigal"
+            get() = field.capitalize()
+            private set(value) {
+                field = value.trim()
+            }
+    }
+}
+```
+
+### Computed properties
+- A computed property is a property that is specified with an overridden get and/or set operator in a way that makes a `field` unnecessary.
+- It has no initial or default value and no backing field to hold a value.
+
+```kotlin
+// Computed property
+fun main(args: Array<String>) {
+    class Dice() {
+        val rolledValue
+            get() = (1..6).shuffled().first()
+    }
+}
+```
+
+### Using Packages in Kotlin
+- A package is like a folder for similar elements that helps give a logical grouping to the files in your project. 
+- For eg, the `kotlin.collections` package contains classes to create and manage lists and sets. 
+- Packages allow you to organize your project as it becomes more complex, and they also prevent naming collisions.
+- Name your package in reverse-DNS style for eg com.bignerdranch.nyethack. This scales with the number of applications that you write.
+- Organizing code using classes, files, and packages will help you to make surethat your code is clear as your application grows in complexity.
+
+
+# Guarding Against RaceConditions
+- The compiler prevents the code from compiling because of the possibility of what is known as a `race condition`. 
+- A race condition occurs when some other part of your program simultaneously modifies the state of your code in a manner that leads to unpredictable results.
+
+```kotlin
+// gaurding aginst race condition
+fun main(args: Array<String>) {
+    class Weapon(val name: String)
+    class Player {
+        var weapon: Weapon? = Weapon("Ebony Kris")
+        fun printWeaponName() {
+            if (weapon != null) {
+                // Compiler error in line below
+                // Smart cast to weapon is impossible as
+                // it is a mutable property and could change
+                // after the null check
+                println(weapon.name)
+            }
+        }
+
+        // This will not give compile error
+        // as "it" is a local variable, accessible
+        // only within the lambda scope.
+        fun printWeaponName1() {
+            weapon?.also { println(it.name) }
+        }
+    }
+
+    fun main(args: Array<String>) {
+        Player().printWeaponName()
+    }
+}
+```
+
+### Private visibility vs internal visibility
+- By default, Java uses package private visibility.
+- It means that methods, fields, and classes with no visibility modifier areusable from classes belonging to the same package only.
+- In practice, it is easily circumvented by creating a matching package and adding a class to it.
+- A visibility level Kotlin provides that Java does not is the `internal` visibility level. 
+- Internal visibility marks a function, class, or property aspublic to other functions, classes, and properties within the same module. 
+- A `module` is a discrete unit of functionality that can be run, tested, and debugged independently.
+- Modules include such things as source code, build scripts, unit tests, deploymentdescriptors, and so on.
+- Modules can also depend on othermodules for source files and resources.
+- Internal visibility is useful for sharing classes within a module while disallow ingaccess from other modules, which makes it a great choice for building libraries in Kotlin
+
+
+# Initialization in Koltin
+- This chapter covers the ways classes andtheir properties can be initialized.
+- When you initialize a variable, property, orclass instance, you assign it an initial value to make it ready for use.
+- `Initialization` is used to mean “everything required to make a variable, property, or class instanceready to use,”
+- `Instantiation` tends to be limited to “creating an instanceof a class.”
+
+## Constructors
+
+### Primary constructors
 
 
 
