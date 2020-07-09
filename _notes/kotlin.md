@@ -1048,8 +1048,6 @@ fun main() {
 }
 ```
 
-
-
 ### Secondary constructors
 - The `primary constructor` specifies the parameters required for any instance of the class.
 - The `secondary constructor`, specifies the alternative ways to construct the class (while still meeting the requirements of the primary constructor).
@@ -1071,6 +1069,76 @@ fun main() {
 - Variables local to a function, on the otherhand, are scoped to the function in which they are defined and cannot be accessed from outside of it.
 
 ### Initialization Order
+1. The primary constructor’s inline properties.
+2. Required class-level property assignments.
+3. init block property assignments and function calls.
+4. secondary constructor property assignments and function calls.
+-  Initialization order of the init block (item 3) and the class-level property assignments (item 2) depends on the order they are specified in.
+
+
+### Delaying Initialization
+
+#### Late initialization
+- Any `var` property declaration can be appended with the `lateinit` keyword, and the Kotlin compiler will let you put off initializing the property until you assign it.
+- You could implement this pattern using a nullable type instead, but you wouldthen be required to handle your property’s nullability throughout your codebase,which is burdensome.
+- Kotlin doesprovide a way to check whether a late-initialized variable has been initialized, the `isInitialized` check.
+- However, `isInitialized` should be used sparingly.
+
+#### Lazy initialization
+- Some properties may involve some more computationally intensive task when being initialized, like reading from a file.
+- If your class does not require access to a property right away, then lazyinitialization could be a good choice.
+- Lazy initialization is implemented in Kotlin using a mechanism known as a `delegate`.
+- Delegates define templates for how a property is initialized.
+- You use a '`lazy` delegate with the `by` keyword. 
+- Lazy initialization takes a lambda in which you define any code that you wish toexecute when your property is initialized.
+
+```
+// Use of lazy property
+fun main() {
+  class Player(
+      _name: String,
+      var healthPoints: Int = 100,
+      val isBlessed: Boolean,
+      private val isImmortal: Boolean
+  ) {
+      var name = _name
+        get () = "${field.capitalize()} of $hometown"
+        private set(value) { field = value.trim() }
+
+      val hometown by lazy { selectHometown() }
+
+      private fun selectHometown() = File("towns.txt")
+          .readText()
+          .split("\n")
+          .shuffled()
+          .first()
+    }
+}
+```
+
+
+# Inheritance
+
+### Creating a Subclass
+- A `subclass` shares all properties with the class it inherits from, commonly known as the parent class or `superclass`.
+- In Kotlin classes are closed, they prohibit subclassing by default. 
+- For a class to be subclassed, it must be marked with the `open` keyword.
+
+```kotlin
+// Example of extandable class
+fun main() {
+    open class Room(val name: String) {
+        fun description() = "Room: $name"
+        fun load() = "Nothing much to see here..."
+    }
+
+    // Create subclass
+    class TownSquare : Room("Town Square")
+}
+```
+
+
+
 
 
 
