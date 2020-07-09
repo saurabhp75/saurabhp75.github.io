@@ -930,7 +930,7 @@ fun main(args: Array<String>) {
 - Organizing code using classes, files, and packages will help you to make surethat your code is clear as your application grows in complexity.
 
 
-# Guarding Against RaceConditions
+# Guarding Against Race Conditions
 - The compiler prevents the code from compiling because of the possibility of what is known as a `race condition`. 
 - A race condition occurs when some other part of your program simultaneously modifies the state of your code in a manner that leads to unpredictable results.
 
@@ -985,6 +985,100 @@ fun main(args: Array<String>) {
 ## Constructors
 
 ### Primary constructors
+- Allows its caller to specify the initial values that an instance of a class will require in order to be constructed.
+- Those values are then available for assignment to the properties defined within the class.
+- You can also specify `default values` that should be assigned if an argument is not provided for a specific parameter.
+- `Named arguments` can be used while calling a constructor just like functions, they allow you to specify the arguments to a function or constructor in any order.
+
+### Why prepend variable names with underscores
+- Temporary variables, including parameters that you do not need to reference more than once, are often given a name starting with an underscore to signify that they are single-use.
+
+```kotlin
+fun main(args: Array<String>) {
+  // Properties defined in the class body
+  class Player(_name: String,
+            _healthPoints: Int,
+            _isBlessed: Boolean,
+            _isImmortal: Boolean) {
+    var name = _name
+        get() = field.capitalize()
+        private set(value) { field = value.trim() }
+      var healthPoints = _healthPoints
+      val isBlessed = _isBlessed private 
+      val isImmortal = _isImmortal
+    }
+}
+```
+
+### Defining properties in a primary constructor
+- For properties that use the default getter and setter, you can specify both in one definition.
+- This is preferred way as it leads to less duplication of code.
+
+```kotlin
+fun main() {
+  // Properties defined in primary constructor
+  // Primary constructor with default argument
+  class Player(
+      _name: String,
+      var _healthPoints: Int = 100,
+      val _isBlessed: Boolean,
+      private val _isImmortal: Boolean
+  ) {
+      var name = _name
+        get() = field.capitalize()
+        private set(value) {
+            field = value.trim()
+        }
+
+      // Init block for argument validation
+        init {
+          require(_healthPoints > 0) { "healthPoints must be greater than zero." }
+          require(name.isNotBlank()) { "Player must have a name." }
+        }
+
+      // Secondary constructor with
+      // initialization logic
+      constructor(name: String) : this(
+        name,
+        _isBlessed = true,
+        _isImmortal = false ) {
+          if (name.toLowerCase() == "kar") _healthPoints = 40
+        }
+    }
+}
+```
+
+
+
+### Secondary constructors
+- The `primary constructor` specifies the parameters required for any instance of the class.
+- The `secondary constructor`, specifies the alternative ways to construct the class (while still meeting the requirements of the primary constructor).
+- Secondary constructor must either call the primary constructor, providing it all of the arguments it requires, or call another secondary constructor which follows the same rule. 
+- You can also use a secondary constructor to define initialization logic, code that will run when your class is instantiated.
+- You can define multiple secondary constructors for different combinations of parameters. 
+- Secondary constructors cannot be used to define properties like primary constructors.
+
+### Initializer Blocks
+- The initializer block is a way to set up variables or values as well as perform validation. 
+– Like checking to make sure that the arguments to the constructor are valid ones. 
+- The code it holds is executed when the class is constructed.
+
+### Property initialization
+- Properties can be initialized using function return values.
+- If your property requires complex initialization logic like multiple expressions consider pulling this initialization logic into a function or an initializer block.
+- The rule that states that properties must be assigned on declaration does not apply to variables in a smaller scope, like a function in the class.
+- Properties have more strict rules on initialization because they can be accessed from other classes if they are public. 
+- Variables local to a function, on the otherhand, are scoped to the function in which they are defined and cannot be accessed from outside of it.
+
+### Initialization Order
+
+
+
+
+
+
+
+
 
 
 
