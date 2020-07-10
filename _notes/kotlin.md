@@ -310,7 +310,7 @@ public inline fun TODO(): Nothing = throw NotImplementedError()
 
 ## Use of TODO()
 - To indicate that the function containing TODO() has some "todo".
-- The function containing TODO() can have a diffreent retrn type.
+- The function containing TODO() can have a different return type.
 - The statement after TODO() is never executed.
 
 ## Function overloading 
@@ -436,7 +436,7 @@ runMyRunnable { println("hey now") }()
 ## Converting strings to numbers
 - `toFloat()`:
 - `toDouble()`:
-- `toDoubleOrNull()`: DOn't give exception but return null.
+- `toDoubleOrNull()`: Don't give exception but return null.
 - `toIntOrNull()`:
 - `toLong()`:
 - `toBigDecimal()`:
@@ -775,7 +775,7 @@ val planets = setOf("Mercury", "Venus", "Earth")
 ### Creating empty collection
 - You need to specify parametrized type as it cannot be inferenced from the content.
 
-# Maps in Koltin
+# Maps in Kotlin
 - Read-only by default, use parameterized types to tell the compiler the type of their contents.
 - Maps also support iteration.
 - Map's elements consist of key-value pairs, and instead of index-based access using an integer, a map provides key-based access. 
@@ -989,6 +989,7 @@ fun main(args: Array<String>) {
 - Those values are then available for assignment to the properties defined within the class.
 - You can also specify `default values` that should be assigned if an argument is not provided for a specific parameter.
 - `Named arguments` can be used while calling a constructor just like functions, they allow you to specify the arguments to a function or constructor in any order.
+- Primary constructor is optional.
 
 ### Why prepend variable names with underscores
 - Temporary variables, including parameters that you do not need to reference more than once, are often given a name starting with an underscore to signify that they are single-use.
@@ -1123,19 +1124,177 @@ fun main() {
 - A `subclass` shares all properties with the class it inherits from, commonly known as the parent class or `superclass`.
 - In Kotlin classes are closed, they prohibit subclassing by default. 
 - For a class to be subclassed, it must be marked with the `open` keyword.
+- To override a function or property, it must be marked `open` in the partent class.
+- To access any member of superclass from subclass, use `super` keyword.
+- When you override a function in Kotlin, the overriding function in the subclass is, by default, open to being overridden (as long as the subclass ismarked open).
+- If you do not want this, then use `final` keyword, then the function can't be overridden. 
+- By requiring the explicit use of the open and override keywords, Kotlin requires you to opt in to inheritance. This reduces the chances of exposing classes that were not meant to be subclassed and prevents from overriding functions that were never meant to be overridden.
+- Every class in Kotlin descends from a common superclass, known as `Any`, without you having to explicitly subclass it in your code
 
 ```kotlin
 // Example of extandable class
 fun main() {
-    open class Room(val name: String) {
-        fun description() = "Room: $name"
-        fun load() = "Nothing much to see here..."
-    }
+  open class Room(val name: String) {
+    protected open val dangerLevel = 5
+    fun description() = "Room: $name"
+    open fun load() = "Nothing much to see here..."
+  }
 
-    // Create subclass
-    class TownSquare : Room("Town Square")
+  // Create subclass
+  class TownSquare : Room("Town Square")
+
+  // subclass another version
+  open class TownSquare1 : Room("Town Square") {
+    override val dangerLevel = super.dangerLevel - 3
+    final override fun load() = "The villagers rally and cheer as you enter!"
+  }
+
+  // Room can hold TownSquare type
+  // the functions called will be from 
+  // TownSquare, this is polymorphism
+  var currentRoom: Room = TownSquare1()
+  println (currentRoom.description())
+  println (currentRoom.load())
+
+  // true
+  currentRoom is Room
 }
 ```
+
+### Polymorphism
+- A variable can hold the subclass types and the members(properties and methods) accessed will be of the subtype.
+- So dependending on the subtype the members will be accesed, this is called `polymorphism`. 
+- So, a function can take a class and its subclass as parameter, and only the appropriate member will be accessed/invoked.
+
+### Type Checking
+- `is` operator  lets you query whether an object is of a certain type.
+- A subtype is type of parent type.
+
+### Type casting
+- Type casting allows you to treat an object as if it were an instance of a different type. 
+- This gives you the power to do anything with an object that you would dow ith an object of the type you specify (such as call functions on it).
+- The `as` operator denotes a type cast.
+- You have to use it safely. An example of a safe cast would be casting from an `Int` to a more precise number type like `Long`.
+- Cast from String to Int would cause a `ClassCastException`.
+- Cast is different from a conversion, Some strings can be converted to integers; no String can be cast to an Int.
+- If you must make an unsafe cast, then surrounding it with a try/catch block is a good idea. 
+- It is best, however, to avoid type casting unlessyou are sure that the cast will succeed.
+
+```kotlin
+fun main() {
+  fun printIsSourceOfBlessings(any: Any) {
+    val isSourceOfBlessings = if (any is Player) {
+      // smart casting done by conpiler
+      any.isBlessed
+    } else {
+        (any as Room).name == "Fount of Blessings"
+    } println ("$any is a source of blessings: $isSourceOfBlessings")
+  }
+}
+```
+
+### Smart casting
+- The Kotlin compiler is smart enough to recognize a type of a class based on the check.
+
+### Any class
+- Any provides abstract definitions for common functions like `toString()`, `equals()` and `hashCode()` which are backed by an implementation found on the platform that your project targets.
+- The Any type is one of the ways that Kotlin allows for platform independence – it provides an abstraction above the class that represents a common superclass on each specific platform, like the JVM. 
+
+
+
+# Objects
+### The object Keyword
+- With the `object` keyword, you specify that a class will be limited to a single instance – a `singleton`.
+- The first time you access an object, it is instantiated for you. That same instance will persist as long as your program is running, and each subsequent access will then return the original instance.
+- There are three ways to use the object keyword: `object declarations`, `object expressions`, and `companion objects`. 
+
+### Object declarations
+- They are useful for organization and state management, especially when you need to maintain some state consistently throughout the lifespan of your program.
+- Because an object declaration is instantiated for you, you do not add a custom constructor with code to be called at initialization. Instead, you need an initializer block for any code that you want to be called when your object is initialized.
+- An object is initialized when an object declaration is referenced by one of its properties or functions.
+
+### Object expressions
+- Defining a new, named class is not always necessary. Perhaps you need a class instance that is a variation of an existing class and will be used for a one-off purpose.
+- In fact, it will be so temporary that it does not even require a name.
+- It adheres to the rules of the object keyword in that there will only ever be one instance of it alive at a time, but it is significantly smaller in scope than a named singleton.
+- An object expression takes on some of the attributes of where it is declared. If declared at the file level, an object expression is initialized immediately. If declared within another class, it is initialized when its enclosing class is initialized.
+
+```kotlin
+fun main() {
+  // subclass of TownSquare, object expression
+    val abandonedTownSquare = object : TownSquare() {
+        override fun load() = "You anticipate applause, but no one is here..."
+    }
+}
+```
+
+### Companion objects
+- Ties the initialization of an object to a class instance.
+- A companion object is declaredwithin another class declaration using the companion modifier. A class can haveno more than one companion object.
+- There are two cases in which a companion object will be initialized. First, a companion object is initialized when its enclosing class is initialized. This makes it a good place for singleton data that has a contextual connection to a class definition. Second, a companion object is initialized when one of its properties or functions is accessed directly.
+- The contents of this companion object will not be loaded until either PremadeWorldMap is initialized or load is called. And no matter how many times PremadeWorldMap is instantiated, there will only ever be one instanceof its companion object.
+
+```kotlin
+fun main() {
+    class PremadeWorldMap {
+        companion object {
+            private const val MAPS_FILEPATH = "nyethack.maps"
+            fun load() = File(MAPS_FILEPATH).readBytes()
+        }
+    }
+
+    // call method of companion object
+    PremadeWorldMap.load()
+}
+```
+
+### Nested Classes
+- Not all classes defined within other classes are declared without a name. You canalso use the class keyword to define a named class nested inside of anotherclass. 
+- Nested class is onlyrelevant to outer class; it does not need to be accessed from anywhere else in the application.
+- Making GameInput a private, nested class means that GameInputcan be used within Game but does not clutter the rest of your API
+
+### Data Classes
+- Data classes are classes designed specifically forholding data, and they come with some powerful data manipulation benefits.
+- Data classes provideimplementations for toString, equals, and hashCode functions that may work better for your project.
+- They provides `toString()` etc method for properties declared in Coordinate’s `primary constructor`.
+- Data classes also provide a 'copy` function that makes it easy to create a new copy of an object.
+- Classes that are often compared orcopied or have their contents printed out are candidates for being made dataclasses.
+
+```kotlin
+// create a new instance of Player that has all of the same
+// property values as another player except for isImmortal
+val mortalPlayer = player.copy(isImmortal = false)
+
+// Destructuring in data class
+val (x, y) = Coordinate(1, 0)
+```
+
+### Destructuring declarations in data classes
+- Data classes automatically enable your class’s data to be destructured.
+
+###  limitations and requirements on data classes
+- Must have a primary constructor with at least one parameter 
+- Require their primary constructor parameters to be marked either val or var 
+- Cannot be abstract, open, sealed, or inner
+
+### Enumerated Classes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1171,6 +1330,7 @@ class C {
 
 ```shell
 $ kotlinc main.kt -include-runtime -d main.jar
+$ java -jar main.jar
 ```
 
 ### Kotlin functions
@@ -1216,7 +1376,7 @@ val bytes = 0b11010010_01101001_10010100_10010010
 - Smaller types are NOT implicitly converted to bigger types.
 - We cannot assign a value of type Byte to an Int variable without an explicit conversion.
 
-### IMplicit conversion of types on arithmetic operation
+### Implicit conversion of types on arithmetic operation
 - Type is inferred from context and Arithmetical operations are overloaded for appropriate conversions, for example
 
 ```kotlin
@@ -1620,7 +1780,7 @@ function is another function, it doesn't need to go into brackets.
 ### Kotlin standard library
 - Kotlin does not have its own collections.
 - Higher order functions are implemented as extensions.
-- Kotlin rovides interfaces (mutable/immutable) on top of java collections.
+- Kotlin provides interfaces (mutable/immutable) on top of java collections.
 - Kotlin collecions:
   Lists,
   Arrays, (including equivalent primitive types viz, charArrays, IntArrays etc)
