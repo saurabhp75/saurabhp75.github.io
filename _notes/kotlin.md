@@ -1259,6 +1259,7 @@ fun main() {
 - They provides `toString()` etc method for properties declared in Coordinate’s `primary constructor`.
 - Data classes also provide a 'copy` function that makes it easy to create a new copy of an object.
 - Classes that are often compared orcopied or have their contents printed out are candidates for being made dataclasses.
+- Data classes are not permitted to be superclasses.
 
 ```kotlin
 // create a new instance of Player that has all of the same
@@ -1278,6 +1279,110 @@ val (x, y) = Coordinate(1, 0)
 - Cannot be abstract, open, sealed, or inner
 
 ### Enumerated Classes
+- Special type of class useful for defining a collection of constants, known as enumerated types.
+- You canreference enumerated types using the name of the enum class, a dot, and the name of the type.
+- enums can represent more than simple naming constants.
+- Enums, like other classes, can also hold function declarations.
+- You call functions on enumerated types, not on the enum class itself.
+- `valueOf` is a function available on all enum classes that returns an enumerated type with a name that matches the String value that you pass to it.
+- Enum classes are asimple form of ADT(Algebraic Data Types).
+- For more complex ADTs, you can use `sealed` classes to implement more sophisticated definitions. 
+
+```kotlin
+enum class Direction(private val coordinate: Coordinate) {
+    NORTH(Coordinate(0, -1)),
+    EAST(Coordinate(1, 0)),
+    SOUTH(Coordinate(0, 1)),
+    WEST(Coordinate(-1, 0));
+
+    fun updateCoordinate(playerCoordinate: Coordinate) =
+        Coordinate(playerCoordinate.x + coordinate.x, 
+            playerCoordinate.y + coordinate.y)
+}
+
+data class Coordinate(val x: Int, val y: Int) {
+    val isInBounds = x >= 0 && y >= 0
+    // Operator Overloading
+    operator fun plus(other: Coordinate) = Coordinate(x + other.x, y + other.y)
+}
+
+fun main() {
+    Direction.EAST
+    Direction.EAST.updateCoordinate(Coordinate(1, 0))
+}
+```
+
+### Operator Overloading
+- When you want to usebuilt-in operators with your custom types, you have to override the operators’functions to tell the compiler how to implement them for your type. This is known as `operator overloading`.
+- You can overload the `plus` operator prepending the function declaration with the `operator` modifier.
+- If you override equals yourself, you should also override afunction called hashCode.
+
+
+### Algebraic Data Types
+- Allow you to represent a closed set ofpossible subtypes that can be associated with a given type. Enum classes are asimple form of ADT.
+
+###  sealed classes 
+- Sealed classes let you specify an ADT similar to anenum, but with more control over the specific subtypes than an enum provides.
+- Sealed class has a limited number of subclasses that must be defined within the same file where it is defined, otherwise it is ineligible for subclassing. 
+
+
+
+# Interfaces and Abstract Classes
+- Using an interface, a group of classes can have properties or functions in common without sharing a superclass or subclassing one another.
+- Interfaces only specify the what, not the how.
+- An interface allows you to specify common properties and behavior that aresupported by a subset of classes in your program – without being required tospecify how they will be implemented.
+- Abstract classes are similar to interfaces inthat they can specify the what without the how, but they are different in that theycan also define constructors and act as a superclass.
+- Properties in an interface need not be initialized.
+- Functions in an interface need not have a body.
+- The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
+
+```koltin
+fun main() {
+// Interface
+  interface Fightable {
+    var healthPoints: Int
+    val diceCount: Int
+    val diceSides: Int
+    val damageRoll: Int
+    fun attack(opponent: Fightable): Int
+  }
+
+  // Implementing interface
+  class Player(
+    _name: String,
+    override var healthPoints: Int = 100,
+    var isBlessed: Boolean = false,
+    private var isImmortal: Boolean
+  ) : Fightable { ... }
+}
+```
+
+### Implementing an Interface
+- First, you declare that the class implements the interface. 
+- Then, you must ensure that the class provides implementations for all of the properties and functions specified in the interface.
+- All implementations of interface properties and functions must be marked with `override`.
+
+### Default Implementations in inerface
+- You can provide a default implementation for property getters and functions in an interface. 
+
+### Abstract Classes
+- It is never instantiated. It's purpose is to provide function implementations through inheritance to subclasses that are instantiated.
+- It is defined by prepending the `abstract` keyword to a class definition. In addition to function implementations, abstract classes can include abstract functions.
+
+### Abstract class vs interface
+- A class can extend (or subclass) only one abstract class, but it can implement many interface.
+- An interface cannot specify a constructor.
+
+**Note**: `exitProcess` is a Kotlin standard library function that terminates the running instance of the JVM.
+
+
+# Generics
+
+### Defining Generic Types
+- A generic type is a class that accepts an input of any type in its constructor. 
+- generic type parameter: The parameter specified for a generic type, such as <T>.
+
+### Generic Functions
 
 
 
@@ -1307,10 +1412,7 @@ val (x, y) = Coordinate(1, 0)
 
 
 
-
-
-
-### Genereic type
+### Generic type
 - A class that accepts a generic input - i.e., an input of any type.
 
 ### Backing properties
@@ -1614,9 +1716,11 @@ only one method.
 
 - Another classical use of lambda expressions: working with collections. 
 
->>> val people = listOf(Person("Alice", 29), Person("Bob", 31))
->>> println(people.maxBy { it.age })
+```kotlin
+val people = listOf(Person("Alice", 29), Person("Bob", 31))
+println(people.maxBy { it.age })
 Person(name=Bob, age=31)
+```
 
 -  If a lambda just delegates to a function or property for eg. people.maxBy(Person::age)
 
