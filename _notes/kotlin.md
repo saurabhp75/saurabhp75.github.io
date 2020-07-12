@@ -415,13 +415,13 @@ runMyRunnable { println("hey now") }()
 - If the thing on the lefthand side of me is null, do the thing on the righthand side instead.
 
 ### Precondition functions
-- **checkNotNull(argument, {"error msg to be printed})**: Throws an `IllegalStateException` if argument is null. Otherwise returns the non-null value.
-- **require(argument)**: Throws an `IllegalArgumentException` if argument is false.
+- **checkNotNull()**: Throws an `IllegalStateException` if argument is null. Otherwise returns the non-null value.
+- **require()**: Throws an `IllegalArgumentException` if argument is false.
 - **error()**: Throws an `IllegalArgumentException` with a provided message if argument is null. Otherwise returns the non-null value.
 - **requireNotNull()**: Throws an `IllegalArgumentException` if argument is null. Otherwise returns the non-null value.
 - **assert()**: Throws an `AssertionError` if argument is false and the assertion compiler flag is enabled.
 
-## String functions
+### String functions
 - **String.indexOf()**: Gives index of a a character in string.
 - **String.subString(IntRange)**: Returrns a substring with using range.
 - **String.split()**: Returns list of strings split on the character provided.
@@ -429,11 +429,11 @@ runMyRunnable { println("hey now") }()
 ### Destructuring
 - val (type, name, price) = "shandy,Dragon's Breath,5.91".split(',')
 
-## Strings in kotlin are immutable.
+### Strings in kotlin are immutable.
 - The replace function below creates a new string instead of mutating the original string.
 - Though the string variables can be reassigned.
 
-## Using replace method of string
+### Using replace method of string
 
 ```kotlin
 fun toDragonSpeak(phrase: String) =
@@ -481,11 +481,11 @@ fun toDragonSpeak(phrase: String) =
 - `String.toInt()`: 
 - `toLong()`:
 - `toBigDecimal()`:
-- `String.toIntOrNull()`: Will return null instead of throwing an exception.
-- `String.toIntOrNull()`: Will return null instead of throwing an exception.
+- `String.toIntOrNull()`: Return null instead of throwing an exception.
+- `String.toIntOrNull()`: Return null instead of throwing an exception.
 - `String.toFloat()`
 - `String.toDouble()`
-- `String.toDoubleOrNull()`: Will return null instead of throwing an exception.
+- `String.toDoubleOrNull()`: Return null instead of throwing an exception.
 
 ### Format double values
 - println("Balance: ${"%.2f".format(4.1899999999)}")
@@ -509,7 +509,7 @@ fun toDragonSpeak(phrase: String) =
 ### apply function
 - Can be thought of as a `configuration function`. 
 - It allows you to call a series of functions on a receiver to configure it for use. 
-- After the lambda provided to apply executes,apply returns the configured receiver.
+- After the lambda provided to apply executes, apply returns the configured receiver.
 - Apply passes nothing to lambda you provide.
 - All the function calls within the lambda are now called relative to the receiver.
 - Another way to say this is that they are implicitly called on the receiver.
@@ -921,7 +921,7 @@ fun main(args: Array<String>) {
 - Organizing code using classes, files, and packages will help you to make surethat your code is clear as your application grows in complexity.
 
 
-# Guarding Against Race Conditions
+### Guarding Against Race Conditions
 - The compiler prevents the code from compiling because of the possibility of what is known as a `race condition`. 
 - A race condition occurs when some other part of your program simultaneously modifies the state of your code in a manner that leads to unpredictable results.
 
@@ -1368,7 +1368,6 @@ fun main() {
 
 
 # Generics
-
 ### Defining Generic Types
 - A generic type is a class that accepts an input of any type in its constructor. 
 - generic type parameter: The parameter specified for a generic type, such as <T>.
