@@ -4,17 +4,17 @@ title: "Kotlin Language"
 excerpt: "Intro to Kotlin"
 ---
 
-# Kotlin Language
-- All files in kotlin starts with `package` specification.
+# Basics
+- All files in kotlin starts with `package` specification at the top.
 - The classes and objects in the source files can be accessed using `dot` after package description.
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
 
-## Package and class naming conventions
+### Package and class naming conventions
 - Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
 - Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
 
-## Conditional expressions, if-else, while
+### Conditional expressions, if-else, while
 - Conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
 - You can drop braces if a branch is a single expresion. See eg. below.
 - `val auraColor = if (auraVisible) "GREEN" else "NONE"`.
