@@ -3,6 +3,8 @@ layout: single
 title: "Android"
 excerpt: "Intro to Android"
 ---
+
+
 ### adb over wifi
 
 ```shell
@@ -25,20 +27,17 @@ $adb connect 100.71.253.137:5555
 - Triggered when activity starts.
 - During LI the "views" in the layout files are inflated to Kotlin view objects in memory.
 
-
-- bundle object parameter in onCreate() method contain dynamic state information (typically relating to the state of the UI) from a prior invocation of the activity.
+- bundle object parameter in `onCreate`() method contain dynamic state information (typically relating to the state of the UI) from a prior invocation of the activity.
 - **onCreate(savedInstanceState: Bundle?)** – The method that is called when the activity is first created 
 - **onRestart()** – Called when the activity is about to restart after having previously been stopped by the runtime system.
-- **onStart()** – Always called immediately after the call to the onCreate() or onRestart() methods, this method
-indicates to the activity that it is about to become visible to the user. This call will be followed by a call to
-onResume() if the activity moves to the top of the activity stack, or onStop() in the event that it is pushed down
+- **onStart()** – Always called immediately after the call to the onCreate() or onRestart() methods, this method indicates to the activity that it is about to become visible to the user. This call will be followed by a call to `onResume(`) if the activity moves to the top of the activity stack, or `onStop()` in the event that it is pushed down
 the stack by another activity.
 - **onResume()** – Indicates that the activity is now at the top of the activity stack and is the activity with which
 the user is currently interacting.
 
 
 ### AppCompatActivity
-It is a subclass of android which provides access to modern android features while providing compatibility with older versions of android.
+- It is a subclass of android which provides access to modern android features while providing compatibility with older versions of android.
 
 The namespace for the **Android Jetpack** libraries is **androidx**. Android Jetpack is a collection of libraries, developed by Google, that offers backward-compatible classes and helpful functions for supporting older versions of Android. Jetpack replaces and expands on the set of libraries formerly known as the **Android Support Library**. Classes imported from the androidx package refer to the Jetpack libraries. Dependencies to Jetpack in your `build.gradle` file also start with androidx.
 
@@ -50,11 +49,11 @@ Android uses info in manifest file to launch an app.
 - **setContentView()** method, where you provide the activity associated with the app and inflate it and draw to screen.
 
 ### Constraint layout
-Constraint layout allows you to create large, complex layouts with flat view hierarchies (no nested view groups).In a constraint layout, you position a view by defining at least one horizontal and one vertical constraint.
+- Allows you to create large, complex layouts with flat view hierarchies (no nested view groups). In a constraint layout, you position a view by defining at least one horizontal and one vertical constraint.
 
 - **View Groups**: Holds multiple view (buttons, text etc). For eg. LinearLayout.
 
-Parent of the mainactivity is **root view**, which is the **entire screen**.
+Parent of the main activity is **root view**, which is the **entire screen**.
 
 Strings in your app should be located in **resources folder**.
 
@@ -73,7 +72,7 @@ By default there is one **module(App)** in your Android project. In large projec
 - **minSdkVersion**: Minimum suported version.
 - **targetSdkVersion**: Version on which build is tested to run.
 
-Generally compileSdkVersion and targetSdkVersion are kept to the most recent version of Android.
+Generally `compileSdkVersion` and `targetSdkVersion` are kept to the most recent version of Android.
 
 **applicationId** is the unique identifier which is used by both google play and Android to identify your app. Two apps on same device cannot have identical application id. Also there cannot be duplicate app id on playstore. **App id matches the package of your app**.
 
@@ -107,33 +106,32 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Navigation graphs allow you to visually define and customize how users navigate among destinations in your app.
 - A navigation host fragment acts as a host for the fragments in a navigation graph. The navigation host fragment is usually named NavHostFragment.
 
-# Activity states
+### Activity states
 - `non existent` when user presses `back` key.
 - `Stopped` when activity goes to background, either using home button or going to other activity using the `overview screen`.
 - An activity is destroyes and recreated during config changes.
 
-# What is Configuration change
+### What is Configuration change
 - Any change to system setting like font, language etc.
 - Rotation of device, window resizing and night mode changes etc.
 
 
-# What is ViewModel
+### What is ViewModel
 - ViewModel is part of the `androidx.lifecycle package`, which contains lifecycle-related APIs including lifecycle-aware components.
 - Google created the `androidx.lifecycle` package and its contents to make dealing with the activity lifecycle a little less painful.
 - `LiveData`, is another lifecycle-aware component.
 - ViewModel’s lifecycle more closely mirrors the user’s expectations: It survives configuration changes and is destroyed only when its associated activity is finished.
 
 
-# Implementing ViewModel
+### Implementing ViewModel
 - Add following to you app gradle file.
 - `implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'`
 
-# ViewModel Class
+### ViewModel Class
 - The onCleared() function in ViewModel class is called just before a ViewModel is destroyed. 
 - `onCleared()` is a useful place to perform any cleanup, such as un-observing a data source.
 
-
-# How to access ViewModwel instance
+### How to access ViewModwel instance
 - Associate a ViewModel instance with an activity’s lifecycle, using code below.
 - viewModelInstance = ViewModelProvider(this).get(MyViewModel::class.java)
 - `ViewModelProvider(this)` creates and returns a ViewModelProvider associated with the activity.
@@ -147,27 +145,27 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Your ViewModel should never hold a reference to an activity or a view, otherwise you will introduce a memory leak.
 - When OS kills the activity(process), ViewModel is lso wiped, for this situation, use saved instance state.
 
-# Memory leaks
+### Memory leaks
 - A memory leak occurs when one object holds a strong reference to another object that should be destroyed. 
 - Holding the strong reference prevents the garbage collector from clearing the object from memory. 
 - Memory leaks due to a configuration change are common bugs.
 
 
-# What is `isFinishing` property of an activity
+### What is `isFinishing` property of an activity
 - Tells us if the user has finished the activity or not.
 - If isFinishing is true, the activity is being destroyed because the user finished the activity (such as by pressing the Back button or by clearing the app’s card from the overview screen). 
 - If isFinishing is false, the activity is being destroyed by the system because of a configuration change.
 
 
-# Activity/process killed by Android
+### Activity/process killed by Android
 - When an activity is in stopped state(not visible), it may be killed by OS to reclaim memory.
 - stopped activities are marked as killable.
 - An activity in paused state is not likely to be killed by OS.
 - When an activity is killed by OS viewModel is also wiped from memory, no lifecycle callbacks are invoked.
 
 
-# On Saved Instance State
--  To save UI state data and use it to reconstruct the activity when it is killed by OS, Activity.onSaveInstanceState(Bundle) is overidden.
+### On Saved Instance State
+- To save UI state data and use it to reconstruct the activity when it is killed by OS, Activity.onSaveInstanceState(Bundle) is overidden.
 - onSaveInstanceState(Bundle) is called when an activity that is not `finished` moves to the `stopped` state.
 - Important : onSaveInstanceState(Bundle) will not be called when user kills activity as it is 'finished'.
 - For eg. when the user presses the Home button and then launches a different app.
@@ -180,29 +178,27 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Typically, you override `onSaveInstanceState(Bundle)` to stash small, transient-state data that belongs to the current activity in your Bundle. 
 - You should override `onStop()` to save any permanent data, such as things the user is editing, because your activity may be killed at any time after this function returns.
 
-
-# ViewModel vs Saved Instance State (Important)
+### ViewModel vs Saved Instance State (Important)
 - Saved instance state protects from both configuration changes and process death.
 - Since saved instance state is serialized to disk, you should avoid stashing any large or complex objects.
 - Use saved instance state to store the minimal amount of information necessary to re-create the UI state (for example, the current question index). 
 - Use ViewModel to cache the rich set of data needed to populate the UI in memory across configuration changes for quick and easy access.
 
-
-# Debugging
+### Debugging
 - When you encounter runtime exceptions, remember to look for the last exception in Logcat and the first line in its stack trace that refers to code that you have written.
 - That is where the problem occurred, and it is the best place to start looking for answers.
 - `stack trace logging ` : To find out where the function is invoked from, add below line and see the stack trace.
 - Log.d(TAG, "Updating question text", Exception())
 - `Using breakpoints`.
--`Profiling` : View->Tool windows-> profiler.
+- `Profiling` : View->Tool windows-> profiler.
 - `Layout inspector`: tools->layout inspector.
 
 
-# CREATING A NEW ACTIVITY
+### Creating a new activity
 - Creating an activity typically involves touching at least three files: the Kotlin class file, an XML layout file, and the application manifest.
 - Use Android Studio’s New Activity wizard.
 
-# Starting an activity
+### Starting an activity
 - Use startActivity(Intent), this call is sent to the ActivityManager in the OS.
 - The ActivityManager creates the Activity instance and calls its onCreate(Bundle?) function.
 - Intents are multipurpose communication tools, Intent class provides different constructors depending on what you are using the intent to do.
@@ -210,7 +206,7 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - The Class argument specifies the activity class that the ActivityManager should start. 
 - The Context argument tells the ActivityManager which application package the activity class can be found in.
 
-# Explicit vs Implicit Intents
+### Explicit vs Implicit Intents
 - Use explicit intents to start activities within your application.
 - Use implicit intents to start activities outside your application.
 
@@ -265,6 +261,7 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 ```
 
 ### Detecting Multi-Window Mode in an Activity
+
 ```kotlin
 if (this.isInMultiWindowMode()) {
  // Activity is running in Multi-Window mode
@@ -274,6 +271,7 @@ if (this.isInMultiWindowMode()) {
 ```
 
 ### Receiving Multi-Window Notifications
+
 ```kotlin
 override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean,
  newConfig: Configuration?) {
@@ -303,6 +301,7 @@ override fun onTopResumedActivityChanged(isTopResumedActivity: Boolean) {
 
 
 ### Launching and configuring Size and Position of an activity in Multi-window/Freeform mode 
+
 ```kotlin
 val i = Intent(this, SecondActivity::class.java)
 i.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT or
