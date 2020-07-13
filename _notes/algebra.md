@@ -42,19 +42,19 @@ maxnorm = norm(a, inf)
 ```
 
 
-## Matrix Multiplication (Hadamard Product)
+### Matrix Multiplication (Hadamard Product)
 ```python
 C = A * B
 ```
 
-## Matrix-Matrix Multiplication (aka matrix dot product)
+### Matrix-Matrix Multiplication (aka matrix dot product)
 ```python
 C = A.dot(B)
 # multiply matrices with @ operator
 D = A @ B
 ```
 
-## Matrix-Vector Multiplication
+### Matrix-Vector Multiplication
 ```python
 C = A.dot(B)
 ```

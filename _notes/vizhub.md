@@ -45,7 +45,7 @@ export default [{
 }];
 ```
 
-package.json file:
+`package.json file`:
 ```js
 {
   "scripts": {
@@ -58,12 +58,12 @@ package.json file:
 }
 ```
 
-## To create a package.json file
+### To create a package.json file
 ```shell
 $ npm init
 ```
 
-## To update npm
+### To update npm
 ```shell
 $ npm install npm@latest -g
 ```
