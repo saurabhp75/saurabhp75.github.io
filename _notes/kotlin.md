@@ -4,7 +4,7 @@ title: "Kotlin Language"
 excerpt: "Intro to Kotlin"
 ---
 
-# Basics
+### Basics
 - All files in kotlin starts with `package` specification at the top.
 - The classes and objects in the source files can be accessed using `dot` after package description.
 - The package and folder structure generally match, but it is not mandatory.
@@ -96,9 +96,9 @@ public inline fun TODO(): Nothing = throw NotImplementedError()
 ```
 
 ### Use of TODO()
-- To indicate that the function containing TODO() has some "todo".
-- The function containing TODO() can have a different return type.
-- The statement after TODO() is never executed.
+- Indicates that the function containing TODO() has some "todo".
+- Function containing TODO() can have a different return type.
+- Statement after TODO() is never executed.
 
 ### Function overloading 
 - Using default parameter(s). 
@@ -270,11 +270,11 @@ fun toDragonSpeak(phrase: String) =
 - `String.toInt()`: 
 - `toLong()`:
 - `toBigDecimal()`:
-- `String.toIntOrNull()`: Return null instead of throwing an exception.
-- `String.toIntOrNull()`: Return null instead of throwing an exception.
+- `String.toIntOrNull()`: Return null instead of exception.
+- `String.toIntOrNull()`: Return null instead of exception.
 - `String.toFloat()`
 - `String.toDouble()`
-- `String.toDoubleOrNull()`: Return null instead of throwing an exception.
+- `String.toDoubleOrNull()`: Return null instead of exception.
 
 ### Format double values
 - println("Balance: ${"%.2f".format(4.1899999999)}")
