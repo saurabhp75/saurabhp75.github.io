@@ -423,11 +423,11 @@ runMyRunnable { println("hey now") }()
 
 ### String functions
 - **String.indexOf()**: Gives index of a a character in string.
-- **String.subString(IntRange)**: Returrns a substring with using range.
+- **String.subString(IntRange)**: Returns a substring with using range.
 - **String.split()**: Returns list of strings split on the character provided.
 
 ### Destructuring
-- val (type, name, price) = "shandy,Dragon's Breath,5.91".split(',')
+- val (type, name, price) = "shandy, Dragon's Breath, 5.91".split(',')
 
 ### Strings in kotlin are immutable.
 - The replace function below creates a new string instead of mutating the original string.
@@ -511,9 +511,7 @@ fun toDragonSpeak(phrase: String) =
 - It allows you to call a series of functions on a receiver to configure it for use. 
 - After the lambda provided to apply executes, apply returns the configured receiver.
 - Apply passes nothing to lambda you provide.
-- All the function calls within the lambda are now called relative to the receiver.
-- Another way to say this is that they are implicitly called on the receiver.
-- Apply returns the current receiver once the anonymous function completes. 
+- All the function calls within the lambda are now called relative to the receiver, ie. they are implicitly called on the receiver.
 
 ```kotlin
 val menuFile = File("menu-file.txt")    
@@ -530,13 +528,13 @@ val menuFile = File("menu-file.txt").apply {
 ```
 
 ### let function
-- let scopes a variable to the lambda provided and makes the keyword it
+- `let` scopes a variable to the lambda provided and makes the keyword `it`.
 - Passes the receiver to the lambda you provide.
 - Returns the last line of the lambda (the lambda result).
 
 ### let vs apply
-- let passes the receiver to the lambda you provide, but apply passes nothing.
-- apply returns the current receiver once the anonymous functioncompletes. let, on the other hand, returns the last line of the lambda (thelambda result).
+- `let` passes the receiver to the lambda you provide, but `apply` passes nothing.
+- `apply` returns the current receiver once the anonymous function completes. `let`, on the other hand, returns the last line of the lambda (the lambda result).
 
 ### run function
 - Similar to `apply` in that it provides the same relative scoping behavior. 
@@ -556,9 +554,9 @@ val status = run {
 ```
 
 ### with function
-- with is a variant of run. It behaves identically, but it uses a different calling convention.
+- `with` is a variant of run. It behaves identically, but it uses a different calling convention.
 - With requires its argument to be accepted as the first parameter rather than calling the standard function on a receiver type.
-- The second is the lambda.
+- The second parameter is the lambda.
 - It is not used often due to different syntax than other library functions.
 
 ```kotlin
@@ -568,13 +566,13 @@ val nameTooLong = with("Polarcubis, Supreme Master of NyetHack") {
 ```
 
 ### also function
-- also function works very similarly to the let function.
-- Just like let,also passes the receiver you call it on as an argument to a lambda you provide.
+- `also` function works very similarly to the `let` function.
+- Just like let, `also` passes the receiver you call it on as an argument to a lambda you provide.
 - But also returns the receiver, rather than the result of the lambda.
-- Since also returns the receiver instead of the result of the lambda, you cancontinue to chain additional function calls on to the original receiver.
+- Since also returns the receiver instead of the result of the lambda, you can continue to chain additional function calls on to the original receiver.
 
 ### takeIf function
-- `takeif` evaluates a condition providedin a lambda, called a `predicate`, that returns either true or false depending on theconditions defined. 
+- `takeif` evaluates a condition providedin a lambda, called a `predicate`, that returns either true or false depending on the conditions defined. 
 - If the condition evaluates as true, the receiver is returned from takeIf. If the condition is false, null is returned instead.
 
 ```kotlin
@@ -621,9 +619,9 @@ val fileContents = if (file.canRead() && file.canWrite()) {
 - List is a generic type.
 
 ### Accessing a list’s elements
-- Using the element’s index and the [] operator.
-- First and last elements: List.first(), List.last().
-- attempting to access anelement at an index that does not exist throws an `ArrayIndexOutOfBoundsException`.
+- Using the element’s index and the `[]` operator.
+- First and last elements: `List.first()`, `List.last()`.
+- Attempting to access an element at an index that does not exist throws an `ArrayIndexOutOfBoundsException`.
 
 ### Accessing a list’s elements safely
 - No exception, lambda as an alternative: `List.getOrElse(index) {"Element doesn't exist"}`.
@@ -645,10 +643,10 @@ val fifthPatron = patronList.getOrNull(4) ?: "Unknown Patron"
 - `[]=`: Set operator, Sets the value at the index.
 - `+=`: Adds an element or collection of elements to the list.
 - `-=`: Removes an element or collection of elements from the list.
-- `remove(element)`: remove an element from the list.
-- `add(element)`: add an element at the end of the list.
-- `add(index, element)`: add an element at given index of the list. 
-- `toList()`:  method on mutable list to change to read only list.
+- `remove(element)`: R%emove an element from the list.
+- `add(element)`: Add an element at the end of the list.
+- `add(index, element)`: Add an element at given index of the list. 
+- `toList()`:  Method on mutable list to change to read only list.
 - `addAll(collection)`: Adds all of another collection with contents of the same type to the list.
 - `clear()`: Removes all the elements from the list.
 - `removeIf{}`: Removes elements from the list based on a predicate lambda.
@@ -675,11 +673,11 @@ val patronList = listOf("Alex", "Tony", "Rocky", "Tina")
 ### What is an iterable
 -  An iterable allows traversing the elements it holds, performing some action for each element.
 - A collection supporting `forEach()` and `forEachIndexed()` methods.
-- List,Set, Map, IntRange (ranges like 0..9)
+- List ,Set, Map, IntRange(ranges like 0..9)
 
 ### Reading a File into a List
 
-```koltin
+```kotlin
 // readText() returns the contents of the file 
 // as a String. Then split on newline 
 val fileList = File("Data/tavern-menu-data.txt")
@@ -719,7 +717,7 @@ val planets = setOf("Mercury", "Venus", "Earth")
 
 ### Accessing Set elements
 - `elementAt(index)`: Access element at the given index. This method is very slow as the set iterates to the index you provide, one element at a time.
-- So if you want index-based access,you probably want a List, not a Set.
+- So if you want index-based access, you probably want a List, not a Set.
 
 
 ### MutableSet 
@@ -728,11 +726,11 @@ val planets = setOf("Mercury", "Venus", "Earth")
 ### Mutable set mutator functions
 - `add(element)`: Adds an element to set.
 - `addAll(collection)`: Adds the elements of the collection to the set.
-- `+=`: Adds the value(s)to the set.
-- `-=`: Removes the value(s)from the set.
-- `remove(element)`: Removes the elementfrom the set.
-- `removeAll(collection)`: Removes all elementsin another collectionfrom the set.
-- `clear()`: Removes all elementsfrom the set.
+- `+=`: Adds the value(s) to the set.
+- `-=`: Removes the value(s) from the set.
+- `remove(element)`: Removes the element from the set.
+- `removeAll(collection)`: Removes all elements in another collection from the set.
+- `clear()`: Removes all elements from the set.
 
 ### Using while loops to iterate over collection 
 - It is more flexible as they can represent state that is not purely based on iteration. 
@@ -744,7 +742,7 @@ val planets = setOf("Mercury", "Venus", "Earth")
 - To drop duplicate element in a list, use `distinct()` as it calls `toSet()` then `toList()` internally.
 
 ### Arrays in Java and Kotlin
-- In Java we have arrays of primitive types, like intArray.
+- In Java we have arrays of primitive types, like `intArray`.
 - Kotlin includes a number of reference types, called Arrays, that compile down to Java primitive arrays. 
 - Arrays are included primarily to support interoperability between Kotlin and Java.
 - Unlike a List, an Array is backed by a primitive type when compiled to bytecode.
@@ -774,7 +772,7 @@ val planets = setOf("Mercury", "Venus", "Earth")
 - The values, on the other hand, need not to be unique.
 - The keys in a map must all be of the same type.
 - The values in a map must be of the same type.
-- when a map is printed, it is shown in curly braces, while lists and sets are both shown in square brackets.
+- When a map is printed, it is shown in curly braces, while lists and sets are both shown in square brackets.
 
 ### Specifying type of a map
 - For eg val employeeMap: Map<String, Int>
@@ -794,7 +792,7 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 
 ### To keyword in kotlin
 - It is a special type of function that allows you to drop the dot and the parentheses around its arguments.
-- The `to` function converts the values on its lefthand and righthand sides into a Pair
+- The `to` function converts the values on its lefthand and righthand sides into a Pair.
 - A pair is a type for representing a group of two elements.
 - Maps are built using key-value pairs.
 
@@ -803,20 +801,20 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 
 
 ### Map accessor functions (Accessing Map Values)
-- `[key]` (get/indexoperator): Gets the value for a key; returnsnull if the key does not exist.
-- `getValue(key)`: Gets the value for a key; throws anexception if the key provided isnot in the map.
-- `getOrElse(key){value}`: Gets the value for the key or returns a default using ananonymous function.
-- `getOrDefault(key, default)`: Gets the value for the key orreturns a default using a value you provide.
+- `[key]` (get/indexoperator): Gets the value for a key; return snull if the key does not exist.
+- `getValue(key)`: Gets the value for a key; throws an exception if the key provided is not in the map.
+- `getOrElse(key){value}`: Gets the value for the key or returns a default using an anonymous function.
+- `getOrDefault(key, default)`: Gets the value for the key or returns a default using a value you provide.
 
 ###  Mutable map mutator functions
 - `=`(assignmentoperator): Adds or updates the value in the map for the key specified.
-- `+=`(plus assignoperator): Adds or updates an entry or entries inthe map based on the entry or mapspecified.
-- `put(key, value)`: Adds or updates the value in the map forthe key specified.
-- `putAll(listOf(Pairs))`: Adds all of the key-value pairs providedto the map
-- `getOrPut(key){value}`: Adds an entry for the key if it does notexist already and returns the result;otherwise returns the existing entry.
-- `remove(key)`: Removes an entry from the map andreturns the value.
+- `+=`(plus assignoperator): Adds or updates an entry or entries inthe map based on the entry or map specified.
+- `put(key, value)`: Adds or updates the value in the map for the key specified.
+- `putAll(listOf(Pairs))`: Adds all of the key-value pairs provided to the map
+- `getOrPut(key){value}`: Adds an entry for the key if it does not exist already and returns the result;otherwise returns the existing entry.
+- `remove(key)`: Removes an entry from the map and returns the value.
 - `-`(minusoperator): Returns a new map, excluding the entries specified.
-- `-=`(minusassignoperator): Removes entry or map of entries fromthe map.
+- `-=`(minusassignoperator): Removes entry or map of entries from the map.
 - `clear()`: Removes all entries from the map.
 
 
@@ -915,9 +913,9 @@ fun main(args: Array<String>) {
 
 ### Using Packages in Kotlin
 - A package is like a folder for similar elements that helps give a logical grouping to the files in your project. 
-- For eg, the `kotlin.collections` package contains classes to create and manage lists and sets. 
+- For eg., the `kotlin.collections` package contains classes to create and manage lists and sets. 
 - Packages allow you to organize your project as it becomes more complex, and they also prevent naming collisions.
-- Name your package in reverse-DNS style for eg com.bignerdranch.nyethack. This scales with the number of applications that you write.
+- Name your package in reverse-DNS style for eg. com.bignerdranch.nyethack. This scales with the number of applications that you write.
 - Organizing code using classes, files, and packages will help you to make surethat your code is clear as your application grows in complexity.
 
 
@@ -957,21 +955,21 @@ fun main(args: Array<String>) {
 
 ### Private visibility vs internal visibility
 - By default, Java uses package private visibility.
-- It means that methods, fields, and classes with no visibility modifier areusable from classes belonging to the same package only.
+- It means that methods, fields, and classes with no visibility modifier are usable from classes belonging to the same package only.
 - In practice, it is easily circumvented by creating a matching package and adding a class to it.
 - A visibility level Kotlin provides that Java does not is the `internal` visibility level. 
-- Internal visibility marks a function, class, or property aspublic to other functions, classes, and properties within the same module. 
+- Internal visibility marks a function, class, or property as public to other functions, classes, and properties within the same module. 
 - A `module` is a discrete unit of functionality that can be run, tested, and debugged independently.
-- Modules include such things as source code, build scripts, unit tests, deploymentdescriptors, and so on.
-- Modules can also depend on othermodules for source files and resources.
-- Internal visibility is useful for sharing classes within a module while disallow ingaccess from other modules, which makes it a great choice for building libraries in Kotlin
+- Modules include such things as source code, build scripts, unit tests, deployment descriptors, and so on.
+- Modules can also depend on othe rmodules for source files and resources.
+- Internal visibility is useful for sharing classes within a module while disallowing access from other modules, which makes it a great choice for building libraries in Kotlin.
 
 
 # Initialization in Koltin
-- This chapter covers the ways classes andtheir properties can be initialized.
-- When you initialize a variable, property, orclass instance, you assign it an initial value to make it ready for use.
-- `Initialization` is used to mean “everything required to make a variable, property, or class instanceready to use,”
-- `Instantiation` tends to be limited to “creating an instanceof a class.”
+- This chapter covers the ways classes and their properties can be initialized.
+- When you initialize a variable, property, or class instance, you assign it an initial value to make it ready for use.
+- `Initialization` is used to mean “everything required to make a variable, property, or class instance ready to use,”
+- `Instantiation` tends to be limited to “creating an instance of a class.”
 
 ## Constructors
 
