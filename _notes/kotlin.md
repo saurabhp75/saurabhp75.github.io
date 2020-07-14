@@ -50,6 +50,25 @@ excerpt: "Intro to Kotlin"
 # Functions in Kotlin
 - The function parameters are always read-only – they do not support reassignment within the function body.
 - Function parameters and local variables exist within the scope of the function body and cease to exist once the function completes.
+- Functions are **first class citizen**.
+- Functions in a class are **public** and **final** by default, so you **cannot override** them.
+- You need to declare Functions as **open** to **override** them.
+- After overriding function in derived we can declare it as `final` to avoid further overriding.
+- Function with unlimited no. of parameters.
+
+```kotlin
+// Function with single expression as body
+fun sayHello(name: String) = println("Hello, $name!")
+
+// Function with variable no. of arguments
+fun printString(vararg names:String) {
+for (name in names) {
+println(name)
+  }
+// if we want to pass this "names" to another function 
+// we need to use "spread operator",  "*" , i.e. "*names"
+}
+```
 
 ### Functions, properties and local variables naming conventions
 - Start with a lower case letter and use the camel case and no underscores, for eg. `processDeclarations`.
@@ -251,7 +270,7 @@ fun toDragonSpeak(phrase: String) =
   }
 ```
 
-# Numbers in Koltin
+# Numbers in Kotlin
 
 | Type | Bits | Max Value | Min Value |
 |-------|--------|---------|---------|
@@ -397,6 +416,7 @@ val fileContents = if (file.canRead() && file.canWrite()) {
 
 # Collections, List, Set, and Map
 - lists, sets, and maps come in two distinct varieties: `mutable` and `read-only`.
+- Collections are immutable by default.
 
 ### parameterized type
 - The type defined for the contents of a collection.
@@ -485,7 +505,7 @@ val (type, name, price) = menuData.split(',')
 val (type, _, price) = menuData.split(',')
 ```
 
-# Sets in Koltin
+# Sets in Kotlin
 - Unlike list enforces unique element.
 - Set does not index its contents, you cannot use `[]` operator with index to access elements.
 - Set also have a mutable version.
@@ -616,14 +636,22 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 | Map | No | Keys | Key-value pairs | No |
 
 
-# Classes in Koltin
+# Classes in Kotlin
 
 ### Defining Classes
 - A class can be defined in its own file or alongside other elements, like functions or variables.
 - Defining a class in its own file gives it room to grow as the program scales up over time.
 - A class is often declared in a file matching its name, but it does not have to be.
 - You can define multiple classes in the same file.
-- The class body holds definitions for the class’s behavior and data
+- The class body holds definitions for the class’s behavior and data.
+
+### Property vs field
+- Property has getters and setters and are accessible publicly.
+- Field is private and has no getters and setters.
+- Java has fileds but Kotlin do not.
+- Kotlin doesn't have fields. 
+- you can define get() and set() for a property using "field" keyword.
+- field can back only one property.
 
 ### Constructing Instances
 - A class's primary constructor is called by suffixing the class name with parentheses, creating an instance.
@@ -652,7 +680,6 @@ fun main(args: Array<String>) {
 | protected | The function or property will be accessible only within the same class or its subclass. |
 | internal | The function or property will be accessible within the same module |
 
-
 **Note**: Unlike Java, package private visibility level is not included in Kotlin.
 
 ### Class properties
@@ -671,6 +698,19 @@ fun main(args: Array<String>) {
 - To expose access to a property but not expose its setter. Define the visibility of the setter separately as private.
 - A getter or a setter’s visibility cannot be more permissive than the property onwhich it is defined. This implies that you can `restrict` access to a property via a getter or a setter,but they are not intended for making properties more visible.
 - We use the terms “writable” and “read-only”rather than “mutable” and “immutable” for properties as for read-only computed properties the value may change on each access, for eg a randomly computed property.
+
+### Class declaration options
+- class name (shortest form).
+- **Init block** in class declaration run when instance is created. Class can have multiple init blocks.
+- Properties in a class can be accessed directly instead of getter and setter (unlike java).
+- All **init blocks** run before **secondary constructor**.
+- **Getters and setters** are **automatically defined** for properties in kotlin.
+- You can override default getter and setter in kotlin.
+- Classes in kotlin are final(closed) by default.you need to "open" it to inherit from it. Same holds true for properties.
+- A factory can have private primary constructor(See below). It restricts the user from invoking primary constructor.
+- class myClass private constructor (Val prop1: String).
+
+- Static class declared using object don't have constructors.
 
 
 ```kotlin
@@ -743,7 +783,7 @@ fun main(args: Array<String>) {
 ```
 
 ### Private visibility vs internal visibility
-- By default, Java uses package private visibility.
+- By default, Java uses `package private` visibility.
 - It means that methods, fields, and classes with no visibility modifier are usable from classes belonging to the same package only.
 - In practice, it is easily circumvented by creating a matching package and adding a class to it.
 - A visibility level Kotlin provides that Java does not is the `internal` visibility level. 
@@ -754,8 +794,7 @@ fun main(args: Array<String>) {
 - Internal visibility is useful for sharing classes within a module while disallowing access from other modules, which makes it a great choice for building libraries in Kotlin.
 
 
-# Initialization in Koltin
-- This chapter covers the ways classes and their properties can be initialized.
+# Initialization in Kotlin
 - When you initialize a variable, property, or class instance, you assign it an initial value to make it ready for use.
 - `Initialization` is used to mean “everything required to make a variable, property, or class instance ready to use,”
 - `Instantiation` tends to be limited to “creating an instance of a class.”
@@ -861,6 +900,8 @@ fun main() {
 - Any `var` property declaration can be appended with the `lateinit` keyword, and the Kotlin compiler will let you put off initializing the property until you assign it.
 - You could implement this pattern using a nullable type instead, but you wouldthen be required to handle your property’s nullability throughout your codebase,which is burdensome.
 - Kotlin doesprovide a way to check whether a late-initialized variable has been initialized, the `isInitialized` check.
+- `lateinit` keyword for variable to be initialized by the framework, not by the user, user will later access this property. 
+- This also helps in getting meaningful exception.
 - However, `isInitialized` should be used sparingly.
 
 #### Lazy initialization
@@ -895,7 +936,6 @@ fun main() {
 }
 ```
 
-
 # Inheritance
 
 ### Creating a Subclass
@@ -907,7 +947,8 @@ fun main() {
 - When you override a function in Kotlin, the overriding function in the subclass is, by default, open to being overridden (as long as the subclass ismarked open).
 - If you do not want this, then use `final` keyword, then the function can't be overridden. 
 - By requiring the explicit use of the open and override keywords, Kotlin requires you to opt in to inheritance. This reduces the chances of exposing classes that were not meant to be subclassed and prevents from overriding functions that were never meant to be overridden.
-- Every class in Kotlin descends from a common superclass, known as `Any`, without you having to explicitly subclass it in your code
+- Every class in Kotlin descends from a common superclass, known as `Any`, without you having to explicitly subclass it in your code.
+- Kotlin enforced immutability by forcing you to explicitly declare classes, properties, and methods to be open for extension/override.
 
 ```kotlin
 // Example of extandable class
@@ -973,6 +1014,7 @@ fun main() {
 
 ### Smart casting
 - The Kotlin compiler is smart enough to recognize a type of a class based on the check.
+- Smart casting in kotlin, done by compiler.
 
 ### Any class
 - Any provides abstract definitions for common functions like `toString()`, `equals()` and `hashCode()` which are backed by an implementation found on the platform that your project targets.
@@ -996,6 +1038,8 @@ fun main() {
 - In fact, it will be so temporary that it does not even require a name.
 - It adheres to the rules of the object keyword in that there will only ever be one instance of it alive at a time, but it is significantly smaller in scope than a named singleton.
 - An object expression takes on some of the attributes of where it is declared. If declared at the file level, an object expression is initialized immediately. If declared within another class, it is initialized when its enclosing class is initialized.
+- Anonymous Inner class using "object expression". It is used in android development to implement click listener.
+object: parentClass { }
 
 ```kotlin
 fun main() {
@@ -1007,7 +1051,13 @@ fun main() {
 ```
 
 ### Companion objects
+- kotlin does not have static class or method. We can create a top level method or create a method in top level object(singleton?).
+- In kotlin static method are implemented using companion objects. These are accessible from Java code.
+- You can directly access the methods of inner class by using "companion" keyword. This way you can skip the derefrencing of inner class.
+- Each class can have only single companion object.
+- The methods of inner class can be accesed from java by annotating them by "JvmStatic".
 - Ties the initialization of an object to a class instance.
+- Companion objects:these are scoped to instance of other class.
 - A companion object is declaredwithin another class declaration using the companion modifier. A class can haveno more than one companion object.
 - There are two cases in which a companion object will be initialized. First, a companion object is initialized when its enclosing class is initialized. This makes it a good place for singleton data that has a contextual connection to a class definition. Second, a companion object is initialized when one of its properties or functions is accessed directly.
 - The contents of this companion object will not be loaded until either PremadeWorldMap is initialized or load is called. And no matter how many times PremadeWorldMap is instantiated, there will only ever be one instance of its companion object.
@@ -1029,7 +1079,11 @@ fun main() {
 ### Nested Classes
 - Not all classes defined within other classes are declared without a name. You canalso use the class keyword to define a named class nested inside of anotherclass. 
 - Nested class is onlyrelevant to outer class; it does not need to be accessed from anywhere else in the application.
-- Making GameInput a private, nested class means that GameInputcan be used within Game but does not clutter the rest of your API
+- Making GameInput a private, nested class means that GameInputcan be used within Game but does not clutter the rest of your API.
+- You can access like a namespace (if it's not private) nested class and can instantiate it .
+- You can also access it from Java code in same manner.
+- Nested class with "inner" keyword can access the properties of outer class.
+- You can access Inner classes only by instance of the outer class and not as a namespace.
 
 ### Data Classes
 - Data classes are classes designed specifically forholding data, and they come with some powerful data manipulation benefits.
@@ -1102,10 +1156,17 @@ fun main() {
 ###  sealed classes 
 - Sealed classes let you specify an ADT similar to anenum, but with more control over the specific subtypes than an enum provides.
 - Sealed class has a limited number of subclasses that must be defined within the same file where it is defined, otherwise it is ineligible for subclassing. 
-
-
+- Kotlin doesnt have algebric data types.
+- But you can simulate them using sealed classes.
+- Sealed classes puts restriction on what type of classes can inherit from base class.
+- Inner(nested classes) iheriting from outer class to implement two different return types for http request, viz. "success" and "failure".
+- The "sealed" keyword before the "class" keyword ensures that no other class can inherit from the outer class.
+- Starting Kotlin v1.1, the inner class restriction was removed. Now classes can be defined  anywhere within the same file.
 
 # Interfaces and Abstract Classes
+- Interfaces can define methods and properties.
+- Property initializer is not allowed in interface.
+- You can override the interface properties.
 - Using an interface, a group of classes can have properties or functions in common without sharing a superclass or subclassing one another.
 - Interfaces only specify the what, not the how.
 - An interface allows you to specify common properties and behavior that aresupported by a subset of classes in your program – without being required tospecify how they will be implemented.
@@ -1114,7 +1175,8 @@ fun main() {
 - Functions in an interface need not have a body.
 - The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
 
-```koltin
+
+```kotlin
 fun main() {
 // Interface
   interface Fightable {
@@ -1160,7 +1222,6 @@ fun main() {
 - generic type parameter: The parameter specified for a generic type, such as <T>.
 
 ### Generic Functions
-
 
 
 
@@ -1307,32 +1368,8 @@ val languageName: String? = null //Valid code
 - In when(), there is "else", which is same as "default" of switch case.
 - When() is very flexible.
 
-### Functions in Kotlin
-- Functions are **first class citizen**.
-- Functions in a class by **default** are **final**, so you **cannot override** them.
-- You need to declare Functions as **open** to **override** them.
-- After overriding function in derived we can declare it as final to avoid further overriding.
-- default value of parameters.
-- named parameters in functions.
-- function with unlimited no. of parameters.
-- If function body consists of one statement, you can use assignment for eg. 
-```kotlin
-fun sayHello(name: String) = println("Hello, $name!")
-```
-
-```kotlin
-fun printString(vararg names:String) {
-for (name in names) {
-println(name)
-  }
-// if we want to pass this "names" to another function 
-// we need to use "spread operator",  "*" , i.e. "*names"
-}
-```
 
 ### Spread operator: See above
-
-- function returning "Nothing", actually never returns.
 
 ### Classes in Kotlin
 - Classes are **first class citizen**.
@@ -1473,7 +1510,7 @@ interface Repo {
 
 ### Higher order functions
 
-### Lambda Expression in Koltin
+### Lambda Expression in Kotlin
 - Functions can be passed as parameters to functions using **::functionName**
 - Better approach is to pass a lambda expression.
 - Lambda function syntax, {x, y -> x + y}
@@ -1635,8 +1672,8 @@ function is another function, it doesn't need to go into brackets.
 
 ### Talking Kotlin in Java
 - Use "@JvmField" to access property in Kotlin from Java code , as field.
-- Use "@JvmOverloads" to call a Koltin function with default values.
-- Use "@JvmName" to call a Koltin function with a different name.
+- Use "@JvmOverloads" to call a Kotlin function with default values.
+- Use "@JvmName" to call a Kotlin function with a different name.
 - "@JvmName" handles the problem of generics and type erasure.
 - Use "@Throws("IOException::class)" to use use a Kotlin function which throws an exception.
 
@@ -1729,11 +1766,12 @@ concept of flatMap: [[a,b],[c,d]] f(x) => [f(a),f(b),f(c), f(d)]
 ### Enums in Kotlin
 
 
-Local functions: function with in a function
+### Local functions: function with in a function
 - local function allows code reuse(?).
 
-Infix functions: applied to member function and extension function with single parameter. Use "infix" keyword in function definition.
-
+### Infix functions
+- Applied to member function and extension function with single parameter. 
+- Use "infix" keyword in function definition.
 - Infix function allows to create more fluent call
 
 
@@ -1746,7 +1784,7 @@ Like named functions, anonymous functions can contain any number of expressions.
 ### Inline functions
 - "inline" keyword, used for flattening a higher order function which takes lambda expression as parameter. Helps in optimization, no call stack
 
--Optimize higher order function by inlining calls.
+- Optimize higher order function by inlining calls.
 - overhead, no anonymous class for lambda expression in parameter.
 - You can use "noinline" for lambda expression if you don't want to inline it.
 - Inline doesn't work if you assign lambda to a variable (ie store it).
@@ -1760,7 +1798,6 @@ return@mylabel
 label@ function definition.
 
 - non local return is allowed only from inline function.
-
 - anonymous function does a local return by default. Whereas lambda does a non local return by default.
 
 ### Tail recursion
@@ -1771,7 +1808,7 @@ label@ function definition.
 ### Operator overloading
 - certain operators can be overloaded using conventions.
 
-In k we can't define a symbol as an operator, but we can overload certain operators.
+In kotlin we can't define a symbol as an operator, but we can overload certain operators.
 For eg. You can define a data class method with keyword "operator" and name "plus" to overload + operator.
 We can also use "operator" key with extension function.
 
@@ -1790,47 +1827,15 @@ This help in creating a DSL like code. You can access the class properties in th
 - There are open source libs which implements them.
 - Kotlin language can be easily extended with new functionality, eg. currying and composition functions.
 
-### Fields in Kotlin
-- Kotlin doesn't have fields. 
-- you can define get() and set() for a property using "field" keyword.
-- field can back only one property.
-
-- Late initialization in Kotlin
-- Late initialization of a property.
-
-lateinit keyword for variable to be initialized by the framework, not by the user, user will later access this property.This also helps in getting meaningful exception.
-
-### Nested classes
-- You can access like a namespace (if it's not private) nested class and can instantiate it .
-- You can also access it from Java code in same manner.
-- Nested class with "inner" keyword can access the properties of outer class.
-- You can access Inner classes only by instance of the outer class and not as a namespace.
-
-### Companion objects
-kotlin does not have static class or method. We can create a top level method or create a method in top level object(singleton?).
-In kotlin static method are implemented using companion objects. These are accessible from Java code.
-- You can directly access the methods of inner class by using "companion" keyword. This way you can skip the derefrencing of inner class.
-- Each class can have only single companion object.
-- The methods of inner class can be accesed from java by annotating them by "JvmStatic".
-
 ### Hiding constructors in Kotlin
 - To hide the constructor being called use "private constructor" keyword(s) after class keyword.
 - This way you can force the user to use only the factory method of the class for creatng instances of that class.
 
-### Sealed classes in Kotlin
-- Kotlin doesnt have algebric data types.
-- But you can simulate them using sealed classes.
-- Sealed classes puts restriction on what type of classes can inherit from base class.
-- Inner(nested classes) iheriting from outer class to implement two different return types for http request, viz. "success" and "failure".
-- The "sealed" keyword before the "class" keyword ensures that no other class can inherit from the outer class.
-- Starting Kotlin v1.1, the inner class restriction was removed. Now classes can be defined  anywhere within the same file.
-
 ### Type aliases in Kotlin
 - Type aliases allow us to provide aliases for certain types, while keeping the underlying characteristics the same.
--  For eg. typealias Name = String
+- For eg. typealias Name = String
 
 ### Delegation
-
 ### Problems with inheritance
 - Long heirarchies
 - Bloated classes
@@ -1882,51 +1887,15 @@ These are std library functions and not keywords.
 - yield is a function and not keyword.
 
 ### Coroutines and reactive extensions in kotlin
-
 - Types are non null by default in kotlin 
 - var name: String = null #non billable string.
 - 14:54 : does null has a type. Are there different type of nulls.
 - Pair(1,"a") == 1 to "a".
 
-### Collections
-- array, list, map
-- Collections are immutable by default.
-
 ### vararg parameter
 
 ### Spread operator
 - `*`:  Converts list to sequence of individual items.
-
-### Class declaration options
-- class name #shortest form
-- **Init block** in class declaration run when instance is created. Class can have multiple init blocks.
-- Properties in a class can be accessed directly instead of getter and setter (unlike java)
-- All **init blocks** run before **secondary constructor**.
-- **Getters and setters** are **automatically defined** for properties in kotlin.
-- You can override default getter and setter in kotlin.
-- In kotlin visibility is public by default.
-
-### Visibility modifiers
-- **Internal**: class is public within a module.
-- **Private**: available only in the file where it is defined.
-- **Protected**: accessible from within the class or its children.
-- Interfaces can define methods and properties.
-- Property initializer is not allowed in interface.
-- You can override the interface properties.
-- Check for types
-
-- xyz [!]is ABC
-- Typecast xyz as abc
-- Smart casting in kotlin, done by compiler.
-- Classes in kotlin are final(closed) by default.you need to "open" it to inherit from it. Same holds true for properties.
-- Anonymous Inner class using "object expression". It is used in android development to implement click listener.
-object: parentClass { }
-- Companion objects:these are scoped to instance of other class.
-- A factory can have private primary constructor(See below). It restricts the user from invoking primary constructor.
-- class myClass private constructor (Val prop1: String).
-- Kotlin enforced immutability by forcing you to explicitly declare classes, properties, and methods to be open for extension/override.
-- Static class declared using object don't have constructors.
-- Enum classes
 
 ### Sealed classes
 - list.filterNotNull() vs. String.orEmpty()
@@ -1939,15 +1908,4 @@ object: parentClass { }
 - Must implement Serializable.
 - It should have a public no-arg constructor.
 - All properties in java bean must be private with public getters and setter methods.
-- val lazyInit: Int by lazy { 10 }   
-- Above is example of lazy initialization.
 
-### Property vs field
-- Property has getters and setters and are accessible publicly.
-- Field is private and has no getters and setters.
-- Koltin don't have fields.
-
-### What are checked exceptions. 
-- In Kotlin all exceptions are unchecked. 
-- This means that the Kotlin compiler does not force you to wrap all code that could produce an exception in a try/catch statement.
-- In Java all exceptions are unchecked. 
