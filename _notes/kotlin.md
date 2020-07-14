@@ -10,6 +10,18 @@ excerpt: "Intro to Kotlin"
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
 
+### Build tools in Kotlin
+- We can use Kotlin with:
+- command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle
+
+### Running a Kotlin program
+- Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
+
+```shell
+$ kotlinc main.kt -include-runtime -d main.jar
+$ java -jar main.jar
+```
+
 ### Package and class naming conventions
 - Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
 - Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
@@ -18,6 +30,10 @@ excerpt: "Intro to Kotlin"
 - Conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
 - You can drop braces if a branch is a single expresion. See eg. below.
 - `val auraColor = if (auraVisible) "GREEN" else "NONE"`.
+
+### Exceptions
+- try, catch, finally.
+- try/catch can also return a value.
 
 ### Ranges in Kotlin
 - 1..5 includes 1, 2, 3, 4, and 5. That is includes both bounds.
@@ -33,7 +49,6 @@ excerpt: "Intro to Kotlin"
 - File-level variables remain initialized until program execution stops.
 - File-level variables must always be assigned when they are defined.
 - A local variable only has to be initialized before it is used.
-
 
 ### Compile-Time Constants
 - Values of val may change in special cases.
@@ -77,6 +92,9 @@ println(name)
 - Names of constants (properties marked with const, or top-level or object val properties with no custom get function that hold deeply immutable data) should use uppercase underscore-separated names.
 - Kotlin has file level functions but Java has functions(methods) only as part of a class.
 
+### compile time constants
+- Syntax: const val FIRST_NAME = "Saurabh"
+
 ```kotlin
 const val MAX_COUNT = 8
 val USER_NAME_FIELD = "UserName"
@@ -85,6 +103,8 @@ val USER_NAME_FIELD = "UserName"
 ### Single expression functions short form
 - Omit the return type, curly braces, and return statement.
 - Use the assignment operator (=), followed by the expression.
+- If a function body is a single expression, then parens from function body can be removed.
+- If compiler can infer the return type of function the there is no need to specify it.
 
 ```kotlin
 // A higher order function, runMyRunnable,
@@ -101,6 +121,7 @@ runMyRunnable1 { println("Hello world") }()
 ```
 
 ### Unit functions
+- If a function has no return statement then it return type is `Unit`, which can be omitted.
 - They define no return type and have no return statement. 
 - Kotlin uses the `Unit` return type to signify a function that returns no value (no return statement). 
 
@@ -189,6 +210,13 @@ fun main(args: Array<String>) {
 - To inline a lambda, you mark the function that accepts the lambda using the `inline` keyword.
 - It is generally a good idea to mark functions that accept lambdas as arguments with the inline keyword.
 - One situation where inlining is not permitted, for example, is a `recursive` function that accepts a lambda.
+- "inline" keyword, used for flattening a higher order function which takes lambda expression as parameter. Helps in optimization, no call stack.
+- Optimize higher order function by inlining calls.
+- Overhead, no anonymous class for lambda expression in parameter.
+- You can use "noinline" for lambda expression if you don't want to inline it.
+- Inline doesn't work if you assign lambda to a variable (ie store it).
+- Inlining is good when function body is small.
+- Stack trace and debugging for inline functions. Goto call site/function body.
 
 ### Function References
 - They can be passed as arguments instead of lambda functions.
@@ -197,6 +225,8 @@ fun main(args: Array<String>) {
 - To obtain a function reference, you use the :: operator with the function name you would like a reference for.
 
 #### Kotlin’s Lambdas Are Closures
+- Difference in Kotlin closures is that internal function **captures value everytime**.
+- This is unlike other languages where value is captured only once.
 
 ### Kotlin vs Java: Functional programming
 - Java 8 includes support for OOP & lambda expressions but does not include the ability to define a function as a parameter to a function or variable. 
@@ -215,7 +245,12 @@ runMyRunnable { println("hey now") }()
 # Nullability
 - Some elements in Kotlin can be assigned a value of null, and some cannot. 
 - We say that the former are nullable and the latter are non-nullable.
+- Kotlin variables can't hold null values by default.
 
+```kotlin
+val languageName: String = null //Invalid code, fails to compile
+val languageName: String? = null //Valid code
+```
 
 ### Use of `?`, `let` and `!!` with nullable values
 
@@ -653,6 +688,11 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - you can define get() and set() for a property using "field" keyword.
 - field can back only one property.
 
+### Properties
+- Classes represent **state** using **properties**. 
+- A property is a class-level variable that can include a getter, a setter, and a backing field.
+- If you would like to customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private.
+
 ### Constructing Instances
 - A class's primary constructor is called by suffixing the class name with parentheses, creating an instance.
 - Class definitions can specify two types of content: behavior and data.
@@ -807,6 +847,8 @@ fun main(args: Array<String>) {
 - You can also specify `default values` that should be assigned if an argument is not provided for a specific parameter.
 - `Named arguments` can be used while calling a constructor just like functions, they allow you to specify the arguments to a function or constructor in any order.
 - Primary constructor is optional.
+- To hide the constructor being called use "private constructor" keyword(s) after class keyword.
+- This way you can force the user to use only the factory method of the class for creatng instances of that class.
 
 ### Why prepend variable names with underscores
 - Temporary variables, including parameters that you do not need to reference more than once, are often given a name starting with an underscore to signify that they are single-use.
@@ -1032,14 +1074,24 @@ fun main() {
 - They are useful for organization and state management, especially when you need to maintain some state consistently throughout the lifespan of your program.
 - Because an object declaration is instantiated for you, you do not add a custom constructor with code to be called at initialization. Instead, you need an initializer block for any code that you want to be called when your object is initialized.
 - An object is initialized when an object declaration is referenced by one of its properties or functions.
+- Used to create singleton.
 
-### Object expressions
+```kotlin
+// Name of class is the name of the singleton object (for eg. BookShelf)
+object BookShelf{
+}
+```
+
+### Object expressions (Anonymous inner class)
 - Defining a new, named class is not always necessary. Perhaps you need a class instance that is a variation of an existing class and will be used for a one-off purpose.
 - In fact, it will be so temporary that it does not even require a name.
 - It adheres to the rules of the object keyword in that there will only ever be one instance of it alive at a time, but it is significantly smaller in scope than a named singleton.
 - An object expression takes on some of the attributes of where it is declared. If declared at the file level, an object expression is initialized immediately. If declared within another class, it is initialized when its enclosing class is initialized.
 - Anonymous Inner class using "object expression". It is used in android development to implement click listener.
 object: parentClass { }
+- Using object keyword.
+- Syntax: var myIntance = object: MyInterface{ }
+- Used to implement an interface for an anonymous class.
 
 ```kotlin
 fun main() {
@@ -1061,6 +1113,10 @@ fun main() {
 - A companion object is declaredwithin another class declaration using the companion modifier. A class can haveno more than one companion object.
 - There are two cases in which a companion object will be initialized. First, a companion object is initialized when its enclosing class is initialized. This makes it a good place for singleton data that has a contextual connection to a class definition. Second, a companion object is initialized when one of its properties or functions is accessed directly.
 - The contents of this companion object will not be loaded until either PremadeWorldMap is initialized or load is called. And no matter how many times PremadeWorldMap is instantiated, there will only ever be one instance of its companion object.
+- @JVMStatic annotation
+- Syntax: companion object {}
+- Can be used for Factory for pattern.
+- used in place of static, as there is no static keyword in kotlin.
 
 ```kotlin
 fun main() {
@@ -1086,7 +1142,8 @@ fun main() {
 - You can access Inner classes only by instance of the outer class and not as a namespace.
 
 ### Data Classes
-- Data classes are classes designed specifically forholding data, and they come with some powerful data manipulation benefits.
+- Give default methods like to String(), equals(), hashCode(), copy() etc.
+- Data classes are classes designed specifically for holding data, and they come with some powerful data manipulation benefits.
 - Data classes provide implementations for toString, equals, and hashCode functions that may work better for your project.
 - They provides `toString()` etc method for properties declared in Coordinate’s `primary constructor`.
 - Data classes also provide a 'copy` function that makes it easy to create a new copy of an object.
@@ -1148,12 +1205,16 @@ fun main() {
 - When you want to use built-in operators with your custom types, you have to override the operators’functions to tell the compiler how to implement them for your type. This is known as `operator overloading`.
 - You can overload the `plus` operator prepending the function declaration with the `operator` modifier.
 - If you override equals yourself, you should also override afunction called hashCode.
+- certain operators can be overloaded using conventions.
+- In kotlin we can't define a symbol as an operator, but we can overload certain operators.
+- For eg. You can define a data class method with keyword "operator" and name "plus" to overload + operator.
+- We can also use "operator" key with extension function.
 
 
 ### Algebraic Data Types
 - Allow you to represent a closed set ofpossible subtypes that can be associated with a given type. Enum classes are asimple form of ADT.
 
-###  sealed classes 
+### Sealed classes 
 - Sealed classes let you specify an ADT similar to anenum, but with more control over the specific subtypes than an enum provides.
 - Sealed class has a limited number of subclasses that must be defined within the same file where it is defined, otherwise it is ineligible for subclassing. 
 - Kotlin doesnt have algebric data types.
@@ -1174,6 +1235,14 @@ fun main() {
 - Properties in an interface need not be initialized.
 - Functions in an interface need not have a body.
 - The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
+
+### Interface
+- Interface is similar to abstract classes but they dont have a state(properties), they only have (abstract)methods.
+- Methods in interface are abstract by default.
+- Abstract methods in interface don't require "abstract" keyword unlike abstract classes.
+- kotlin/Java support multiple inheritance ONLY for interfaces and not for classes.
+- In Java we extend a class and implement an interface.
+- from Java 8 onwards interface can have defined methdos, this allows to change interface without breaking code.
 
 
 ```kotlin
@@ -1265,19 +1334,6 @@ class C {
 }
 ```
 
-### Running a Kotlin program
-- Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
-
-```shell
-$ kotlinc main.kt -include-runtime -d main.jar
-$ java -jar main.jar
-```
-
-### Kotlin functions
-- If a function body is a single expression, then parens from function body can be removed.
-- If compiler can infer the return type of function the there is no need to specify it.
-- If a function has no return statement then it return type is `Unit`, which can be omitted.
-
 ### String Templates
 - We can use a simple variable(using `$`) or an arbitrary expression(using `${expression}`) in a string.
 
@@ -1295,7 +1351,7 @@ There is not implicit widening conversions in kotlin, for eg., a function with a
 - **Integral**: eg. 100
 - **Long integer**: eg. 100L
 - **Hexadecimal**: Preceded by `0X` eg. 0X0F
-- No octal literals in kotlin
+- There are no octal literals in kotlin
 
 ```kotlin
 // Use of underscore in number constants
@@ -1335,7 +1391,7 @@ val l = 1L + 3 // Long + Int => Long
 
 ### Arithmetic operations
 - Division of integers gives an integer.
-- Division of interger and a float gives float/double.
+- Division of integer and a float gives float/double.
 
 ### Bitwise operations
 - shl(bits) – signed shift left
@@ -1350,15 +1406,6 @@ val l = 1L + 3 // Long + Int => Long
 
 ```kotlin
 val x = (1 shl 2) and 0x000FF000
-```
-
-
-
-### Null Safety
-Kotlin variables can't hold null values by default.
-```kotlin
-val languageName: String = null //Invalid code, fails to compile
-val languageName: String? = null //Valid code
 ```
 
 ### Control Flow
@@ -1491,15 +1538,6 @@ interface Repo {
 - Unlike Java Streams Sequences are available on all platforms like android etc.
 - Parallel processing is not yet available in sequences (check latest Kotlin version).
 
-### Properties
-- Classes represent **state** using **properties**. 
-- A property is a class-level variable that can include a getter, a setter, and a backing field.
-- If you would like to customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private.
-
-### Exceptions
-- try, catch, finally
-- try/catch can also return a value
-
 ### Declaring constants
 - There is **no const keyword**.
 - Top level constants/properties are declared using **val**.
@@ -1587,43 +1625,8 @@ or SAM interfaces, where SAM stands for single abstract method.
 
 - You can pass a lambda to any Java method that expects a functional interface.
 
-
-### compile time constants
-- Syntax: const val FIRST_NAME = "Saurabh"
-
 ### Anonymous functions
 - Used to pass function as arguments and/or return function as value
-
-### interface
-- Interface is similar to abstract classes but they dont have a state(properties), they only have (abstract)methods.
-- Methods in interface are abstract by default.
-- Abstract methods in interface don't require "abstract" keyword unlike abstract classes.
-- kotlin/Java support multiple inheritance ONLY for interfaces and not for classes.
-- In Java we extend a class and implement an interface.
-- from Java 8 onwards interface can have defined methdos, this allows to change interface without breaking code.
-
-### data class
-- Give default methods like to String(), equals(), hashCode(), copy() etc.
-- 
-
-### object keyword
-- Used to create singleton
-- Syntax: object BookShelf{
-}
-- Name of class is the name of the singleton object (for eg. BookShelf)
-
-### anonymous inner class
-- using object keyword.
-- Syntax: var myIntance = object: MyInterface{ }
-- Used to implement an interface for an anonymous class.
-
-
-### companion object
-- @JVMStatic annotation
-- Syntax: companion object {}
-- Can be used for Factory for pattern.
-- used in place of static, as there is no static keyword in kotlin.
-
 
 ### strong reference in Java/Kotlin
 - Default behaviour.
@@ -1645,10 +1648,6 @@ or SAM interfaces, where SAM stands for single abstract method.
 
 **Note**: The convention is, if the last, or in this case the only, parameter of a 
 function is another function, it doesn't need to go into brackets.
-
-### Closures
-- Difference in Kotlin closures is that internal function **captures value everytime**.
-- This is unlike other languages where value is captured only once.
 
 ### Extension functions
 - Using this you can extend existing class without inheriting them.
@@ -1708,12 +1707,12 @@ function is another function, it doesn't need to go into brackets.
   etc..
 
 ### Immutable list creation
-- declare list of strings : var list = listOf("string1", "string2"..)
-- declare list of strings : val list = Arrays.asList("string1", "string2"..)
-- declare empty list of strings : var list = emptyList<String>() or listOf()
-- declare list of numbers : val list = 1..100
+- Declare list of strings : var list = listOf("string1", "string2"..)
+- Declare list of strings : val list = Arrays.asList("string1", "string2"..)
+- Declare empty list of strings : var list = emptyList<String>() or listOf()
+- Declare list of numbers : val list = 1..100
 
-To print the type of class of the variable: println(list.javaClass) 
+- To print the type of class of the variable: println(list.javaClass) 
 
 ### Mutable list creation
 declare list of strings : var list = mutableListOf("string1", "string2"..)
@@ -1725,12 +1724,6 @@ declare hashmap : var hashmap = hashMapOf(Pair("string1", "stringa"), pair("stri
 
 setOf()
 hashSetOf()
-
-### Arrays of primitive type like int, boolean etc
-- booleanArrayOf()
-- intArrayOf()
-- charArrayOf()
-- flaotArrayOf() etc
 
 ### Filtering, Mapping, Flatmapping in Kotlin
 - forEach : Takes a lambda operation to be executed on each element of iterable.
@@ -1750,21 +1743,6 @@ concept of flatMap: [[a,b],[c,d]] f(x) => [f(a),f(b),f(c), f(d)]
 - asSequence().take(30)... execute logic on first 30 elements only.
 - generateSequence(1) {x -> x + 10}, it does more than isSequence()
 
-### String Extensions in Kotlin
-- with(file) { here we can access functions/properties of file directly}
-- stringObject?.let { it.length}
-
-### Build tools in Kotlin
-- We can use Kotlin with:
-  command line,
-  Ant(build tool),
-  IntelliJ Idea,
-  Eclipse,
-  Maven,
-  Gradle
-
-### Enums in Kotlin
-
 
 ### Local functions: function with in a function
 - local function allows code reuse(?).
@@ -1774,43 +1752,22 @@ concept of flatMap: [[a,b],[c,d]] f(x) => [f(a),f(b),f(c), f(d)]
 - Use "infix" keyword in function definition.
 - Infix function allows to create more fluent call
 
-
 ### Anonymous functions Vs lambda expression
 - Af allows mutliple return calls.
 - Af : multiple returns, can specify return type.
 
 Like named functions, anonymous functions can contain any number of expressions. The returned value of the function is the result of the final expression.
 
-### Inline functions
-- "inline" keyword, used for flattening a higher order function which takes lambda expression as parameter. Helps in optimization, no call stack
-
-- Optimize higher order function by inlining calls.
-- overhead, no anonymous class for lambda expression in parameter.
-- You can use "noinline" for lambda expression if you don't want to inline it.
-- Inline doesn't work if you assign lambda to a variable (ie store it).
-- Inlining is good when function body is small.
-- Stack trace and debugging for inline functions. Goto call site/function body.
-
-### Return and local return
+### Lambda: Return and local return
 - Use label to perform local returns from lambdas.
-
-return@mylabel
-label@ function definition.
-
-- non local return is allowed only from inline function.
-- anonymous function does a local return by default. Whereas lambda does a non local return by default.
+- return@mylabel, label@ function definition.
+- Non local return is allowed only from inline function.
+- Anonymous function does a local return by default. Whereas lambda does a non local return by default.
 
 ### Tail recursion
 - Allows for TCO(tail call optimization).
 - Tail recursive function: the last call should be to the function itself.
 - Tail recursive function can be optimised in kotlin usin the keyword "tailrec".
-
-### Operator overloading
-- certain operators can be overloaded using conventions.
-
-In kotlin we can't define a symbol as an operator, but we can overload certain operators.
-For eg. You can define a data class method with keyword "operator" and name "plus" to overload + operator.
-We can also use "operator" key with extension function.
 
 ### Lambda extension: lambda with receivers
 This help in creating a DSL like code. You can access the class properties in the lambda function.
@@ -1826,10 +1783,6 @@ This help in creating a DSL like code. You can access the class properties in th
 - But the above can be implmented using Kotlin language.
 - There are open source libs which implements them.
 - Kotlin language can be easily extended with new functionality, eg. currying and composition functions.
-
-### Hiding constructors in Kotlin
-- To hide the constructor being called use "private constructor" keyword(s) after class keyword.
-- This way you can force the user to use only the factory method of the class for creatng instances of that class.
 
 ### Type aliases in Kotlin
 - Type aliases allow us to provide aliases for certain types, while keeping the underlying characteristics the same.
