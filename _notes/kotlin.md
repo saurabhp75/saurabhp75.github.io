@@ -9,10 +9,21 @@ excerpt: "Intro to Kotlin"
 - The classes and objects in the source files can be accessed using `dot` after package description.
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
+- To print the type of class of the variable: println(list.javaClass) .
+- Check if object is type of a class, **if obj is classType**.
+- Safely cast int variable to string, **input as? String**.
+- Deconstructing values, val (capital, population) = Pair("Delhi", 1000)
+- Deconstructing values also works on data classes
+- Deconstructing values also works in for loop
+- Base class for exceptions in Kotlin is **Throwable**
+- In kotlin there are no fields, there are properties.
+- **Kotlin sequences** are equivalent of **Java Streams**.
+- Unlike Java Streams Sequences are available on all platforms like android etc.
+- Parallel processing is not yet available in sequences (check latest Kotlin version).
 
 ### Build tools in Kotlin
 - We can use Kotlin with:
-- command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle
+- Command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle
 
 ### Running a Kotlin program
 - Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
@@ -30,6 +41,11 @@ $ java -jar main.jar
 - Conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
 - You can drop braces if a branch is a single expresion. See eg. below.
 - `val auraColor = if (auraVisible) "GREEN" else "NONE"`.
+- If, else can return a value.
+- The value is the last statement in each of the block in if, else is returned
+- Switch case is replaced by **when()**.
+- In when(), there is "else", which is same as "default" of switch case.
+- When() is very flexible.
 
 ### Exceptions
 - try, catch, finally.
@@ -199,6 +215,109 @@ fun main(args: Array<String>) {
 - What an anonymous function returns is called a lambda result.
 
 
+### Lambda Expression in Kotlin
+- Functions can be passed as parameters to functions using **::functionName**
+- Better approach is to pass a lambda expression.
+- Lambda function syntax, {x, y -> x + y}
+- If lambda function takes only one parameter, we can use **it**.
+- For eg, {x -> x * x} is same as {it * it}
+- Alternate syntax if last parameter is a function/lambda expression.
+- Eg, unaryOperation(3, {it * it}) is same as unaryOperation(3){it * it}
+- An alternate to lamba function is **anonymous function**.
+- For eg, unaryOperator(3, fun(x:Int):Int { return x * x})
+
+### Lambda functions usage
+- In older Java versions, we used anonymous inner class for “When an event happens, run this handler” or
+“Apply this operation to all elements in a data structure.” For these cases, instead of declaring a class and passing an instance
+of that class to a function, you can pass a function directly. So lambda can be used as an alternative to an anonymous object with
+only one method.
+- Another classical use of lambda expressions: working with collections. 
+
+```kotlin
+val people = listOf(Person("Alice", 29), Person("Bob", 31))
+println(people.maxBy { it.age })
+Person(name=Bob, age=31)
+```
+
+-  If a lambda just delegates to a function or property for eg. people.maxBy(Person::age)
+- Most of the things we typically do with collections in Java (prior to Java 8) can be
+better expressed with library functions taking lambdas or member(property or method) references
+
+### Syntax for lambda expressions
+- A lambda expression is always surrounded by curly braces.
+- there are no parentheses around the arguments.
+- The arrow separates the argument list from the body of the lambda.
+- You can store a lambda expression in a variable and then treat this variable like a normal function.
+- { x: Int, y: Int -> x + y }
+
+### Running a Lambda function
+- Using brackets after the body: { println(42) }()
+- Using run library function: run { println(42) }
+
+### Breaking down syntax
+- people.maxBy({ p: Person -> p.age })
+- The type can be inferred from the context and therefore omitted: people.maxBy({ p -> p.age }) 
+- You don’t need to assign a name to the lambda argument in this case.
+- You can move a lambda expression out of parentheses if it’s the last argument in a function call: people.maxBy(){ p -> p.age }
+- When the lambda is the only argument to a function, you can remove the empty parentheses from the call: people.maxBy { p -> p.age }
+- if the context expects a lambda with only one argument, and its type can be inferred: people.maxBy { it.age }
+
+### Lambda, capturing variables from the context
+
+```kotlin
+fun printProblemCounts(responses: Collection<String>) {
+  var clientErrors = 0
+  var serverErrors = 0
+  responses.forEach {
+    if (it.startsWith("4")) {
+      clientErrors++
+    } else if (it.startsWith("5")) {
+      serverErrors++
+    }
+  }
+  println("$clientErrors client errors, $serverErrors server errors")
+}
+```
+
+###  Member references, a feature that lets you easily pass references to existing functions
+-  A member reference has the same type as a lambda that calls that function, so you can use the two interchangeably.
+- - It’s convenient to provide a member reference instead of a lambda that delegates to a function taking several parameters.
+- people.maxBy { person: Person -> person.age } can be replaced by
+- people.maxBy (Person::age)
+
+### Anonymous functions
+- Used to pass function as arguments and/or return function as value
+
+### Local functions: function with in a function
+- local function allows code reuse(?).
+
+### Anonymous functions Vs lambda expression
+- Af allows mutliple return calls.
+- Af : multiple returns, can specify return type.
+
+Like named functions, anonymous functions can contain any number of expressions. The returned value of the function is the result of the final expression.
+
+### Lambda: Return and local return
+- Use label to perform local returns from lambdas.
+- return@mylabel, label@ function definition.
+- Non local return is allowed only from inline function.
+- Anonymous function does a local return by default. Whereas lambda does a non local return by default.
+
+### Tail recursion
+- Allows for TCO(tail call optimization).
+- Tail recursive function: the last call should be to the function itself.
+- Tail recursive function can be optimised in kotlin usin the keyword "tailrec".
+
+### Lambda extension: lambda with receivers
+This help in creating a DSL like code. You can access the class properties in the lambda function.
+
+### Invoking instances in Kotlin
+- Use member function "invoke" with "operator" keyword.
+- now we can use "()" on the instance of the class, eg classInstance().
+
+- Lambda extension and Instance invoking lets you create DSL which is used in Android development and Gradle scripting.also groovy style Kotlin HTML builders. also JSON DSL and SQL dialects.
+
+
 ### Shorthand syntax for function accepting a `function type/lambda` as its `last` parameter
 - You can omit the parentheses around the lambda argument.
 
@@ -217,6 +336,11 @@ fun main(args: Array<String>) {
 - Inline doesn't work if you assign lambda to a variable (ie store it).
 - Inlining is good when function body is small.
 - Stack trace and debugging for inline functions. Goto call site/function body.
+
+### Infix functions
+- Applied to member function and extension function with single parameter. 
+- Use "infix" keyword in function definition.
+- Infix function allows to create more fluent call
 
 ### Function References
 - They can be passed as arguments instead of lambda functions.
@@ -319,6 +443,53 @@ fun toDragonSpeak(phrase: String) =
 - Operation between Ints will give an Int, If you want decimal values use one operand as double/float.
 - All numeric types in kotlin are signed.
 - Decimal number is `Double` type by default.
+- There is not implicit widening conversions in kotlin, for eg., a function with a double parameter will not accept float or int parameter.
+
+### Every number type supports the following conversions:
+- `toByte()`: Byte
+- `toShort()`: Short
+- `toInt()`: Int
+- `toLong()`: Long
+- `Explicit conversions`???
+- `toFloat()`: Float
+- `toDouble()`: Double
+- `toChar()`: Char
+
+### No implicit conversions of types while assignment
+- Smaller types are NOT implicitly converted to bigger types.
+- We cannot assign a value of type Byte to an Int variable without an explicit conversion.
+
+### Implicit conversion of types on arithmetic operation
+- Type is inferred from context and Arithmetical operations are overloaded for appropriate conversions, for example
+
+```kotlin
+val l = 1L + 3 // Long + Int => Long
+```
+
+### Literal constants
+- **Integral**: eg. 100
+- **Long integer**: eg. 100L
+- **Hexadecimal**: Preceded by `0X` eg. 0X0F
+- There are no octal literals in kotlin
+
+```kotlin
+// Use of underscore in number constants
+val oneMillion = 1_000_000
+val creditCardNumber = 1234_5678_9012_3456L
+val socialSecurityNumber = 999_99_9999L
+val hexBytes = 0xFF_EC_DE_5E
+val bytes = 0b11010010_01101001_10010100_10010010
+```
+### Boxing/unboxing/autoboxing
+- **Boxing**: Conversion of primitve type to an object.
+- **Unboxing**: Conversion of object type to an primitve.
+- **Autoboxing**: Automatic conversion of primitve type to an object.
+
+**Note**: In JVM, the numbers are internally stored as primitive types, unless they are nullable or generics is involved.
+
+### Arithmetic operations
+- Division of integers gives an integer.
+- Division of integer and a float gives float/double.
 
 ### Converting a String to a Numeric Type
 - `String.toInt()`: 
@@ -338,18 +509,26 @@ fun toDragonSpeak(phrase: String) =
 - `Double.roundToInt()`
 
 ### Bit manipulation on Int
+- Bitwise operations Don't have a special character, instead use function name in infix form
+- They are available for Int and Long only.
 - `Integer.toBinaryString()`: Integer.toBinaryString(42)
 - `shl()`: 42.shl(2)
 - `shr()`: 42.shr(2)
+- `ushr(bits)`: unsigned shift right
 - `inv()`: 42.inv()
 - `xor()`: 42.xor(33)
 - `and()`: 42.and(10)
+- `or(bits)`: bitwise or
+
+```kotlin
+val x = (1 shl 2) and 0x000FF000
+```
 
 # Standard Functions in Kotlin
 - **receiver**: The subject of an extension function.
 -  Kotlin’s standard functions are extension functions under the hood.
 
-### apply function
+### Apply function
 - Can be thought of as a `configuration function`. 
 - It allows you to call a series of functions on a receiver to configure it for use. 
 - After the lambda provided to apply executes, apply returns the configured receiver.
@@ -370,16 +549,16 @@ val menuFile = File("menu-file.txt").apply {
 }
 ```
 
-### let function
+### Let function
 - `let` scopes a variable to the lambda provided and makes the keyword `it`.
 - Passes the receiver to the lambda you provide.
 - Returns the last line of the lambda (the lambda result).
 
-### let vs apply
+### Let vs apply
 - `let` passes the receiver to the lambda you provide, but `apply` passes nothing.
 - `apply` returns the current receiver once the anonymous function completes. `let`, on the other hand, returns the last line of the lambda (the lambda result).
 
-### run function
+### Run function
 - Similar to `apply` in that it provides the same relative scoping behavior. 
 - However, unlike apply, run does not return the receiver, but returns the lambda result.
 - Run can also be used to execute a function reference on a receiver. 
@@ -396,7 +575,7 @@ val status = run {
       }
 ```
 
-### with function
+### With function
 - `with` is a variant of run. It behaves identically, but it uses a different calling convention.
 - With requires its argument to be accepted as the first parameter rather than calling the standard function on a receiver type.
 - The second parameter is the lambda.
@@ -408,13 +587,13 @@ val nameTooLong = with("Polarcubis, Supreme Master of NyetHack") {
 }
 ```
 
-### also function
+### Also function
 - `also` function works very similarly to the `let` function.
 - Just like let, `also` passes the receiver you call it on as an argument to a lambda you provide.
 - But also returns the receiver, rather than the result of the lambda.
 - Since also returns the receiver instead of the result of the lambda, you can continue to chain additional function calls on to the original receiver.
 
-### takeIf function
+### TakeIf function
 - `takeif` evaluates a condition providedin a lambda, called a `predicate`, that returns either true or false depending on the conditions defined. 
 - If the condition evaluates as true, the receiver is returned from takeIf. If the condition is false, null is returned instead.
 
@@ -433,7 +612,7 @@ val fileContents = if (file.canRead() && file.canWrite()) {
 }
 ```
 
-### takeUnless function
+### TakeUnless function
 - It returns the original value(receiver) if the condition you define is false.
 - It is confusing and not used often, takeIf is used instead.
 
@@ -461,6 +640,12 @@ val fileContents = if (file.canRead() && file.canWrite()) {
 - Lists hold an ordered collection of values and allow duplicate values.
 - **listOf()** returns a read-only list. The read-only nature of the list has nothing to do with the val or var keyword.
 - List is a generic type.
+
+### Immutable list creation
+- Declare list of strings : var list = listOf("string1", "string2"..)
+- Declare list of strings : val list = Arrays.asList("string1", "string2"..)
+- Declare empty list of strings : var list = emptyList<String>() or listOf()
+- Declare list of numbers : val list = 1..100
 
 ### Accessing a list’s elements
 - Using the element’s index and the `[]` operator.
@@ -640,9 +825,13 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - A pair is a type for representing a group of two elements.
 - Maps are built using key-value pairs.
 
+### Tuples
+- Tuples has been **removed** from Kotlin.
+- Tuples are implemented using **Pair()** and **Triple()**.
+- Bigger Tuples can be constructed using data classes.
+
 ### Adding a duplicate key in map
 - The existing pair will be replaced with the new one.
-
 
 ### Map accessor functions (Accessing Map Values)
 - `[key]` (get/indexoperator): Gets the value for a key; return snull if the key does not exist.
@@ -1143,6 +1332,7 @@ fun main() {
 
 ### Data Classes
 - Give default methods like to String(), equals(), hashCode(), copy() etc.
+- Data classes/objects are called **Java beans**. They just hold the data.
 - Data classes are classes designed specifically for holding data, and they come with some powerful data manipulation benefits.
 - Data classes provide implementations for toString, equals, and hashCode functions that may work better for your project.
 - They provides `toString()` etc method for properties declared in Coordinate’s `primary constructor`.
@@ -1157,7 +1347,13 @@ val mortalPlayer = player.copy(isImmortal = false)
 
 // Destructuring in data class
 val (x, y) = Coordinate(1, 0)
+
+// Copying with some properties changed
+customer2 = customer1.copy(name="saurabh")
 ```
+
+- value, ordinal, values.
+- Only use of semicolon in Kotlin.
 
 ### Destructuring declarations in data classes
 - Data classes automatically enable your class’s data to be destructured.
@@ -1337,86 +1533,6 @@ class C {
 ### String Templates
 - We can use a simple variable(using `$`) or an arbitrary expression(using `${expression}`) in a string.
 
-### Kotlin Data types
-- **Byte**: 8 bits. 
-- **Short**: 16 bits.
-- **Int**: 32 bits, default type for numbers if the size fits.  
-- **Long**: 64 bits, specify `L` at the end of a number to specify Long type.  
-- **Float**: 32 bits, specify `f` or `F` at the of a number to specify Float type.
-- **Double**: 64 bits, default type for fractional numbers.
-
-There is not implicit widening conversions in kotlin, for eg., a function with a double parameter will not accept float or int parameter.
-
-### Literal constants
-- **Integral**: eg. 100
-- **Long integer**: eg. 100L
-- **Hexadecimal**: Preceded by `0X` eg. 0X0F
-- There are no octal literals in kotlin
-
-```kotlin
-// Use of underscore in number constants
-val oneMillion = 1_000_000
-val creditCardNumber = 1234_5678_9012_3456L
-val socialSecurityNumber = 999_99_9999L
-val hexBytes = 0xFF_EC_DE_5E
-val bytes = 0b11010010_01101001_10010100_10010010
-```
-### Boxing/unboxing/autoboxing
-- **Boxing**: Conversion of primitve type to an object.
-- **Unboxing**: Conversion of object type to an primitve.
-- **Autoboxing**: Automatic conversion of primitve type to an object.
-
-**Note**: In JVM, the numbers are internally stored as primitive types, unless they are nullable or generics is involved.
-
-### No implicit conversions of types while assignment
-- Smaller types are NOT implicitly converted to bigger types.
-- We cannot assign a value of type Byte to an Int variable without an explicit conversion.
-
-### Implicit conversion of types on arithmetic operation
-- Type is inferred from context and Arithmetical operations are overloaded for appropriate conversions, for example
-
-```kotlin
-val l = 1L + 3 // Long + Int => Long
-```
-
-### Every number type supports the following conversions:
-- toByte(): Byte
-- toShort(): Short
-- toInt(): Int
-- toLong(): Long
-- Explicit conversions
-- toFloat(): Float
-- toDouble(): Double
-- toChar(): Char
-
-### Arithmetic operations
-- Division of integers gives an integer.
-- Division of integer and a float gives float/double.
-
-### Bitwise operations
-- shl(bits) – signed shift left
-- shr(bits) – signed shift right
-- ushr(bits) – unsigned shift right
-- and(bits) – bitwise and
-- or(bits) – bitwise or
-- xor(bits) – bitwise xor
-- inv() – bitwise inversion
-- Bitwise operations Don't have a special character, instaed use function name in infix form
-- They are available for Int and Long only.
-
-```kotlin
-val x = (1 shl 2) and 0x000FF000
-```
-
-### Control Flow
-- If, else can return a value.
-- The value is the last statement in each of the block in if, else is returned
-- Switch case is replaced by **when()**.
-- In when(), there is "else", which is same as "default" of switch case.
-- When() is very flexible.
-
-
-### Spread operator: See above
 
 ### Classes in Kotlin
 - Classes are **first class citizen**.
@@ -1425,12 +1541,11 @@ val x = (1 shl 2) and 0x000FF000
 - **No need** of **new** operator when **instantiating** classes.
 - Classes by **default** are **final**, so you cannot inherit from them.
 - You need to declare class as **open** to **inherit** from them.
-
 - **Primary** and **secondary** constructors.
 - Secondary constructor should always call primary constructor first.
 
 ```kotlin
-// The class below is complete, diesn't require body. It has two properties.
+// The class below is complete, doesn't require body. It has two properties.
 // viz, id and name
 class customer(var id:Int, var name:String="default") {
    init {
@@ -1456,23 +1571,6 @@ class customer(var id:Int, var name:String="default") {
 - **private**: only available to class members.
 - **protected**: same as private and subclasses.
 - **internal**: any client inside the module.
-
-### Data classes:
-- Data classes/objects are called **Java beans**. They just hold the data.
-- They implicitly implements getters/setters/toString/getHashCode/equalTo/copy etc methods.
-- So there is no boilerplate code.
-- For eg.
-```kotlin
-data class customer(var id:Int, var name:String="default")
-```
-- copying with some properties changed
-
-customer2 = customer1.copy(name="saurabh")
-
-- Enum classes in Kotlin
-- value, ordinal, values.
-- override toString.
-- Only use of semicolon in Kotlin.
 
 ### Objects in kotlin (Singleton).
 - We can create objects, without them being instances of any class (just like javascript).
@@ -1518,26 +1616,6 @@ interface Repo {
 - Calling methods on nullable variable, eg. personName?.length
 - You can **override compiler** error by using "!!" personName!!.length
 
-### Type casting
-- **Smart casting** by the compiler.
-
-### Tuples
-- Tuples has been **removed** from Kotlin.
-- Tuples are implemented using **Pair()** and **Triple()**.
-- Bigger Tuples can be constructed using data classes.
-
-### Miscellineous
-- Check if object is type of a class, **if obj is classType**.
-- Safely cast int variable to string, **input as? String**.
-- Deconstructing values, val (capital, population) = Pair("Delhi", 1000)
-- Deconstructing values also works on data classes
-- Deconstructing values also works in for loop
-- Base class for exceptions in Kotlin is **Throwable**
-- In kotlin there are no fields, there are properties.
-- **Kotlin sequences** are equivalent of **Java Streams**.
-- Unlike Java Streams Sequences are available on all platforms like android etc.
-- Parallel processing is not yet available in sequences (check latest Kotlin version).
-
 ### Declaring constants
 - There is **no const keyword**.
 - Top level constants/properties are declared using **val**.
@@ -1546,89 +1624,12 @@ interface Repo {
 ### Kotlin annotations
 - Used in testing to annotate functions as **@test** etc.
 
-### Higher order functions
-
-### Lambda Expression in Kotlin
-- Functions can be passed as parameters to functions using **::functionName**
-- Better approach is to pass a lambda expression.
-- Lambda function syntax, {x, y -> x + y}
-- If lambda function takes only one parameter, we can use **it**.
-- For eg, {x -> x * x} is same as {it * it}
-- Alternate syntax if last parameter is a function/lambda expression.
-- Eg, unaryOperation(3, {it * it}) is same as unaryOperation(3){it * it}
-- An alternate to lamba function is **anonymous function**.
-- For eg, unaryOperator(3, fun(x:Int):Int { return x * x})
-
-
-### Lambda functions usage
-- In older Java versions, we used anonymous inner class for “When an event happens, run this handler” or
-“Apply this operation to all elements in a data structure.” For these cases, instead of declaring a class and passing an instance
-of that class to a function, you can pass a function directly. So lambda can be used as an alternative to an anonymous object with
-only one method.
-
-- Another classical use of lambda expressions: working with collections. 
-
-```kotlin
-val people = listOf(Person("Alice", 29), Person("Bob", 31))
-println(people.maxBy { it.age })
-Person(name=Bob, age=31)
-```
-
--  If a lambda just delegates to a function or property for eg. people.maxBy(Person::age)
-
-- Most of the things we typically do with collections in Java (prior to Java 8) can be
-better expressed with library functions taking lambdas or member(property or method) references
-
-### Syntax for lambda expressions
-- A lambda expression is always surrounded by curly braces.
-- there are no parentheses around the arguments.
-- The arrow separates the argument list from the body of the lambda.
-- You can store a lambda expression in a variable and then treat this variable like a normal function.
-- { x: Int, y: Int -> x + y }
-
-### Running a Lambda function
-- Using brackets after the body: { println(42) }()
-- Using run library function: run { println(42) }
-
-### Breaking down syntax
-- people.maxBy({ p: Person -> p.age })
-- The type can be inferred from the context and therefore omitted: people.maxBy({ p -> p.age }) 
-- You don’t need to assign a name to the lambda argument in this case.
-- You can move a lambda expression out of parentheses if it’s the last argument in a function call: people.maxBy(){ p -> p.age }
-- When the lambda is the only argument to a function, you can remove the empty parentheses from the call: people.maxBy { p -> p.age }
-- if the context expects a lambda with only one argument, and its type can be inferred: people.maxBy { it.age }
-
-### Lambda, capturing variables from the context
-- fun printProblemCounts(responses: Collection<String>) {
-var clientErrors = 0
-var serverErrors = 0
-responses.forEach {
-if (it.startsWith("4")) {
-clientErrors++
-} else if (it.startsWith("5")) {
-serverErrors++
-}
-}
-println("$clientErrors client errors, $serverErrors server errors")
-}
-
-###  member references, a feature that lets you easily pass references to existing functions
--  A member reference has the same type as a lambda that calls that function, so you can use the two interchangeably.
-- - It’s convenient to provide a member reference instead of a lambda that delegates to a function taking several parameters.
-- people.maxBy { person: Person -> person.age } can be replaced by
-- people.maxBy (Person::age)
-
-
 ### Using Java functional interfaces
 - Interface like OnClickListener has only one abstract method. Such interfaces are called functional interfaces, 
 or SAM interfaces, where SAM stands for single abstract method.
-
 - You can pass a lambda to any Java method that expects a functional interface.
 
-### Anonymous functions
-- Used to pass function as arguments and/or return function as value
-
-### strong reference in Java/Kotlin
+### Strong reference in Java/Kotlin
 - Default behaviour.
 - Garage collected when there are no references left for an object.
 
@@ -1644,7 +1645,6 @@ or SAM interfaces, where SAM stands for single abstract method.
 - lazy properties: the value gets computed only upon first access;
 - observable properties: listeners get notified about changes to this property;
 - storing properties in a map, instead of a separate field for each property.
-
 
 **Note**: The convention is, if the last, or in this case the only, parameter of a 
 function is another function, it doesn't need to go into brackets.
@@ -1706,24 +1706,10 @@ function is another function, it doesn't need to go into brackets.
   HashMap,
   etc..
 
-### Immutable list creation
-- Declare list of strings : var list = listOf("string1", "string2"..)
-- Declare list of strings : val list = Arrays.asList("string1", "string2"..)
-- Declare empty list of strings : var list = emptyList<String>() or listOf()
-- Declare list of numbers : val list = 1..100
-
-- To print the type of class of the variable: println(list.javaClass) 
-
-### Mutable list creation
-declare list of strings : var list = mutableListOf("string1", "string2"..)
-
-list.add("stringX")
-
-hashmap creation
-declare hashmap : var hashmap = hashMapOf(Pair("string1", "stringa"), pair("string2", "stringb") ....)
-
-setOf()
-hashSetOf()
+### hashmap creation
+- declare hashmap : var hashmap = hashMapOf(Pair("string1", "stringa"), pair("string2", "stringb") ....)
+- setOf()
+- hashSetOf()
 
 ### Filtering, Mapping, Flatmapping in Kotlin
 - forEach : Takes a lambda operation to be executed on each element of iterable.
@@ -1742,41 +1728,6 @@ concept of flatMap: [[a,b],[c,d]] f(x) => [f(a),f(b),f(c), f(d)]
 - In Kotlin asSequence() converts an iterable to be lazily evaluated.
 - asSequence().take(30)... execute logic on first 30 elements only.
 - generateSequence(1) {x -> x + 10}, it does more than isSequence()
-
-
-### Local functions: function with in a function
-- local function allows code reuse(?).
-
-### Infix functions
-- Applied to member function and extension function with single parameter. 
-- Use "infix" keyword in function definition.
-- Infix function allows to create more fluent call
-
-### Anonymous functions Vs lambda expression
-- Af allows mutliple return calls.
-- Af : multiple returns, can specify return type.
-
-Like named functions, anonymous functions can contain any number of expressions. The returned value of the function is the result of the final expression.
-
-### Lambda: Return and local return
-- Use label to perform local returns from lambdas.
-- return@mylabel, label@ function definition.
-- Non local return is allowed only from inline function.
-- Anonymous function does a local return by default. Whereas lambda does a non local return by default.
-
-### Tail recursion
-- Allows for TCO(tail call optimization).
-- Tail recursive function: the last call should be to the function itself.
-- Tail recursive function can be optimised in kotlin usin the keyword "tailrec".
-
-### Lambda extension: lambda with receivers
-This help in creating a DSL like code. You can access the class properties in the lambda function.
-
-### Invoking instances in Kotlin
-- Use member function "invoke" with "operator" keyword.
-- now we can use "()" on the instance of the class, eg classInstance().
-
-- Lambda extension and Instance invoking lets you create DSL which is used in Android development and Gradle scripting.also groovy style Kotlin HTML builders. also JSON DSL and SQL dialects.
 
 ### Functional constructs in Kotlin
 - Currying, composition not supported in standard Kotlin lib.
