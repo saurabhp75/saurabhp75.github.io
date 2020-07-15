@@ -370,6 +370,13 @@ runMyRunnable { println("hey now") }()
 - Some elements in Kotlin can be assigned a value of null, and some cannot. 
 - We say that the former are nullable and the latter are non-nullable.
 - Kotlin variables can't hold null values by default.
+- By default Kotlin is null safe.
+- You cannot assign null to any default variable type.
+- A nullable variable has to be declared using "?" (**elvis operator**).
+- e.g. var personName: String? = "Saurabh"
+- Implicit also works eg. var personName = null
+- Calling methods on nullable variable, eg. personName?.length
+- You can **override compiler** error by using "!!" personName!!.length
 
 ```kotlin
 val languageName: String = null //Invalid code, fails to compile
@@ -395,6 +402,9 @@ val languageName: String? = null //Valid code
 
 ### Destructuring
 - val (type, name, price) = "shandy, Dragon's Breath, 5.91".split(',')
+
+### String Templates
+- We can use a simple variable(using `$`) or an arbitrary expression(using `${expression}`) in a string.
 
 ### Strings in kotlin are immutable.
 - The replace function below creates a new string instead of mutating the original string.
@@ -868,6 +878,27 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - A class is often declared in a file matching its name, but it does not have to be.
 - You can define multiple classes in the same file.
 - The class body holds definitions for the class’s behavior and data.
+- Classes are **first class citizen**.
+- **No** concept of **fields** in Kotlin.
+- Kotlin classes have properties but no fields.
+- **No need** of **new** operator when **instantiating** classes.
+- Classes by **default** are **final**, so you cannot inherit from them.
+- You need to declare class as **open** to **inherit** from them.
+- **Primary** and **secondary** constructors.
+- Secondary constructor should always call primary constructor first.
+
+```kotlin
+// The class below is complete, doesn't require body. It has two properties.
+// viz, id and name
+class customer(var id:Int, var name:String="default") {
+   init {
+       name = name.toUpperCase()
+    }
+   constructor(email:String):this(0, "") {
+
+   }
+}
+```
 
 ### Property vs field
 - Property has getters and setters and are accessible publicly.
@@ -904,12 +935,16 @@ fun main(args: Array<String>) {
 
 | Modifier | Description |
 |----------|-------------|
-| public(default) | The function or property will be accessible by code outside of theclass. By default, functions and properties without a visibility modifier are public. |
+| public(default) | The function or property will be accessible by code outside of the class. By default, functions and properties without a visibility modifier are public. |
 | private | The function or property will be accessible only within the same class. |
 | protected | The function or property will be accessible only within the same class or its subclass. |
 | internal | The function or property will be accessible within the same module |
 
 **Note**: Unlike Java, package private visibility level is not included in Kotlin.
+
+### Top level declarations:
+2. **private**: Available anywhere inside the file containing declaration 
+3. **internal**: Available anywhere in the same module.
 
 ### Class properties
 - Data definitions, better known as class properties, are the attributes required to represent the specific state or characteristics of a class.
@@ -1251,23 +1286,24 @@ fun main() {
 - Any provides abstract definitions for common functions like `toString()`, `equals()` and `hashCode()` which are backed by an implementation found on the platform that your project targets.
 - The Any type is one of the ways that Kotlin allows for platform independence – it provides an abstraction above the class that represents a common superclass on each specific platform, like the JVM. 
 
-
-
 # Objects
 ### The object Keyword
 - With the `object` keyword, you specify that a class will be limited to a single instance – a `singleton`.
 - The first time you access an object, it is instantiated for you. That same instance will persist as long as your program is running, and each subsequent access will then return the original instance.
 - There are three ways to use the object keyword: `object declarations`, `object expressions`, and `companion objects`. 
 
-### Object declarations
+### Object declarations(Singleton)
+- We can create objects, without them being instances of any class (just like javascript).
+- Use the keyword object.
 - They are useful for organization and state management, especially when you need to maintain some state consistently throughout the lifespan of your program.
 - Because an object declaration is instantiated for you, you do not add a custom constructor with code to be called at initialization. Instead, you need an initializer block for any code that you want to be called when your object is initialized.
 - An object is initialized when an object declaration is referenced by one of its properties or functions.
 - Used to create singleton.
 
 ```kotlin
-// Name of class is the name of the singleton object (for eg. BookShelf)
-object BookShelf{
+// Name of class is the name of the singleton object (for eg. Global)
+object Global {
+  val PI = 3.14
 }
 ```
 
@@ -1427,7 +1463,7 @@ fun main() {
 - Using an interface, a group of classes can have properties or functions in common without sharing a superclass or subclassing one another.
 - Interfaces only specify the what, not the how.
 - An interface allows you to specify common properties and behavior that aresupported by a subset of classes in your program – without being required tospecify how they will be implemented.
-- Abstract classes are similar to interfaces inthat they can specify the what without the how, but they are different in that theycan also define constructors and act as a superclass.
+- Abstract classes are similar to interfaces in that they can specify the what without the how, but they are different in that theycan also define constructors and act as a superclass.
 - Properties in an interface need not be initialized.
 - Functions in an interface need not have a body.
 - The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
@@ -1467,19 +1503,28 @@ fun main() {
 - Then, you must ensure that the class provides implementations for all of the properties and functions specified in the interface.
 - All implementations of interface properties and functions must be marked with `override`.
 
-### Default Implementations in inerface
+### Default Implementations in interface
 - You can provide a default implementation for property getters and functions in an interface. 
 
 ### Abstract Classes
 - It is never instantiated. It's purpose is to provide function implementations through inheritance to subclasses that are instantiated.
 - It is defined by prepending the `abstract` keyword to a class definition. In addition to function implementations, abstract classes can include abstract functions.
+- Declared using **abstract** keyword.
+- They cannot be instantiated.
+- Can have abstract methods and properties.
 
 ### Abstract class vs interface
 - A class can extend (or subclass) only one abstract class, but it can implement many interface.
 - An interface cannot specify a constructor.
 
-**Note**: `exitProcess` is a Kotlin standard library function that terminates the running instance of the JVM.
+### Interface
+- Declared using **interface** keyword.
+- Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
+- A class cannot inherit from more than one base class.
+- The above is called **single inheritance model**.
+- A class can inherit from one base class and multiple interfaces.
 
+**Note**: `exitProcess` is a Kotlin standard library function that terminates the running instance of the JVM.
 
 # Generics
 ### Defining Generic Types
@@ -1494,30 +1539,6 @@ fun main() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Generic type
-- A class that accepts a generic input - i.e., an input of any type.
-
 ### Backing properties
 - If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
 
@@ -1529,70 +1550,6 @@ class C {
          get() = _elementList
 }
 ```
-
-### String Templates
-- We can use a simple variable(using `$`) or an arbitrary expression(using `${expression}`) in a string.
-
-
-### Classes in Kotlin
-- Classes are **first class citizen**.
-- **No** concept of **fields** in Kotlin.
-- Kotlin classes have properties but no fields.
-- **No need** of **new** operator when **instantiating** classes.
-- Classes by **default** are **final**, so you cannot inherit from them.
-- You need to declare class as **open** to **inherit** from them.
-- **Primary** and **secondary** constructors.
-- Secondary constructor should always call primary constructor first.
-
-```kotlin
-// The class below is complete, doesn't require body. It has two properties.
-// viz, id and name
-class customer(var id:Int, var name:String="default") {
-   init {
-       name = name.toUpperCase()
-    }
-   constructor(email:String):this(0, "") {
-
-   }
-}
-```
-
-- getters and setters.
-- Use of backing field in setters.
-
-### Visibility modifiers :
-1. **public(default)**: accessible anywhere.
-
-- Top level declarations:
-2. **private**: Available anywhere inside the file containing declaration 
-3. **internal**: available anywhere in the same module.
-
-### Classes
-- **private**: only available to class members.
-- **protected**: same as private and subclasses.
-- **internal**: any client inside the module.
-
-### Objects in kotlin (Singleton).
-- We can create objects, without them being instances of any class (just like javascript).
-- Use the keyword object.
-- For eg.
-```kotlin
-object Global {
-  val PI = 3.14
-}
-```
-
-### Abstract classes
-- Declared using **abstract** keyword.
-- They cannot be instantiated.
-- Can have abstract methods and properties.
-
-### Interface
-- Declared using **interface** keyword.
-- Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
-- A class cannot inherit from more than one base class.
-- The above is called **single inheritance model**.
-- A class can inherit from one base class and multiple interfaces.
 
 ### Generics in Kotlin
 - Generic interfaces.
@@ -1607,19 +1564,6 @@ interface Repo {
   fun <T> getById(id:Int): T
 }
 ```
-### Null safety
-- By default Kotlin is null safe.
-- You cannot assign null to any default variable type.
-- A nullable variable has to be declared using "?" (**elvis operator**).
-- e.g. var personName: String? = "Saurabh"
-- Implicit also works eg. var personName = null
-- Calling methods on nullable variable, eg. personName?.length
-- You can **override compiler** error by using "!!" personName!!.length
-
-### Declaring constants
-- There is **no const keyword**.
-- Top level constants/properties are declared using **val**.
-- Others are embedded in Singleton(object) as val property.
 
 ### Kotlin annotations
 - Used in testing to annotate functions as **@test** etc.
@@ -1642,23 +1586,26 @@ or SAM interfaces, where SAM stands for single abstract method.
 - Lazy GC(Only on OutOfMemoryError).
 
 ### Delegated properties use cases
-- lazy properties: the value gets computed only upon first access;
-- observable properties: listeners get notified about changes to this property;
-- storing properties in a map, instead of a separate field for each property.
+- `Lazy properties`: the value gets computed only upon first access;
+- `Observable properties`: listeners get notified about changes to this property;
+- Storing properties in a map, instead of a separate field for each property.
 
 **Note**: The convention is, if the last, or in this case the only, parameter of a 
 function is another function, it doesn't need to go into brackets.
 
 ### Extension functions
 - Using this you can extend existing class without inheriting them.
-- For eg, you can add a function to string class.
-- fun String.hello() {
-  println("Hi there!!")
-}
 - The scope of extension functions is the file.
 - They can be imported in another file for accessing them.
 - Extension functions are statically resolved.
 
+```kotlin
+// Extension function to add a 
+// function to string class.
+fun String.hello() {
+  println("Hi there!!")
+}
+```
 ### Interoperability with Java
 - Talk to Java from Kotlin
 - When using a java class, Kotlin allows accessing properties directly.
@@ -1706,8 +1653,8 @@ function is another function, it doesn't need to go into brackets.
   HashMap,
   etc..
 
-### hashmap creation
-- declare hashmap : var hashmap = hashMapOf(Pair("string1", "stringa"), pair("string2", "stringb") ....)
+### Hashmap creation
+- Declare hashmap : var hashmap = hashMapOf(Pair("string1", "stringa"), pair("string2", "stringb") ....)
 - setOf()
 - hashSetOf()
 
@@ -1719,8 +1666,9 @@ function is another function, it doesn't need to go into brackets.
 - iterable.map { }
 - iterable.flatMap { }
 
-concept of map: [a,b,c] f(x) => [f(a),f(b),f(c)]
-concept of flatMap: [[a,b],[c,d]] f(x) => [f(a),f(b),f(c), f(d)]
+### Concept of map and flatmap
+- Map: [a,b,c] f(x) => [f(a),f(b),f(c)]
+- Flatmap: [[a,b],[c,d]] f(x) => [f(a),f(b),f(c), f(d)]
 
 ### Lazy evaluation with sequences in Kotlin
 - Programming concept: Lazy evaluation vs eager evaluation.
