@@ -1394,7 +1394,7 @@ customer2 = customer1.copy(name="saurabh")
 ### Destructuring declarations in data classes
 - Data classes automatically enable your class’s data to be destructured.
 
-###  limitations and requirements on data classes
+### Limitations and requirements on data classes
 - Must have a primary constructor with at least one parameter 
 - Require their primary constructor parameters to be marked either val or var 
 - Cannot be abstract, open, sealed, or inner
@@ -1424,7 +1424,8 @@ enum class Direction(private val coordinate: Coordinate) {
 data class Coordinate(val x: Int, val y: Int) {
     val isInBounds = x >= 0 && y >= 0
     // Operator Overloading
-    operator fun plus(other: Coordinate) = Coordinate(x + other.x, y + other.y)
+    operator fun plus(other: Coordinate) = Coordinate(x + other.x, 
+                                                    y + other.y)
 }
 
 fun main() {
@@ -1462,8 +1463,8 @@ fun main() {
 - You can override the interface properties.
 - Using an interface, a group of classes can have properties or functions in common without sharing a superclass or subclassing one another.
 - Interfaces only specify the what, not the how.
-- An interface allows you to specify common properties and behavior that aresupported by a subset of classes in your program – without being required tospecify how they will be implemented.
-- Abstract classes are similar to interfaces in that they can specify the what without the how, but they are different in that theycan also define constructors and act as a superclass.
+- Interface allows you to specify common properties and behavior that are supported by a subset of classes in your program without being required to specify how they will be implemented.
+- Abstract classes are similar to interfaces in that they can specify the what without the how, but they are different in that they can also define constructors and act as a superclass.
 - Properties in an interface need not be initialized.
 - Functions in an interface need not have a body.
 - The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
@@ -1474,7 +1475,7 @@ fun main() {
 - Abstract methods in interface don't require "abstract" keyword unlike abstract classes.
 - kotlin/Java support multiple inheritance ONLY for interfaces and not for classes.
 - In Java we extend a class and implement an interface.
-- from Java 8 onwards interface can have defined methdos, this allows to change interface without breaking code.
+- From Java 8 onwards interface can have defined methods, this allows to change interface without breaking code.
 
 
 ```kotlin
@@ -1600,8 +1601,7 @@ function is another function, it doesn't need to go into brackets.
 - Extension functions are statically resolved.
 
 ```kotlin
-// Extension function to add a 
-// function to string class.
+// Extension function to add function to string class
 fun String.hello() {
   println("Hi there!!")
 }
