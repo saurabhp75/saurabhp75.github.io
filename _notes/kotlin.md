@@ -722,7 +722,7 @@ val patronList = listOf("Alex", "Tony", "Rocky", "Tina")
 val fileList = File("Data/tavern-menu-data.txt")
         .readText()
         .split('\n').forEach { println(it) }
-```kotlin
+```
 
 ### Destructuring a list 
 - List offers the ability to destructure up to the `first five elements` it contains.
@@ -888,14 +888,13 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - Secondary constructor should always call primary constructor first.
 
 ```kotlin
-// The class below is complete, doesn't require body. It has two properties.
-// viz, id and name
+// The class below is complete, doesn't require body. 
+// It has two properties viz, id and name
 class customer(var id:Int, var name:String="default") {
    init {
        name = name.toUpperCase()
     }
    constructor(email:String):this(0, "") {
-
    }
 }
 ```
@@ -1017,7 +1016,7 @@ fun main(args: Array<String>) {
 - A race condition occurs when some other part of your program simultaneously modifies the state of your code in a manner that leads to unpredictable results.
 
 ```kotlin
-// gaurding aginst race condition
+// gaurding against race condition
 fun main(args: Array<String>) {
     class Weapon(val name: String)
     class Player {
@@ -1178,7 +1177,7 @@ fun main() {
 - You use a '`lazy` delegate with the `by` keyword. 
 - Lazy initialization takes a lambda in which you define any code that you wish toexecute when your property is initialized.
 
-```
+```kotlin
 // Use of lazy property
 fun main() {
   class Player(
@@ -1438,7 +1437,7 @@ fun main() {
 - When you want to use built-in operators with your custom types, you have to override the operators’functions to tell the compiler how to implement them for your type. This is known as `operator overloading`.
 - You can overload the `plus` operator prepending the function declaration with the `operator` modifier.
 - If you override equals yourself, you should also override afunction called hashCode.
-- certain operators can be overloaded using conventions.
+- Certain operators can be overloaded using conventions.
 - In kotlin we can't define a symbol as an operator, but we can overload certain operators.
 - For eg. You can define a data class method with keyword "operator" and name "plus" to overload + operator.
 - We can also use "operator" key with extension function.
