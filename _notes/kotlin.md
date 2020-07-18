@@ -9,7 +9,7 @@ excerpt: "Intro to Kotlin"
 - The classes and objects in the source files can be accessed using `dot` after package description.
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
-- To print the type of class of the variable: println(list.javaClass) .
+- To print the type of class of the variable: println(list.javaClass).
 - Check if object is type of a class, **if obj is classType**.
 - Safely cast int variable to string, **input as? String**.
 - Deconstructing values, val (capital, population) = Pair("Delhi", 1000)
@@ -22,8 +22,7 @@ excerpt: "Intro to Kotlin"
 - Parallel processing is not yet available in sequences (check latest Kotlin version).
 
 ### Build tools in Kotlin
-- We can use Kotlin with:
-- Command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle
+- We can use Kotlin with command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle.
 
 ### Running a Kotlin program
 - Kotlin program file extension is `.kt`, after compilation it becomes `...Kt.class`
