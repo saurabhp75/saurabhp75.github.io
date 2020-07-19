@@ -9,12 +9,12 @@ excerpt: "Intro to Kotlin"
 - The classes and objects in the source files can be accessed using `dot` after package description.
 - The package and folder structure generally match, but it is not mandatory.
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
-- To print the type of class of the variable: println(list.javaClass).
-- Check if object is type of a class, **if obj is classType**.
-- Safely cast int variable to string, **input as? String**.
+- To print the type of class of the variable: `println(list.javaClass)`.
+- Check if object is type of a class, `if (obj is classType)` or `if (obj !is classType)`.
+- **Safely** cast int variable to string, `input as? String`, this returns null om failure, instead of throwing an exception.
 - Deconstructing values, val (capital, population) = Pair("Delhi", 1000)
-- Deconstructing values also works on data classes
-- Deconstructing values also works in for loop
+- Deconstructing values also works on data classes.
+- Deconstructing values also works in for loop.
 - Base class for exceptions in Kotlin is **Throwable**
 - In kotlin there are no fields, there are properties.
 - **Kotlin sequences** are equivalent of **Java Streams**.
