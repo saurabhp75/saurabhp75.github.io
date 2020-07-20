@@ -34,14 +34,14 @@ $ java -jar main.jar
 
 ### Package and class naming conventions
 - Names of packages are always lower case and do not use underscores for eg. `org.example.project`.
-- Names of classes and objects start with an upper case letter and use the camel case, for eg DeclarationProcessor.
+- Names of classes and objects start with an upper case letter and use the camel case, for eg `DeclarationProcessor`.
 
 ### Conditional expressions, if-else, while
 - Conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
 - You can drop braces if a branch is a single expresion. See eg. below.
 - `val auraColor = if (auraVisible) "GREEN" else "NONE"`.
 - If/else can return a value. The value is the last statement in each of the block in if, else is returned
-- Switch/case is replaced by **when()**.
+- Switch/case in Kotlin is replaced by **when()**.
 - In when(), there is `else`, which is same as `default` of switch case.
 - When() is very flexible.
 
@@ -51,7 +51,7 @@ $ java -jar main.jar
 
 ### Ranges in Kotlin
 - `1..5` includes 1, 2, 3, 4, and 5. That is includes both bounds.
-- Use of `in` in range, for eg value in 1..5
+- Use of `in` in range, for eg `value in 1..5`.
 - `5 downTo 1` creates a range that descends rather than ascends.
 - `1 until 5`  creates a range that excludes the upper bound.
 
@@ -76,15 +76,21 @@ $ java -jar main.jar
 - Compile time constants : Fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
 
 # Functions in Kotlin
-- The function parameters are always read-only – they do not support reassignment within the function body.
+- The function parameters are always read-only, they do not support reassignment within the function body.
+- If compiler can infer the return type of function the there is no need to specify it.
 - Function parameters and local variables exist within the scope of the function body and cease to exist once the function completes.
 - Functions are **first class citizen**.
 - Functions in a class are **public** and **final** by default, so you **cannot override** them.
 - You need to declare Functions as **open** to **override** them.
-- After overriding function in derived we can declare it as `final` to avoid further overriding.
-- Function with unlimited no. of parameters, use vararg and spread operator.
+- After overriding function in derived class, we can declare it as `final` to avoid further overriding.
+- For function with variable no. of parameters, use `vararg` and `spread operator`.
 
 ```kotlin
+// Compile time constant
+const val FIRST_NAME = "Saurabh"
+const val MAX_COUNT = 8
+val USER_NAME_FIELD = "UserName"
+
 // Function with single expression as body
 fun sayHello(name: String) = println("Hello, $name!")
 
@@ -105,19 +111,10 @@ println(name)
 - Names of constants (properties marked with const, or top-level or object val properties with no custom get function that hold deeply immutable data) should use uppercase underscore-separated names.
 - Kotlin has file level functions but Java has functions(methods) only as part of a class.
 
-### compile time constants
-- Syntax: const val FIRST_NAME = "Saurabh"
-
-```kotlin
-const val MAX_COUNT = 8
-val USER_NAME_FIELD = "UserName"
-```
-
 ### Single expression functions short form
 - Omit the return type, curly braces, and return statement.
 - Use the assignment operator (=), followed by the expression.
 - If a function body is a single expression, then parens from function body can be removed.
-- If compiler can infer the return type of function the there is no need to specify it.
 
 ```kotlin
 // A higher order function, runMyRunnable,
@@ -135,12 +132,10 @@ runMyRunnable1 { println("Hello world") }()
 
 ### Unit functions
 - If a function has no return statement then it return type is `Unit`, which can be omitted.
-- They define no return type and have no return statement. 
-- Kotlin uses the `Unit` return type to signify a function that returns no value (no return statement). 
 
 ### Functions with nothing as return type
 - Function is guaranteed to never successfully complete.
-- the function will either throw an exception or for some other reason never return to where it was called.
+- The function will either throw an exception or for some other reason never return to where it was called.
 
 ```kotlin
 // Always throws [NotImplementedError] stating 
@@ -154,11 +149,11 @@ public inline fun TODO(): Nothing = throw NotImplementedError()
 - Statement after TODO() is never executed.
 
 ### Function overloading 
-- Using default parameter(s). 
-- Using same function name and return type but different parameters.
+- By using default parameter(s). 
+- By using same function name and return type but different parameters.
 
 ### Function names using backticks
-- We can use any characters or reserved keywrd using backticks.
+- We can use any characters or reserved keyword using backticks.
 - Used in testing.
 
 ```kotlin
@@ -168,9 +163,8 @@ fun `**~prolly not a good idea!~**`() {
 ```
 
 ### Anonymous function
-- Defined using braces {}.
-- Called using ().
-- Anonymous function does not require – or even allow, except in rare cases – the return keyword to output data.
+- Defined using braces {}, and called using ().
+- Anonymous function does not require, or even allow, except in rare cases, the return keyword to output data.
 - Anonymous functions implicitly, or automatically, return the last line of their function definition, omitting the return keyword.
 - Function type syntax: Consists of two parts: the function’s parameters, in parentheses, followed by its return type, delimited by the arrow (->).
 - The parentheses is not required when defining parameters in definition of anonymous function.
@@ -213,15 +207,15 @@ fun main(args: Array<String>) {
 
 
 ### Lambda Expression in Kotlin
-- Functions can be passed as parameters to functions using **::functionName**
+- Functions can be passed as parameters to functions using `::functionName`.
 - Better approach is to pass a lambda expression.
 - Lambda function syntax, {x, y -> x + y}
 - If lambda function takes only one parameter, we can use **it**.
 - For eg, {x -> x * x} is same as {it * it}
 - Alternate syntax if last parameter is a function/lambda expression.
-- Eg, unaryOperation(3, {it * it}) is same as unaryOperation(3){it * it}
+- Eg, `unaryOperation(3, {it * it})` is same as `unaryOperation(3){it * it}`.
 - An alternate to lamba function is **anonymous function**.
-- For eg, unaryOperator(3, fun(x:Int):Int { return x * x})
+- For eg, `unaryOperator(3, fun(x:Int):Int { return x * x})`.`
 
 ### Lambda functions usage
 - In older Java versions, we used anonymous inner class for “When an event happens, run this handler” or
@@ -236,13 +230,13 @@ println(people.maxBy { it.age })
 Person(name=Bob, age=31)
 ```
 
--  If a lambda just delegates to a function or property for eg. people.maxBy(Person::age)
+- If a lambda just delegates to a function or property for eg. people.maxBy(Person::age).
 - Most of the things we typically do with collections in Java (prior to Java 8) can be
-better expressed with library functions taking lambdas or member(property or method) references
+better expressed with library functions taking lambdas or member(property or method) references.
 
 ### Syntax for lambda expressions
 - A lambda expression is always surrounded by curly braces.
-- there are no parentheses around the arguments.
+- There are no parentheses around the arguments.
 - The arrow separates the argument list from the body of the lambda.
 - You can store a lambda expression in a variable and then treat this variable like a normal function.
 - { x: Int, y: Int -> x + y }
@@ -252,12 +246,12 @@ better expressed with library functions taking lambdas or member(property or met
 - Using run library function: run { println(42) }
 
 ### Breaking down syntax
-- people.maxBy({ p: Person -> p.age })
-- The type can be inferred from the context and therefore omitted: people.maxBy({ p -> p.age }) 
+- people.maxBy({ p: Person -> p.age }).
+- The type can be inferred from the context and therefore omitted: people.maxBy({ p -> p.age }) .
 - You don’t need to assign a name to the lambda argument in this case.
-- You can move a lambda expression out of parentheses if it’s the last argument in a function call: people.maxBy(){ p -> p.age }
-- When the lambda is the only argument to a function, you can remove the empty parentheses from the call: people.maxBy { p -> p.age }
-- if the context expects a lambda with only one argument, and its type can be inferred: people.maxBy { it.age }
+- You can move a lambda expression out of parentheses if it’s the last argument in a function call: people.maxBy(){ p -> p.age }.
+- When the lambda is the only argument to a function, you can remove the empty parentheses from the call: people.maxBy { p -> p.age }.
+- if the context expects a lambda with only one argument, and its type can be inferred: people.maxBy { it.age }.
 
 ### Lambda, capturing variables from the context
 
@@ -283,7 +277,7 @@ fun printProblemCounts(responses: Collection<String>) {
 - people.maxBy (Person::age)
 
 ### Anonymous functions
-- Used to pass function as arguments and/or return function as value
+- Used to pass function as arguments and/or return function as value.
 
 ### Local functions: function with in a function
 - local function allows code reuse(?).
