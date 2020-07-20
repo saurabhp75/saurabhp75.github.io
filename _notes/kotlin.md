@@ -11,14 +11,14 @@ excerpt: "Intro to Kotlin"
 - Source file name follow `camel case`, with uppercase first letter, for eg `ProcessDeclarations.kt`.
 - To print the type of class of the variable: `println(list.javaClass)`.
 - Check if object is type of a class, `if (obj is classType)` or `if (obj !is classType)`.
-- **Safely** cast int variable to string, `input as? String`, this returns null om failure, instead of throwing an exception.
-- Deconstructing values, val (capital, population) = Pair("Delhi", 1000)
-- Deconstructing values also works on data classes.
+- **Safely** cast int variable to string, `input as? String`, this returns null on failure, instead of throwing an exception.
+- Deconstructing values: `val (capital, population) = Pair("Delhi", 1000)`
+- Deconstructing values also works on data classes and lists.
 - Deconstructing values also works in for loop.
 - Base class for exceptions in Kotlin is **Throwable**
 - In kotlin there are no fields, there are properties.
 - **Kotlin sequences** are equivalent of **Java Streams**.
-- Unlike Java Streams Sequences are available on all platforms like android etc.
+- Unlike Java Streams, Sequences are available on all platforms like android etc.
 - Parallel processing is not yet available in sequences (check latest Kotlin version).
 
 ### Build tools in Kotlin
@@ -40,10 +40,9 @@ $ java -jar main.jar
 - Conditional expressions are often most intuitive when the value being assigned from each branch is of the same type.
 - You can drop braces if a branch is a single expresion. See eg. below.
 - `val auraColor = if (auraVisible) "GREEN" else "NONE"`.
-- If, else can return a value.
-- The value is the last statement in each of the block in if, else is returned
-- Switch case is replaced by **when()**.
-- In when(), there is "else", which is same as "default" of switch case.
+- If/else can return a value. The value is the last statement in each of the block in if, else is returned
+- Switch/case is replaced by **when()**.
+- In when(), there is `else`, which is same as `default` of switch case.
 - When() is very flexible.
 
 ### Exceptions
@@ -51,13 +50,13 @@ $ java -jar main.jar
 - try/catch can also return a value.
 
 ### Ranges in Kotlin
-- 1..5 includes 1, 2, 3, 4, and 5. That is includes both bounds.
+- `1..5` includes 1, 2, 3, 4, and 5. That is includes both bounds.
 - Use of `in` in range, for eg value in 1..5
-- 5 downTo 1 creates a range that descends rather than ascends.
-- 1 until 5  creates a range that excludes the upper bound.
+- `5 downTo 1` creates a range that descends rather than ascends.
+- `1 until 5`  creates a range that excludes the upper bound.
 
 ### Extracting a code to function
-- Ctrl-click (right-click) on the code you selected and choose Refactor → Extract Function.
+- `Ctrl-click` (right-click) on the code you selected and choose Refactor → Extract Function.
 
 ### File level variables
 - Variable that are not local to a function or class.
@@ -71,7 +70,6 @@ $ java -jar main.jar
 - Use `const` modifier before `val` keyword to define compile time constant.
 - Compile-time constant must be defined outside of any function, including main, because its value must be assigned at compile time.
 - Compile-time constants also must be of one of the basic types(Int, Char, String, Float, Double etc).
-- Naming convention :  fully capitalizing and replacing spaces with underscores, for eg.  MAX_EXPERIENCE.
 
 ### Naming convention
 - var/val and function names : Use camel casing and an initial lowercase, for eg. playerName
@@ -84,7 +82,7 @@ $ java -jar main.jar
 - Functions in a class are **public** and **final** by default, so you **cannot override** them.
 - You need to declare Functions as **open** to **override** them.
 - After overriding function in derived we can declare it as `final` to avoid further overriding.
-- Function with unlimited no. of parameters.
+- Function with unlimited no. of parameters, use vararg and spread operator.
 
 ```kotlin
 // Function with single expression as body
@@ -1528,7 +1526,7 @@ fun main() {
 # Generics
 ### Defining Generic Types
 - A generic type is a class that accepts an input of any type in its constructor. 
-- generic type parameter: The parameter specified for a generic type, such as <T>.
+- Generic type parameter: The parameter specified for a generic type, such as <T>.
 
 ### Generic Functions
 
@@ -1632,7 +1630,7 @@ fun String.hello() {
 ### Accessing top level function from Java
 - To invoke a Kotlin top level function from java, use "fileName.functionName(className)"
 - Where fileName is the class file in which the top level functionName resides.
-- clasName is the class instance containing the extension function.
+- className is the class instance containing the extension function.
 
 ### Interoperatbility with Java7 and 8
 - Kotlin is compatible with Java 6.
@@ -1657,12 +1655,10 @@ fun String.hello() {
 - hashSetOf()
 
 ### Filtering, Mapping, Flatmapping in Kotlin
-- forEach : Takes a lambda operation to be executed on each element of iterable.
-- for eg., iterable.forEach {i -> i<1}
-- iterable.filter(), returns an iterable with elements that matches the predicate in filter.
-- for eg., iterable.filter { it.match == 1}
-- iterable.map { }
-- iterable.flatMap { }
+- `forEach` : Takes a lambda operation to be executed on each element of iterable, for eg., iterable.forEach {i -> i<1}
+- `iterable.filter()`: Returns an iterable with elements that matches the predicate in filter, for eg., iterable.filter { it.match == 1}
+- `iterable.map { }`:
+- `iterable.flatMap { }`: 
 
 ### Concept of map and flatmap
 - Map: [a,b,c] f(x) => [f(a),f(b),f(c)]
@@ -1672,8 +1668,8 @@ fun String.hello() {
 - Programming concept: Lazy evaluation vs eager evaluation.
 - Haskell by default is lazy evaluated.
 - In Kotlin asSequence() converts an iterable to be lazily evaluated.
-- asSequence().take(30)... execute logic on first 30 elements only.
-- generateSequence(1) {x -> x + 10}, it does more than isSequence()
+- `asSequence().take(30)...` execute logic on first 30 elements only.
+- `generateSequence(1) {x -> x + 10}`, it does more than isSequence()
 
 ### Functional constructs in Kotlin
 - Currying, composition not supported in standard Kotlin lib.
@@ -1737,15 +1733,7 @@ These are std library functions and not keywords.
 - yield is a function and not keyword.
 
 ### Coroutines and reactive extensions in kotlin
-- Types are non null by default in kotlin 
-- var name: String = null #non billable string.
-- 14:54 : does null has a type. Are there different type of nulls.
-- Pair(1,"a") == 1 to "a".
 
-### vararg parameter
-
-### Spread operator
-- `*`:  Converts list to sequence of individual items.
 
 ### Sealed classes
 - list.filterNotNull() vs. String.orEmpty()
