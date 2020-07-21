@@ -21,6 +21,8 @@ excerpt: "Intro to Kotlin"
 - Unlike Java Streams, Sequences are available on all platforms like android etc.
 - Parallel processing is not yet available in sequences (check latest Kotlin version).
 
+**Note**: `exitProcess` is a Kotlin standard library function that terminates the running instance of the JVM.
+
 ### Build tools in Kotlin
 - We can use Kotlin with command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle.
 
@@ -242,11 +244,11 @@ better expressed with library functions taking lambdas or member(property or met
 - { x: Int, y: Int -> x + y }
 
 ### Running a Lambda function
-- Using brackets after the body: { println(42) }()
-- Using run library function: run { println(42) }
+- Using brackets after the body: `{ println(42) }()`.
+- Using run library function: `run { println(42) }`.
 
 ### Breaking down syntax
-- people.maxBy({ p: Person -> p.age }).
+- `people.maxBy({ p: Person -> p.age })`.
 - The type can be inferred from the context and therefore omitted: people.maxBy({ p -> p.age }) .
 - You don’t need to assign a name to the lambda argument in this case.
 - You can move a lambda expression out of parentheses if it’s the last argument in a function call: people.maxBy(){ p -> p.age }.
@@ -273,8 +275,8 @@ fun printProblemCounts(responses: Collection<String>) {
 ###  Member references, a feature that lets you easily pass references to existing functions
 - A member reference has the same type as a lambda that calls that function, so you can use the two interchangeably.
 - It’s convenient to provide a member reference instead of a lambda that delegates to a function taking several parameters.
-- people.maxBy { person: Person -> person.age } can be replaced by
-- people.maxBy (Person::age)
+- `people.maxBy { person: Person -> person.age }` can be replaced by
+- `people.maxBy (Person::age)`.
 
 ### Anonymous functions
 - Used to pass function as arguments and/or return function as value.
@@ -285,8 +287,7 @@ fun printProblemCounts(responses: Collection<String>) {
 ### Anonymous functions Vs lambda expression
 - Anonymous function allows mutliple return calls.
 - Anonymous function: multiple returns, can specify return type.
-
-Like named functions, anonymous functions can contain any number of expressions. The returned value of the function is the result of the final expression.
+- Like named functions, anonymous functions can contain any number of expressions. The returned value of the function is the result of the final expression.
 
 ### Lambda: Return and local return
 - Use label to perform local returns from lambdas.
@@ -304,11 +305,10 @@ This help in creating a DSL like code. You can access the class properties in th
 
 ### Invoking instances in Kotlin
 - Use member function "invoke" with "operator" keyword.
-- now we can use "()" on the instance of the class, eg classInstance().
-- Lambda extension and Instance invoking lets you create DSL which is used in Android development and Gradle scripting.also groovy style Kotlin HTML builders. also JSON DSL and SQL dialects.
-
-### Shorthand syntax for function accepting a `function type/lambda` as its `last` parameter
-- You can omit the parentheses around the lambda argument.
+- Now we can use "()" on the instance of the class, eg classInstance().
+- Lambda extension and Instance invoking lets you create DSL which is used in Android development and Gradle scripting.
+- Also groovy style Kotlin HTML builders. 
+- Also JSON DSL and SQL dialects.
 
 ### Function Inlining
 - Lambda is represented as an object instance on the JVM.
@@ -335,9 +335,9 @@ This help in creating a DSL like code. You can access the class properties in th
 - They can be passed as arguments instead of lambda functions.
 - Function reference converts a named function (a function defined using the fun keyword) to a value that can be passed as an argument. 
 - You can use a function reference anywhere you use a lambda expression. 
-- To obtain a function reference, you use the :: operator with the function name you would like a reference for.
+- To obtain a function reference, you use the `::` operator with the function name you would like a reference for.
 
-#### Kotlin’s Lambdas Are Closures
+### Kotlin’s Lambdas Are Closures
 - Difference in Kotlin closures is that internal function **captures value everytime**.
 - This is unlike other languages where value is captured only once.
 
@@ -362,9 +362,9 @@ runMyRunnable { println("hey now") }()
 - By default Kotlin is null safe.
 - You cannot assign null to any default variable type.
 - A nullable variable has to be declared using "?" (**elvis operator**).
-- e.g. var personName: String? = "Saurabh"
-- Implicit also works eg. var personName = null
-- Calling methods on nullable variable, eg. personName?.length
+- For e.g. `var personName: String? = "Saurabh"`.
+- Implicit also works eg. `var personName = null`.
+- Calling methods on nullable variable, eg. `personName?.length`.
 - You can **override compiler** error by using "!!" personName!!.length
 
 ```kotlin
@@ -548,15 +548,6 @@ val menuFile = File("menu-file.txt").apply {
 }
 ```
 
-### Let function
-- `let` scopes a variable to the lambda provided and makes the keyword `it`.
-- Passes the receiver to the lambda you provide.
-- Returns the last line of the lambda (the lambda result).
-
-### Let vs apply
-- `let` passes the receiver to the lambda you provide, but `apply` passes nothing.
-- `apply` returns the current receiver once the anonymous function completes. `let`, on the other hand, returns the last line of the lambda (the lambda result).
-
 ### Run function
 - Similar to `apply` in that it provides the same relative scoping behavior. 
 - However, unlike apply, run does not return the receiver, but returns the lambda result.
@@ -574,6 +565,21 @@ val status = run {
       }
 ```
 
+### Let function
+- `let` scopes a variable to the lambda provided and makes the keyword `it`.
+- Passes the receiver to the lambda you provide.
+- Returns the last line of the lambda (the lambda result).
+
+### Also function
+- `also` function works very similarly to the `let` function.
+- Just like let, `also` passes the receiver you call it on as an argument to a lambda you provide.
+- But also returns the receiver, rather than the result of the lambda.
+- Since also returns the receiver instead of the result of the lambda, you can continue to chain additional function calls on to the original receiver.
+
+### Let vs apply
+- `let` passes the receiver to the lambda you provide, but `apply` passes nothing.
+- `apply` returns the current receiver once the anonymous function completes. `let`, on the other hand, returns the last line of the lambda (the lambda result).
+
 ### With function
 - `with` is a variant of run. It behaves identically, but it uses a different calling convention.
 - With requires its argument to be accepted as the first parameter rather than calling the standard function on a receiver type.
@@ -585,12 +591,6 @@ val nameTooLong = with("Polarcubis, Supreme Master of NyetHack") {
           length >= 20    
 }
 ```
-
-### Also function
-- `also` function works very similarly to the `let` function.
-- Just like let, `also` passes the receiver you call it on as an argument to a lambda you provide.
-- But also returns the receiver, rather than the result of the lambda.
-- Since also returns the receiver instead of the result of the lambda, you can continue to chain additional function calls on to the original receiver.
 
 ### TakeIf function
 - `takeif` evaluates a condition providedin a lambda, called a `predicate`, that returns either true or false depending on the conditions defined. 
@@ -876,34 +876,32 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - **Primary** and **secondary** constructors.
 - Secondary constructor should always call primary constructor first.
 
-```kotlin
-// The class below is complete, doesn't require body. 
-// It has two properties viz, id and name
-class customer(var id:Int, var name:String="default") {
-   init {
-       name = name.toUpperCase()
-    }
-   constructor(email:String):this(0, "") {
-   }
-}
-```
-
 ### Property vs field
 - Property has getters and setters and are accessible publicly.
 - Field is private and has no getters and setters.
 - Java has fileds but Kotlin do not.
-- Kotlin doesn't have fields. 
-- you can define get() and set() for a property using "field" keyword.
-- field can back only one property.
+- You can define get() and set() for a property using "field" keyword.
+- Field can back only one property.
 
 ### Properties
 - Classes represent **state** using **properties**. 
 - A property is a class-level variable that can include a getter, a setter, and a backing field.
 - If you would like to customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private.
 
+### Concept of backing properties
+- If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
+
+```kotlin
+class C {
+    private val _elementList = mutableListOf<Element>()
+
+    val elementList: List<Element>
+         get() = _elementList
+}
+```
+
 ### Constructing Instances
 - A class's primary constructor is called by suffixing the class name with parentheses, creating an instance.
-- Class definitions can specify two types of content: behavior and data.
 - The parenthesis for primary constructor in class definition are optional if there are no constructor arguments.
 - A body of a class is optional (but then class will not be of much use).
 - By default, any function or property without a visibility modifier is public. 
@@ -928,7 +926,7 @@ fun main(args: Array<String>) {
 | protected | The function or property will be accessible only within the same class or its subclass. |
 | internal | The function or property will be accessible within the same module |
 
-**Note**: Unlike Java, package private visibility level is not included in Kotlin.
+**Note**: Unlike Java, `package private` visibility level is not included in Kotlin.
 
 ### Top level declarations:
 2. **private**: Available anywhere inside the file containing declaration 
@@ -936,16 +934,14 @@ fun main(args: Array<String>) {
 
 ### Class properties
 - Data definitions, better known as class properties, are the attributes required to represent the specific state or characteristics of a class.
-- When an instance of a class is constructed, all of its properties must have values.This means that, unlike other variables, class properties must be assigned an initial value.
-- Like normal variables, properties can represent either read-only or mutable data using the valand var keywords, respectively.
+- When an instance of a class is constructed, all of its properties must have values. This means that, unlike other variables, class properties must be assigned an initial value.
+- Like normal variables, properties can represent either read-only or mutable data using the val and var keywords, respectively.
 - Properties model the `characteristics` of each instance of a class.
 - For each property you define, Kotlin will generate a `field`, a `getter`, and, if needed, a `setter`. 
 - A field is only accessible within a getter or a setter
 - A field is where the data for a property is stored. You cannot directly define a field on a class. Kotlin encapsulates the fields for you, protecting the data in the field and exposing it via getters and setters.
-- A getter is generated only when a property is writable, that is, when the propertyis a `var`.
+- A setter is generated only when a property is writable, that is, when the propertyis a `var`.
 - You can override the default generated getter and setter, when you want to specify how the data will be read or written.
-- Property getters are called using the same access syntax as the other variables that you have seen. 
-- Property setters are called using the assignment operator thatyou have used to assign values to variables.
 - By default, the visibility of a property’s getter and setter match the visibility of the property itself.
 - To expose access to a property but not expose its setter. Define the visibility of the setter separately as private.
 - A getter or a setter’s visibility cannot be more permissive than the property onwhich it is defined. This implies that you can `restrict` access to a property via a getter or a setter,but they are not intended for making properties more visible.
@@ -960,8 +956,7 @@ fun main(args: Array<String>) {
 - You can override default getter and setter in kotlin.
 - Classes in kotlin are final(closed) by default.you need to "open" it to inherit from it. Same holds true for properties.
 - A factory can have private primary constructor(See below). It restricts the user from invoking primary constructor.
-- class myClass private constructor (Val prop1: String).
-
+- class myClass private constructor (val prop1: String).
 - Static class declared using object don't have constructors.
 
 
@@ -996,8 +991,8 @@ fun main(args: Array<String>) {
 - A package is like a folder for similar elements that helps give a logical grouping to the files in your project. 
 - For eg., the `kotlin.collections` package contains classes to create and manage lists and sets. 
 - Packages allow you to organize your project as it becomes more complex, and they also prevent naming collisions.
-- Name your package in reverse-DNS style for eg. com.bignerdranch.nyethack. This scales with the number of applications that you write.
-- Organizing code using classes, files, and packages will help you to make surethat your code is clear as your application grows in complexity.
+- Name your package in reverse-DNS style for eg. `com.bignerdranch.nyethack`. This scales with the number of applications that you write.
+- Organizing code using classes, files, and packages will help you to make sure that your code is clear as your application grows in complexity.
 
 
 ### Guarding Against Race Conditions
@@ -1042,7 +1037,7 @@ fun main(args: Array<String>) {
 - Internal visibility marks a function, class, or property as public to other functions, classes, and properties within the same module. 
 - A `module` is a discrete unit of functionality that can be run, tested, and debugged independently.
 - Modules include such things as source code, build scripts, unit tests, deployment descriptors, and so on.
-- Modules can also depend on othe rmodules for source files and resources.
+- Modules can also depend on other modules for source files and resources.
 - Internal visibility is useful for sharing classes within a module while disallowing access from other modules, which makes it a great choice for building libraries in Kotlin.
 
 
@@ -1061,6 +1056,13 @@ fun main(args: Array<String>) {
 - Primary constructor is optional.
 - To hide the constructor being called use "private constructor" keyword(s) after class keyword.
 - This way you can force the user to use only the factory method of the class for creatng instances of that class.
+- If the primary constructor has annotations or visibility modifiers, the `constructor` keyword is required, and the modifiers go before it.
+
+```kotlin
+// Class with "constructor" keyword due to annotation
+// and visibility modifier
+class Customer public @Inject constructor(name: String) { /*...*/ }
+```
 
 ### Why prepend variable names with underscores
 - Temporary variables, including parameters that you do not need to reference more than once, are often given a name starting with an underscore to signify that they are single-use.
@@ -1123,10 +1125,21 @@ fun main() {
 ### Secondary constructors
 - The `primary constructor` specifies the parameters required for any instance of the class.
 - The `secondary constructor`, specifies the alternative ways to construct the class (while still meeting the requirements of the primary constructor).
-- Secondary constructor must either call the primary constructor, providing it all of the arguments it requires, or call another secondary constructor which follows the same rule. 
+- Secondary constructors are prefixed with constructor
+- If the class has a primary constructor, then secondary constructor must either call the primary constructor, providing it all of the arguments it requires, or call another secondary constructor which follows the same rule. 
+- If the class has a primary constructor, each secondary constructor needs to delegate to the primary constructor, either directly or indirectly through another secondary constructor(s). Delegation to another constructor of the same class is done using the this keyword:
 - You can also use a secondary constructor to define initialization logic, code that will run when your class is instantiated.
 - You can define multiple secondary constructors for different combinations of parameters. 
 - Secondary constructors cannot be used to define properties like primary constructors.
+
+```kotlin
+class Person(val name: String) {
+    var children: MutableList<Person> = mutableListOf<>()
+    constructor(name: String, parent: Person) : this(name) {
+        parent.children.add(this)
+    }
+}
+```
 
 ### Initializer Blocks
 - The initializer block is a way to set up variables or values as well as perform validation. 
@@ -1145,26 +1158,26 @@ fun main() {
 2. Required class-level property assignments.
 3. init block property assignments and function calls.
 4. secondary constructor property assignments and function calls.
--  Initialization order of the init block (item 3) and the class-level property assignments (item 2) depends on the order they are specified in.
+5.  Initialization order of the init block (item 3) and the class-level property assignments (item 2) depends on the order they are specified in.
 
 
 ### Delaying Initialization
 
 #### Late initialization
 - Any `var` property declaration can be appended with the `lateinit` keyword, and the Kotlin compiler will let you put off initializing the property until you assign it.
-- You could implement this pattern using a nullable type instead, but you wouldthen be required to handle your property’s nullability throughout your codebase,which is burdensome.
-- Kotlin doesprovide a way to check whether a late-initialized variable has been initialized, the `isInitialized` check.
+- You could implement this pattern using a nullable type instead, but you would then be required to handle your property’s nullability throughout your codebase,which is burdensome.
+- Kotlin does provide a way to check whether a late-initialized variable has been initialized, the `isInitialized` check.
 - `lateinit` keyword for variable to be initialized by the framework, not by the user, user will later access this property. 
 - This also helps in getting meaningful exception.
 - However, `isInitialized` should be used sparingly.
 
 #### Lazy initialization
 - Some properties may involve some more computationally intensive task when being initialized, like reading from a file.
-- If your class does not require access to a property right away, then lazyinitialization could be a good choice.
+- If your class does not require access to a property right away, then lazy initialization could be a good choice.
 - Lazy initialization is implemented in Kotlin using a mechanism known as a `delegate`.
 - Delegates define templates for how a property is initialized.
 - You use a '`lazy` delegate with the `by` keyword. 
-- Lazy initialization takes a lambda in which you define any code that you wish toexecute when your property is initialized.
+- Lazy initialization takes a lambda in which you define any code that you wish to execute when your property is initialized.
 
 ```kotlin
 // Use of lazy property
@@ -1196,9 +1209,9 @@ fun main() {
 - A `subclass` shares all properties with the class it inherits from, commonly known as the parent class or `superclass`.
 - In Kotlin classes are closed, they prohibit subclassing by default. 
 - For a class to be subclassed, it must be marked with the `open` keyword.
-- To override a function or property, it must be marked `open` in the partent class.
+- To override a function or property, it must be marked `open` in the parent class.
 - To access any member of superclass from subclass, use `super` keyword.
-- When you override a function in Kotlin, the overriding function in the subclass is, by default, open to being overridden (as long as the subclass ismarked open).
+- When you override a function in Kotlin, the overriding function in the subclass is, by default, open to being overridden (as long as the subclass is marked open).
 - If you do not want this, then use `final` keyword, then the function can't be overridden. 
 - By requiring the explicit use of the open and override keywords, Kotlin requires you to opt in to inheritance. This reduces the chances of exposing classes that were not meant to be subclassed and prevents from overriding functions that were never meant to be overridden.
 - Every class in Kotlin descends from a common superclass, known as `Any`, without you having to explicitly subclass it in your code.
@@ -1236,7 +1249,7 @@ fun main() {
 
 ### Polymorphism
 - A variable can hold the subclass types and the members(properties and methods) accessed will be of the subtype.
-- So dependending on the subtype the members will be accesed, this is called `polymorphism`. 
+- So dependending on the subtype the members will be accessed, this is called `polymorphism`. 
 - So, a function can take a class and its subclass as parameter, and only the appropriate member will be accessed/invoked.
 
 ### Type Checking
@@ -1272,21 +1285,20 @@ fun main() {
 
 ### Any class
 - Any provides abstract definitions for common functions like `toString()`, `equals()` and `hashCode()` which are backed by an implementation found on the platform that your project targets.
-- The Any type is one of the ways that Kotlin allows for platform independence – it provides an abstraction above the class that represents a common superclass on each specific platform, like the JVM. 
+- The Any type is one of the ways that Kotlin allows for platform independence. It provides an abstraction above the class that represents a common superclass on each specific platform, like the JVM. 
 
 # Objects
 ### The object Keyword
-- With the `object` keyword, you specify that a class will be limited to a single instance – a `singleton`.
-- The first time you access an object, it is instantiated for you. That same instance will persist as long as your program is running, and each subsequent access will then return the original instance.
 - There are three ways to use the object keyword: `object declarations`, `object expressions`, and `companion objects`. 
 
 ### Object declarations(Singleton)
+- Object declarations are used to create singleton.
 - We can create objects, without them being instances of any class (just like javascript).
-- Use the keyword object.
+- Use the keyword `object`.
 - They are useful for organization and state management, especially when you need to maintain some state consistently throughout the lifespan of your program.
 - Because an object declaration is instantiated for you, you do not add a custom constructor with code to be called at initialization. Instead, you need an initializer block for any code that you want to be called when your object is initialized.
 - An object is initialized when an object declaration is referenced by one of its properties or functions.
-- Used to create singleton.
+
 
 ```kotlin
 // Name of class is the name of the singleton object (for eg. Global)
@@ -1302,8 +1314,7 @@ object Global {
 - An object expression takes on some of the attributes of where it is declared. If declared at the file level, an object expression is initialized immediately. If declared within another class, it is initialized when its enclosing class is initialized.
 - Anonymous Inner class using "object expression". It is used in android development to implement click listener.
 object: parentClass { }
-- Using object keyword.
-- Syntax: var myIntance = object: MyInterface{ }
+- Syntax: `var myIntance = object: MyInterface{ }`.
 - Used to implement an interface for an anonymous class.
 
 ```kotlin
@@ -1457,14 +1468,20 @@ fun main() {
 - Functions in an interface need not have a body.
 - The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
 
+
 ### Interface
+- Declared using `interface` keyword.
+- Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
+- A class cannot inherit from more than one base class.
+- The above is called **single inheritance model**.
+- An interface cannot specify a constructor.
+- A class can inherit from one base class and multiple interfaces.
 - Interface is similar to abstract classes but they dont have a state(properties), they only have (abstract)methods.
 - Methods in interface are abstract by default.
 - Abstract methods in interface don't require "abstract" keyword unlike abstract classes.
 - kotlin/Java support multiple inheritance ONLY for interfaces and not for classes.
-- In Java we extend a class and implement an interface.
+- In Java we `extend` a class and `implement` an interface.
 - From Java 8 onwards interface can have defined methods, this allows to change interface without breaking code.
-
 
 ```kotlin
 fun main() {
@@ -1502,19 +1519,6 @@ fun main() {
 - They cannot be instantiated.
 - Can have abstract methods and properties.
 
-### Abstract class vs interface
-- A class can extend (or subclass) only one abstract class, but it can implement many interface.
-- An interface cannot specify a constructor.
-
-### Interface
-- Declared using **interface** keyword.
-- Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
-- A class cannot inherit from more than one base class.
-- The above is called **single inheritance model**.
-- A class can inherit from one base class and multiple interfaces.
-
-**Note**: `exitProcess` is a Kotlin standard library function that terminates the running instance of the JVM.
-
 # Generics
 ### Defining Generic Types
 - A generic type is a class that accepts an input of any type in its constructor. 
@@ -1528,21 +1532,8 @@ fun main() {
 
 
 
-### Backing properties
-- If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
 
-```kotlin
-class C {
-    private val _elementList = mutableListOf<Element>()
 
-    val elementList: List<Element>
-         get() = _elementList
-}
-```
-
-### Generics in Kotlin
-- Generic interfaces.
-- Generic functions.
 
 ```kotlin
 interface repository<T> {
