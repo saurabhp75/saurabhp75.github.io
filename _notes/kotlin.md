@@ -271,8 +271,8 @@ fun printProblemCounts(responses: Collection<String>) {
 ```
 
 ###  Member references, a feature that lets you easily pass references to existing functions
--  A member reference has the same type as a lambda that calls that function, so you can use the two interchangeably.
-- - It’s convenient to provide a member reference instead of a lambda that delegates to a function taking several parameters.
+- A member reference has the same type as a lambda that calls that function, so you can use the two interchangeably.
+- It’s convenient to provide a member reference instead of a lambda that delegates to a function taking several parameters.
 - people.maxBy { person: Person -> person.age } can be replaced by
 - people.maxBy (Person::age)
 
@@ -280,11 +280,11 @@ fun printProblemCounts(responses: Collection<String>) {
 - Used to pass function as arguments and/or return function as value.
 
 ### Local functions: function with in a function
-- local function allows code reuse(?).
+- Local function allows code reuse(?).
 
 ### Anonymous functions Vs lambda expression
-- Af allows mutliple return calls.
-- Af : multiple returns, can specify return type.
+- Anonymous function allows mutliple return calls.
+- Anonymous function: multiple returns, can specify return type.
 
 Like named functions, anonymous functions can contain any number of expressions. The returned value of the function is the result of the final expression.
 
@@ -305,9 +305,7 @@ This help in creating a DSL like code. You can access the class properties in th
 ### Invoking instances in Kotlin
 - Use member function "invoke" with "operator" keyword.
 - now we can use "()" on the instance of the class, eg classInstance().
-
 - Lambda extension and Instance invoking lets you create DSL which is used in Android development and Gradle scripting.also groovy style Kotlin HTML builders. also JSON DSL and SQL dialects.
-
 
 ### Shorthand syntax for function accepting a `function type/lambda` as its `last` parameter
 - You can omit the parentheses around the lambda argument.
@@ -331,7 +329,7 @@ This help in creating a DSL like code. You can access the class properties in th
 ### Infix functions
 - Applied to member function and extension function with single parameter. 
 - Use "infix" keyword in function definition.
-- Infix function allows to create more fluent call
+- Infix function allows to create more fluent call, for eg. `1 to "name"` is same as `Pair(1, "name")`.
 
 ### Function References
 - They can be passed as arguments instead of lambda functions.
