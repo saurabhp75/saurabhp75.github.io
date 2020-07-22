@@ -23,6 +23,15 @@ excerpt: "Intro to Kotlin"
 
 **Note**: `exitProcess` is a Kotlin standard library function that terminates the running instance of the JVM.
 
+### Behaviour of == operator
+- By Default `==` checks referential equality for objects, so this expression would evaluate as false.
+- Whenever you define structural comparison, you also provide a `hashCode` definition.
+
+```kotlin   
+open class Weapon(val name: String, val type: String)    
+println(Weapon("ebony kris", "dagger") == Weapon("ebony kris", "dagger")) // False
+```
+
 ### Build tools in Kotlin
 - We can use Kotlin with command line, Ant(build tool), IntelliJ Idea, Eclipse, Maven, Gradle.
 
@@ -872,7 +881,6 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - Defining a class in its own file gives it room to grow as the program scales up over time.
 - A class is often declared in a file matching its name, but it does not have to be.
 - You can define multiple classes in the same file.
-- The class body holds definitions for the class’s behavior and data.
 - Classes are **first class citizen**.
 - **No need** of **new** operator when **instantiating** classes.
 - Classes by **default** are **final**, so you cannot inherit from them. You need to declare class as **open** to **inherit** from them.
@@ -945,15 +953,15 @@ fun main(args: Array<String>) {
 3. **internal**: Available anywhere in the same module.
 
 ### Class declaration options
-- class name (shortest form).
+- Syntax: `class ClassName` (shortest form).
 - **Init block** in class declaration run when instance is created. Class can have multiple init blocks.
 - Properties in a class can be accessed directly instead of getter and setter (unlike java).
 - All **init blocks** run before **secondary constructor**.
 - **Getters and setters** are **automatically defined** for properties in kotlin.
 - You can override default getter and setter in kotlin.
-- Classes in kotlin are final(closed) by default.you need to "open" it to inherit from it. Same holds true for properties.
+- Classes in kotlin are final(closed) by default. You need to "open" it to inherit from it. Same holds true for properties.
 - A factory can have private primary constructor(See below). It restricts the user from invoking primary constructor.
-- class myClass private constructor (val prop1: String).
+- `class myClass private constructor (val prop1: String)`.
 - Static class declared using object don't have constructors.
 
 
@@ -1051,7 +1059,7 @@ fun main(args: Array<String>) {
 - You can also specify `default values` that should be assigned if an argument is not provided for a specific parameter.
 - `Named arguments` can be used while calling a constructor just like functions, they allow you to specify the arguments to a function or constructor in any order.
 - Primary constructor is optional.
-- To hide the constructor being called use "private constructor" keyword(s) after class keyword.
+- To hide the constructor being called use `private constructor` keyword(s) after class keyword.
 - This way you can force the user to use only the factory method of the class for creatng instances of that class.
 - If the primary constructor has annotations or visibility modifiers, the `constructor` keyword is required, and the modifiers go before it.
 
@@ -1122,9 +1130,8 @@ fun main() {
 ### Secondary constructors
 - The `primary constructor` specifies the parameters required for any instance of the class.
 - The `secondary constructor`, specifies the alternative ways to construct the class (while still meeting the requirements of the primary constructor).
-- Secondary constructors are prefixed with constructor
-- If the class has a primary constructor, then secondary constructor must either call the primary constructor, providing it all of the arguments it requires, or call another secondary constructor which follows the same rule. 
-- If the class has a primary constructor, each secondary constructor needs to delegate to the primary constructor, either directly or indirectly through another secondary constructor(s). Delegation to another constructor of the same class is done using the this keyword:
+- Secondary constructors are prefixed with constructor.
+- If the class has a primary constructor, each secondary constructor needs to delegate to the primary constructor, either directly or indirectly through another secondary constructor(s). Delegation to another constructor of the same class is done using the `this` keyword:
 - You can also use a secondary constructor to define initialization logic, code that will run when your class is instantiated.
 - You can define multiple secondary constructors for different combinations of parameters. 
 - Secondary constructors cannot be used to define properties like primary constructors.
@@ -1324,20 +1331,19 @@ fun main() {
 ```
 
 ### Companion objects
-- kotlin does not have static class or method. We can create a top level method or create a method in top level object(singleton?).
+- kotlin does not have static class or method. We can create a top level method or create a method in top level object.
 - In kotlin static method are implemented using companion objects. These are accessible from Java code.
-- You can directly access the methods of inner class by using "companion" keyword. This way you can skip the derefrencing of inner class.
-- Each class can have only single companion object.
-- The methods of inner class can be accesed from java by annotating them by "JvmStatic".
+- You can directly access the methods of inner class by using `companion` keyword. This way you can skip the derefrencing of inner class.
+- A class can have only single companion object.
+- The methods of inner class can be accesed from java by annotating them by `@JvmStatic`.
 - Ties the initialization of an object to a class instance.
-- Companion objects:these are scoped to instance of other class.
-- A companion object is declaredwithin another class declaration using the companion modifier. A class can haveno more than one companion object.
+- Companion objects are scoped to instance of other class.
+- A companion object is declared within another class declaration using the companion modifier.
 - There are two cases in which a companion object will be initialized. First, a companion object is initialized when its enclosing class is initialized. This makes it a good place for singleton data that has a contextual connection to a class definition. Second, a companion object is initialized when one of its properties or functions is accessed directly.
 - The contents of this companion object will not be loaded until either PremadeWorldMap is initialized or load is called. And no matter how many times PremadeWorldMap is instantiated, there will only ever be one instance of its companion object.
-- @JVMStatic annotation
-- Syntax: companion object {}
+- Syntax: `companion object {}`
 - Can be used for Factory for pattern.
-- used in place of static, as there is no static keyword in kotlin.
+
 
 ```kotlin
 fun main() {
@@ -1354,8 +1360,8 @@ fun main() {
 ```
 
 ### Nested Classes
-- Not all classes defined within other classes are declared without a name. You canalso use the class keyword to define a named class nested inside of anotherclass. 
-- Nested class is onlyrelevant to outer class; it does not need to be accessed from anywhere else in the application.
+- Not all classes defined within other classes are declared without a name. You can also use the class keyword to define a named class nested inside of another class. 
+- Nested class is only relevant to outer class; it does not need to be accessed from anywhere else in the application.
 - Making GameInput a private, nested class means that GameInputcan be used within Game but does not clutter the rest of your API.
 - You can access like a namespace (if it's not private) nested class and can instantiate it .
 - You can also access it from Java code in same manner.
@@ -1441,7 +1447,7 @@ fun main() {
 
 
 ### Algebraic Data Types
-- Allow you to represent a closed set ofpossible subtypes that can be associated with a given type. Enum classes are asimple form of ADT.
+- Allow you to represent a closed set of possible subtypes that can be associated with a given type. Enum classes are a simple form of ADT.
 
 ### Sealed classes 
 - Sealed classes let you specify an ADT similar to anenum, but with more control over the specific subtypes than an enum provides.
@@ -1458,24 +1464,23 @@ fun main() {
 - Property initializer is not allowed in interface.
 - You can override the interface properties.
 - Using an interface, a group of classes can have properties or functions in common without sharing a superclass or subclassing one another.
-- Interfaces only specify the what, not the how.
+- An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
 - Interface allows you to specify common properties and behavior that are supported by a subset of classes in your program without being required to specify how they will be implemented.
 - Abstract classes are similar to interfaces in that they can specify the what without the how, but they are different in that they can also define constructors and act as a superclass.
-- Properties in an interface need not be initialized.
 - Functions in an interface need not have a body.
-- The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfacemust be open implicitly, since they would serve no purpose otherwise. An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
+- The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfac emust be open implicitly, since they would serve no purpose otherwise. 
+- A class cannot inherit from more than one base class.
+- The above is called **single inheritance model**.
 
 
 ### Interface
 - Declared using `interface` keyword.
 - Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
-- A class cannot inherit from more than one base class.
-- The above is called **single inheritance model**.
 - An interface cannot specify a constructor.
 - A class can inherit from one base class and multiple interfaces.
 - Interface is similar to abstract classes but they dont have a state(properties), they only have (abstract)methods.
 - Methods in interface are abstract by default.
-- Abstract methods in interface don't require "abstract" keyword unlike abstract classes.
+- Abstract methods in interface don't require `abstract` keyword unlike abstract classes.
 - kotlin/Java support multiple inheritance ONLY for interfaces and not for classes.
 - In Java we `extend` a class and `implement` an interface.
 - From Java 8 onwards interface can have defined methods, this allows to change interface without breaking code.
@@ -1512,33 +1517,25 @@ fun main() {
 ### Abstract Classes
 - It is never instantiated. It's purpose is to provide function implementations through inheritance to subclasses that are instantiated.
 - It is defined by prepending the `abstract` keyword to a class definition. In addition to function implementations, abstract classes can include abstract functions.
-- Declared using **abstract** keyword.
-- They cannot be instantiated.
 - Can have abstract methods and properties.
 
 # Generics
 ### Defining Generic Types
 - A generic type is a class that accepts an input of any type in its constructor. 
-- Generic type parameter: The parameter specified for a generic type, such as <T>.
-
-### Generic Functions
-
-
-
-
-
-
-
-
-
+- Generic type parameter: The parameter specified for a generic type, such as \<T\>.
 
 ```kotlin
+class LootBox<T>(item: T) {
+  private var loot: T = item
+}
+
 interface repository<T> {
   fun getById(id:Int):T
   fun getAll():List<T> 
 }
+
 interface Repo {
-  fun <T> getById(id:Int): T
+  fun<T> getById(id:Int):T
 }
 ```
 
