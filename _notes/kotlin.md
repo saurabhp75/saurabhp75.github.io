@@ -153,6 +153,7 @@ public inline fun TODO(): Nothing = throw NotImplementedError()
 ### Function overloading 
 - By using default parameter(s). 
 - By using same function name and return type but different parameters.
+- Use of `@JvmOverloads` for Java interoperability.
 
 ### Function names using backticks
 - We can use any characters or reserved keyword using backticks.
@@ -336,6 +337,11 @@ This help in creating a DSL like code. You can access the class properties in th
 - Function reference converts a named function (a function defined using the fun keyword) to a value that can be passed as an argument. 
 - You can use a function reference anywhere you use a lambda expression. 
 - To obtain a function reference, you use the `::` operator with the function name you would like a reference for.
+
+### Using Java functional interfaces
+- Interface like OnClickListener has only one abstract method. Such interfaces are called functional interfaces, 
+or SAM interfaces, where SAM stands for single abstract method.
+- You can pass a lambda to any Java method that expects a functional interface.
 
 ### Kotlin’s Lambdas Are Closures
 - Difference in Kotlin closures is that internal function **captures value everytime**.
@@ -868,25 +874,31 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - You can define multiple classes in the same file.
 - The class body holds definitions for the class’s behavior and data.
 - Classes are **first class citizen**.
-- **No** concept of **fields** in Kotlin.
-- Kotlin classes have properties but no fields.
 - **No need** of **new** operator when **instantiating** classes.
-- Classes by **default** are **final**, so you cannot inherit from them.
-- You need to declare class as **open** to **inherit** from them.
-- **Primary** and **secondary** constructors.
-- Secondary constructor should always call primary constructor first.
+- Classes by **default** are **final**, so you cannot inherit from them. You need to declare class as **open** to **inherit** from them.
+- Secondary constructor should always call primary constructor first either explicitly or implicitly (in case primary constructor is not defined).
 
 ### Property vs field
 - Property has getters and setters and are accessible publicly.
 - Field is private and has no getters and setters.
 - Java has fileds but Kotlin do not.
-- You can define get() and set() for a property using "field" keyword.
+- You can define get() and set() for a property using `field` keyword.
 - Field can back only one property.
 
 ### Properties
 - Classes represent **state** using **properties**. 
 - A property is a class-level variable that can include a getter, a setter, and a backing field.
-- If you would like to customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private.
+- To customize how a property is referenced, you can provide a custom getter and setter. For example, if you would like to expose a property’s getter while restricting access to its setter, you can designate that setter as private.
+- When an instance of a class is constructed, all of its properties must have values. This means that, unlike other variables, class properties must be assigned an initial value.
+- Like normal variables, properties can represent either read-only or mutable data using the val and var keywords, respectively.
+- Properties model the `characteristics` of each instance of a class.
+- For each property you define, Kotlin will generate a `field`, a `getter`, and, if needed, a `setter`. 
+- A field is where the data for a property is stored. You cannot directly define a field on a class. Kotlin encapsulates the fields for you, protecting the data in the field and exposing it via getters and setters.
+- A setter is generated only when a property is writable, that is, when the propertyis a `var`.
+- You can override the default generated getter and setter, when you want to specify how the data will be read or written.
+- By default, the visibility of a property’s getter and setter match the visibility of the property itself.
+- A getter or a setter’s visibility cannot be more permissive than the property onwhich it is defined. This implies that you can `restrict` access to a property via a getter or a setter,but they are not intended for making properties more visible.
+- We use the terms “writable” and “read-only” rather than “mutable” and “immutable” for properties as for read-only computed properties the value may change on each access, for eg a randomly computed property.
 
 ### Concept of backing properties
 - If a class has two properties which are conceptually the same but one is part of a public API and another is an implementation detail.
@@ -931,21 +943,6 @@ fun main(args: Array<String>) {
 ### Top level declarations:
 2. **private**: Available anywhere inside the file containing declaration 
 3. **internal**: Available anywhere in the same module.
-
-### Class properties
-- Data definitions, better known as class properties, are the attributes required to represent the specific state or characteristics of a class.
-- When an instance of a class is constructed, all of its properties must have values. This means that, unlike other variables, class properties must be assigned an initial value.
-- Like normal variables, properties can represent either read-only or mutable data using the val and var keywords, respectively.
-- Properties model the `characteristics` of each instance of a class.
-- For each property you define, Kotlin will generate a `field`, a `getter`, and, if needed, a `setter`. 
-- A field is only accessible within a getter or a setter
-- A field is where the data for a property is stored. You cannot directly define a field on a class. Kotlin encapsulates the fields for you, protecting the data in the field and exposing it via getters and setters.
-- A setter is generated only when a property is writable, that is, when the propertyis a `var`.
-- You can override the default generated getter and setter, when you want to specify how the data will be read or written.
-- By default, the visibility of a property’s getter and setter match the visibility of the property itself.
-- To expose access to a property but not expose its setter. Define the visibility of the setter separately as private.
-- A getter or a setter’s visibility cannot be more permissive than the property onwhich it is defined. This implies that you can `restrict` access to a property via a getter or a setter,but they are not intended for making properties more visible.
-- We use the terms “writable” and “read-only”rather than “mutable” and “immutable” for properties as for read-only computed properties the value may change on each access, for eg a randomly computed property.
 
 ### Class declaration options
 - class name (shortest form).
@@ -1548,14 +1545,9 @@ interface Repo {
 ### Kotlin annotations
 - Used in testing to annotate functions as **@test** etc.
 
-### Using Java functional interfaces
-- Interface like OnClickListener has only one abstract method. Such interfaces are called functional interfaces, 
-or SAM interfaces, where SAM stands for single abstract method.
-- You can pass a lambda to any Java method that expects a functional interface.
-
 ### Strong reference in Java/Kotlin
 - Default behaviour.
-- Garage collected when there are no references left for an object.
+- Garbage collected when there are no references left for an object.
 
 ### Weak Reference in Java/Kotlin
 - GC responsible to determine reachability for garbage collection.
