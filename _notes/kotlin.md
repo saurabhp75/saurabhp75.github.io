@@ -1458,6 +1458,7 @@ fun main() {
 - Inner(nested classes) iheriting from outer class to implement two different return types for http request, viz. "success" and "failure".
 - The "sealed" keyword before the "class" keyword ensures that no other class can inherit from the outer class.
 - Starting Kotlin v1.1, the inner class restriction was removed. Now classes can be defined  anywhere within the same file.
+- list.filterNotNull() vs. String.orEmpty()
 
 # Interfaces and Abstract Classes
 - Interfaces can define methods and properties.
@@ -1538,6 +1539,47 @@ interface Repo {
   fun<T> getById(id:Int):T
 }
 ```
+
+### Use of `in` and `out` for generic parameters
+- There are two roles a generic parameter can be assigned, `producer` or `consumer`.
+- `Producer`: `Covariance`, Means that a generic parameter will be readable (but not writable). Use `out` for this case.
+- `Consumer`: `Contravariance`, Means that a generic parameter will be writable (but not readable). Use `in` for this case.
+
+```kotlin
+// Use of "out" keyword fot generics
+class Barrel<out T>(val item: T)
+
+fun main() {
+  var fedoraBarrel = Barrel(Fedora("a generic-looking fedora", 15))
+  var lootBarrel = Barrel(Coin(15))
+
+  // Allowed because of "out"
+  lootBarrel = fedoraBarrel
+
+  val myFedora: Fedora = lootBarrel.item
+}
+
+// Use of "in" keyword fot generics
+class Barrel<in T>(var item: T)
+
+fun main() {
+  var fedoraBarrel = Barrel(Fedora("a generic-looking fedora", 15))
+  var lootBarrel = Barrel(Coin(15))
+
+  // Not Allowed because of "in"
+  lootBarrel = fedoraBarrel
+
+  // Allowed because of "in"
+  fedoraBarrel = lootBarrel
+
+  val myFedora: Fedora = lootBarrel.item
+}
+```
+
+### The `reified` Keyword
+- There are cases where it is useful to know the specific type that is used for a generic parameter. 
+- The `reified` keyword allows you to check a generic parameter’s type.
+- Using the reified keyword allows you to inspect the type of a genericparameter without requiring reflection
 
 ### Kotlin annotations
 - Used in testing to annotate functions as **@test** etc.
@@ -1678,20 +1720,65 @@ We should not inject too many dependencies, at most two.
 - Local delegates in kotlin
 - Extension properties in kotlin
 
-### Generics:
-- Generic constraints in kotlin
-- Generics and invariance
-
-### Covariance in kotlin
-- Contravariance in kotlin
-- Type projections in kotlin
-
 ### Metaprogramming:
 - Using java reflection in kotlin
 - Using kotlin reflection
 - Type erasure on jvm
 - Reified generics in kotlin
 - Custom annotations in kotlin
+
+### Coroutines and reactive extensions in kotlin
+# Kotlin coroutines
+- A `suspend function` can only be called from either a coroutine or another suspend function.
+- When a suspend function returns, it means that it has completed. This contract makes the code easy to manage.
+- Coroutine can suspend execution without blocking the thread.
+- Under the hood coroutines implements a callback called `continuation`. It is a generic callback interface with extra information in continuation implements a state machine internally.
+- `withContext(Dispatchers.IO){}` : A suspend function from coroutines library which move the execution to a different thread. It takes the parameter as the thread pool to which the execution is suspended. It also takes the lambda function as a parameter which is a blocking code. It can be used as a body of suspend function.
+- Dispatchers.IO: N/W and disk operations.
+- Dispatchers.Main: UI/Non blocking code.
+- Dispatchers.Default: CPU intensive.
+
+### What is a coroutine:
+- Runnable with superpowers.
+- takes a block of code and run it in a particular thread.
+- It comes with exception handling and cancellation.
+- How to call a suspend function from a normal function?Use coroutines, See below.
+
+```kotlin
+onButtonClicked() {
+    scope.launch {
+    //suspend function
+  }
+}
+```
+
+- `launch`: Triggers a coroutine. But it should be specified with a scope.
+
+### Structured concurrency:
+- solves the problem of 'who can cancel a subroutine'  and 'who gets exception if subroutine fails'. Think of onButtonClicked(), what to do with coroutine, if user moves to a different screen.
+- It is a design pattern which takes care of memory leaks.
+- It introduces the concept of coroutine scope.
+
+### Coroutine scope:
+- Keeps track of lifecycle of coroutines it creates.
+- It has ability to cancel the coroutines.
+- It is notified in case of exception/failure.
+
+### How to create coroutine scope
+- `val scope =  CoroutineScope(Dispatchers.Main)`.
+- The above function also takes a job, which defines lifecycle of both scope and the coroutine.
+- `Val scope =  CoroutineScope(Dispatchers.Main + job())`.
+
+### How to cancel all coroutines created in a scope. After this you cannot launch any coroutines from this scope.
+- `scope.cancel()`
+
+### How to launch a coroutine within a scope.
+- `scope.launch{}`
+
+### Handling exceptions in a scope
+
+### Scope with a job
+- When we pass job to the scope then it Handles the exceptions in a particular way.
 
 ### Asynchronous programming
 - Kotlin does not bind user to any particular approach of asynchronous programming.
@@ -1703,12 +1790,6 @@ These are std library functions and not keywords.
 
 ### Yields in kotlin
 - yield is a function and not keyword.
-
-### Coroutines and reactive extensions in kotlin
-
-
-### Sealed classes
-- list.filterNotNull() vs. String.orEmpty()
 
 **DSL** : Domain specific language.
 
