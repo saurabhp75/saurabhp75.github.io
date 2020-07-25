@@ -854,14 +854,14 @@ val patronGold = mapOf(Pair("Eli", 10.75),
 - `getOrDefault(key, default)`: Gets the value for the key or returns a default using a value you provide.
 
 ###  Mutable map mutator functions
-- `=`(assignmentoperator): Adds or updates the value in the map for the key specified.
-- `+=`(plus assignoperator): Adds or updates an entry or entries inthe map based on the entry or map specified.
+- `=`(assignment operator): Adds or updates the value in the map for the key specified.
+- `+=`(plus assign operator): Adds or updates an entry or entries inthe map based on the entry or map specified.
 - `put(key, value)`: Adds or updates the value in the map for the key specified.
 - `putAll(listOf(Pairs))`: Adds all of the key-value pairs provided to the map
-- `getOrPut(key){value}`: Adds an entry for the key if it does not exist already and returns the result;otherwise returns the existing entry.
+- `getOrPut(key){value}`: Adds an entry for the key if it does not exist already and returns the result, otherwise returns the existing entry.
 - `remove(key)`: Removes an entry from the map and returns the value.
-- `-`(minusoperator): Returns a new map, excluding the entries specified.
-- `-=`(minusassignoperator): Removes entry or map of entries from the map.
+- `-`(minus operator): Returns a new map, excluding the entries specified.
+- `-=`(minus assign operator): Removes entry or map of entries from the map.
 - `clear()`: Removes all entries from the map.
 
 
@@ -1540,6 +1540,20 @@ interface Repo {
 }
 ```
 
+### Generic type parameter naming convention
+- The convention is to use `T`. 
+- For a `collection` class or `interface` the convention is to use `E` instead (for `Element`).
+- For a `map` the convention is `K` and `V` (for `Key` and `Value`) if it’s a map. 
+
+### Restrict T to a specific supertype
+
+```kotlin
+// Restrict T to Pet or its subclasses
+class Contest<T: Pet> {
+
+}
+```
+
 ### Use of `in` and `out` for generic parameters
 - There are two roles a generic parameter can be assigned, `producer` or `consumer`.
 - `Producer`: `Covariance`, Means that a generic parameter will be readable (but not writable). Use `out` for this case.
@@ -1580,6 +1594,13 @@ fun main() {
 - There are cases where it is useful to know the specific type that is used for a generic parameter. 
 - The `reified` keyword allows you to check a generic parameter’s type.
 - Using the reified keyword allows you to inspect the type of a genericparameter without requiring reflection
+
+
+# Kotlin Extensions
+- Allows you to add functionality to a type without directly modifyingthe type’s definition.
+- You can use extensions with your own types and also typesyou do not control, like List, String etc.
+- They are a good fit for adding functionality to a type when you do not control the definition of the class or when a class is not marked with the open keyword, making it ineligible for subclassing.
+- Kotlin standard functions are defined as extensions.
 
 ### Kotlin annotations
 - Used in testing to annotate functions as **@test** etc.

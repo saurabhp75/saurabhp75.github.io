@@ -10,6 +10,9 @@ excerpt: "Intro to Android"
 ```shell
 $adb -s devname tcpip 5555
 $adb connect 100.71.253.137:5555
+
+// This will give ipaddress of your mobile
+$adb shell netcfg | grep 'wlan0'
 ```
 ### Android Studio keyboard shortcuts
 - **Ctrl + Shift + n** : Search for a file.
