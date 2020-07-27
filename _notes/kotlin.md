@@ -1312,6 +1312,8 @@ object Global {
 ```
 
 ### Object expressions (Anonymous inner class)
+- Suppose we want to override only one or two functions of a class and pass it to a function (it could be an event listener like onclick() , onkeypress()).
+- In this case we can create an anonymous class, in place, using `object` keyword  and pass it, rather than creating a separate object and then passing it. Since This object will not be used anywhere after it has been passed to the function, anonymous class approach is preferred.
 - Defining a new, named class is not always necessary. Perhaps you need a class instance that is a variation of an existing class and will be used for a one-off purpose.
 - In fact, it will be so temporary that it does not even require a name.
 - It adheres to the rules of the object keyword in that there will only ever be one instance of it alive at a time, but it is significantly smaller in scope than a named singleton.
@@ -1359,7 +1361,7 @@ fun main() {
 }
 ```
 
-### Nested Classes
+### Nested Classes and Inner classes
 - Not all classes defined within other classes are declared without a name. You can also use the class keyword to define a named class nested inside of another class. 
 - Nested class is only relevant to outer class; it does not need to be accessed from anywhere else in the application.
 - Making GameInput a private, nested class means that GameInputcan be used within Game but does not clutter the rest of your API.
@@ -1367,16 +1369,19 @@ fun main() {
 - You can also access it from Java code in same manner.
 - Nested class with "inner" keyword can access the properties of outer class.
 - You can access Inner classes only by instance of the outer class and not as a namespace.
+- A nested class is accessible without instance of outer class.
+- Inner class is only accessible from instance of outer class.
 
 ### Data Classes
 - Give default methods like to String(), equals(), hashCode(), copy() etc.
-- Data classes/objects are called **Java beans**. They just hold the data.
+- Data classes/objects are called **Java beans**. They just hold the data, for eg. fetching from a dB or network.
 - Data classes are classes designed specifically for holding data, and they come with some powerful data manipulation benefits.
 - Data classes provide implementations for toString, equals, and hashCode functions that may work better for your project.
 - They provides `toString()` etc method for properties declared in Coordinate’s `primary constructor`.
 - Data classes also provide a 'copy` function that makes it easy to create a new copy of an object.
-- Classes that are often compared orcopied or have their contents printed out are candidates for being made data classes.
+- Classes that are often compared or copied or have their contents printed out are candidates for being made data classes.
 - Data classes are not permitted to be superclasses.
+- Data class only consider the properties in the constructor when equating the objects.
 
 ```kotlin
 // create a new instance of Player that has all of the same
@@ -1403,13 +1408,20 @@ customer2 = customer1.copy(name="saurabh")
 
 ### Enumerated Classes
 - Special type of class useful for defining a collection of constants, known as enumerated types.
-- You canreference enumerated types using the name of the enum class, a dot, and the name of the type.
+- You can reference enumerated types using the name of the enum class, a dot, and the name of the type.
 - enums can represent more than simple naming constants.
 - Enums, like other classes, can also hold function declarations.
 - You call functions on enumerated types, not on the enum class itself.
 - `valueOf` is a function available on all enum classes that returns an enumerated type with a name that matches the String value that you pass to it.
-- Enum classes are asimple form of ADT(Algebraic Data Types).
+- Enum classes are a simple form of ADT(Algebraic Data Types).
 - For more complex ADTs, you can use `sealed` classes to implement more sophisticated definitions. 
+- Enum are set of constants representing possible values for a variable. 
+- Enum constants are objects and instances of enum class.
+- Enum class can't be instantiated.
+- Allows only single instance of each value/subclass.
+- Values() gives list of all constants in the enum.
+- `.name` gives the name of the enum constant.
+- `.ordinal` gives the 0 indexed number of the enum constant.
 
 ```kotlin
 enum class Direction(private val coordinate: Coordinate) {
@@ -1450,35 +1462,36 @@ fun main() {
 - Allow you to represent a closed set of possible subtypes that can be associated with a given type. Enum classes are a simple form of ADT.
 
 ### Sealed classes 
-- Sealed classes let you specify an ADT similar to anenum, but with more control over the specific subtypes than an enum provides.
+- Sealed classes are used for representing restricted class heirarchy which means we know how many subclasses are there for a particular class.
+- subclasses can have their own properties. So subclasses can have different properties in different instances.
+- Their can be multiple instances of the sealed subclasses.
+- Sealed classes let you specify an ADT similar to an enum, but with more control over the specific subtypes than an enum provides.
 - Sealed class has a limited number of subclasses that must be defined within the same file where it is defined, otherwise it is ineligible for subclassing. 
-- Kotlin doesnt have algebric data types.
+- Kotlin doesn't have algebric data types.
 - But you can simulate them using sealed classes.
 - Sealed classes puts restriction on what type of classes can inherit from base class.
-- Inner(nested classes) iheriting from outer class to implement two different return types for http request, viz. "success" and "failure".
+- Inner(nested classes) inheriting from outer class to implement two different return types for http request, viz. "success" and "failure".
 - The "sealed" keyword before the "class" keyword ensures that no other class can inherit from the outer class.
 - Starting Kotlin v1.1, the inner class restriction was removed. Now classes can be defined  anywhere within the same file.
 - list.filterNotNull() vs. String.orEmpty()
 
 # Interfaces and Abstract Classes
 - Interfaces can define methods and properties.
-- Property initializer is not allowed in interface.
+- Property initializer is not allowed in interface. An interface can't have properties with a backing field and a constructor.
 - You can override the interface properties.
 - Using an interface, a group of classes can have properties or functions in common without sharing a superclass or subclassing one another.
 - An interface outlines the `what`, and the `how` must be provided in the classes that implement it.
 - Interface allows you to specify common properties and behavior that are supported by a subset of classes in your program without being required to specify how they will be implemented.
 - Abstract classes are similar to interfaces in that they can specify the what without the how, but they are different in that they can also define constructors and act as a superclass.
 - Functions in an interface need not have a body.
-- The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfac emust be open implicitly, since they would serve no purpose otherwise. 
-- A class cannot inherit from more than one base class.
-- The above is called **single inheritance model**.
+- The `open` keyword is not required on function declarations in an interface. This is because all properties and functions you add to an interfac emust be open implicitly, since they would serve no purpose otherwise.
 
 
 ### Interface
 - Declared using `interface` keyword.
 - Very similar to abstract class, but they cannot have state (ie only **abstract property** allowed).
 - An interface cannot specify a constructor.
-- A class can inherit from one base class and multiple interfaces.
+- A class can inherit from only one base class and multiple interfaces. This is called **single inheritance model**.
 - Interface is similar to abstract classes but they dont have a state(properties), they only have (abstract)methods.
 - Methods in interface are abstract by default.
 - Abstract methods in interface don't require `abstract` keyword unlike abstract classes.
@@ -1601,6 +1614,18 @@ fun main() {
 - You can use extensions with your own types and also typesyou do not control, like List, String etc.
 - They are a good fit for adding functionality to a type when you do not control the definition of the class or when a class is not marked with the open keyword, making it ineligible for subclassing.
 - Kotlin standard functions are defined as extensions.
+- When you specify an extension function, you also specify the Receiver type.
+- `Receiver type`: The type an extension adds functionality to.
+- The `this` keyword refers to the receiver instance the extension function was called on.
+- Defining an extension on a superclass makes it available to subclasses. For eg you can define a print function on `Any` class, which could be accessed from all the classes. 
+- Extensions can be used with generics.
+
+### Extension Properties
+- Just like extension functions, you can also define extension properties.
+
+
+
+
 
 ### Kotlin annotations
 - Used in testing to annotate functions as **@test** etc.

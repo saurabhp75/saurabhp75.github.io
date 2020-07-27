@@ -11,7 +11,7 @@ excerpt: "Intro to Android"
 $adb -s devname tcpip 5555
 $adb connect 100.71.253.137:5555
 
-// This will give ipaddress of your mobile
+// This will give ip address of the device
 $adb shell netcfg | grep 'wlan0'
 ```
 ### Android Studio keyboard shortcuts
@@ -20,16 +20,64 @@ $adb shell netcfg | grep 'wlan0'
 - **Shift + Shift** :  Search everywhere.
 - **Ctrl + Alt + backward/forward Arrow**: Navigate to previous/next cursor position.
 
+### Package name in Android Studio
+- Package name of an app in Android is the domain of the app and is unique for all the apps in playstore.
+
+### Android project structure
+
+![Android project structure](/assets/images/android/project_structure.jpg)
+
+- The `build` folder within the `app` folder contains the apk file.
+- The `libs` folder under the `app` folder contains third party libs/jar files.
+- `src` folder under the `app` folder conatins the tests and code for the project.
+- `androidTest` folder under the `src` folder contains the Android specific tests for the project.
+- `test` folder under the `src` folder contains the language specific test (Android independent) for the project.
+- Under the `main` folder there is `java` folder `res` folder and `AndroidManifest.xml` file.
+- The `java` folder contains the package folder(com.ytlabs.mytodoapp) with the name mentioned during project creation. This folder contains all the kotlin files under one or more packages.
+- `res` folder under the `main` folder contains all the project resources.
+- `res` folder contains `drawable`, `layout`, `mipmap` and `values` folder.
+- `drawable` folder contains all the image files.
+- `layout` folder contains xml files for the activities.
+- `mipmap` folder contains the icons for the project.
+- `values` folder contains three xml files, viz, `colors.xml`, `strings.xml`, `styles.xml`.
+- `colors.xml` contains the hex code and name of the colors used in the project.
+- `strings.xml` contains the strings used in the project.
+- `styles.xml` contains the styles used in the project. Used for designing the theme of app or widget in the project.
+- `build.gradle` file under `app` folder is responsible for converting all the code into an application. It also stores all the information required by the app. It contains information like `compileSdkVersion`, `applicationId`, `targetSdkVersion`, `versionName` and  `buildTypes` etc. and `dependencies` which contains different libaries required by the android app. 
+
+### AndroidManifest.xml file
+- It acts as a "register" for the android app and stores all the reference of the app.
+- List of all the activities and other android components required in the app.
+- Permisssions for the android app should be mentioned above the `Application` tag.
+
+### What is an activity
+- Activity is a "manager" which is essentially a Java/Kotlin class that manages interactions and the content visible on the screen. 
+- An application can have many activities like in the YouTube application.
+
+### Which activity is the first activity to launch
+- In `AndroidManifest.xml` the activity with intent having category `category android:name="android.intent.category.LAUNCHER"` will be the first to launch.
+
+![Launcher activity](/assets/images/android/launcher_activity.jpg)
+
+### What is View and ViewGroup
+- It is UI.
+- `View` is the base class of all views. Others like `TextView`, `ButtonView` are derived from it.
+- Views are described in an xml file. This xml file is parsed and a corresponding java class is created.
+- ViewGroup is a conainer which contains multiple views for eg. `ConstraintLayout`.
+
+
+### Creating an activity in Android studio
+- Right click on the package folder(com.ytlabs.mytodoapp) under `java` and click on new->activity.
+
 ### Definitions
 - **Activity**: Activity has an associated layout file. 
-- **Layout**: Layout file is an XML file. Layout file contains the information about various elements and their positioning. These elements are called **views**.
+- **Layout**: Layout file is an XML file. Layout file contains the information about various elements and their positioning. These elements are called **views/widgets**.
 - **Fragment**
 
 ## Layout inflation process
 - Connects activity and its layout.
 - Triggered when activity starts.
 - During LI the "views" in the layout files are inflated to Kotlin view objects in memory.
-
 - bundle object parameter in `onCreate`() method contain dynamic state information (typically relating to the state of the UI) from a prior invocation of the activity.
 - **onCreate(savedInstanceState: Bundle?)** – The method that is called when the activity is first created 
 - **onRestart()** – Called when the activity is about to restart after having previously been stopped by the runtime system.
@@ -208,6 +256,36 @@ Views are organized into view groups. Having a deep view heirarchy slows down th
 - Intent(packageContext: Context, class: Class<?>)
 - The Class argument specifies the activity class that the ActivityManager should start. 
 - The Context argument tells the ActivityManager which application package the activity class can be found in.
+
+### What is an intent
+- An Intent is a messaging object we can use to request an action(for eg. open ProfileActivity) from another app component (Activity).
+- Intent can also pass data from one activity to another activity.
+- So, it can perform an action and pass data. 
+
+```kotlin
+// Creating an intent
+val intent = Intent(currentActivity, activityToOpen)
+startActivity(intent)
+```
+
+### Passing data using intent
+- Intents can be used to pass data between activities.
+- Data is sent using key- value pairs using `putExtra()` method.
+
+```kotlin
+// Send intent with data from source activity
+val intent = Intent(this, VideoPlayerActivity::class.java) 
+// VIDEO_ID is the key to identify as we can 
+// send many key values inside it.
+intent.putExtra("VIDEO_ID", videoId) 
+startActivity(intent)
+
+// Receive data and intent at receiving activity
+// -1 is the default, when no data is passed with
+// "VIDEO_ID" key
+val videoId = intent.getIntExtra("VIDEO_ID", -1)
+```
+
 
 ### Explicit vs Implicit Intents
 - Use explicit intents to start activities within your application.
