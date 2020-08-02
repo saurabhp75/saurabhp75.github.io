@@ -65,6 +65,8 @@ $adb shell netcfg | grep 'wlan0'
 - Views are described in an xml file. This xml file is parsed and a corresponding java class is created.
 - ViewGroup is a conainer which contains multiple views for eg. `ConstraintLayout`.
 
+### Naming convention for resource ids
+- Use camel case with view type as prefix and view functionality as suffix, for eg. `buttonSubmit`, `editTextFullName` etc.  
 
 ### Creating an activity in Android studio
 - Right click on the package folder(com.ytlabs.mytodoapp) under `java` and click on new->activity.
@@ -86,6 +88,46 @@ the stack by another activity.
 - **onResume()** – Indicates that the activity is now at the top of the activity stack and is the activity with which
 the user is currently interacting.
 
+### What is Context in Android
+- It’s the context of the current state of the application(object).
+- The activity object extends the Context object.
+- There are different types of context in Android.
+- Mainly two types of context, Application Context and Activity Context.
+
+### Application Context 
+- It is an instance that is the singleton and can be accessed in activity via `getApplicationContext()`. 
+- This context is tied to the lifecycle of an application. 
+
+
+### Activity context
+
+### Recycler View
+- Dynamic view, view group.
+- Makes use of Adapter class for `items` in the recycler view.
+- Adapter needs list of data, from which it takes data and populates the recycler view.
+- Adapter is a link between recyclerView and the list data.
+- `onCreateViewHolder()`: This method returns a view/layout for an item.
+- `onBindViewHolder`: This method sets the data and event listeners for an item in recycler view.
+- `getItemCount()`: Gives the size of the list/data, ie. number of items.
+
+### Android application and process
+- An application is run in it's own Linux/Android process.
+- When the application is stopped, the process is killed.
+- Activity does not map to process.
+- On clicking the app icon, the class extended from `Application` class, present in manifest file is run as a process.
+- Then it runs the launcher activity.
+- The lifetime of the application class is same as that of the process.
+- The variables/properties declared in application class will remain for entire lifecycle of the application.
+- The application class is a singleton.
+- Database variable can be created in application class as it is requirted for entire life of the application.
+
+
+### Theading
+- When an Android application starts, the `main` thread is created.
+- It is also called `UI` thread.
+- The heavy work (netwrok I/O, db operations) is not done in main thread, they are done in other thread.
+- This makes the application response fast.
+- `Room` db uses threading internally.
 
 ### AppCompatActivity
 - It is a subclass of android which provides access to modern android features while providing compatibility with older versions of android.
@@ -290,6 +332,8 @@ val videoId = intent.getIntExtra("VIDEO_ID", -1)
 ### Explicit vs Implicit Intents
 - Use explicit intents to start activities within your application.
 - Use implicit intents to start activities outside your application.
+- Implicit intent specifies the action to be performed and appropriate application is invoked implicitly.
+- Explicit intent explicitly specifies the activity to be started.
 
 # Freeform windows in Android
 ### What is multi-window
