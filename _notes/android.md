@@ -335,11 +335,27 @@ val videoId = intent.getIntExtra("VIDEO_ID", -1)
 - Implicit intent specifies the action to be performed and appropriate application is invoked implicitly.
 - Explicit intent explicitly specifies the activity to be started.
 
+### WorkManager
+- Used to perform a periodic task in the background thread.
+- It works even if the application is closed.
+
+### Work Manager use cases
+- Backup chats like whatsapp.
+- Update news in a news app.
+- Upload images to server(dropbox) from the app.
+- Deleted completed tasks in todo app.
+
+### Use of notification channels
+- Introduced in Android Oreo, to group/categorize the notifications.
+- For eg. "user notification" or "chat notification".
+- You can disable the notifications for individual channels/category.
+
+
+
 # Freeform windows in Android
 ### What is multi-window
 - Introduced in Android 7, allows apps to share screen with other apps. 
 - Allows more than one activity to be displayed on the device screen at one time.
-
 
 ### Three type of multi-window
 - **Split window**: Provides a split screen environment where **two activities** appear either side by side or one above the other.
@@ -359,7 +375,6 @@ val videoId = intent.getIntExtra("VIDEO_ID", -1)
 ### Steps 
 - Create Pixel 2, API 29 from AVD. 
 - Build and run the app on emulator.
-
 
 ### Developing Freeform Android app
 - Enable multi-window support in the app using `android:resizeableActivity="true"`.
