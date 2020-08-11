@@ -97,9 +97,28 @@ the user is currently interacting.
 ### Application Context 
 - It is an instance that is the singleton and can be accessed in activity via `getApplicationContext()`. 
 - This context is tied to the lifecycle of an application. 
+- The application context can be used where you need a context whose lifecycle is separate from the current context or when you are passing a context beyond the
+scope of activity.
+- For eg. If you have to create a singleton object for your application and that object needs a context, always pass the application context.
+- In case, when you have to initialize a library in an activity, always pass the application context, not the activity context.
 
 
 ### Activity context
+- This context is available in an activity. This context is tied to the lifecycle of an activity.
+- It should be used when you are passing the context in the scope of an activity or you need the context whose lifecycle is attached to the current context.
+- For eg. if you have to create an object whose lifecycle is attached to an activity, you can use the activity context.
+
+### getContext() in ContentProvider
+- This context is the application context and can be used similar to the application
+- Context. This can be accessed via the `getContext()` method.
+
+ ### When to use which Context?
+- In case of Singleton(lifecycle is attached to the application lifecycle) for eg Db instance, always use the Application Context.
+- Whenever you are in Activity, for any UI operations like showing toast, dialogs, and etc, use the Activity Context.
+
+
+
+
 
 ### Recycler View
 - Dynamic view, view group.
