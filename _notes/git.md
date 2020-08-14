@@ -4,6 +4,17 @@ title: "Git"
 excerpt: "Intro to Git"
 ---
 
+
+### To revert uncommitted changes including files and folders
+```shell
+# Revert changes to modified files.
+$ git reset --hard
+
+# Remove all untracked files and directories.
+# '-f' is force, '-d' is remove directories.
+$ git clean -fd
+```
+
 ### To add a remote github to local repo
 ```shell
 $ git remote add origin git@github.com:saurabhp75/ytechlabs.git

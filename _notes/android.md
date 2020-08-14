@@ -351,8 +351,20 @@ val videoId = intent.getIntExtra("VIDEO_ID", -1)
 ### Explicit vs Implicit Intents
 - Use explicit intents to start activities within your application.
 - Use implicit intents to start activities outside your application.
-- Implicit intent specifies the action to be performed and appropriate application is invoked implicitly.
+- Implicit intent specifies the `action` to be performed and appropriate application is invoked implicitly. We can also pass `category` and `data`.
 - Explicit intent explicitly specifies the activity to be started.
+- Intents can be used to start an activity, a service and passs a broadcast.
+- Start an activity: `startActivity()`.
+- Start a service: `startServcie()`.
+- Pass a broadcast: `sendBroadcast()`.
+
+### Intent filters
+- Declared in manifest file.
+- Defines two things, `action` and `category`.
+- Specifies what type of an intent an activity can receive.
+- Action: It is name of action.
+- Category: Type of intent collections.
+- Data: Path or some other data to pass. 
 
 ### WorkManager
 - Used to perform a periodic task in the background thread.
@@ -363,6 +375,17 @@ val videoId = intent.getIntExtra("VIDEO_ID", -1)
 - Update news in a news app.
 - Upload images to server(dropbox) from the app.
 - Deleted completed tasks in todo app.
+
+### contraint layout
+- Use of match parent not recommended in constraint layout.
+- 0dp in width and height means match constraint.
+- Chains: spread/spread inside/packed.
+- Weighted chain.
+
+### virtual helper objects
+- guideline, barrier, group
+
+
 
 ### Use of notification channels
 - Introduced in Android Oreo, to group/categorize the notifications.
