@@ -117,8 +117,37 @@ scope of activity.
 - Whenever you are in Activity, for any UI operations like showing toast, dialogs, and etc, use the Activity Context.
 
 
+### Dependency Injection
+- Dependencies are class instances required by a class to function.
+- We never create Application, activity and service instance in an android app. They are provided to us by Android OS. We do not have access to their constructor. We cannot provide dependencies to them via constructor. So we have to think differently to tackle DI in an android app.
+- We do however create fragments in an android app.
+- Two types of DI, `constructor injection` and `field injection`.
+- Field injection is used when we don't have access to constructor of a class.
+- In JavaBeans the DI was done using xml files to inject servlets.
 
 
+### Disadvantages of not using DI
+- No Configurability, the configuartion is hard coded while creating the dependencies.
+- Resource intensive, as the dependency has to be created every time. There is no reusability.
+
+### DI history
+- Difficult to test. Mocking of dependencies is not possible. Which was difficult to configure.
+- The google developed `Guice`. But it used `reflection`. Reflection is an API which is used to examine or modify the behavior of methods, classes, interfaces at runtime.
+- In Guice stack trace was difficult to read because of many subclass created.
+- Also since everything was done at runtime, we can only verify DI by running the app.
+- `Square` came up with `Dagger1` to remove the runtime DI. It uses reflection only for instance creation, for everything else it used annotation processing, which is a build time process.
+- `Google` cam up with `Dagger2` and moved everything to build time using annotation processing. Which creates all the classes at build time.
+
+### Inversion of control
+- The class need not create its dependency, but it will be provided via constructor.
+- Bottoms up instead of top down.
+
+### Dagger
+- Dagger has three components, `module`, `component` and `Any classe` which needs dependency.
+- Module(`@Module`/`@Provides`) is dependency provider/creator.
+- Component(`@Component`)) is dependency manager.
+- Any class(`@Inject`) is dependency consumer.
+- 
 
 ### Recycler View
 - Dynamic view, view group.

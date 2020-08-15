@@ -15,6 +15,12 @@ $ git reset --hard
 $ git clean -fd
 ```
 
+### Initial repo configuration
+```shell
+$ git config user.name "saurabhp75"
+
+$ git config user.email "saurabhp75@gmail.com"
+```
 ### To add a remote github to local repo
 ```shell
 $ git remote add origin git@github.com:saurabhp75/ytechlabs.git
