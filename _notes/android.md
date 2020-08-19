@@ -102,11 +102,21 @@ scope of activity.
 - For eg. If you have to create a singleton object for your application and that object needs a context, always pass the application context.
 - In case, when you have to initialize a library in an activity, always pass the application context, not the activity context.
 
-
 ### Activity context
 - This context is available in an activity. This context is tied to the lifecycle of an activity.
 - It should be used when you are passing the context in the scope of an activity or you need the context whose lifecycle is attached to the current context.
 - For eg. if you have to create an object whose lifecycle is attached to an activity, you can use the activity context.
+
+### Activity Lifecycle
+- `onCreate()`: Called when activity is created.
+- `onStart()`: Called when user sees the activity.
+- `onResume()`: Called when user can interact with the screen.
+- `onPause()`: Called when part of app is visible, but in background.
+- `onStop()`: Called when app is not visible to user.
+- `onDestroy()`: Called when activity is destroyed.
+- `onRestart()`: Called when we navigate back to the activity. 
+
+![Activity Lifecycle](/assets/images/android/activityLifecycle.jpg)
 
 ### getContext() in ContentProvider
 - This context is the application context and can be used similar to the application
@@ -123,15 +133,14 @@ scope of activity.
 - We do however create fragments in an android app.
 - Two types of DI, `constructor injection` and `field injection`.
 - Field injection is used when we don't have access to constructor of a class.
-- In JavaBeans the DI was done using xml files to inject servlets.
-
 
 ### Disadvantages of not using DI
 - No Configurability, the configuartion is hard coded while creating the dependencies.
 - Resource intensive, as the dependency has to be created every time. There is no reusability.
+- Difficult to test. Mocking of dependencies is not possible. Which was difficult to configure.
 
 ### DI history
-- Difficult to test. Mocking of dependencies is not possible. Which was difficult to configure.
+- In JavaBeans the DI was done using xml files to inject servlets.
 - The google developed `Guice`. But it used `reflection`. Reflection is an API which is used to examine or modify the behavior of methods, classes, interfaces at runtime.
 - In Guice stack trace was difficult to read because of many subclass created.
 - Also since everything was done at runtime, we can only verify DI by running the app.
@@ -145,7 +154,7 @@ scope of activity.
 ### Dagger
 - Dagger has three components, `module`, `component` and `Any classe` which needs dependency.
 - Module(`@Module`/`@Provides`) is dependency provider/creator.
-- Component(`@Component`)) is dependency manager.
+- Component(`@Component`) is dependency manager.
 - Any class(`@Inject`) is dependency consumer.
 - 
 
