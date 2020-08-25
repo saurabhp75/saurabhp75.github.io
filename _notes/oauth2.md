@@ -47,7 +47,7 @@ Simple login: Forms and cookes.
 ![Identitiy use cases today](/assets/images/oauth2/identity_use_cases_today.jpg)
 
 ## Oauth2 Flows
-![Oauth2 Flows](/assets/images/oauth2/oauht2_flows.jpg)
+![Oauth2 Flows](/assets/images/oauth2/oauth2_flows.jpg)
 
 ## Oauth2 code Flow
 ![Oauth2 code Flow](/assets/images/oauth2/oauth_code_flow.jpeg)
@@ -87,7 +87,7 @@ Simple login: Forms and cookes.
 ![The ID token](/assets/images/oauth2/jwt_structure.jpg)
 
 ## ID Token(JWT) in debugger
-![ID TOken(JWT) in debugger](/assets/images/oauth2/jwt_structur1.jpg)
+![ID TOken(JWT) in debugger](/assets/images/oauth2/jwt_structure1.jpg)
 
 ## Implicit Flow example
 ![Implicit Flow example](/assets/images/oauth2/implicit_flow_example.jpg)
