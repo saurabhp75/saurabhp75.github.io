@@ -80,8 +80,11 @@ Simple login: Forms and cookes.
 ## OpenID connect autherization code flow
 ![openID flow](/assets/images/oauth2/openid_flow.jpg)
 
+## ID token in code/json
+![ID token in code/json](/assets/images/oauth2/)
+
 ## Anatomy of ID token (JWT) in OpenID
-![The ID token](/assets/images/oauth2/id_token_jwt.jpg)
+![The ID token](/assets/images/oauth2/jwt_structure.jpg)
 
 ## ID Token(JWT) in debugger
 ![ID TOken(JWT) in debugger](/assets/images/oauth2/jwt_structur1.jpg)
