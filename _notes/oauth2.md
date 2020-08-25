@@ -40,11 +40,23 @@ Simple login: Forms and cookes.
 ## Callabck step
 ![Callabck step](/assets/images/oauth2/callback_step.jpg)
 
-## Identitiy use cases Pre 2014
-![Identitiy use cases Pre 2014](/assets/images/oauth2/use_cases_pre2014.jpg)
+## Identity use cases Pre 2014
+![Identity use cases Pre 2014](/assets/images/oauth2/use_cases_pre2014.jpg)
 
-## Identitiy use cases today (with openID)
-![Identitiy use cases today](/assets/images/oauth2/identity_use_cases_today.jpg)
+## Problems with Oauth2 Authentication
+- Oauth2 was primarily designed for authorization. As there is no standard way of getting user's information.
+- No standard way to get user's information.
+- Every implementation is little different.
+- No common set of scopes.
+
+## What OpenID connect adds
+- ID token.
+- UsertInfo endpoint for getting more user information.
+- Standard set of scopes.
+- Standardized implementation.
+
+## Identity use cases today (with openID)
+![Identity use cases today](/assets/images/oauth2/identity_use_cases_today.jpg)
 
 ## Oauth2 Flows
 ![Oauth2 Flows](/assets/images/oauth2/oauth2_flows.jpg)
@@ -59,18 +71,6 @@ Simple login: Forms and cookes.
 ## Oauth2 Implicit flow
 ![Oauth2 Implicit flow](/assets/images/oauth2/implicit_flow_detailed.jpg)
 
-## Problems with Oauth2 Authentication
-- Oauth2 was primarily designed for authorization. As there is no standard way of getting user's information.
-- No standard way to get user's information.
-- Every implementation is little different.
-- No common set of scopes.
-
-## What OpenID connect adds
-- ID token.
-- UsertInfo endpoint for getting more user information.
-- Standard set of scopes.
-- Standardized implementation.
-
 ## OpenID stack
 ![OpenID stack](/assets/images/oauth2/http_oauth2_openid.jpeg)
 
@@ -81,7 +81,7 @@ Simple login: Forms and cookes.
 ![openID flow](/assets/images/oauth2/openid_flow.jpg)
 
 ## ID token in code/json
-![ID token in code/json](/assets/images/oauth2/)
+![ID token in code/json](/assets/images/oauth2/id_token_jwt.jpg)
 
 ## Anatomy of ID token (JWT) in OpenID
 ![The ID token](/assets/images/oauth2/jwt_structure.jpg)
