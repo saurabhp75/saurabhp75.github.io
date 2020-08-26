@@ -5,10 +5,10 @@ excerpt: "Intro to Oauth2"
 ---
 
 ### Enterprise authentication solution
-SAML protocol: Single sign on(SSO) across sites.
+`SAML protocol`: Single sign on(SSO) across sites.
 
 ### Legacy authentication solution
-Simple login: Forms and cookes.
+`Simple login`: Forms and cookes.
 
 ### What problem does Oauth2 address
 - Delegated authorization problem.
@@ -32,13 +32,33 @@ Simple login: Forms and cookes.
 
 ### Network security terminology:
 - `Back channel`: Highly secure channel, for eg. from a backend server to resource server. The secret key/application id/ access token is never known to and sent from the front channel.
-- `Front channel`: Less secure channel, for eg. browser. We cannot put a key in html or is of the web app as anyone can view the source. It is used to interact with the user or resource owner.
+- `Front channel`: Less secure channel, for eg. browser. We cannot put a key in html or javascript of the web app as anyone can view the source. It is used to interact with the user or resource owner.
 
-## Authorization grant types
-![Authorization grant types](/assets/images/oauth2/grant_types.jpg)
 
-## Callabck step
-![Callabck step](/assets/images/oauth2/callback_step.jpg)
+## Oauth2 Flows
+![Oauth2 Flows](/assets/images/oauth2/oauth2_flows.jpg)
+
+## Oauth2 authorization code Flow
+![Oauth2 code Flow](/assets/images/oauth2/oauth_code_flow.jpeg)
+
+## Note
+- `state` is used to prevevnt CSRF.
+- The client registers with authorization server and gets `client ID` and `client secret` which are later used in front and back channel communication respectively. It also has to specify `redirect URI/Callback`.
+
+## Starting the Oauth2 code flow
+![Starting the flow](/assets/images/oauth2/starting_flow.jpg)
+
+## Calling back
+![Starting the flow](/assets/images/oauth2/starting_flow.jpg)
+
+## Exchange the code for access token
+![Exchange code for token](/assets/images/oauth2/xchange_code_for_token.jpg)
+
+## Access token from server
+![Exchange code for token](/assets/images/oauth2/access_token.jpg)
+
+## Use the access token
+![Exchange code for token](/assets/images/oauth2/use_token.jpg)
 
 ## Identity use cases Pre 2014
 ![Identity use cases Pre 2014](/assets/images/oauth2/use_cases_pre2014.jpg)
@@ -58,39 +78,41 @@ Simple login: Forms and cookes.
 ## Identity use cases today (with openID)
 ![Identity use cases today](/assets/images/oauth2/identity_use_cases_today.jpg)
 
-## Oauth2 Flows
-![Oauth2 Flows](/assets/images/oauth2/oauth2_flows.jpg)
-
-## Oauth2 code Flow
-![Oauth2 code Flow](/assets/images/oauth2/oauth_code_flow.jpeg)
-
-## Note
-- `state` is used to prevevnt CSRF.
-- The client registers with authorization server and gets `client ID` and `client secret` which are later used in front and back channel communication respectively. It also has to specify `redirect URI/Callback`.
-
-## Oauth2 Implicit flow
-![Oauth2 Implicit flow](/assets/images/oauth2/implicit_flow_detailed.jpg)
-
 ## OpenID stack
 ![OpenID stack](/assets/images/oauth2/http_oauth2_openid.jpeg)
 
 ## Oauth2 vs OpenID
 ![Oauth2 with OpenID](/assets/images/oauth2/oauth2_openid.jpg)
 
-## OpenID connect autherization code flow
+## OpenID connect authorization code flow
 ![openID flow](/assets/images/oauth2/openid_flow.jpg)
+
+## Starting OIDC flow
+![Starting OIDC](/assets/images/oauth2/starting_oidc.jpg)
+
+## Exchange code for access token and ID token
+![Starting OIDC](/assets/images/oauth2/code_for_tokenid.jpg)
+
+## Auth server returns access and ID tokens
+![Return token and ID](/assets/images/oauth2/tokenid_return.jpg)
+
+## ID token (aka JWT) in OpenID
+![The ID token](/assets/images/oauth2/jwt_structure.jpg)
 
 ## ID token in code/json
 ![ID token in code/json](/assets/images/oauth2/id_token_jwt.jpg)
 
-## Anatomy of ID token (JWT) in OpenID
-![The ID token](/assets/images/oauth2/jwt_structure.jpg)
-
 ## ID Token(JWT) in debugger
 ![ID TOken(JWT) in debugger](/assets/images/oauth2/jwt_structure1.jpg)
 
-## Implicit Flow example
-![Implicit Flow example](/assets/images/oauth2/implicit_flow_example.jpg)
+## Calling user info endpoint
+![Calling user info endpoint](/assets/images/oauth2/user_info_endpoint.jpg)
+
+## Oauth2 Implicit flow
+![Oauth2 Implicit flow](/assets/images/oauth2/implicit_flow_detailed.jpg)
+
+## Which authorization grant type (flow) to use
+![Authorization grant types](/assets/images/oauth2/grant_types.jpg)
 
 ## Server flow example
 ![Server flow example](/assets/images/oauth2/server_flow_example.jpeg)
@@ -98,7 +120,21 @@ Simple login: Forms and cookes.
 ## Mobile flow example
 ![Mobile flow example](/assets/images/oauth2/mobile_flow_example.jpg)
 
+## Implicit Flow example
+![Implicit Flow example](/assets/images/oauth2/implicit_flow_example.jpg)
+
 ### Third party(SAML) integration example
 ![Third party integration example](/assets/images/oauth2/sso_third_party.jpg)
+
+## Token validation
+- `Local validation`: The fast way. 
+  - Check expiration timestamp.
+  - Validate cryptographic signature.
+- `Introspection`: The strong way.
+
+## Keeping user signed in
+For both local validation and introspection, the token is invalid once it expires
+- If there is user at keyboard, just redirect him to authorization server.
+- If there is no user(automated tasks), request a refresh token(offline scope).
 
 **Note:** Using `okta` you can spin your own authorization server in the cloud.
