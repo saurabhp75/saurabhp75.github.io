@@ -45,7 +45,7 @@ excerpt: "Intro to Oauth2"
 - `state` is used to prevevnt CSRF.
 - The client registers with authorization server and gets `client ID` and `client secret` which are later used in front and back channel communication respectively. It also has to specify `redirect URI/Callback`.
 
-## Starting the Oauth2 code flow
+## Starting the Oauth2 authorization code flow
 ![Starting the flow](/assets/images/oauth2/starting_flow.jpg)
 
 ## Calling back
@@ -120,8 +120,17 @@ excerpt: "Intro to Oauth2"
 ## Mobile flow example
 ![Mobile flow example](/assets/images/oauth2/mobile_flow_example.jpg)
 
+## Authorization code with PKCE part1
+![Authorization code with PKCE part1](/assets/images/oauth2/authcode_with_pkce1.jpg)
+
+## Authorization code with PKCE part2
+![Authorization code with PKCE part2](/assets/images/oauth2/authcode_with_pkce2.jpg)
+
 ## Implicit Flow example
 ![Implicit Flow example](/assets/images/oauth2/implicit_flow_example.jpg)
+
+## Oauth discovery
+![Oauth discovery](/assets/images/oauth2/oauth_discovery.jpg)
 
 ### Third party(SAML) integration example
 ![Third party integration example](/assets/images/oauth2/sso_third_party.jpg)
