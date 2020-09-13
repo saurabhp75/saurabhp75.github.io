@@ -42,7 +42,7 @@ excerpt: "Intro to Oauth2"
 ![Oauth2 code Flow](/assets/images/oauth2/oauth_code_flow.jpeg)
 
 ## Note
-- `state` is used to prevevnt CSRF.
+- `state` is used to prevent CSRF.
 - The client registers with authorization server and gets `client ID` and `client secret` which are later used in front and back channel communication respectively. It also has to specify `redirect URI/Callback`.
 
 ## Starting the Oauth2 authorization code flow

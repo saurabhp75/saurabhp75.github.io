@@ -29,6 +29,10 @@ $ git remote add origin git@github.com:saurabhp75/ytechlabs.git
 ### To remove a specific file from staged area
 ```shell
 $ git rm --cached <file_name>
+
+$ git reset filename # alternate command
+
+$ git reset HEAD # to remove all files from index
 ```
 
 ### Type of diffs
