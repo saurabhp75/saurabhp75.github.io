@@ -122,17 +122,18 @@ scope of activity.
 - This context is the application context and can be used similar to the application
 - Context. This can be accessed via the `getContext()` method.
 
- ### When to use which Context?
+### When to use which Context?
 - In case of Singleton(lifecycle is attached to the application lifecycle) for eg Db instance, always use the Application Context.
 - Whenever you are in Activity, for any UI operations like showing toast, dialogs, and etc, use the Activity Context.
 
 
 ### Dependency Injection
-- Dependencies are class instances required by a class to function.
+- Dependencies are class instances(for eg. network service or db) required by a class to function.
 - We never create Application, activity and service instance in an android app. They are provided to us by Android OS. We do not have access to their constructor. We cannot provide dependencies to them via constructor. So we have to think differently to tackle DI in an android app.
 - We do however create fragments in an android app.
 - Two types of DI, `constructor injection` and `field injection`.
 - Field injection is used when we don't have access to constructor of a class.
+- We can manually handle DI by creating a structure called `Dependency component`.
 
 ### Disadvantages of not using DI
 - No Configurability, the configuartion is hard coded while creating the dependencies.
@@ -151,12 +152,13 @@ scope of activity.
 - The class need not create its dependency, but it will be provided via constructor.
 - Bottoms up instead of top down.
 
-### Dagger
-- Dagger has three components, `module`, `component` and `Any classe` which needs dependency.
-- Module(`@Module`/`@Provides`) is dependency provider/creator.
-- Component(`@Component`) is dependency manager.
+
+
+### Dagger architecture
+- Dagger has three components, `module`, `component` and `Any class` which needs dependency.
+- Module(`@Module`/`@Provides`) is dependency provider/creator. It has method to provide the instance/dependency.
+- Component(`@Component`) is dependency manager. It helps in communicating between the `module` and `dependency consumer`.
 - Any class(`@Inject`) is dependency consumer.
-- 
 
 ### Recycler View
 - Dynamic view, view group.
