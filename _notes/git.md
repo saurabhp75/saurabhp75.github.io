@@ -20,6 +20,7 @@ $ git clean -fd
 $ git config user.name "saurabhp75"
 $ git config user.email "saurabhp75@gmail.com"
 $ git remote add origin git@github.com-saurabhp75:saurabhp75/repo-name.git
+$ git push -u origin master
 ```
 ### To add a remote github to local repo
 ```shell
