@@ -127,6 +127,11 @@ scope of activity.
 - Whenever you are in Activity, for any UI operations like showing toast, dialogs, and etc, use the Activity Context.
 
 
+### Annotations in Android/Java
+- Annotations are metadata that gives information about other data(code).
+- For eg. `@override` annotaion tells the IDE about the details of method being overriden. We can omit this annotation.
+- Annotations are implemented using interfaces.
+
 ### Dependency Injection
 - Dependencies are class instances(for eg. network service or db) required by a class to function.
 - We never create Application, activity and service instance in an android app. They are provided to us by Android OS. We do not have access to their constructor. We cannot provide dependencies to them via constructor. So we have to think differently to tackle DI in an android app.
@@ -151,7 +156,6 @@ scope of activity.
 ### Inversion of control
 - The class need not create its dependency, but it will be provided via constructor.
 - Bottoms up instead of top down.
-
 
 
 ### Dagger architecture
