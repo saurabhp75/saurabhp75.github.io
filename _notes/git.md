@@ -24,7 +24,7 @@ $ git push -u origin master
 ```
 ### To add a remote github to local repo
 ```shell
-$ git remote add origin git@github.com:saurabhp75/ytechlabs.git
+$ git remote add origin git@github.com-saurabhp75:saurabhp75/repo-name.git
 ```
 
 ### To remove a specific file from staged area
@@ -300,7 +300,7 @@ $ git reflog #shows the logs in order they were referenced? the reset can be und
 $ git revert hashname #reates a new commit to undo the change
 ```
 
-### git stash indexes can bde used across branches
+### git stash indexes can be used across branches
 ```shell
 $ git stash save "message"
 $ git stash list
@@ -314,48 +314,3 @@ $ git stash drop clear #clear the stash stack
 ```shell
 $ git stash save->git pop->git add->git commit
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
