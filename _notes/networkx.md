@@ -4,12 +4,11 @@ title: "Networkx"
 excerpt: "Intro to Networkx"
 ---
 
-Network : 
+Network :
 
 useful for modelling relationships between entities.
 
-by modelling data as a network we gain an insight into 
-
+by modelling data as a network we gain an insight into
 
 insights :
 
@@ -21,13 +20,14 @@ nw structure (graph) :
 nodes
 edges
 
-Note :  node and edges can have metadata associated with them.
+Note : node and edges can have metadata associated with them.
 
 networkX (python library)
 
 to manipulate, analyse and model graph data.
 
 ####
+
 import networkx as nx
 
 g = nx.graph()
@@ -38,24 +38,10 @@ g.nodes()
 
 g.add_edge(1,2) # add egde bewteen 1 and 2.
 
-g.edges() # shows list of edges(tuple of nodes forming edge) 
+g.edges() # shows list of edges(tuple of nodes forming edge)
 
 [(1,2)]
-
 
 #Adding a metadata to node
 
 g.node[1]['label'] = 'blue'
-
-
-
-
-
-
-
-
-
-
-
-
-

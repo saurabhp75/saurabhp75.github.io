@@ -4,11 +4,72 @@ title: "ReactJS"
 excerpt: "Intro to ReactJS"
 ---
 
-**JSX**: it's like XML, every tag needs to be closed, <br /> and not <br>.
 
-React component names must be capitalized.
+- **JSX**: it's like XML, every tag needs to be closed, &lt;br/&gt; and not &lt;br&gt;.
+- We write JSX code which is transformed into HTML & JS by React library.
+- React app is made up of components
+- React component is a function returning JSX code.
+- React component is a custom html element.
+- All components are rendered under the `App` component.
+- React component has it's own folder under `components` folder.
+- React is declarative, you don'e have to add text to an element and append it manually.
+- They start with capital letter to distinguish them from regular html tags.
+- Should return only one root component in the return statement.
+- In js a statement can span multiple lines if enclosed in round brackets.
+- React component names must be capitalized.
+- The official name of the Javascript standard is **ECMAScript**.
+- /src/index.js will be the first file to be executed in a react app.
+- Only /public/index.html file will be delivered to the browser.
+- React.createElement('div', properties_object, child1, child2.....);
 
-The official name of the Javascript standard is **ECMAScript**.
+### Declarative vs Imperative
+- React is declarartive.
+- In React we define target component state and React does that for us under the hoods.
+
+### Container component
+- Contains other components in opeing and closing tags.
+- They use `props.children` for the enclosing containers.
+- They are used to set the styles of children components.
+
+### React state and working with events
+- To add event listener to component, add property `onXxxx` and set it to a function.
+- Use react hooks, `useXXX`, inside the component function.
+- React hooks should not be called in any nested function.
+- Each component has its own state.
+
+## When does the component should have a state
+- When the component has data and change in the data should be reflected in UI.
+- Then the component should have a state.
+
+### Passing data from child to parent (lifting the state up)
+- Pass `onXxxx` function to the child as prop and call it from the child and pass the data.
+- Passing data between sibling components: use parent as an intermediate.
+
+## Two way binding
+- It creates a controlled component.
+- The value and changes to the value are handled in the partent component.
+
+## Scoping styles
+- Install `styled-components`.
+
+
+### Presentational vs stateful component
+### stateless vs stateful component
+### dumb vs smart component
+- One has a state and the other does not.
+- In a React app most of the components are dumb.
+
+### Debugging react apps
+- In Chrome ad breakpoint to the sources and debug.
+- Install `react dev tools` chrome extension.
+
+
+### Fragments portals and Refs
+- Div soup.
+- Wrapper/Fragment component
+
+### Effects reducers and context
+
 
 ### Component update lifecycle(when props or state change)
 1. get derived statefromprops().

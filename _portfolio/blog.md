@@ -23,6 +23,7 @@ sidebar:
 ## Simple blog site developed using Django
 
 This blog site has following functionalities:
+
 1. Account registration.
 2. Login and logout of Account
 3. Creating new post.

@@ -9,6 +9,7 @@ excerpt: "Intro to Scikit Learn"
 ## Accuracy score :
 
 ### Classification :
+
 ```python
 knn = KNeighborsClassifier(n_neighbors=8)
 knn.fit(X_train, y_train)
@@ -18,6 +19,7 @@ knn.score(X_test, y_test)
 ```
 
 ### Regression :
+
 ```python
 reg_all = linear_model.LinearRegression()
 reg_all.fit(X_train, y_train)
@@ -27,6 +29,7 @@ reg_all.score(X_test, y_test)
 ```
 
 ## Cross-validation in scikit-learn :
+
 ```python
 from sklearn.model_selection import cross_val_score
 reg = linear_model.LinearRegression()
@@ -38,6 +41,7 @@ np.mean(cv_results)
 ```
 
 ## Confusion matrix in scikit-learn :
+
 ```python
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
@@ -60,11 +64,14 @@ avg/total   0.94            0.94      0.94         174
 ```
 
 ## Logistic regression for binary classification
-Logistic regression outputs probabilities.  
-- If the probability ‘p’ is greater than 0.5:The data is labeled ‘1’.  
-- If the probability ‘p’ is less than 0.5: The data is labeled ‘0’.  
+
+Logistic regression outputs probabilities.
+
+- If the probability ‘p’ is greater than 0.5:The data is labeled ‘1’.
+- If the probability ‘p’ is less than 0.5: The data is labeled ‘0’.
 
 For eg. see code below :
+
 ```python
 logreg = LogisticRegression()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
@@ -72,8 +79,8 @@ logreg.fit(X_train, y_train)
 y_pred = logreg.predict(X_test)
 ```
 
-
 ## AUC in scikit-learn :
+
 Outputting probability instead of a label, 0 or 1 (using predict_proba)
 
 ```python
@@ -86,8 +93,8 @@ roc_auc_score(y_test, y_pred_prob)
 0.997466216216
 ```
 
-
 ## AUC using cross-validation :
+
 ```python
 from sklearn.model_selection import cross_val_score
 cv_scores = cross_val_score(logreg, X, y, cv=5, scoring='roc_auc')
@@ -98,6 +105,7 @@ print(cv_scores)
 ## Hyperparameter tuning :
 
 ### GridSearchCV in scikit-learn :
+
 ```python
 from sklearn.model_selection import GridSearchCV
 param_grid = {'n_neighbors': np.arange(1, 50)}
@@ -111,6 +119,7 @@ knn_cv.best_score_
 ```
 
 ### Randomized search in scikit learn :
+
 ```python
 from scipy.stats import randint
 from sklearn.tree import DecisionTreeClassifier
@@ -130,8 +139,8 @@ tree_cv = RandomizedSearchCV(tree, param_dist, cv=5)
 tree_cv.fit(X, y)
 ```
 
-
 ### Hold-out set reasoning :
+
 In real life, model performance is tested on never before seen data. Therefore, using ALL data for cross-validation is not ideal. So we split data into training and hold-out set at the beginning and perform grid search cross-validation on training set and then choose best hyperparameters and evaluate on hold-out set.
 
 ```python
@@ -157,7 +166,6 @@ logreg_cv.fit(X_train, y_train)
 print("Tuned Logistic Regression Parameter: {}".format(logreg_cv.best_params_))
 print("Tuned Logistic Regression Accuracy: {}".format(logreg_cv.best_score_))
 ```
-
 
 ## Pipelines
 
@@ -195,8 +203,8 @@ y_pred = pipeline.predict(X_test)
 print(classification_report(y_test, y_pred))
 ```
 
-
 ## Scaling in a pipeline :
+
 ```python
 from sklearn.preprocessing import StandardScaler
 steps = [('scaler', StandardScaler()), ('knn', KNeighborsClassifier())]
@@ -211,9 +219,8 @@ knn_unscaled.score(X_test, y_test)
 0.928
 ```
 
-
-
 ## CV and scaling in a pipeline :
+
 ```python
 steps = [('scaler', StandardScaler()), (('knn', KNeighborsClassifier())]
 pipeline = Pipeline(steps)
@@ -224,9 +231,8 @@ cv.fit(X_train, y_train)
 y_pred = cv.predict(X_test)
 ```
 
-
-
 ## Bringing it all together, pipeline for classification :
+
 ```python
 steps = [('scaler', StandardScaler()), ('SVM', SVC())]
 pipeline = Pipeline(steps)
@@ -249,7 +255,7 @@ y_pred = cv.predict(X_test)
 # Compute and print metrics
 print("Accuracy: {}".format(cv.score(X_test, y_test)))
 print(classification_report(y_test, y_pred))
-print("Tuned Model Parameters: {}".format(cv.best_params_)) 
+print("Tuned Model Parameters: {}".format(cv.best_params_))
 
 
 Bringing it all together, pipeline for regression
@@ -258,7 +264,7 @@ steps = [('imputation', Imputer(missing_values='NaN', strategy='mean', axis=0)),
          ('scaler', StandardScaler()),
          ('elasticnet', ElasticNet())]
 
-# Create the pipeline: pipeline 
+# Create the pipeline: pipeline
 pipeline = Pipeline(steps)
 
 # Specify the hyperparameter space
@@ -277,15 +283,15 @@ print("Tuned ElasticNet Alpha: {}".format(gm_cv.best_params_))
 print("Tuned ElasticNet R squared: {}".format(r2))
 ```
 
-
 ## Pandas
 
 append()  
-append(): Series & DataFrame method  
+append(): Series & DataFrame method
 
 ### Invocation:
+
 s1.append(s2)  
-Stacks rows of s2 below s1  
+Stacks rows of s2 below s1
 
 Method for Series & DataFrames
 
@@ -299,5 +305,3 @@ Using .reset_index()
 new_east = northeast.append(south).reset_index(drop=True)
 
 If we dont use reset_index(), then the indices of south df will be retained. Using drop=True, removes duplicate entries from the dataframes. Here df have only one column.
-
-
