@@ -6,12 +6,12 @@ excerpt: "Javascript Language"
 
 ### VSCode shortcuts
 
-- **Format code**: shift+alt+f.
-- **Copy line up/down**: shif+alt+up/down.
-- **Delete a line**: ctrl+shift+k.
-- ctrl+shift+up/down:
-- !: Gives HTML boilerplate (emmet).
-- lorem: gives random text (emmet). use lorem\*n for n times text.
+- **Format code**: `shift+alt+f`.
+- **Copy line up/down**: `shif+alt+up/down`.
+- **Delete a line**: `ctrl+shift+k`.
+- `ctrl+shift+up/down`:
+- `!`: Gives HTML boilerplate (emmet).
+- `lorem`: Gives random text (emmet). use lorem\*n for n times text.
 - You can trigger suggestions at any time by pressing Ctrl+Space.
 - To format HTML source code, you can use the Format Document command Ctrl+Shift+I to format the entire file or Format Selection Ctrl+K Ctrl+F to just format the selected text.
 
@@ -30,17 +30,17 @@ excerpt: "Javascript Language"
 
 # JS internals
 
-- Everything in js happens in Execution context.
+- Everything in JS happens in `Execution context`.
 - `Global execution context`:
 - `Function execution context`:
 - Return statement: goto previous execution context and delete current execution context.
-- Variable environment/memory: it has key value pairs of variables and function.
+- Variable environment/memory: It has key value pairs of variables and function.
 - Thread of execution:
-- Js is synchronous single threaded Language.
-- Lexical environment is created when execution context is created.
+- JS is synchronous single threaded Language.
+- `Lexical environment` is created when execution context is created.
 - Lexical environment is the local memory plus lexical environment of the parent.
-- Scope chain: chain of lexical environment.
-- Temporal dead zone: time between when let variable is hoisted and just prior to assignment.
+- `Scope chain`: Chain of lexical environment.
+- `Temporal dead zone`: Time between when let variable is hoisted and just prior to assignment.
 - Shrinking temporal dead zone window: moving all initialisation and declaration to top.
 - let and const are also hoisted but differently from var declarations.
 - A const has to be initialised when it is declared, otherwise it's a syntax error.
@@ -69,31 +69,38 @@ excerpt: "Javascript Language"
 
 **Note**: a variable can be redefined using var but not when using let or const.
 
-## Js event loop, call stack, callback queue
+## JS event loop, call stack, callback queue
 
-- `Web APIs`: accessible via window object.
-- Event loop takes functions from callback queue and put them in call stack if it's empty(no global execution context). It constantly monitors the two queues and callstack.
+- `Web APIs`: Accessible via window object.
+- Event loop takes functions from `callback queue` and put them in `call stack` if it's empty(no global execution context). It constantly monitors the two queues and callstack.
 - When an element is clicked multiple times, the cb function is put into cb queue multiple times.
-- `Microtask queue`: has higher priority than cb queue. It contains callbacks from promises and mutation observer.
+- `Microtask queue`: has higher priority than cb queue. It contains callbacks from promises and `mutation observer`.
 
-## Js engine:
+## JS engine:
 
 - JRE contains:
-  - js engine.
-  - callstack and twp queues.
-  - api to communicate with outside world.
+  - JS engine.
+  - callstack and twpo queues.
+  - API to communicate with outside world.
   - memory heap.
-  - GC: mark and sweep algorithm.
-- Js engine follows ecmascript standard. It is JIT compiler.
+  - Garbage Collector: Mark and sweep algorithm.
+- Js engine follows ECMAscript standard. It is JIT compiler.
 
-## Type conversion vs coercion.
+## Type conversion vs Coercion.
 
+- Type conversion is manual whereas Coersion is automatic.
 - Coercion only happens for strings, numbers and Boolean.
 - Plus (+) Operator vs other mathematical operators.
 
 ## package.json package-lock.json
 
-- syntax of package.json.
+- Syntax of package.json.
+- package.json contains more than just depenedencies. It has project properties like author, description, scripts etc.
+- package.json conatins the minimum version number which is compatible.
+- package-lock.json contains just the depenedencies. It has exact version number.
+- Difference between tilde (~) and caret (^) in `package.json`.
+- `^`: Install the latest minor version. ^1.x.x will match with 1.3.0 but not 2.0.0.
+- `~`: Install the latest patch version. ~1.2.3 will match all 1.2.x versions but it will not match 1.3.0 or 1.3.x versions.
 
 ### SEE ALL HTTP verbs:
 
@@ -104,11 +111,9 @@ excerpt: "Javascript Language"
 - Difference between SQL and NoSQL dbs.
 - Various types of NoSQL dbs.
 
-### Emmet
-
 ### Separation of concern
 
-- Structure: html
+- Structure: HTML
 - Behaviour: JS
 - Presentation: CSS
 
@@ -150,7 +155,7 @@ excerpt: "Javascript Language"
 - Syntax: var variableName = "hi"
 - Variable type can be changed after assignment.
 - camelCase.
-- naming conventions: no spaces, must not begin with number, can contain letters, digits, uniciode, `$` and `_`.
+- naming conventions: no spaces, must not begin with number, can contain letters, digits, unicode, `$` and `_`.
 
 ```javascript
 // Numbers:
@@ -181,30 +186,27 @@ let numberOfChickens = 6; //GOOD
 
 ### String built in methods
 
-- Searching within a string:
-- replacing part of string:
-- changing the case of string:
 - We can chain the methods:
-- toUpperCase()/toLowerCase(): Doesn't change the original string.
-- trim(): removes leading and trailing whitespaces, doesn't change the string.
-- string1.indexOf("string2"): gives index of str2 (first occurence) in str1 otherwise -1. Used to find if a string cotains other string.
-- str.slice(begin[,end]): Slices the string from begin to end index. begin is included but not the end in the result. If begin is negative it is treated as string.length + begin.
+- `toUpperCase()/toLowerCase(`): Changes the case of string. Doesn't change the original string.
+- `trim()`: Removes leading and trailing whitespaces, doesn't change the string.
+- `string1.indexOf("string2")`: Searches within a string. Gives index of str2 (first occurence) in str1 otherwise -1. Used to find if a string contains other string.
+- `str.slice(begin[,end])`: Slices the string from begin to end index. begin is included but not the end in the result. If begin is negative it is treated as string.length + begin.
   for eg. slice(-5) will give last 5 characters of the string.
-- str.charAt(index)
-- str.replace(str1, str2)" replace first macthing instance of str1 with str2 in the string.
-- str.replace(/-/g, "_"); //replace - by _ and returns a new string.
-- str.repeat(num): Repeat the string num times.
+- `str.charAt(index)`
+- `str.replace(str1, str2)`: Replacing part of string. Replace first matching instance of str1 with str2 in the string.
+- `str.replace(/-/g, "_")`; //replace - by \_ and returns a new string.
+- `str.repeat(num)`: Repeat the string num times.
 
 ### MATH object
 
 - Contains properties and methods for mathematical constants and funtions.
-- MATH.PI: A constant.
-- MATH.round(num): Rouns a num.
-- MATH.abs(num): Absolute value of num.
-- MATH.pow(num, exp): Raise num to exp.
-- MATH.floor(num): Removes decimal from num.
-- MATH.ceil(num): Round `up` the num.
-- MATH.random(): Gives a random decimal number between 0 and 1n non inclusive.
+- `MATH.PI`: A constant.
+- `MATH.round(num)`: Rounds a num.
+- `MATH.abs(num)`: Absolute value of num.
+- `MATH.pow(num, exp)`: Raise num to exp.
+- `MATH.floor(num)`: Removes decimal from num.
+- `MATH.ceil(num)`: Round `up` the num.
+- `MATH.random()`: Gives a random decimal number between 0 and 1n non inclusive.
 
 ### Built-in methods
 
@@ -216,10 +218,10 @@ let numberOfChickens = 6; //GOOD
 - **alert()**: Shows dialog to user
 - **prompt()**: Takes input from user as a string.
 - **type of**:
-- type of 'saurabh'; // prints "string"
-- type of 25; // prints "number"
+- `typeof 'saurabh';` // prints "string"
+- `typeof 25;` // prints "number"
 - **Number("45")**: converts to number, ie 45.
-- parseInt(string): Parse a string from a number. The string may contain traiing alphabets along with number.
+- `parseInt(string)`: Parse a string to a number. The string may contain trailing alphabets along with number.
 - **console.dir(document)**
 
 ### String literals
@@ -228,18 +230,18 @@ let numberOfChickens = 6; //GOOD
 - They use backtick and not single quote.
 - for eg `hello ${expression}`. Here the expression will be evaluated.
 
-### Including js files in html
+### Including JS files in html
 
 - {% raw %}\<script type="text/Javascript" src="path of us file">\</script>{% endraw %}
-- If your js interacts with html element then put script tag at the bottom of body, so that html elements are rendered before js loads.
+- If your JS interacts with HTML element then put script tag at the bottom of body, so that HTML elements are rendered before JS loads.
   This way the JS can interact with the loaded HTML elements.
-- The functions declared in js files can be called from chrome debug console.
+- The functions declared in JS files can be called from chrome debug console.
 
 ### Operators
 
 - +, -, +=, -+, , \*, /, %, \*\*.
 - ++, --
-- typeof: for eg typeof 4 will give "number".
+- `type of`: for eg type of 4 will give "number".
 
 ### Comparison operators
 
@@ -271,8 +273,8 @@ NaN == NaN; // false
 ### Logical operators
 
 - connects Boolean expressions.
-- `&&`, `\|\|`, `!`
-- short circuit of `&&` and `\|\|`.
+- `&&`, `||`, `!`
+- short circuit of `&&` and `||`.
 
 ### Truthy and falsey values
 
@@ -289,7 +291,7 @@ NaN == NaN; // false
 
 - false
 - 0
-- "", ''
+- "", '': Empty string
 - null, undefined, NaN.
 - everything else is truthy except above four values.
 
@@ -297,17 +299,14 @@ NaN == NaN; // false
 
 ```javascript
 // the if statement can be used without else if and else
-if() {
-} else if() {//Notice the space between else and if
-} else {
-}
+if() { }
+else if() {//Notice the space between else and if }
+else { }
 
 // Loops
-while() {
-}
+while() { }
 
-for(init; condition; step) {
-}
+for(init; condition; step) { }
 
 // for of loop ( not supported in IE)
 arr1 = [1,2,3,4,5];
@@ -328,31 +327,34 @@ switch(expression) {
 }
 ```
 
-### Functions
+## Functions
 
 - Two syntax for defining functions, viz `declaration` and `expression`.
 
-- function funcName(arg1) {
-  console.log("Hi " + arg1);
-  } // Notice no var in arg1, function declaration
-
-## function expressions
+## Function expressions
 
 - Earlier way was `function statement`.
+
 - function expression is about Storing a function in a variable.
-
-- var funcName = function(arg1) {
-  }// Function expression
-
-- funcName ("Saurabh");
-
-- funcName can be reassigned to a different value, in that case function will not be accessible.
 
 - If we fail to pass the arguments, they will be undefined, it will not break the code.
 
 - If a function does not have return statement, it returns undefined.
 
 - Only one value can be returned from a function.
+
+```javascript
+// function statement
+function funcName(arg1) {
+  console.log("Hi " + arg1);
+} // Notice no var in arg1, function declaration
+
+// function expression
+var funcName = function (arg1) {}; // Function expression
+
+// funcName can be reassigned to a different value,
+// in that case function will not be accessible.
+```
 
 ### Variable scope
 
@@ -644,12 +646,12 @@ let objClone = { ...obj };
 
 ### destructuring arrays and objects
 
-- use square brackets for arrays.
-- use curly braces for objects.
+- Use square brackets for arrays.
+- Use curly braces for objects.
 - A short clean syntax to unpack values from arrays and properties from objects.
 - Object destructuring used more often.
-- variable with same name as the key.
-- variable with different name than the key using `:`.
+- Variable with same name as the key.
+- Variable with different name than the key using `:`.
 - Variable with default value if the key not present using `=`.
 
 ### destructuring params
@@ -658,10 +660,28 @@ let objClone = { ...obj };
 - While declaring params, use curly braces to catch params.
 - we can use default values using `=`.
 
+```javascript
+let a, b, rest;
+
+// a=10, b=20
+[a, b] = [10, 20];
+
+console.log(a);
+// expected output: 10
+
+console.log(b);
+// expected output: 20
+
+[a, b, ...rest] = [10, 20, 30, 40, 50];
+
+console.log(rest);
+// expected output: Array [30,40,50]
+```
+
 ### DOM
 
-- document object model is interface between js and html-css.
-- js interacts with html using Dom.
+- Document object model is interface between JS and html-css.
+- JS interacts with html using DOM.
 - Browser converts html to js objects which can be manipulated using js.
 - Everything is stored inside document object.
 
@@ -669,7 +689,7 @@ Document>html (root element)>header and body.
 
 ### Dom manipulation workflow
 
-- select then manipulate.
+- Select then manipulate.
 
 ### NodeList, HTMLCollection, arrays of objects
 
@@ -677,28 +697,28 @@ Document>html (root element)>header and body.
 
 ### DOM object
 
-- document.URL: URL of the webpage.
-- document.links: all links on the web page.
-- document.body
-- document.head
+- `document.URL`: URL of the webpage.
+- `document.links`: all links on the web page.
+- `document.body`
+- `document.head`
 
 ### Old DOM methods
 
-- getelementbyid: return single object or null.
-- getelementsbytagname: returns html collection and not an array or empty html collection. It contains element objects.
-- getelementsbyclassname
+- `getelementbyid`: return single object or null.
+- `getelementsbytagname`: returns html collection and not an array or empty html collection. It contains element objects.
+- `getelementsbyclassname`:
 
 ### New DOM methods
 
 - **querySelector()**: selects first matching element. returns first element with matching tag, Id, class , attribute. For eg "p", "#red", ".big", a[href="URL"]
 - **querySelectorAll()**: selects all matching elements.
-  New methods for selecting elements. They take CSS selector type input.
+- New methods for selecting elements. They take CSS selector type input.
 
-- Note: console.dir(tag): displays Dom object in js notation instead of HTML notation.
+- **Note**: console.dir(tag): displays Dom object in js notation instead of HTML notation.
 
-Innerhtml:
-Innertext: content between opening and closing tags.
-Textcontent: shows everything even hidden elements.
+- Innerhtml:
+- Innertext: content between opening and closing tags.
+- Textcontent: shows everything even hidden elements.
 
 - `getattribute()`: gets info from html. Using dot notation on Dom gets the attribute from the is object.
 - `setAttribute('class', 'purple')`: Used to set the class attribute to change the style of the eelements.
@@ -1097,38 +1117,36 @@ logPokemon(); // 'Pika Chu I choose you!'
 ```javascript
 // object to be bound
 let name = {
-    firstname: "Saurabh",
-    lastname: "Prakash",
-  };
-  
-  // Function to be bound
-  let printName = function (hometown, state) {
-    console.log(
-      `${this.firstname} ${this.lastname} ${hometown} ${state}`
-    );
-  };
-  
-  // Demo of bind
-  let printMyName = printName.bind(name, "Dehradun");
-  printMyName("Uttarakhand");
-  
-  // Own implementation of bind
-  Function.prototype.mybind = function (...args1) {
-    if (typeof this !== "function") {
-      throw new Error(this + "can't be bound as it's not callable");
-    }
-  
-    let obj = this,
-    params = args1.slice(1);
-  
-    return function (...args2) {
-      obj.apply(args1[0], [params, ...args2]);
-    };
-  };
+  firstname: "Saurabh",
+  lastname: "Prakash",
+};
 
-  // test of custom implementation of bind
-  let printMyName2 = printName.bind(name, "Dehradun");
-  printMyName("Uttarakhand");
+// Function to be bound
+let printName = function (hometown, state) {
+  console.log(`${this.firstname} ${this.lastname} ${hometown} ${state}`);
+};
+
+// Demo of bind
+let printMyName = printName.bind(name, "Dehradun");
+printMyName("Uttarakhand");
+
+// Own implementation of bind
+Function.prototype.mybind = function (...args1) {
+  if (typeof this !== "function") {
+    throw new Error(this + "can't be bound as it's not callable");
+  }
+
+  let obj = this,
+    params = args1.slice(1);
+
+  return function (...args2) {
+    obj.apply(args1[0], [params, ...args2]);
+  };
+};
+
+// test of custom implementation of bind
+let printMyName2 = printName.bind(name, "Dehradun");
+printMyName("Uttarakhand");
 ```
 
 ### Asynchronous function
@@ -1847,8 +1865,9 @@ promise
 
 ```javascript
 class xyz extends baseClass {
+  //note there is no function keyword in front of constructor
   constructor() {}
-} //notice there is no function keyword in front of constructor
+}
 ```
 
 ### Polymorphism
