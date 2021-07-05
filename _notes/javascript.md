@@ -1155,13 +1155,21 @@ printMyName("Uttarakhand");
 - arrow sytax is generally used.
 - it is not a blocking function.
 
+## async and defer properties in script tag in HTML
+- Normally browser parse the HTML file, on seeing a script tag it stops the parsing and fetches the script and execures it, after that it continues with the apesing.
+- In case of `async` tag, the fetching of JS script happens in parallel and browser stops when the script is fetched, it executes the script and continues.
+- In case of `defer` tag,  thefetching of scripts happens in parallel and are executed after the browser has paesed the HTML file.
+- `async` does not maintain ther order of script execution but `defer` does.
+- So if you are fetching any unrelated script like google analytics then `async` should be used.
+- For other scripts if you don't know the depedency then it's better to use the defer tag.
+
 ### OOP in JS
 
 - OOP is a model based on objects constructed from a blueprint (classes).
 
 - JS doesn't have Built-in support for classes. We mimic classes using constructor functions. These constructor functions creates objects through the use of new keyword.
 
-- Constructor functions: creates an object/instance. Their first letter should be capitalized. They are used along with new to bind the this to the returned object.
+- `Constructor functions`: creates an object/instance. Their first letter should be capitalized. They are used along with new to bind the this to the returned object.
 
 - If a constructor function uses another constructor function (since they share common properties), then it should set the context of this when calling the other constructor function.
 
@@ -1172,11 +1180,25 @@ printMyName("Uttarakhand");
 - It adds "return this" to the end of the function which follows it.
 - It adds a property **proto** to the empty object, which links the prototype property on constructor function to empty object.
 
-### Prototypes
+### Prototype and prototype chain
 
 - It is a mechanism by which JS object inherit feature from one another.
 
-- It is a template object for eg. Aray.prototype, String.prototype.
+- Every object has __proto__ object.
+
+- The top level has null as its __proto__ object.
+
+- For eg. user created array, "arr" will have __proto__ object. Which will be same as Array.prototype.
+
+- arr.__proto__ is `Array.prototype`.
+
+- arr.__proto__.__proto__ is `Object.prototype`.
+
+- arr.__proto__.__proto__.__proto__ is null.
+
+- When we access an object's property, it is first checked in the object itself, then it's prototype chain in a heirarchical way.
+
+- It is a template object for eg. Array.prototype, String.prototype.
 
 - Every constructor function has a property named prototype, which is an object.
 
