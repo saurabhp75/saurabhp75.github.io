@@ -12,13 +12,13 @@ excerpt: "Javascript Language"
 - `ctrl+shift+up/down`:
 - `!`: Gives HTML boilerplate (emmet).
 - `lorem`: Gives random text (emmet). use lorem\*n for n times text.
-- You can trigger suggestions at any time by pressing Ctrl+Space.
-- To format HTML source code, you can use the Format Document command Ctrl+Shift+I to format the entire file or Format Selection Ctrl+K Ctrl+F to just format the selected text.
+- You can trigger suggestions at any time by pressing `Ctrl+Space`.
+- To format HTML source code, you can use the Format Document command `Ctrl+Shift+I` to format the entire file or Format Selection `Ctrl+K Ctrl+F` to just format the selected text.
 
-## strict mode in JS
+## Strict mode in JS
 
 - Usage: "use strict";
-- Used at top of file and function.
+- Used at top of file, block and function.
 
 ## Effect of strict
 
@@ -26,7 +26,7 @@ excerpt: "Javascript Language"
 - Doesn't create variable if let/var missed.
 - Cannot assign to non existent property.
 - No duplicate function arguments or object keys.
-- No with clause.
+- No `with` clause.
 
 # JS internals
 
@@ -57,9 +57,25 @@ excerpt: "Javascript Language"
 - `Code execution phase`:
 - `Call stack`: global context is stored first. Then a function context on invocation, it is removed after return statement.
 
-## Hoisting
+### Hoisting
 
 - Phenomena which enables to use the variable and function even before initialising them.
+
+### Execution context
+
+- Environment where piece of js is executed. Contains all necessary for code to be executed. For each function call an execution context is created.
+
+### Contents of execution context:
+
+- `Variable environment`: It consists of following items
+
+  - const, let and var Variables.
+  - function declarations:
+  - arguments : Passed to the function
+
+- `scope chain`: to access variables outside of the context.
+
+- `this` keyword.
 
 ### Errors in JS
 
@@ -69,47 +85,58 @@ excerpt: "Javascript Language"
 
 **Note**: a variable can be redefined using var but not when using let or const.
 
-## JS event loop, call stack, callback queue
+### JS event loop, call stack, callback queue
 
 - `Web APIs`: Accessible via window object.
 - Event loop takes functions from `callback queue` and put them in `call stack` if it's empty(no global execution context). It constantly monitors the two queues and callstack.
 - When an element is clicked multiple times, the cb function is put into cb queue multiple times.
 - `Microtask queue`: has higher priority than cb queue. It contains callbacks from promises and `mutation observer`.
 
-## JS engine:
+### JS engine:
 
 - JRE contains:
   - JS engine.
-  - callstack and twpo queues.
+  - callstack and two queues.
   - API to communicate with outside world.
   - memory heap.
   - Garbage Collector: Mark and sweep algorithm.
 - Js engine follows ECMAscript standard. It is JIT compiler.
 
-## Type conversion vs Coercion.
+### JS engine:
+
+- `Call stack`: maintain execution context. Here the code is executed.
+- `Heap`: here all objects are stored.
+
+### JS runtime (JRE)
+
+- `Js engine`:
+- `Web api`: Dom, fetch, timers etc. Available through global window object. In nodejs it is replaced by thread pool and c++ bindings.
+- `Callback queue`: queue of callback functions.
+- `event loop`: puts the callback functions into call stack when they are fired, but it first check if call stack is empty.
+
+### Scope in JS
+
+- `Scope`: place where variables are declared.
+- `Function scope`: same as variable environment of that function.
+- `Global scope`
+- `Block scope`: var declared variables don't follow this scope.only let and const. In strict mode functions are also block scoped.
+
+**Note**:
+
+- In strict mode a function called in global context has "this" as undefined. In normal mode it points to the window object.
+- Starting es6, blocks also create scope.
+- Arrow functions don't have arguments and `this` in their execution context.
+
+# JavaScript basics
+
+- Single line comment: //
+- Multi line comment: /\* \*/
+
+### Type conversion vs Coercion.
 
 - Type conversion is manual whereas Coersion is automatic.
 - Coercion only happens for strings, numbers and Boolean.
 - Plus (+) Operator vs other mathematical operators.
-
-## package.json package-lock.json
-
-- Syntax of package.json.
-- package.json contains more than just depenedencies. It has project properties like author, description, scripts etc.
-- package.json conatins the minimum version number which is compatible.
-- package-lock.json contains just the depenedencies. It has exact version number.
-- Difference between tilde (~) and caret (^) in `package.json`.
-- `^`: Install the latest minor version. ^1.x.x will match with 1.3.0 but not 2.0.0.
-- `~`: Install the latest patch version. ~1.2.3 will match all 1.2.x versions but it will not match 1.3.0 or 1.3.x versions.
-
-### SEE ALL HTTP verbs:
-
-- PUT vs PATCH: PUT replaces the representation whereas PATCH updates patially.
-
-### SQL vs No SQL
-
-- Difference between SQL and NoSQL dbs.
-- Various types of NoSQL dbs.
 
 ### Separation of concern
 
@@ -117,12 +144,9 @@ excerpt: "Javascript Language"
 - Behaviour: JS
 - Presentation: CSS
 
-### JavaScript
-
-- Single line comment: //
-- Multi line comment: /\* \*/
-
 ### 5 primitive data types
+
+- In js all values are either primitive type or an object.
 
 1. **Numbers**: Includes ALL numbers, integer and fraction.
 
@@ -144,11 +168,26 @@ excerpt: "Javascript Language"
 
 5. **undefined** : No value assigned to variable.
 
-6. Technically there are two others: **Symbol** and **BigInt**.
+6. **Symbol(ES2015)**: Unique value that cannot be changed.
 
-7. **NaN**: Numeric value that represents something that is...not a number for eg. 0/0, 1 + NaN.
+7. **BigInt(ES2020)**: an int too large to fit in number type.
+
+8. Technically there are two others: **Symbol** and **BigInt**.
+
+9. **NaN**: Numeric value that represents something that is...not a number for eg. 0/0, 1 + NaN.
 
 **Note**: null and undefined are values, not types.
+
+- Typeof null is object. Js quirk.
+- Typeof undefined is undefined.
+
+### Primitives vs. Objects (Primitive vs. Reference Types)
+
+- Objects are stored as reference types, so assigning them to a new variable will not create a copy.
+- Objects are stored in heap.
+- To create a copy of object use `Object.assign({}, sourceObj)`. It gives a shallow copy. For deepcopy use Lodash library.
+- Primitive types are stored in Execution context (call stack).
+- Assigning primitive types to a new variable and then changing it will create a copy.
 
 ### Variable
 
@@ -156,6 +195,8 @@ excerpt: "Javascript Language"
 - Variable type can be changed after assignment.
 - camelCase.
 - naming conventions: no spaces, must not begin with number, can contain letters, digits, unicode, `$` and `_`.
+- Also no reserve names like `new` or `function`.
+- Constants should be all uppercase.
 
 ```javascript
 // Numbers:
@@ -211,24 +252,22 @@ let numberOfChickens = 6; //GOOD
 ### Built-in methods
 
 - console object has lot of methods.
-- **console.log()**
-- **console.warn()**
-- **console.error()**
-- **clear()**
-- **alert()**: Shows dialog to user
-- **prompt()**: Takes input from user as a string.
-- **type of**:
-- `typeof 'saurabh';` // prints "string"
-- `typeof 25;` // prints "number"
-- **Number("45")**: converts to number, ie 45.
+  - `console.log()`:
+  - `console.warn()`:
+  - `console.error()`:
+  - `console.dir(document)`:
+- `clear()`:
+- `alert()`: Shows dialog to user
+- `prompt()`: Takes input from user as a string.
+- `Number("45")`: converts to number, ie 45.
 - `parseInt(string)`: Parse a string to a number. The string may contain trailing alphabets along with number.
-- **console.dir(document)**
 
-### String literals
+### String/Template literals
 
 - They are strings that allow embedded expressions, which will be evaluated and then turned into a literal string.
 - They use backtick and not single quote.
 - for eg `hello ${expression}`. Here the expression will be evaluated.
+- Can be used for multiline strings.
 
 ### Including JS files in html
 
@@ -241,7 +280,15 @@ let numberOfChickens = 6; //GOOD
 
 - +, -, +=, -+, , \*, /, %, \*\*.
 - ++, --
-- `type of`: for eg type of 4 will give "number".
+- `typeof`: for eg `typeof 4` will give "number".
+  - `typeof 'saurabh';` // prints "string"
+  - `typeof 25;` // prints "number"
+- Operator precedence: logical, mathematical than comparison.
+- `Conditional/ternary opeartor`: for eg. age > 18 ? "Adult" : "minor";
+- Nullish Coalescing Operator (??): Introdused in 2020.
+- Returns its RHS operand when its LHS operand is `null` or `undefined`, and otherwise returns its LHS operand. Not 0 or "".
+- For eg: const guest = numGuests ?? 10;
+- Optional chaining: `?.` return undefined for null or undefined values. It's linked to null coalescing operator.
 
 ### Comparison operators
 
@@ -293,7 +340,7 @@ NaN == NaN; // false
 - 0
 - "", '': Empty string
 - null, undefined, NaN.
-- everything else is truthy except above four values.
+- Everything else is truthy except above four values.
 
 ### Conditionals
 
@@ -335,6 +382,8 @@ switch(expression) {
 
 - Earlier way was `function statement`.
 
+- They cannot be called before they are defined, unlike function declaration.
+
 - function expression is about Storing a function in a variable.
 
 - If we fail to pass the arguments, they will be undefined, it will not break the code.
@@ -361,7 +410,7 @@ var funcName = function (arg1) {}; // Function expression
 - A global variable is accessible inside a function, if we don't use var keyword.
 - If we use var keyword inside function, a new local variable is created.
 - function scope vs global scope.
-- `block scope`: scope in a conditional or loop block.
+- `block scope`: scope in a conditional or loop block. Curly braces for object don't form a scope. arrow function defined in them have `this` of global scope.
 - `var` variables are scoped to functions but not to blocks. `let` ariables are scoped to both.
 - lexical scope: Inner function has acces to variables of outer function but not the other way round.
 
@@ -383,27 +432,52 @@ var funcName = function (arg1) {}; // Function expression
 - Value of `this` depends on the invocation context of the function it is used in.
 - When a method is invoked using doe operator, the context is the container object.
 - But when a method is invoked without the dot operator, the context may be differet (for eg Window object)
+- this does not point to a function or its variable environment.
 
-## Exception handlin in JS
+## this keyword and 4 ways to call a function.
 
-- try, catch block.
+- `method`: Owner of the method, ie object calling the method, not the object in which it is defined.
+- `global/simple function call`: undefined/window/global depending upon strict mode and also whether it's nodjs or browser.
+  - strict mode, normal function: undefined.
+  - strict mode, arrow function: window/global depending upon whether its browser or nodejs.
+- `arrow a function`: Points to this of surrounding function scope or global scope(lexical this).
+- `event listener`: Points to Dom element that handler is attached to.
+
+## Exception handling in JS
+
+- try, catch, block.
 - Used in async functions and AJAX.
 
 ### setInterval(), clearInterval()
-
-- setInterval (func1, interval). interval is in ms. Run func1 after every interval ms.
-- clearInterval(return_val_from_setInterval).
-- setInterval (function() {
-  }, interval); // using anonymous function.
 
 ### Invoking an anonymous function:
 
 - An anonymous function is not accesible, after it has been declared.
 - You need to store its value in a variable to use it later.
+- IIFE: Immediately invoked function expression. It only runs once. Used to create function scope to encapsulate variables (var).
 
+```javascript
+// IIFE
 (function() {
 console.log("Hello World");
 })()
+
+// interval is in ms. Run func1 after every interval ms.
+const setReturn = setInterval (function() {
+  }, interval); // using anonymous function.
+
+clearInterval(setReturn).
+
+
+```
+
+## Set
+
+- They are like arrays but have unique elements only..
+
+### Maps
+
+- map keys can be any type instead of only strings unlike objects.
 
 ### Iterables in JS
 
@@ -426,8 +500,11 @@ console.log("Hello World");
 ## Arrow functions
 
 - It is a compact syntax for function expressions.
+- Good for one line functions.
+- They don't have their own `this` keyword.
 - Special syntax for arrow functions with one argument.
-- implicit return: Works only if there is one expression in the body of the function
+- implicit return: Works only if there is one expression in the body of the function.
+- We should not use arrow function as an object's method, as `this` will point to the lexical scope and not the caller, ie object.
 
 ```javascript
 // function expression
@@ -574,10 +651,11 @@ splice(start, deleteCount, item1, item2, itemN);
 - console.log is an eg of method inside an object.
 - this way you can organise your code, by binding method with data. Also avoids name collision as method is accessed using object name.
 - Accessing objects:
-  bracket notation: person["name"]
-  dot notation: person.name
 
-- Brackets notation is used when key is an expression.
+  - bracket notation: person["name"]
+  - dot notation: person.name
+
+- Brackets notation is used when key is an expression/variable.
 
 ### Initialising empty object in JS
 
@@ -776,6 +854,18 @@ We can add style manually for eg tag.style.border etc, but we generally use clas
 
 ## DOM events
 
+## Debouncing and throttling
+
+- Used in performance optimization by rate limiting of function calls.
+- Debouncing: Call function/API only if the difference between two keypress is more than a certain duration for eg. 300 ms.
+
+  - It's used in search bars.
+  - In games pistol can be debounced. It will fire only if there is a certain gap between mouse clicks.
+
+- `Throttling`: Make a function/API call after a certain period of time since last call.
+  - It used to handle events like resizing.
+  - In games machine guncan be throttled. Firing rate can be controlled by throttling.
+
 ### Adding event listeners the non optimal way
 
 - Adding `onClick` property to the element in HTML.
@@ -791,8 +881,9 @@ We can add style manually for eg tag.style.border etc, but we generally use clas
 
 - It is passed to event handler callback.
 - It is used for handling keyboard events.
-- Keyboard relared events: KEYUP, KEYDOWN.
+- Keyboard relared events: keyup, keydown.
 - Keyboard event: two properties, viz `key` and `code`. Key is the char and code is the key on the board.
+- Keypress is deprecated. It is fired only for keys which provides a character value like alphanumeric keys and punctuation. But not for alt shift ctrl or meta. It is replaced by keydown event.
 
 ## Form events and preventDefault
 
@@ -806,21 +897,61 @@ We can add style manually for eg tag.style.border etc, but we generally use clas
 - `change` event: triggered on focus is changed (blur) from the input and the input has changed from previous.
 - `input` event: triggered when ever the input is changed. not triggered for shift, ctrl or arrow keys.
 
+## DOM Event propogation:
+
+- `Capturing phase`: Start at the root element viz. HTML
+- `Target phase`: Start and end at the target element. Here the even listener is generally attached.
+- `Bubbling phase`: Starts after the target phase.
+- By default events (addEventListener) can be handled in target and bubbling phase but we can change this behaviour.
+- Not all events have capturing and bubbling phase.
+
+## Event capturing/trickling
+
+- From parent to child. Order of calls is reserved.
+- Third argument (useCapture) to addEventListener decides whether to bubble or capture. By default it is false.
+- `StopPropogation`: Called on the event in the event handler. Used in child to prevent event bubbling and in parent to prevent event capturing.
+
 ## Event bubbling
 
+- It is the default.
 - The event propogates from child element to the parent element.
 - To prevent the above behaviour call `.stopPropogation()` on the event object in the child event handler callback.
 
 ## Event delegation
 
-- TO add event to non existent element, add listenet to their parents.
+- Instead of attaching event handler to child attach it to parent.
+- To add event to non existent element, add listenet to their parents.
 - This way a when a newly created child is clicked it triggers the parent's event handler.
+- It is based on event bubbling. Takes less memory due to lesser number of event listeners.
+- Also less code. But not all events are bubbled like focus or blur. Also it does not work when event propagation is disabled.
+- Behaviour pattern:
+  - Set attribute in a tag `data-uppercase`:
+  - event.target.dataset.uppercase != undefined.
+
+## DOM object hierarchy
+
+- eventTarget->Node
+- Node
+
+  - Element
+  - text
+  - Document
+
+- Element-> HtmlElement
+- HtmlElement
+
+  - Div
+  - span
+  - H1 etc.
+
+- querySelector also works on the elements, not just the document.
+- It works under the tree of the element.
 
 ## Async Javascript
 
 ### call stack
 
-- Mechanism JS interpreter uses to kepp track of its place in a script that calls multiple functions.
+- Mechanism JS interpreter uses to keep track of its place in a script that calls multiple functions.
 
 ### Web API and single thread
 
@@ -830,6 +961,35 @@ We can add style manually for eg tag.style.border etc, but we generally use clas
 - JS is single threaded: At any point of time single JS thread is running at most one line of code.
 - One way for asynchronous programming is callback functions, but it leads to callback hell.
 - For eg when we use setTimeout(), it doesn't blocks the execution.
+
+## Callback hell
+
+- Occurs when we sequence async code using callbacks.
+- Messy code.
+- Hard to maintain code.
+- Using promise we can chain the sequence of async calls, instead of nesting.
+- Using promise we can better handle the exceptions.
+
+- XMLHttpRequest() uses callbacks for handling requests.
+
+- Fetch() uses promises for handling requests.
+
+## then and finally method in promise
+
+- then() method always return a promise whether we explicitly return promise or not.
+- then method akes two functions as argument, first is for fulfillment of promise and the second is for rejection.
+- Alternatively, we can catch error in a promise chain by having a catch function at the end of the chain.
+- Whatever value we return from promise will become value returned when a promise is fulfilled.
+- finally() method will be called in all cases, whether a promise is fulfilled or not.
+
+### Manually creating a promise.
+
+### Running promises in parallel
+
+- Promise.all(): Short circuits if any promise is rejected.
+- Promise.race(): Returns when any promise is resolved or rejected.
+- Promise.allSettled() (ES2020): Returns when all promises are either resolved orrejected.
+- Promise.any() (ES2021): Returns when any promise is fulfilled.
 
 ## Callback hell
 
@@ -882,7 +1042,7 @@ fakeRequest("/dogs/1")
 - Newer and cleaner syntax to work with async code.
 - Better syntax than promise.
 - async function always return a promise.
-- If a function rteturns a value the promise will be resolved with that value.
+- If a function returns a value the promise will be resolved with that value.
 - If the function throws an exception, the promise will be rejected.
 - `await` keyword can only be used inside the functions declared with `async` keyword.
 - `await` will pause the execution of the function, waiting for a promise to be resolved. When the promise is resolved, a value is returned.
@@ -915,8 +1075,8 @@ async function login() {
 
 - APIs send info in the JSON format.
 - APIs return a string of JSON.
-- Use JSON.parse(data) to return a JS object.
-- Use JSON.stringify(object) to convert to JSON string.
+- Use JSON.parse(data): Convert JS object from a (JSON)string.
+- Use JSON.stringify(object): Convert JS object to string.
 - JSON is similar to JS object, but the key is a double quoted string.
 
 ## HTTP status code
@@ -1061,8 +1221,6 @@ In jQuery, you don't need for loop when manipulating a selection, unlike vanilla
 
 - `slideToggle()`:
 
-### Intermediate js
-
 ### this keyword
 
 - Global context: when this is not inside of a declared object. this refers to global object(window in case of browser). Any vat declared in global scope is attached to window object.
@@ -1110,9 +1268,47 @@ var logPokemon = pokemonName.bind(pokemon);
 logPokemon(); // 'Pika Chu I choose you!'
 ```
 
+### What is currying
+
+Currying is a technique of evaluating function with multiple arguments,
+into sequence of functions with single argument.In other words, when a function,
+instead of taking all arguments at one time, takes the first one and return a new
+function that takes the second one and returns a new function which takes the third one,
+and so forth, until all arguments have been fulfilled.
+
+- two ways to implement currying in JS:
+
+  1. Using bind function
+
+  2. Using closures.
+
+```javascript
+// function currying using bind
+function multiply(x, y) {
+  console.log(x * y);
+}
+
+multiplyByTwo = multiply.bind(this, 2);
+multiplyByThree = multiply.bind(this, 3);
+
+multiplyByTwo(10);
+
+// function currying using closures
+function multiply(x) {
+  return function (y) {
+    console.log(x * y);
+  };
+}
+
+multiplyByTwo = multiply(2);
+multiplyByThree = multiply(3);
+
+multiplyByTwo(4);
+```
+
 ## Polyfill for bind() method
 
--
+- Polyfill is used to implement the methods not available in the browsers.
 
 ```javascript
 // object to be bound
@@ -1156,14 +1352,63 @@ printMyName("Uttarakhand");
 - it is not a blocking function.
 
 ## async and defer properties in script tag in HTML
+
 - Normally browser parse the HTML file, on seeing a script tag it stops the parsing and fetches the script and execures it, after that it continues with the apesing.
 - In case of `async` tag, the fetching of JS script happens in parallel and browser stops when the script is fetched, it executes the script and continues.
-- In case of `defer` tag,  thefetching of scripts happens in parallel and are executed after the browser has paesed the HTML file.
+- In case of `defer` tag, the fetching of scripts happens in parallel and are executed after the browser has paesed the HTML file.
 - `async` does not maintain ther order of script execution but `defer` does.
 - So if you are fetching any unrelated script like google analytics then `async` should be used.
 - For other scripts if you don't know the depedency then it's better to use the defer tag.
 
 ### OOP in JS
+
+- Each object in JS is linked to a prototype object.
+- Object inherit methds and properties from protype, this is called protypal inheritance.
+- Normally in other language one class inherits from the other class.
+- In JS an instance inherits from a class, which is different.
+- In other languages themethods are copied from class to all insrtances.
+- But in JS the method(behaviour) is delegated to the linked prototype object.
+
+## Three ways to create classes in JS
+
+- Constructor functions: Cretae objects from functions.
+
+  - Arrow functions cannot be used as constructor functions as they don't have own `this`.
+  - They look like a normal function, except that they must be invoked with new keyword.
+  - Every function in JS has prototype property, including the constructor function.
+
+- ES6 classes: Syntactic sugar for constructor functions. Modern approach.
+
+- Object.create(): Simplest way to link an object to prototype object. Not used much.
+- manually set the prototype.
+
+**Note**: object1.hasOwnProperty('age'), checks if object1 has own(not from proto chain) property 'age'.
+
+- Classes are not hoisted, unlike functions.
+- Classes are also first class citizens.
+- Body of class is executed in strict mode.
+
+### getter and setter
+
+- They exist for both classes and objects.
+- Use `set` and `get` keyword in function declaration.
+
+### Static methods in JS
+
+- Declare a function directly on the constructor function instead of the prototype.
+- Or use static keyword in function declaration in the class.
+
+## Inheritance between classes in JS
+
+- Using contructor functions.
+- Using ES6 classes: Use extends keyword.
+- Using Object.create
+
+## Encapsulation in JS
+
+- Currently its done only by convention, using underscore.
+- Protected properties and methods.
+- Private class fields and methods.
 
 - OOP is a model based on objects constructed from a blueprint (classes).
 
@@ -1176,25 +1421,26 @@ printMyName("Uttarakhand");
 ### new keyword does four things
 
 - It creates an empty object.
-- It sets the keyword this to be that empty object.
+- It sets the keyword `this` to be that empty object.
 - It adds "return this" to the end of the function which follows it.
 - It adds a property **proto** to the empty object, which links the prototype property on constructor function to empty object.
+- The `constructor` property on prototype property points back to the function itself.
 
 ### Prototype and prototype chain
 
 - It is a mechanism by which JS object inherit feature from one another.
 
-- Every object has __proto__ object.
+- Every object has **proto** object.
 
-- The top level has null as its __proto__ object.
+- The top level has null as its **proto** object.
 
-- For eg. user created array, "arr" will have __proto__ object. Which will be same as Array.prototype.
+- For eg. user created array, "arr" will have **proto** object. Which will be same as Array.prototype.
 
-- arr.__proto__ is `Array.prototype`.
+- arr.**proto** is `Array.prototype`.
 
-- arr.__proto__.__proto__ is `Object.prototype`.
+- arr.**proto**.**proto** is `Object.prototype`.
 
-- arr.__proto__.__proto__.__proto__ is null.
+- arr.**proto**.**proto**.**proto** is null.
 
 - When we access an object's property, it is first checked in the object itself, then it's prototype chain in a heirarchical way.
 
@@ -1214,7 +1460,7 @@ printMyName("Uttarakhand");
 
 ## OOP using contructor functions
 
-- This approach has been replaced by classes.
+- This approach has been replaced by ES6 classes.
 
 ```javascript
 // OOP using contructor functions
@@ -1340,368 +1586,12 @@ Is Object.prototype the root object?
 
 - Closure can implement a private variable which is not supported in js natively.
 
-# Node
-
-It is a runtime base on google chrome v8 engine.
-
-## Node process and argv
-
-- process is a built in module.
-- process is a global object which gives access to process related features for eg. process.cwd().
-- process.argv: gives an array of command line arguments when node.js process was launched.
-
-## Node file system module
-
-- `fs` module: use to work with file system.
-- fs is not built in and has to be included using `require('fs')`.
-
-## Node and npm
-
-- `require()` and `module.exports =`
-- requiring a directory: Node look for index.js file in a directory and get exports from it.
-- You can instal `packages` using npm i package name.
-- The package is installed in node_modules folder under the current directory.
-- `package-lock.json`: Conent of the node_modules directory. Don't touch it.
-
-## npm, local vs global package installation
-
-- npm installs packages in local folder by default.
-- To install a package globall, use `npm i -g packagename`.
-- To require global packages in your JS file. Do `npm link packagename`.
-
-## package.json file
-
-- Contains metadata and dependencies about a package.
-- It is created using npm init. shortcut is `npm init -y`.
-- Whenever we install a package usig npm i, it is added as dependency in package.json.
-- In older versions of npm we had to do npm i --save to include package in package.json.
-- When we share our package, we don't share node_modules folder, but package.json.
-- Whe some use npm install, it will install all packages in the package.json file.
-
-## Library vs framework
-
-- On library you have the control.
-- In framework the control is inverted. The control is with framework.
-- Framework tells where to put the code.
-
-## Express
-
-- Web dev framework, unopinionated, minimal framework.
-- Starts up a server to listen for requests.
-- working with Query string: Parse incoming request using req.parse() to parse query string.
-- App.use(): Handles all paths. use to add middleware.
-- `*`: This route Catch all request
-- Working with Params: parsing the variable path using req.params()
-- Nodemon: No need to rstart nodejs server when any file changes. Just refresh the page.
-- Handling assets in express: `app.use(express.static('public'))`.
-- ejs partials: Include html/ejs files
-- ejs: use `<%= %>` to add escaped html and `<% %>` to add JS code. Use `<%- %>` to add unescaped HTML.
-
-## Get vs Post request
-
-- get is used to retrieve info
-- data is sent via query string (a string starting with ? and params seperated by &)
-- Info is plainly visible in url.
-- limited amount of data can be sent.
-
-- post is used to post data to the server.
-- used to write/create/update.
-- data is sent via request body and not query string.
-- can send any sort of data (json).
-
-## Passing variabler to ejs template
-
-- res.render('template-name', {key[: value]})
-
-## Handling variable paths
-
-- Use `:variable` in the route.
-- Use `request.params` to extract the variable.
-
-## Handling get request from forms in express
-
-- Extract query params usring `req.query` property.
-
-## Handling post request from forms in express
-
-- Handling post request: Use req.body() to retrieve data. also include the middleware.
-- Use middleware: `app.use(express.urlencoded({ extended: true }))`
-
-## Handling posting of json data
-
-- Handling post request: Use req.body() to retrieve data. also include the middleware.
-- Use middleware: `app.use(express.json()) // for parsing application/json`
-
-## Enable PUT and PATCH verbs in the forms
-
-- Install `method-override` using npm.
-
-## Redirect
-
-- res.redirect('/comments').
-
-## What is REST
-
-- Representational state transfer.
-- Set of guidlines for client server communication.
-- We need this guidline to create restful routes.
-- Path/route is based on resource (on the server).
-- HTTP verbs: GET, PUT/PATCH, PATCH, DELETE.
-
-1. Client–server architecture
-2. Statelessness: no session information is retained by the server. Every http reuest is independent.
-3. Cacheability: clients and internediaries can cache data. Response should contain info if it is cachable or not.
-4. Layered system: There can be proxies and load balancers between client and server. They are not visible to client.
-5. Code on demand (Optional): Client side scripts, server can transfer executable scripts to the clients.
-6. Uniform interface
-
-### RESTFul routes
-
-| **Description**               | **Route** | **Method**         |
-| :---------------------------- | :-------- | :----------------- |
-| Display all comments          | GET       | /comments          |
-| Display details of a comments | GET       | /comments/:id      |
-| Add a comment                 | POST      | /comments          |
-| Form to add new comment       | GET       | /comments/new      |
-| Update a comment              | PUT/PATCH | /comments/:id      |
-| Form to update a comment      | GET       | /comments/:id/edit |
-| Delete a comment              | DELETE    | /comments/:id      |
-
-# Mongo DB
-
-## BSON
-
-- Binary JSON.
-- Faster than JSON.
-- Support more data types.
-
-## Inserting into mongo db
-
-- A db contains many colections.
-- Entry in the collection need not follow any schema.
-- We insert data into collections.
-- Inserting into a non existent collection will create it.
-
-1. db.collection.insertOne(): Inserts a single document into a collection.
-2. db.collection.insertMany(): inserts multiple documents into a collection.
-3. db.collection.insert(): inserts a single document or multiple documents into a collection.
-
-- Create a new db: `use dbname` create if not already existing.
-- Show dbs: `show dbs`
-- Show current db: `db`
-- Show collections: `show collections`
-
-- Show items in collection: `db.collectionName.find()`
-
-## Quering mongo db
-
-- `db.collection.find({breed: "Corgy"})`
-- `db.collection.findOne({breed: "Corgy"})`
-- find returns a cursor whereas findOne returns actual item.
-
-## Updating mongodb
-
-- Consist of two steps, first find and then update.
-
-- `db.collection.updateOne()`: Updates at most a single document that match a specified filter even though multiple documents may match the specified filter.
-
-- `db.collection.updateMany()`: Update all documents that match a specified filter.
-
-- `db.collection.replaceOne()`: Replaces at most a single document that match a specified filter even though multiple documents may match the specified filter.
-
-```json
-db.restaurant.updateOne(
-      { "name" : "Central Perk Cafe" },
-      { $set: { "violations" : 3 } }
-   );
-```
-
-## Deleting in mongo db
-
-- `db.collection.deleteOne()`: Delete at most a single document that match a specified filter even though multiple documents may match the specified filter.
-- `db.collection.deleteMany()`: Delete all documents that match a specified filter.
-- `db.collection.remove()`: Delete a single document or all documents that match a specified filter.
-
-```json
- db.orders.deleteOne( { "_id" : ObjectId("563237a41a4d68582c2509da") } );
-
-```
-
-## delete everything in a collection
-
-- `db.dogs.deleteMany({})` : Delete everything from dogs collection.
-
-## Additional mongo operators
-
-- `gt`, `lt`, `in`, `nin`, `ne`.
-
-## Mongoose
-
-- It is ODM (object database mapper).
-- The classes represents a collection.
-- Mongoose provides methods for the model class object, once it is created.
-- First create a schema, then define a model.
-
-## Mongoose model operations
-
-- InsertMany().then()
-- find().then()
-- findById().then()
-- updateOne().then()
-- updateMany()
-- update() : If we want the updated document back, we should use the one starting with find
-- findOneAndUpdate().then()
-- findByIdAndUpdate().then()
-- remove() : If we want the updated document back, we should use the one starting with find
-- findOneAndDelete()
-- findByIdAndDelete()
-
-## Creating mongoose schema
-
-- validators and options in schema.
-- Validators don't run by default when updating, need to be enabled manually.
-
-### Mongoose instance methods
-
-- productSchema.methods.addCategory() = function (){}
-- Used to add additional functionality to update a document in the collection.
-
-### Mongoose static methods
-
-- productSchema.statics.fireSale() = function (){}
-- Used to update entire collection in one go
-
-### Mongoose virtuals
-
-- Gives ability to add properties to schema, they don't exist in db though.
-- The properties are derived from the info in db.
-- for eg. full name from first and last name.
-- personSchema.irtual.('fullName').get(function (){}).
-- Can also be used to set/update the db.
-
-## Mongoose middleware
-
-- Ability to run some code before or after a db operation.
-- For eg if we remove a user, we also need to delete his posts.
-- pre/post save/validate/remove/update etc.
-- They are added to schema object.
-
-## express middleware
-
-- next vs send/render
-
-## protecting a specific route
-
-## Data validation library Joi.js
-
-## mongodb relations
-
-- one to few: embed actual data.
-- one to many: keep reference n child in an array, then populate. use push to add to array in parent
-- one to bazilions: keep reference in child, then populate. Assign to field in the child.
-- When deleting an item in related collections we need to also delete the related items.
-
-## ejs tool (ejs-mate)
-
-## handling errors in express
-
-- For synchronous route handlers just throw an error.
-- This error will be caught by our custom error handler app.use(err, req, res, next).
-- For Async route handlers put the error object in the next() call.
-- This error will be caught by our custom error handler app.use(err, req, res, next).
-- This is because if we pass anythin as argument to next(), then the error handler is trigerred.
-- For handling mongoose errors, put them in try catch and put a next(err) in the catch block.
-
-## Mongoose middleware
-
-- These are functions we can run before or after an db operation.
-- Qery vs document middlewarte: this refers to query or document.
-
-## Express router
-
-- Used to group/organize express app.
-- Routes can be grouped by prefix.
-- They can have their own middleware.
-
-## HTTP/Web Cookies
-
-- Enable HTTP request to have some state using client side data store.
-- They can be used for session management, personalization, tracking.
-- Sent by server to the browser/client, when they visit a webpage.
-- The client then send these cookies in later interatcions on the website.
-- Cookies are key value pair.
-- Need to install Express module cookie-parser.
-- res.cookie, req.cookies, req.signedCookies.
-- Signing cookies: Used to prevent tampering the cookies at the client side.
-- cookie size and number limited.
-
-## HTTP sessions
-
-- Attempt to make HTTP sateful by server side data store.
-- It's not stored in db but something like Redis, a short term storage.
-- Need to install expression-session package.
-- This make available req.session.
-
-## flash
-
-- Need to install connect-flash package.
-- Used when we want to flash something to user for one time.
-- This is generally done when logging in, or when user does something.
-- It depends upon express-session.
-- req.flash(key:value/message)
-
-# Security
-
-## Authentication vs authoriation
-
-- Authentication: Indentify. Finding out who the person is. They are who they say they are.
-  Who is this person.
-- Authorization: Verifying what a user has access to. Generally happens after authentication.
-  What this person can and cannot do.
-
-- Never store password in plaintext.
-- Store hashed password only. Use a hashing function.
-- Password salt: Salt is random value added to the password before we salt it.
-  it helps ensure unique hashes and mitigate common attacks.
-
-- bcrypt: hashing algo frequently used. based on blowfish.
-
-### Hashing
-
-- It maps the input data of arbitrary size to fixed size output values.
-- We can never get the input data from the hash values(output of hash)
-- Plaintext password entered by the user is compared with stored hash value.
-
-## MVC pattern
-
-- Model view controller.
-
-## Submitting image file via form
-
-- Use enc type `multi-part/form data` instead of `url-encoded` in the form attribute.
-- Use `multer` package to send files in form.
-- Use `multer-sorage-cloudinary` to store the files in the cloud.
-- cloudinary: serice to store the files.
-- files are stored in req.file(s) object and normal form fields in req.body object.
-
-## mapbox
-
-- Install @mapbox/mapbox-sdk.
-
-## Security
-
-- Mongo injection/ sql injection: Putting sql in the text input.
-- `express-mongo-sanitize` package: remove dollar and period characters from user input.
-- XSS cross site scripting: Inject client side script to someone's web page.
-- Install `helmet` package. It manipulates the response headers for security.
-
-## Storing API keys and secret info in the app
-
-- Use dotenv package.
-
 # ES6/ECMA2015
 
 ### let Vs var
+
+- Let block scope
+- Var function scope. They are hoisted.
 
 - **syntax**
   let x = 100;
@@ -1736,13 +1626,13 @@ console.log(x); // prints value of x
 
 ### Hoisting used by var keyword
 
-- java interpreter modifies the code before executing.
+- JS interpreter modifies the code before executing.
 
-- any var declaration (as uninitialised variable) is moved up in the block.the variables declaration in other parts of block is replaced by initialization.
+- Any var declaration (as uninitialised variable) is moved up in the block.the variables declaration in other parts of block is replaced by initialization.
 
-- therefore the variables in a for loop is accessible with it's last updated value. This leads to error prone code.
+- Therefore the variables in a for loop is accessible with it's last updated value. This leads to error prone code.
 
-- also you cannot declare variables(using var) with same name in different loops in the block.
+- Also you cannot declare variables(using var) with same name in different loops in the block.
 
 ### Arrow function syntax
 
@@ -1777,6 +1667,7 @@ Examples of higher order functions:
 
 ### Built-in functions
 
+- Used to test if an object is anstance of a type.
 - `instanceof` : eg if(func1 instanceof Function)
 
 ### Array functions
@@ -1821,10 +1712,10 @@ let arr = Array(100).fill().map(Math.random);
 
 ### promise
 
-- helps in writing asynchronous code, CPU is not blocked waiting for something to finish.
-- instead of passing a callback function to a function, which will finish in future(old way). Leads to unreadable code.
-- the promise supporting function(for eg built-in function fetch()) will return a promise object.
-- promise object has states like pending, fulfilled, rejected.
+- Helps in writing asynchronous code, CPU is not blocked waiting for something to finish.
+- Instead of passing a callback function to a function, which will finish in future(old way). Leads to unreadable code.
+- The promise supporting function(for eg built-in function fetch()) will return a promise object.
+- Promise object has states like pending, fulfilled, rejected.
 - then(), catch() can be called on promise object, then executes when promise has been fulfilled and catch() is executed when promise is rejected.
 - promises can be chained, in that case there will be a promise returned at each step and a then() for each of them, the best part is that last catch() will catch all errors. So we'll have multiple then() but only one catch().
 

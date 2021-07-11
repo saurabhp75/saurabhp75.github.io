@@ -256,24 +256,25 @@ Inline style and ! important.
 
 ## Position
 
-- position: static/relative/absolute.
+- `position`: static/relative/absolute.
+
 - top, bottom, left, right affect position of the element.
 
-- static is default.
+- `static` is default.
 
-- relative: it is still in document flow and does not take other documents place. position relative to itself.
+- `relative`: It is still in document flow and does not take other documents place. position relative to itself.
 
-- absolute: it's taken out from document flow, and positioned relative to positioned parent if any or start of the container(body)
+- `absolute`: It's taken out from document flow, and positioned relative to positioned parent if any or start of the container(body)
 
-- 'positioned element': element with position attribute other than static.
+- positioned element: Element with position attribute other than static.
 
-- fixed: it is positioned wet to container. ie body. Good for navbar.
+- `fixed`: It is positioned wet to container. ie body. Good for navbar.
 
-- sticky: sticks when hit the top.
+- `sticky`: sticks when hit the top.
 
 ## CSS transition
 
-- transition: 1s/ms; simple usage
+- `transition`: 1s/ms; simple usage
 - Used to set transition time of element, in case it's properties changes, for eg due to hover.
 
 ### Complex transition usage:
@@ -281,13 +282,13 @@ Inline style and ! important.
 - transition: property-name duration transition-function delay.
 - Transition function: ease, ease-in, ease-out, linear, step-stsrt, step-end.
 
-## transform property
+## Transform property
 
 - Transform to parent also applies to children.
-- Usage: transform rotate(45deg);
-- transform-origin: top|bottom|bottom-right.
-- transform scale(45deg);
-- transform translate[X|Y](20px);
+- Usage: `transform rotate(45deg);`
+- `transform-origin`: top|bottom|bottom-right.
+- `transform scale(45deg);`
+- `transform translate[X|Y](20px);`
 
 ## background property
 
@@ -322,7 +323,7 @@ Inline style and ! important.
 - `flex-wrap: nowrap|wrap|wrap-reverse`: The content will not shrink to fit but wrap. Changes/controls the `cross-axis`.
 - `align-items: flex-start|flex-end|center|baseline`: Distribute elements along `cross axis`.
 - `align-content: start|center|space-between|space-around;` distribute content along cross axis, ie space between rows/columns, but only if we have multiple rows/columns.
-- `align-self: auto | flex-start | flex-end | center | baseline | stretch;;` Similar to align-items but it applies to single element.
+- `align-self: auto | flex-start | flex-end | center | baseline | stretch;` Similar to align-items but it applies to single element.
 
 ## Flex sizing properties
 
@@ -388,11 +389,61 @@ These properties relate to individual items in a flex container and how they gro
 - `btn-group`: used to group buttons.
 
 ### Alerts
+
 - `alert alert-primary`.. etc.
+- `alert-heading`: Used within an alert.
+- dismissable alert: needs bootstrap js files to work.
+- `aria-hidden`
+- `aria-close`: aria prefix is used for accessibility/screen readers.
 
+### Bootstrap grid system
 
+- Works only with a container.
+- contains div with class row of 12 units.
+- no-gutters will eliminate space between items in a row.
+- Each row contain div with class 'col' col-sm, col-6 etc.
+- if nonnumber after col then 12 units is equally divided.
 
+### Responsive BS grid
 
+- `col-md-6`: for md and above take 6 units otherwise full row.
+- md, sm, lg, xl etc
+
+For adding images in a row, use image-fluid.
+
+### Grid utilities
+
+- within a row we can use flexbox like classes like `justify-content-start`, `align-items-center`, `align-sel-start etc`.
+- For each of the above we have responsive variants like `justify-content-sm-start` etc.
+
+### Bootstrap forms
+
+- `form-control`: Used for individual inputs.
+- `form-group`: Used for group of inputs.
+- `form-row`:
+
+### Navbar
+
+### bootstrap icons
+
+- Another option is fontawesome.
+
+### Other bootstrap utilities
+
+- border-[top|bottom|left] etc
+- shadow
+- text-success etc: For text color.
+- bg-warn etc: For background color.
+- margin:
+- padding:
+- padding and margin can be made responsive by using sm, lg etc.
+- Card
+- Footer
+- Carousal: need js
+- Drop-down
+- Spinner
+- Progress
+- Modal
 
 # XPATH
 
