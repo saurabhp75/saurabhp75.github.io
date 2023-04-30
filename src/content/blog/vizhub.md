@@ -2,7 +2,7 @@
 title: "Vizhub D3js workflow"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["D3JS", "Visualization"]
-draft: true
+draft: false
 description: "Introduction to Vizhub D3js workflow"
 ---
 

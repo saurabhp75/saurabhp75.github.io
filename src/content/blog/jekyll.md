@@ -1,7 +1,7 @@
 ---
 title: "Jekyll"
 pubDatetime: 2022-09-23T15:22:00Z
-draft: true
+draft: false
 description: "Introduction to Jekyll"
 ---
 

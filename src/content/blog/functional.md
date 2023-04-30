@@ -2,7 +2,7 @@
 title: "Introduction to functional programming"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["functional"]
-draft: true
+draft: false
 description: "functional programming"
 ---
 

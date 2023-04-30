@@ -2,7 +2,7 @@
 title: "Plotly Dash"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["Dash", "Visualization"]
-draft: true
+draft: false
 description: "Introduction to Plotly Dash"
 ---
 

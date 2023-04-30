@@ -2,7 +2,7 @@
 title: "Facebook login flow"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["Auth", "Facebook"]
-draft: true
+draft: false
 description: "Introduction to Facebook login flow"
 ---
 

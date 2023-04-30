@@ -2,7 +2,7 @@
 title: "Maps Processing"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["Maps"]
-draft: true
+draft: false
 description: "Introduction to Maps Processing"
 ---
 

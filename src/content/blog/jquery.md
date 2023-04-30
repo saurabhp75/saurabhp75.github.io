@@ -2,7 +2,7 @@
 title: "JQuery"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["JQuery"]
-draft: true
+draft: false
 description: "Introduction to JQuery"
 ---
 

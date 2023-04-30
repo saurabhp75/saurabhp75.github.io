@@ -2,7 +2,7 @@
 title: "Crypto Trading"
 pubDatetime: 2022-09-23T15:22:00Z
 tags: ["Trading", "Crypto"]
-draft: true
+draft: false
 description: "Introduction to Crypto Trading"
 ---
 
