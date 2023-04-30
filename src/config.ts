@@ -7,7 +7,7 @@ export const SITE: Site = {
   title: "SP",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
-  postPerPage: 3,
+  postPerPage: 10,
 };
 
 export const LOCALE = ["en-EN"]; // set to [] to use the environment default
@@ -22,7 +22,7 @@ export const LOGO_IMAGE = {
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
-    href: "https://github.com/satnaing/astro-paper",
+    href: "https://github.com/saurabhp75",
     linkTitle: ` ${SITE.title} on Github`,
     active: true,
   },

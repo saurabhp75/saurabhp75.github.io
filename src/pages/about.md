@@ -3,34 +3,32 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-AstroPaper is a minimal, responsive and SEO-friendly Astro blog theme. I designed and crafted this based on [my personal blog](https://satnaing.dev/blog).
+**TL;DR**: I am M. Tech(Computer Technology) from IIT Delhi. I have an extensive experience of 24+ years in software development in various domains. I have worked for [C-DOT](http://www.cdot.in/cdotweb/web/home.php), [Ciena](https://www.ciena.in/), [HCL](https://www.hcltech.com/), [Wipro](https://www.wipro.com/en-IN/) and [Matter](https://matter.in/) in various capacities.
 
-This theme is aimed to be accessible out of the box. Light and dark mode are supported by
-default and additional color schemes can also be configured.
+## Tools/Tech:
 
-This theme is self-documented \_ which means articles/posts in this theme can also be considered as documentations. So, see the documentation for more info.
+| Skill                | Description/Tool                                                                                                                                                                                                                                 |
+| :------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Languages**        | Javascript/ES6, Typescript, Python, Kotlin, C, C++.                                                                                                                                                                                              |
+| **Web Related**      | React, Nextjs, TailwindCSS, NodeJS, ExpressJS, Prisma, Postgresql, MongoDB, Mongoose, GraphQL, REST APIs, Scrapy, Flask, Django, Oauth, GitHub, Jekyll, GitHub-Pages, Bootstrap 4, jQuery, AWS, GCP, Docker, Kubernetes, Heroku, Pythonanywhere. |
+| **Visualization**    | D3.js, Matplotlib, Seaborn, Dash (by plotly), Plotly.                                                                                                                                                                                            |
+| **Python GIS**       | Geopandas, Shapely, Fiona                                                                                                                                                                                                                        |
+| **Machine Learning** | Linear Regression, K Nearest Neighbors, Logistic Regression, SVMs, Neural Networks, Decision Trees, Random Forest. K-Means Clustering, PCA, t-SNE, Anomaly Detection, Recommender Systems.                                                       |
+| **Deep Learning**    | CNNs (LeNet-5, AlexNet, VGG-16, ResNets, Inception, Yolov2, Deepface, FaceNet) RNNs (GRU, LSTM), Transfer Learning.                                                                                                                              |
+| **NLP**              | Bag of Words, TF-IDF, Word embeddings, Glove, Sentiment Analysis, Word2Vec Model, Beam Search, Bleu Score, Attention Models, Trigger word detection.                                                                                             |
+| **ML Tools/libs**    | Anaconda-Jupyter, Scikit-Learn, Numpy, Pandas, TensorFlow, Keras, xgboost, Vowpal Wabbit                                                                                                                                                         |
+| **Mathematics**      | Descriptive Statistics, Inferential Statistics, Probability, Z-Test, Student T-test, Chi-Squared Test, Hypothesis Testing, A/B Testing, Bayesian Analysis.                                                                                       |
 
-<div>
-  <img src="/assets/dev.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration">
-</div>
+## Online Certifications/Courses:
 
-## Tech Stack
+1. Machine learning course from [ODSC](https://medium.com/open-machine-learning-course): Secured [16th](https://docs.google.com/spreadsheets/d/1VlVgHJSQff0huK1hPsyNiImztc7wop0E8Gvw3qO5vBk/edit#gid=0) rank among 200 candidates.
 
-This theme is written in vanilla JavaScript (+ TypeScript for type checking) and a little bit of ReactJS for some interactions. TailwindCSS is used for styling; and Markdown is used for blog contents.
+2. [Data Science](https://drive.google.com/file/d/17w54CQmzE4EB7MvgiLRyQzSi9_f1mhc-/view?usp=sharing) in Python from Datacamp
 
-## Features
+3. [Deep Learning](https://www.coursera.org/account/accomplishments/specialization/QK5UWBWPY5DS) specialization from Coursera
 
-Here are certain features of this site.
+4. [Docker & Kubernetes course](https://www.udemy.com/certificate/UC-8ZZFK7OL/)
 
-- fully responsive and accessible
-- SEO-friendly
-- light & dark mode
-- fuzzy search
-- super fast performance
-- draft posts
-- pagination
-- sitemap & rss feed
-- highly customizable
+5. [Web developer bootcamp](https://www.udemy.com/certificate/UC-EP4ZACG7/)
 
-If you like this theme, you can star/contribute to the [repo](https://github.com/satnaing/astro-paper).  
-Or you can even give any feedback via my [email](mailto:contact@satnaing.dev).
+6. [GraphQL Associate](https://www.apollographql.com/tutorials/certifications/61365256-c6d2-4d77-9b8f-624886c59ecd)
