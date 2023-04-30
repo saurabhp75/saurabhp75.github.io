@@ -3,7 +3,7 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-**TL;DR**: I am M. Tech(Computer Technology) from IIT Delhi. I have an extensive experience of 24+ years in software development in various domains. I have worked for [C-DOT](http://www.cdot.in/cdotweb/web/home.php), [Ciena](https://www.ciena.in/), [HCL](https://www.hcltech.com/), [Wipro](https://www.wipro.com/en-IN/) and [Matter](https://matter.in/) in various capacities.
+**TL;DR**: I am M. Tech(Computer Technology) from IIT Delhi. I have an extensive experience of 24+ years in software development in various domains. I have worked for [C-DOT](http://www.cdot.in/cdotweb/web/home.php), [Ciena](https://www.ciena.in/), [HCL](https://www.hcltech.com/), [Wipro](https://www.wipro.com/en-IN/), [Matter](https://matter.in/) and [Wadhwani](https://www.wfglobal.org/) in various capacities.
 
 ## Tools/Tech:
 
