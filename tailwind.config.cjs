@@ -15,7 +15,12 @@ module.exports = {
     // Remove the following screen breakpoint or add other breakpoints
     // if one breakpoint is not enough for you
     screens: {
+      print: {"raw": "print"},
+      xsm: "500px",
       sm: "640px",
+      md: "833px",
+      lg: "1079.5px",
+      xl: "1280px",
     },
 
     // Uncomment the following extend

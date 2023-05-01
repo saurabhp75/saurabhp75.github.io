@@ -55,6 +55,7 @@ export default function SearchBar({ searchList }: Props) {
     // Add search result only if
     // input value is more than one character
     let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
+    // console.log(`result = ${inputResult}`);
     setSearchResults(inputResult);
 
     // Update search string in URL
