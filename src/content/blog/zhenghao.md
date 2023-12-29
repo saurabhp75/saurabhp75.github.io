@@ -8,7 +8,7 @@ description: "Typescript by Zhenghao He"
 
 ## Type programming
 
-## TS article by Zhenghao He
+[An introduction to type programming in TypeScript](https://dev.to/he_zhenghao/an-introduction-to-type-programming-in-typescript-37o7)
 
 > See discussions on [Hacker News](https://news.ycombinator.com/item?id=30173375)
 
@@ -1381,6 +1381,8 @@ For example:
 The bottom line is, whether you favour function overload or generic types with conditional types, we have to be very intentional about it and tread very carefully as neither of them is completely safe.
 
 ## Type hierarchy tree
+
+[The type hierarchy tree](https://dev.to/he_zhenghao/the-type-hierarchy-tree-2aba)
 
 Try read the following TypeScript code snippet and work it out in your head to predicate whether or not there would be any type errors for each assignment:
 
