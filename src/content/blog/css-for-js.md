@@ -1,7 +1,7 @@
 ---
 title: "CSS for JS"
 pubDatetime: 2022-09-23T15:22:00Z
-tags: ["CSS", "Fronted"]
+tags: ["CSS", "Frontend"]
 draft: false
 description: "Introduction to CSS"
 ---
@@ -278,7 +278,7 @@ The `default` value for the width property is `auto`. By default, for most `bloc
 ### Block elements
 
 - Content box greedily expands to fill the entire available horizontal space.
-- Elements that are display: block will stack in the block direction, regardless of their size.
+- Elements that are `display: block` will stack in the block direction, regardless of their size.
 - To force it to shrink down to the minimum size required for the text, We can use special width keyword `fit-content`.
 
 ### Inline elements
@@ -452,11 +452,11 @@ Note: `margin:auto` behaves differently in flex layout.
 - The defining feature of `positioned layout` is that items can overlap.
 - Relative positioning can be applied to both `block` and `inline` elements.
 - We can opt into Positioned layout using the `position` property.
+  - `static`: Default
   - `relative`
   - `absolute`
   - `fixed`
   - `sticky`
-- The default value of the position property is `static`.
 - If an element is currently using Positioned layout and you want to opt out, you can set `position` to either `static` or `initial`.
 
 ## Relative positioning
@@ -1228,11 +1228,16 @@ p {
 
 ## Grid mental model
 
-- Every cell in the same column needs to have the same width. The same is true for rows: every cell in the same row needs to have the same height.
-
+- Every cell in the same column needs to have the same width.
+- The same is true for rows: every cell in the same row needs to have the same height.
 - Rows/columns are invisible markers.
-
 - The grid container itself is in flow layout. Only the children of grid container are affected.
+
+## Intrinsic vs extrinsic sizing in CSS
+
+- `Intrinsic sizing`: CSS engine considers the content for determining size (width/height etc). For eg. `min-content`, `max-content`, `fit-content` etc. The size is determined by the content and is **flexible** to adjust content.
+
+- `Extrinsic sizing`: CSS engine does not consider the content for determining size (width/height etc). For eg. `20px`, `30%`, `4rem` etc. The content is squeezed to fit if required, CSS does not change size to fit content.
 
 ## Grid browser support
 
@@ -1252,7 +1257,6 @@ p {
 ## Grid Flow and Layout Modes
 
 - `implicit grid`: When we don't specify the engine what the rows and columns should be, and it come up with its own grid, based on the number of children.
-
 - By default each element in grid spans the entire width and height of its cell.
 - By default we wind up with a single column and `n` rows, where `n` is the number of children.
 
@@ -1287,6 +1291,31 @@ p {
 
 - Explicit rows have their heights specified.
 - `grid-template-rows: 64px 1fr 100px;`: Specifies 3 rows.
+
+## Placing children in grid
+
+- Child elements are placed inside grid by specifying start and end lines.
+- `Lines` start from `1` onwards.
+- `Lines` are different from `tracks`.
+
+```css
+// First two columns
+.item1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+// First two columns, short hand
+.item1 {
+  grid-column: 1/3;
+}
+
+// Entire row, works only with explicit rows/columns
+// defined with grid-template-columns/grid-template-rows
+.item1 {
+  grid-column: 1/-1;
+}
+```
 
 ## Out-of-bounds items
 

@@ -6,87 +6,32 @@ draft: false
 description: "Typescript beginner to advance"
 ---
 
-## AutoComplete in VSCode
+# Value level vs type level
 
-- `Ctrl+space`
+- Value level exists in JS world and type level exists in TS world
+- There is one way to go from value level to type level, ie using `typeof` operator
+- This is called `type inference`
 
-- The arguments to a functions must be typed to avoid implicit any error.
-
-## type vs interface
-
--
-
-## Optional function arguments
-
-- Must come after the mandatory args.
-
-## Array types
-
-- `Post[]` or `Array<Post>`
-
-## Casting in TS
-
-- By using 'as' keyword.
-- Should not be used often.
-
-## Set generic
-
-## Map generic
-
-## Record type
-
-```ts
-Record<string, string>
-// Or
-{
-  [id:string]: string;
-}
-```
-
-## Narrowing down Union types
-
-## Typing errors in try-catch
-
-```ts
-....
-catch(e) {
-  if (e instanceof Error) {
-    return e.message;
-  }
-}
-```
-
-## Inheriting interface properties
-
-- Use extends.
-- Can extend multiple interfaces.
-
-## Combining types to create new types
-
-- Use `&` operator on interfaces.
-
-## Selectively Construct Types from Other Types
-
-- Use `Pick<Type, Keys>` or `Omit<Type, Keys>`.
-
-## Typing Functions
-
-## Typing Async Functions
+# Creating types from other types
 
 # 1: Type tansformations
 
 ## 1.1 Inference basics
 
-## 1.1.1 Get the return type of a function
+## 1.1.1 How to get the return type of a function
 
-- Use `ReturnType<typeof myFunc>`
+- Use `ReturnType` type helper
+- `typeof myFunc` gives the type of the function `myFunc`
+- `ReturnType<typeof myFunc>` gives the return type of the function
 
 ## 1.1.2 Extract Function Parameters Into A Type
 
+- Use `Parameters` type helper
 - Use `Parameters<typeof myFunc>`
 
 ## 1.1.3 Extract The Awaited Result of a Promise
 
+- Use `Awaited` type helper
 - Use `Awaited<ReturnType<typeof myFunc>>`
 
 ## 1.1.4 Create a Union Type From an Object’s Keys
